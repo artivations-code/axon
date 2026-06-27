@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Many-Meanings Visual Pages</title>
+<style>
+  :root{
+    --ink:#171717;
+    --paper:#f7f3ea;
+    --bone:#fffaf0;
+    --teal:#008478;
+    --slate:#44697D;
+    --olive:#879637;
+    --plum:#885E80;
+    --magenta:#AE0055;
+    --orange:#CF7600;
+    --gold:#D7A33A;
+    --rose:#B65B63;
+    --soft:#E8DDCB;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:#242424;
+    color:var(--ink);
+    font-family:var(--sans);
+    padding:28px;
+  }
+
+  .stack{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:34px;
+  }
+
+  .page{
+    width:min(8.5in, 100%);
+    min-height:11in;
+    background:var(--paper);
+    border:3px solid var(--ink);
+    box-shadow:12px 12px 0 #000;
+    padding:.38in;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .page:before{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1.5px solid rgba(23,23,23,.35);
+    pointer-events:none;
+  }
+
+  .kicker{
+    font-weight:900;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    font-size:12px;
+    margin:0 0 8px;
+  }
+
+  h1,h2{
+    font-family:var(--serif);
+    line-height:.98;
+    margin:0;
+    letter-spacing:0;
+  }
+
+  h1{font-size:58px; max-width:650px}
+  h2{font-size:46px}
+
+  .sub{
+    font-size:18px;
+    line-height:1.35;
+    max-width:610px;
+    margin:16px 0 0;
+    font-weight:650;
+  }
+
+  .sig{
+    margin-top:auto;
+    border-top:3px solid var(--ink);
+    padding-top:12px;
+    text-align:right;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  .visual{
+    flex:1;
+    margin:28px 0 20px;
+    border:3px solid var(--ink);
+    background:var(--bone);
+    position:relative;
+    overflow:hidden;
+    min-height:520px;
+  }
+
+  .note{
+    position:absolute;
+    background:var(--bone);
+    border:2.5px solid var(--ink);
+    padding:14px 16px;
+    font-family:var(--serif);
+    font-size:20px;
+    line-height:1.22;
+    box-shadow:6px 6px 0 var(--ink);
+    max-width:250px;
+  }
+
+  .label{
+    position:absolute;
+    border:2px solid var(--ink);
+    background:var(--paper);
+    padding:7px 10px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:11px;
+  }
+
+  .cover-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:18px;
+    height:100%;
+  }
+
+  .door{
+    position:absolute;
+    left:48px;
+    top:48px;
+    width:260px;
+    height:390px;
+    border:5px solid var(--ink);
+    background:linear-gradient(135deg,var(--plum),var(--teal));
+    box-shadow:12px 12px 0 var(--ink);
+  }
+
+  .door:after{
+    content:"";
+    position:absolute;
+    right:26px;
+    top:180px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:var(--gold);
+    border:3px solid var(--ink);
+  }
+
+  .door-panels div{
+    position:absolute;
+    border:3px solid var(--ink);
+    background:rgba(255,250,240,.22);
+  }
+
+  .door-panels div:nth-child(1){left:28px;top:32px;width:78px;height:118px}
+  .door-panels div:nth-child(2){right:28px;top:32px;width:78px;height:118px}
+  .door-panels div:nth-child(3){left:28px;bottom:32px;width:78px;height:150px}
+  .door-panels div:nth-child(4){right:28px;bottom:32px;width:78px;height:150px}
+
+  .floating-card{
+    position:absolute;
+    width:130px;
+    height:160px;
+    border:3px solid var(--ink);
+    background:var(--orange);
+    transform:rotate(-7deg);
+    right:80px;
+    top:86px;
+    box-shadow:8px 8px 0 var(--ink);
+  }
+
+  .floating-card:before{
+    content:"?";
+    position:absolute;
+    font-family:var(--serif);
+    font-size:92px;
+    left:37px;
+    top:20px;
+    color:var(--bone);
+  }
+
+  .pocket{
+    position:absolute;
+    right:62px;
+    bottom:72px;
+    width:260px;
+    height:190px;
+    background:var(--olive);
+    border:4px solid var(--ink);
+    box-shadow:10px 10px 0 var(--ink);
+  }
+
+  .pocket:before{
+    content:"";
+    position:absolute;
+    left:-4px;
+    right:-4px;
+    top:62px;
+    height:128px;
+    background:var(--slate);
+    border-top:4px solid var(--ink);
+    clip-path:polygon(0 0,50% 45%,100% 0,100% 100%,0 100%);
+  }
+
+  .truths{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    height:100%;
+  }
+
+  .truth-box{
+    position:relative;
+    border-right:3px solid var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    text-align:center;
+    font-family:var(--serif);
+    font-size:31px;
+    line-height:1.05;
+    font-weight:700;
+    color:var(--bone);
+  }
+
+  .truth-box:last-child{border-right:0}
+  .truth-box:nth-child(1){background:var(--plum)}
+  .truth-box:nth-child(2){background:var(--teal)}
+
+  .truth-box span{
+    display:block;
+    background:rgba(23,23,23,.18);
+    border:2px solid var(--ink);
+    padding:22px;
+  }
+
+  .bridge-word{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) rotate(-5deg);
+    background:var(--gold);
+    border:3px solid var(--ink);
+    padding:20px 28px;
+    font-weight:950;
+    font-size:20px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    box-shadow:7px 7px 0 var(--ink);
+    z-index:4;
+  }
+
+  .coat-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    padding:40px;
+    height:100%;
+  }
+
+  .coat{
+    border:4px solid var(--ink);
+    background:var(--slate);
+    position:relative;
+    padding:28px;
+    color:var(--bone);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    box-shadow:8px 8px 0 var(--ink);
+  }
+
+  .coat:nth-child(2){background:var(--magenta)}
+
+  .coat:before{
+    content:"";
+    position:absolute;
+    top:28px;
+    left:50%;
+    width:110px;
+    height:155px;
+    transform:translateX(-50%);
+    border:4px solid var(--ink);
+    border-radius:70px 70px 18px 18px;
+    background:var(--bone);
+  }
+
+  .coat:after{
+    content:"";
+    position:absolute;
+    top:74px;
+    left:50%;
+    width:38px;
+    height:70px;
+    transform:translateX(-50%);
+    border-left:4px solid var(--ink);
+    border-right:4px solid var(--ink);
+  }
+
+  .coat h3{
+    font-family:var(--serif);
+    font-size:31px;
+    line-height:1;
+    margin:0 0 12px;
+  }
+
+  .coat p{
+    margin:0;
+    font-size:18px;
+    line-height:1.25;
+    font-weight:650;
+  }
+
+  .shelf{
+    position:absolute;
+    inset:44px;
+    display:grid;
+    grid-template-rows:repeat(3,1fr);
+    gap:20px;
+  }
+
+  .shelf-row{
+    border-bottom:8px solid var(--ink);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    align-items:end;
+    padding:0 10px 10px;
+  }
+
+  .jar{
+    border:3px solid var(--ink);
+    min-height:98px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10px;
+    font-weight:900;
+    text-transform:uppercase;
+    font-size:12px;
+    background:var(--soft);
+  }
+
+  .jar:nth-child(2n){background:var(--teal);color:var(--bone)}
+  .jar:nth-child(3n){background:var(--orange);color:var(--bone)}
+  .jar:nth-child(4n){background:var(--plum);color:var(--bone)}
+
+  .layers{
+    position:absolute;
+    inset:45px;
+  }
+
+  .layer{
+    position:absolute;
+    border:4px solid var(--ink);
+    background:rgba(0,132,120,.73);
+    padding:18px;
+    font-family:var(--serif);
+    font-size:30px;
+    font-weight:800;
+    color:var(--bone);
+    box-shadow:8px 8px 0 rgba(23,23,23,.55);
+  }
+
+  .layer:nth-child(1){left:20px;top:35px;width:380px;height:150px;background:rgba(68,105,125,.78)}
+  .layer:nth-child(2){left:115px;top:145px;width:390px;height:150px;background:rgba(136,94,128,.78)}
+  .layer:nth-child(3){left:210px;top:255px;width:390px;height:150px;background:rgba(135,150,55,.78)}
+  .layer:nth-child(4){left:70px;top:380px;width:390px;height:105px;background:rgba(174,0,85,.75)}
+
+  .roads{
+    position:absolute;
+    inset:44px;
+  }
+
+  .narrow-road{
+    position:absolute;
+    left:40px;
+    top:40px;
+    width:130px;
+    height:420px;
+    background:var(--plum);
+    border:4px solid var(--ink);
+    color:var(--bone);
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:950;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .wide-road{
+    position:absolute;
+    right:30px;
+    height:98px;
+    width:430px;
+    border:4px solid var(--ink);
+    background:var(--olive);
+    color:var(--bone);
+    padding:24px;
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:800;
+    box-shadow:7px 7px 0 var(--ink);
+  }
+
+  .wide-road:nth-child(2){top:42px}
+  .wide-road:nth-child(3){top:198px;background:var(--teal)}
+  .wide-road:nth-child(4){top:354px;background:var(--orange)}
+
+  .hand-cards{
+    position:absolute;
+    inset:38px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+
+  .hand-card{
+    border:3px solid var(--ink);
+    background:var(--bone);
+    box-shadow:6px 6px 0 var(--ink);
+    padding:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:var(--serif);
+    font-size:25px;
+    font-weight:800;
+    min-height:120px;
+  }
+
+  .hand-card:nth-child(3n+1){background:var(--teal);color:var(--bone)}
+  .hand-card:nth-child(3n+2){background:var(--gold)}
+  .hand-card:nth-child(3n+3){background:var(--plum);color:var(--bone)}
+
+  .ladder{
+    position:absolute;
+    inset:45px;
+  }
+
+  .step{
+    position:absolute;
+    left:calc(32px + var(--i) * 55px);
+    bottom:calc(28px + var(--i) * 48px);
+    width:360px;
+    min-height:48px;
+    border:3px solid var(--ink);
+    background:var(--bone);
+    box-shadow:5px 5px 0 var(--ink);
+    padding:10px 14px;
+    font-weight:850;
+    font-size:15px;
+  }
+
+  .step:nth-child(odd){background:var(--teal);color:var(--bone)}
+  .step:nth-child(even){background:var(--soft)}
+
+  .waterpaths{
+    position:absolute;
+    inset:38px;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(0,132,120,.23) 0 80px, transparent 82px),
+      radial-gradient(circle at 78% 28%, rgba(68,105,125,.24) 0 115px, transparent 117px),
+      radial-gradient(circle at 45% 78%, rgba(135,150,55,.25) 0 130px, transparent 132px);
+  }
+
+  .river{
+    position:absolute;
+    left:-30px;
+    top:160px;
+    width:760px;
+    height:170px;
+    background:var(--slate);
+    border-top:4px solid var(--ink);
+    border-bottom:4px solid var(--ink);
+    transform:rotate(-9deg);
+  }
+
+  .water-label{
+    position:absolute;
+    border:3px solid var(--ink);
+    background:var(--bone);
+    padding:12px 16px;
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:850;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  .pocket-page{
+    position:absolute;
+    inset:42px;
+  }
+
+  .big-envelope{
+    position:absolute;
+    left:70px;
+    top:110px;
+    width:500px;
+    height:310px;
+    border:5px solid var(--ink);
+    background:var(--olive);
+    box-shadow:12px 12px 0 var(--ink);
+  }
+
+  .big-envelope:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--plum);
+    clip-path:polygon(0 0,50% 62%,100% 0,100% 100%,0 100%);
+    border-bottom:5px solid var(--ink);
+  }
+
+  .sealed{
+    position:absolute;
+    left:50%;
+    top:52%;
+    transform:translate(-50%,-50%) rotate(-6deg);
+    background:var(--gold);
+    border:4px solid var(--ink);
+    padding:20px 28px;
+    font-family:var(--serif);
+    font-size:30px;
+    font-weight:900;
+  }
+
+  .museum{
+    position:absolute;
+    inset:36px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:18px;
+  }
+
+  .frame{
+    border:8px solid var(--ink);
+    outline:4px solid var(--gold);
+    background:var(--bone);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:16px;
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:850;
+  }
+
+  .frame:nth-child(2n){background:var(--teal);color:var(--bone)}
+  .frame:nth-child(3n){background:var(--rose);color:var(--bone)}
+
+  .parent-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:28px;
+  }
+
+  .parent-card{
+    border:3px solid var(--ink);
+    background:var(--bone);
+    padding:18px;
+    min-height:165px;
+    box-shadow:6px 6px 0 var(--ink);
+  }
+
+  .parent-card h3{
+    margin:0 0 10px;
+    font-family:var(--serif);
+    font-size:26px;
+    line-height:1;
+  }
+
+  .parent-card p{
+    margin:0;
+    font-size:17px;
+    line-height:1.32;
+    font-weight:650;
+  }
+
+  .parent-card:nth-child(1){background:var(--slate);color:var(--bone)}
+  .parent-card:nth-child(2){background:var(--olive);color:var(--bone)}
+  .parent-card:nth-child(3){background:var(--plum);color:var(--bone)}
+  .parent-card:nth-child(4){background:var(--orange);color:var(--bone)}
+
+  @media print{
+    body{background:white;padding:0}
+    .stack{gap:0}
+    .page{
+      width:8.5in;
+      height:11in;
+      min-height:11in;
+      box-shadow:none;
+      border:0;
+      page-break-after:always;
+    }
+  }
+
+  @media(max-width:760px){
+    body{padding:14px}
+    .page{min-height:980px;padding:24px}
+    h1{font-size:44px}
+    h2{font-size:35px}
+    .visual{min-height:620px}
+    .truths,.coat-wrap,.parent-grid{grid-template-columns:1fr}
+    .truth-box{border-right:0;border-bottom:3px solid var(--ink)}
+  }
+</style>
+</head>
+<body>
+<div class="stack">
+
+  <section class="page">
+    <p class="kicker" style="color:var(--teal)">Creative La’boratory Build</p>
+    <h1>My Many-Meanings Book</h1>
+    <p class="sub">Some things mean more than one thing. This book can hold that.</p>
+    <div class="visual">
+      <div class="door"><div class="door-panels"><div></div><div></div><div></div><div></div></div></div>
+      <div class="floating-card"></div>
+      <div class="pocket"></div>
+      <div class="note" style="left:70px;bottom:54px">Hidden meanings can live here.</div>
+      <div class="note" style="right:70px;top:285px;background:var(--gold)">Pages can move. Meanings can grow.</div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--plum)">Page 1</p>
+    <h2>More Than One Thing Can Be True</h2>
+    <p class="sub">This book does not make you choose only one meaning.</p>
+    <div class="visual">
+      <div class="truths">
+        <div class="truth-box"><span>Scared<br>and brave</span></div>
+        <div class="truth-box"><span>Close<br>and needing space</span></div>
+      </div>
+      <div class="bridge-word">Both Can Fit</div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--magenta)">Page 2</p>
+    <h2>The Word With Two Coats</h2>
+    <p class="sub">A word can wear more than one coat. Both coats can be true.</p>
+    <div class="visual">
+      <div class="coat-wrap">
+        <div class="coat">
+          <h3>Coat One</h3>
+          <p>What does this word usually make people think?</p>
+        </div>
+        <div class="coat">
+          <h3>Coat Two</h3>
+          <p>What else can this word mean?</p>
+        </div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--orange)">Page 3</p>
+    <h2>The Supply Shelf</h2>
+    <p class="sub">A body is not a problem to solve. A body is a living builder.</p>
+    <div class="visual">
+      <div class="shelf">
+        <div class="shelf-row">
+          <div class="jar">Water</div><div class="jar">Rest</div><div class="jar">Protein</div><div class="jar">Fat</div>
+        </div>
+        <div class="shelf-row">
+          <div class="jar">Minerals</div><div class="jar">Warmth</div><div class="jar">Movement</div><div class="jar">Quiet</div>
+        </div>
+        <div class="shelf-row">
+          <div class="jar">Choice</div><div class="jar">Comfort</div><div class="jar">Play</div><div class="jar">Connection</div>
+        </div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--slate)">Page 4</p>
+    <h2>The Many-Family Page</h2>
+    <p class="sub">Some people have more than one family story. The story has layers.</p>
+    <div class="visual">
+      <div class="layers">
+        <div class="layer">People present now</div>
+        <div class="layer">People connected by birth</div>
+        <div class="layer">People known through names, stories, or questions</div>
+        <div class="layer">People not fully known yet</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--plum)">Page 5</p>
+    <h2>When My Brain Says Only One Way</h2>
+    <p class="sub">An alarm is a signal. A signal is not the boss of the whole story.</p>
+    <div class="visual">
+      <div class="roads">
+        <div class="narrow-road">Only One Way</div>
+        <div class="wide-road">One tiny sip</div>
+        <div class="wide-road">Door cracked open</div>
+        <div class="wide-road">Try one different way</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--teal)">Page 6</p>
+    <h2>My Hands Are Looking For Something</h2>
+    <p class="sub">Hands are not bad. Hands may be asking for a job.</p>
+    <div class="visual">
+      <div class="hand-cards">
+        <div class="hand-card">Press putty</div>
+        <div class="hand-card">Rub fabric</div>
+        <div class="hand-card">Hold stone</div>
+        <div class="hand-card">Trace a shape</div>
+        <div class="hand-card">Tear paper</div>
+        <div class="hand-card">Braid string</div>
+        <div class="hand-card">Squeeze clay</div>
+        <div class="hand-card">Fold paper</div>
+        <div class="hand-card">Wrap thread</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--olive)">Page 7</p>
+    <h2>Close Can Have Steps</h2>
+    <p class="sub">Togetherness does not disappear just because bodies move farther apart.</p>
+    <div class="visual">
+      <div class="ladder">
+        <div class="step" style="--i:0">Parent beside me</div>
+        <div class="step" style="--i:1">Parent at doorway</div>
+        <div class="step" style="--i:2">Parent talks from hallway</div>
+        <div class="step" style="--i:3">Parent checks back</div>
+        <div class="step" style="--i:4">Parent nearby but not watching</div>
+        <div class="step" style="--i:5">I carry a connection object</div>
+        <div class="step" style="--i:6">I try one small part alone</div>
+        <div class="step" style="--i:7">We reconnect after</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--slate)">Page 8</p>
+    <h2>Water Has Many Jobs</h2>
+    <p class="sub">Water is not a test. Water is a helper with many jobs.</p>
+    <div class="visual">
+      <div class="waterpaths">
+        <div class="river"></div>
+        <div class="water-label" style="left:52px;top:54px">Cooling</div>
+        <div class="water-label" style="right:52px;top:94px">Carrying</div>
+        <div class="water-label" style="left:92px;bottom:92px">Helping skin</div>
+        <div class="water-label" style="right:70px;bottom:66px">Helping bathroom</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--magenta)">Page 9</p>
+    <h2>Some Meanings Need A Pocket First</h2>
+    <p class="sub">Some things can be private and still be part of the work.</p>
+    <div class="visual">
+      <div class="pocket-page">
+        <div class="big-envelope"></div>
+        <div class="sealed">Not shared yet</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--orange)">Page 10</p>
+    <h2>The Meaning Museum</h2>
+    <p class="sub">This book can keep collecting meanings. It does not have to be done.</p>
+    <div class="visual">
+      <div class="museum">
+        <div class="frame">One meaning</div>
+        <div class="frame">Two meanings</div>
+        <div class="frame">A question</div>
+        <div class="frame">A body signal</div>
+        <div class="frame">A family layer</div>
+        <div class="frame">A food idea</div>
+        <div class="frame">A safety step</div>
+        <div class="frame">A hand job</div>
+        <div class="frame">A brave small try</div>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+  <section class="page">
+    <p class="kicker" style="color:var(--teal)">Parent Companion Page</p>
+    <h2>How To Use The Book At Home</h2>
+    <p class="sub">Use short language. Keep meanings spacious. Medical concerns stay medical.</p>
+    <div class="parent-grid">
+      <div class="parent-card">
+        <h3>Rigidity</h3>
+        <p>“Sounds like the alarm found one road. Let’s look for two more.”</p>
+      </div>
+      <div class="parent-card">
+        <h3>Food</h3>
+        <p>“Bodies use many supplies. We do not have to argue with the body.”</p>
+      </div>
+      <div class="parent-card">
+        <h3>Hands</h3>
+        <p>“I see your hands looking for a job. Want putty, fabric, or stone?”</p>
+      </div>
+      <div class="parent-card">
+        <h3>Separation</h3>
+        <p>“Close has steps. Which step are we on?”</p>
+      </div>
+    </div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parent Orientation Supplement · Beyond The Sun Therapy</title>
+<style>
+  :root{
+    --ink:#171717;
+    --paper:#f7f3ea;
+    --bone:#fffaf0;
+    --teal:#008478;
+    --slate:#44697D;
+    --olive:#879637;
+    --plum:#885E80;
+    --magenta:#AE0055;
+    --orange:#CF7600;
+    --gold:#D7A33A;
+    --rose:#B65B63;
+    --soft:#E8DDCB;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:#242424;
+    color:var(--ink);
+    font-family:var(--sans);
+    padding:28px;
+  }
+
+  .stack{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:34px;
+  }
+
+  .page{
+    width:min(8.5in, 100%);
+    min-height:11in;
+    background:var(--paper);
+    border:3px solid var(--ink);
+    box-shadow:12px 12px 0 #000;
+    padding:.55in .6in;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .page:before{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1.5px solid rgba(23,23,23,.30);
+    pointer-events:none;
+  }
+
+  .inner{position:relative;z-index:1;display:flex;flex-direction:column;flex:1}
+
+  .kicker{
+    font-weight:900;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    font-size:12px;
+    margin:0 0 10px;
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    line-height:1.02;
+    margin:0;
+    letter-spacing:0;
+  }
+
+  h1{font-size:54px; max-width:650px}
+  h2{font-size:38px}
+  h3{font-size:25px}
+  h4{font-size:19px}
+
+  .sub{
+    font-size:18px;
+    line-height:1.4;
+    max-width:610px;
+    margin:16px 0 0;
+    font-weight:650;
+  }
+
+  p{font-size:15.5px;line-height:1.5;font-weight:450}
+  .lead{font-size:16.5px;line-height:1.5}
+
+  .sig{
+    margin-top:auto;
+    border-top:3px solid var(--ink);
+    padding-top:12px;
+    text-align:right;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  /* footnote markers */
+  sup.fn{
+    font-size:10px;
+    font-weight:800;
+    color:var(--magenta);
+    vertical-align:super;
+    padding:0 1px;
+  }
+
+  /* ---- Cover ---- */
+  .cover .rule{
+    height:8px;
+    background:var(--ink);
+    margin:22px 0;
+  }
+
+  .cover-band{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin:6px 0 0;
+  }
+
+  .chip{
+    border:3px solid var(--ink);
+    background:var(--bone);
+    padding:14px 16px;
+    font-family:var(--serif);
+    font-size:18px;
+    font-weight:800;
+    line-height:1.1;
+    box-shadow:6px 6px 0 var(--ink);
+    flex:1 1 200px;
+  }
+  .chip:nth-child(1){background:var(--teal);color:var(--bone)}
+  .chip:nth-child(2){background:var(--plum);color:var(--bone)}
+  .chip:nth-child(3){background:var(--orange);color:var(--bone)}
+
+  .prepared{
+    margin-top:34px;
+    border:3px solid var(--ink);
+    background:var(--bone);
+    padding:18px 20px;
+    font-family:var(--serif);
+    font-size:18px;
+    box-shadow:8px 8px 0 var(--ink);
+  }
+  .prepared strong{font-weight:800}
+
+  /* ---- Section divider header ---- */
+  .section-tab{
+    display:inline-block;
+    border:3px solid var(--ink);
+    padding:8px 14px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:12px;
+    margin-bottom:14px;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+  .tab-a{background:var(--teal);color:var(--bone)}
+  .tab-b{background:var(--plum);color:var(--bone)}
+  .tab-c{background:var(--orange);color:var(--bone)}
+
+  .intro-box{
+    border-left:8px solid var(--teal);
+    background:var(--bone);
+    padding:16px 18px;
+    margin:18px 0 6px;
+    font-size:15.5px;
+    line-height:1.5;
+  }
+  .intro-box.b{border-left-color:var(--plum)}
+  .intro-box.c{border-left-color:var(--orange)}
+
+  /* ---- Reaction block ---- */
+  .reaction{
+    border:3px solid var(--ink);
+    background:var(--bone);
+    margin:18px 0;
+    box-shadow:6px 6px 0 var(--ink);
+  }
+  .reaction > h3{
+    background:var(--slate);
+    color:var(--bone);
+    padding:12px 16px;
+    border-bottom:3px solid var(--ink);
+    font-size:23px;
+  }
+  .reaction:nth-of-type(odd) > h3{background:var(--slate)}
+  .reaction:nth-of-type(even) > h3{background:var(--magenta)}
+  .reaction .body{padding:14px 18px}
+  .reaction .body p{margin:0 0 10px}
+
+  .looklike{
+    margin-top:10px;
+    background:var(--paper);
+    border:2px solid var(--ink);
+    padding:12px 14px 12px 14px;
+  }
+  .looklike .ll-title{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:11px;
+    margin:0 0 8px;
+  }
+  .looklike ul{margin:0;padding-left:20px}
+  .looklike li{font-size:14.5px;line-height:1.45;margin:3px 0}
+
+  /* ---- Flow steps ---- */
+  .flow-step{
+    display:flex;
+    gap:16px;
+    margin:16px 0;
+    align-items:flex-start;
+  }
+  .flow-num{
+    flex:0 0 auto;
+    width:54px;
+    height:54px;
+    border:3px solid var(--ink);
+    background:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:900;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+  .flow-body{flex:1}
+  .flow-body h3{font-size:22px;margin:2px 0 4px}
+  .flow-body .time{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    background:var(--soft);
+    border:2px solid var(--ink);
+    padding:3px 8px;
+    margin-bottom:8px;
+  }
+  .flow-body ul{margin:8px 0 0;padding-left:20px}
+  .flow-body li{font-size:14.5px;line-height:1.45;margin:3px 0}
+
+  .mode{
+    border-left:6px solid var(--teal);
+    background:var(--bone);
+    padding:8px 14px;
+    margin:10px 0;
+  }
+  .mode:nth-of-type(2){border-left-color:var(--plum)}
+  .mode:nth-of-type(3){border-left-color:var(--olive)}
+  .mode:nth-of-type(4){border-left-color:var(--orange)}
+  .mode b{font-family:var(--serif);font-size:16px}
+
+  /* ---- Intake session card ---- */
+  .session-card{
+    border:3px solid var(--ink);
+    margin:18px 0;
+    box-shadow:8px 8px 0 var(--ink);
+    background:var(--bone);
+  }
+  .session-card .head{
+    padding:14px 18px;
+    border-bottom:3px solid var(--ink);
+    color:var(--bone);
+  }
+  .s1 .head{background:var(--slate)}
+  .s2 .head{background:var(--teal)}
+  .s3 .head{background:var(--plum)}
+  .session-card .head .who{
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin:6px 0 0;
+    opacity:.95;
+  }
+  .session-card .content{padding:16px 18px}
+  .session-card .content h4{
+    margin:14px 0 6px;
+    font-size:18px;
+  }
+  .session-card .content h4:first-child{margin-top:0}
+  .session-card .content ul{margin:6px 0;padding-left:20px}
+  .session-card .content li{font-size:14.5px;line-height:1.45;margin:3px 0}
+
+  .callout{
+    border:2px solid var(--ink);
+    background:var(--soft);
+    padding:12px 14px;
+    margin:12px 0;
+    font-size:14.5px;
+    line-height:1.45;
+  }
+
+  .footer-note{
+    margin-top:24px;
+    border-top:3px solid var(--ink);
+    padding-top:14px;
+    font-size:12.5px;
+    font-style:italic;
+    line-height:1.5;
+    color:#3a352c;
+  }
+
+  @media print{
+    body{background:white;padding:0}
+    .stack{gap:0}
+    .page{
+      width:8.5in;
+      min-height:11in;
+      box-shadow:none;
+      border:0;
+      page-break-after:always;
+    }
+    .reaction,.session-card,.chip,.flow-num{box-shadow:none}
+  }
+
+  @media(max-width:760px){
+    body{padding:14px}
+    .page{min-height:auto;padding:24px}
+    h1{font-size:38px}
+    h2{font-size:30px}
+    .cover-band{flex-direction:column}
+    .flow-step{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="stack">
+
+  <!-- ======================= COVER ======================= -->
+  <section class="page cover">
+    <div class="inner">
+      <p class="kicker" style="color:var(--teal)">Beyond The Sun Therapy</p>
+      <h1>Parent Orientation Supplement</h1>
+      <div class="rule"></div>
+      <p class="sub">A companion guide to what may happen in session, how a session is shaped, and what the first three intake meetings hold.</p>
+      <div class="cover-band">
+        <div class="chip">Section A<br>Common Child Reactions in Session</div>
+        <div class="chip">Section B<br>Art Therapy Session Flow</div>
+        <div class="chip">Section C<br>The First Three Intake Sessions</div>
+      </div>
+      <div class="prepared">
+        <strong>Prepared by Katy</strong> &middot; Art Psychotherapist &amp; Adoption Constellation Specialist
+      </div>
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A INTRO ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-a">Section A</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+      <div class="intro-box">
+        The following describes behaviors and responses that may appear during therapy with adoptee children.
+        These are offered as a <em>range of what is possible</em> &mdash; not a checklist of what will occur, and not a
+        measure of severity or dysfunction. Every child is different. Some children show several of these; others show
+        very few. Context, history, age, temperament, and timing all shape what emerges.
+      </div>
+      <p class="lead">None of the behaviors below are problems to be immediately solved. They are communication. The therapy
+        space is designed to hold all of it.</p>
+
+      <div class="reaction">
+        <h3>Hypervigilance and Environmental Scanning</h3>
+        <div class="body">
+          <p>Some children enter the room with a heightened alertness &mdash; tracking the space carefully, noting where
+            Katy stands, noticing small changes in the room from session to session, watching the door. This can look like
+            distraction or restlessness, but it is more accurately understood as a nervous system doing what it learned to
+            do: assess for safety before settling. It often decreases gradually, across weeks and months, as the space
+            becomes familiar and predictable.<sup class="fn">1,2</sup></p>
+          <div class="looklike">
+            <p class="ll-title">In session this may look like</p>
+            <ul>
+              <li>Eyes moving around the room rather than staying on materials</li>
+              <li>Asking many questions before starting anything</li>
+              <li>Tracking Katy's movements and expressions closely</li>
+              <li>Needing to know what will happen next before engaging</li>
+              <li>Sitting near the door or checking that it is accessible</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3>Superficial Charm and Indiscriminate Warmth</h3>
+        <div class="body">
+          <p>Some children are immediately warm, funny, engaging, and apparently very at ease with Katy &mdash; even from
+            the first session. This ease can be genuine. It can also, for some children, be a learned strategy: warmth as a
+            way of managing relationships before closeness has been established.<sup class="fn">3,4</sup></p>
+          <p>Indiscriminate warmth &mdash; treating a new adult as if already fully trusted &mdash; is worth gently noticing
+            over time, without pathologizing it. A child who is easy with strangers has often learned that charm is safer
+            than waiting to see what someone is really like. Katy holds this lightly and watches for how the warmth changes
+            (or deepens) as the relationship develops.<sup class="fn">5</sup></p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Immediately offering information, hugs, or high engagement</li>
+              <li>Performing for Katy &mdash; being entertaining or very helpful</li>
+              <li>Seemingly no adjustment period at all</li>
+              <li>Treating Katy identically to a parent or very close adult</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3>Shutdown, Flatness, and Withdrawal</h3>
+        <div class="body">
+          <p>Other children arrive and go quiet. They may sit still, say little, and appear disengaged or unresponsive.
+            This is not necessarily disinterest or resistance. For some children, shutdown is the nervous system's protective
+            response to newness and uncertain safety &mdash; a freeze or fawn state that conserves energy and minimizes
+            risk.<sup class="fn">6</sup></p>
+          <p>Katy responds to flatness with patient, low-demand presence &mdash; no pressure to perform, produce, or
+            participate. The space remains available. Over time, most children in shutdown begin to reach toward the room in
+            small ways.<sup class="fn">7</sup></p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Sitting without choosing materials</li>
+              <li>Short or one-word answers</li>
+              <li>Avoiding eye contact</li>
+              <li>Appearing uninterested in the space or what is offered</li>
+              <li>Seeming far away or lightly dissociated</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3>Control-Seeking and Negotiation</h3>
+        <div class="body">
+          <p>Some children arrive with a strong need to direct everything &mdash; which material is used, where Katy sits,
+            what order things happen in, how much time is spent on each thing. This is not defiance. For a child whose early
+            experience included having very little agency over significant events, the need to manage details of the
+            environment makes complete sense.<sup class="fn">8</sup></p>
+          <p>Katy works with this, not against it. Child-led work is genuinely valued in art psychotherapy &mdash; the
+            child's ownership of their own creative process is therapeutically important. Katy will gently hold structure
+            around what needs structure, and offer genuine latitude within that.<sup class="fn">9</sup></p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Asking to change the activity, the seat, the materials</li>
+              <li>Setting rules for how the session will go</li>
+              <li>Checking whether Katy will comply before engaging</li>
+              <li>Negotiating the terms of any invitation or prompt</li>
+              <li>Becoming visibly uncomfortable when something is decided without them</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3>Testing Behavior</h3>
+        <div class="body">
+          <p>Some children will, at some point in the early-to-middle phase of therapy, test whether the relationship holds
+            under pressure. This might mean pushing limits, being deliberately difficult, creating a small mess or disruption,
+            or saying something provocative &mdash; and then watching carefully to see what happens.<sup class="fn">10</sup></p>
+          <p>This is how a child learns through direct experience &mdash; not just words &mdash; that Katy is consistent, not
+            retaliatory, and not going anywhere. The relationship being tested is the relationship being built. Katy expects
+            this and meets it with steady warmth.<sup class="fn">11</sup></p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Refusing a prompt and waiting to see the response</li>
+              <li>Making a mess beyond what seems accidental</li>
+              <li>Saying something meant to be shocking or uncomfortable</li>
+              <li>Ignoring Katy and seeing whether that is tolerated</li>
+              <li>Being increasingly challenging over several sessions before softening</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. 2 ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3>Regression in Session</h3>
+        <div class="body">
+          <p>Children sometimes move toward younger modes of being during sessions &mdash; using a baby voice, wanting to be
+            read to, playing in ways that are more typical of a younger developmental stage. This is not a loss of ground. It
+            often reflects unmet developmental needs surfacing in a space that feels safe enough to hold them.<sup class="fn">12</sup></p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Baby talk or very simplified language</li>
+              <li>Wanting to be physically near Katy in a way that is younger than their age</li>
+              <li>Play that is more sensorimotor than their typical developmental level</li>
+              <li>Asking Katy to do things for them that they are clearly capable of doing themselves</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3>Emotional Activation Mid-Session</h3>
+        <div class="body">
+          <p>Sometimes a child enters a session seemingly fine and then, without an obvious trigger, becomes upset, tearful,
+            angry, or agitated mid-way through. Artwork or play can surface what daily life holds at bay. A color, an image, a
+            theme, or something in the room can connect &mdash; consciously or not &mdash; to something much
+            older.<sup class="fn">13</sup></p>
+          <p>Katy is trained to meet activation with regulated, grounding presence. The session is not derailed by big
+            feelings &mdash; it simply becomes the space where those feelings can exist safely.</p>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Sudden tears, anger, or emotional shutdown mid-activity</li>
+              <li>Destroying or covering what was made</li>
+              <li>Asking to stop or leave</li>
+              <li>Becoming very still or dissociated mid-session</li>
+              <li>Emotional release followed by calmness and then apparent amnesia about it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3>Positive Engagement, Depth, and Creative Richness</h3>
+        <div class="body">
+          <p>Not every session holds difficulty. Many sessions are marked by genuine play, laughter, creative momentum, and
+            real warmth. Children often become deeply absorbed in their work. They may make things that are beautiful, complex,
+            or surprising. They may tell stories, make jokes, share things freely, or arrive at insights through the making
+            process that neither they nor Katy anticipated.<sup class="fn">14,15</sup></p>
+          <p>This is the work too &mdash; and it is worth naming. Therapy does not only happen in hard moments.</p>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION B ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-b">Section B</span>
+      <h2>Art Therapy Session Flow</h2>
+      <div class="intro-box b">
+        <strong>The shape of a typical session.</strong> Sessions with Katy are 45&ndash;50 minutes. They are not rigidly
+        scripted &mdash; the flow is responsive to the child &mdash; but they hold a consistent enough shape that children can
+        learn to anticipate it. Predictability, even in small structures, supports a sense of safety.<sup class="fn">16,17</sup>
+      </div>
+      <p class="lead">Below is how a session typically moves. The proportions shift based on the child's phase of therapy,
+        their age, and what that particular session holds.</p>
+
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <h3>Arrival and Transition</h3>
+          <span class="time">Approximately 5 minutes</span>
+          <p>The session begins before anything is made. The child moves from the outside world &mdash; school, car, the mood
+            of the day &mdash; into the therapy room. This transition is acknowledged, not rushed.</p>
+          <p>Katy may offer a brief warm-up ritual that becomes consistent over time: a simple sensory check-in, a gesture
+            toward the materials, a moment to settle. The goal is to help the child's nervous system shift from external
+            orientation to internal orientation &mdash; to become present to this room and this hour.<sup class="fn">18</sup></p>
+          <p>For some children, arrival itself is rich with information: how they walk in, what they move toward first, whether
+            they are louder or quieter than last time.</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <h3>Warm-Up and Opening</h3>
+          <span class="time">Approximately 5&ndash;10 minutes</span>
+          <p>Many sessions include a low-stakes opening activity &mdash; something that invites engagement without demanding
+            it. This might be:</p>
+          <ul>
+            <li>Free exploration of materials without a specific task</li>
+            <li>A brief, playful sensory interaction (handling clay, choosing a color, looking through a materials collection)</li>
+            <li>A simple opening question or check-in that the child can answer in words, gesture, or drawing</li>
+            <li>A game or activity that has become a ritual between this child and Katy over time</li>
+          </ul>
+          <p>The warm-up serves multiple purposes: it regulates the nervous system, establishes the relational tone of the
+            session, and often &mdash; without either person deliberately planning it &mdash; surfaces what is alive for the
+            child that day.<sup class="fn">14,9</sup></p>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION B cont. ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-b">Section B &middot; continued</span>
+      <h2>Art Therapy Session Flow</h2>
+
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <h3>Art-Making or Play</h3>
+          <span class="time">Approximately 20&ndash;30 minutes</span>
+          <p>This is the core of the session. It may be:</p>
+          <div class="mode"><b>Child-directed.</b> The child chooses materials and direction entirely. Katy observes, narrates
+            what she notices, reflects feeling states, and participates as invited. This is the primary mode in early phases and
+            remains important throughout.<sup class="fn">17,19</sup></div>
+          <div class="mode"><b>Invitational / prompted.</b> Katy offers an invitation &mdash; a prompt, a question, a material, a
+            theme &mdash; and the child decides how (or whether) to engage with it. Prompts are always invitations, never
+            requirements. A child who declines a prompt and does something else entirely has not failed the session.</div>
+          <div class="mode"><b>Collaborative.</b> At certain moments in therapy, Katy and the child make something together &mdash;
+            a shared piece, a parallel drawing, a structure built side by side. This can be a powerful relational experience,
+            particularly for children who are learning that shared creative space is safe.</div>
+          <div class="mode"><b>Movement or play-based.</b> Sessions may also include non-art modalities &mdash; movement, games,
+            storytelling, sand, or imaginative play &mdash; especially with younger children or when a child needs to move before
+            they can settle into making.<sup class="fn">14</sup></div>
+          <div class="callout"><strong>What Katy is doing while the child makes.</strong> Katy is not passively observing. She is
+            tracking the process &mdash; which materials are chosen, which avoided; the rhythm and pacing of the making; what the
+            child's body is doing; what themes emerge in imagery or narrative; what the child says and what they don't. All of
+            this is clinical information, and it shapes how she responds.<sup class="fn">16,17</sup></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <h3>Reflection and Closing</h3>
+          <span class="time">Approximately 5&ndash;10 minutes</span>
+          <p>Most sessions include some form of closing reflection &mdash; not an interrogation of the artwork, but a gentle
+            acknowledgment of what was made and what the session held. This might look like:</p>
+          <ul>
+            <li>Katy naming something she noticed (&ldquo;I noticed you kept coming back to blue today&rdquo;)</li>
+            <li>A brief open question (&ldquo;Is there anything you want to say about what you made?&rdquo;)</li>
+            <li>Simply looking at the artwork together in quiet for a moment</li>
+            <li>A brief grounding activity to help the child return to an alert, settled state before leaving</li>
+          </ul>
+          <p>The child is never required to explain, interpret, or justify their artwork. Katy's reflections are offered as
+            observations, not conclusions.<sup class="fn">17</sup></p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <h3>Parent Check-In</h3>
+          <span class="time">Select sessions &middot; approximately 5 minutes</span>
+          <p>At the close of some sessions, Katy will briefly touch base with the parent &mdash; either with the child present
+            or, occasionally, in a separate moment. This is not a full debrief. It is a brief exchange of observations, questions,
+            or anything relevant to how the week is going. It keeps the home context and the therapy context in dialogue without
+            breaching the child's relational privacy.</p>
+        </div>
+      </div>
+
+      <div class="callout"><strong>What carries between sessions.</strong> The session does not end at the door. Children continue
+        to process between sessions &mdash; in dreams, play, conversations, and behavior. Artwork may be kept in the therapy studio,
+        taken home, or returned to across multiple sessions. There is no obligation to display or share what is made. What belongs
+        to the child stays with the child.</div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C INTRO ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-c">Section C</span>
+      <h2>The First Three Intake Sessions</h2>
+      <div class="intro-box c">
+        <strong>Overview.</strong> The intake process at Beyond the Sun Therapy typically spans the first three sessions. Its
+        purposes are: gathering the history and context Katy needs to be genuinely useful; establishing the structure, roles, and
+        agreements of the therapeutic relationship; and beginning &mdash; not completing &mdash; the process of building rapport
+        with your child. These sessions are not fully representative of what ongoing therapy looks like. They are the foundation
+        being laid.
+      </div>
+
+      <div class="session-card s1">
+        <div class="head">
+          <h3 style="color:var(--bone)">Session 1 &middot; Parent-Only Meeting</h3>
+          <p class="who">Without child present</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Parent(s) or primary caregiver(s). Your child does not attend this session.</p>
+          <p><strong>Purpose:</strong> This session belongs to you. It gives Katy the adoption-specific history and context she
+            needs before meeting your child &mdash; and it gives you the opportunity to share what you know without your child in
+            the room, which allows for a different level of candor.<sup class="fn">20,21</sup></p>
+          <h4>What Katy will ask about</h4>
+          <ul>
+            <li>Your child's adoption history: age at placement, what is known about early care, transitions, previous placements if relevant</li>
+            <li>Your child's current functioning across settings (home, school, relationships, sleep, eating, sensory experience)</li>
+            <li>What brings you now &mdash; what you are noticing, hoping for, or wondering about</li>
+            <li>The family constellation &mdash; siblings, extended family, any relevant open adoption relationships</li>
+            <li>Previous therapy experiences, if any, and how those went</li>
+            <li>Your own questions about how this process will work</li>
+          </ul>
+          <h4>What you can expect from Katy</h4>
+          <p>Katy will listen more than she speaks in this session. She is not forming conclusions from what you share &mdash; she
+            is building context. You may find that some questions are hard to answer, or that you don't know certain pieces of your
+            child's early history. That is common and expected. Uncertainty about history is itself part of the adoption context, and
+            Katy works with that.<sup class="fn">22</sup></p>
+          <div class="callout"><strong>Paperwork.</strong> Consent forms, confidentiality agreements, and any relevant intake
+            documentation will be completed in this session or sent in advance.<sup class="fn">21</sup></div>
+          <p><strong>At the close of this session:</strong> Katy will offer a brief frame for how the next two sessions will be
+            structured, and answer any questions you have before your child begins.</p>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C cont. ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-c">Section C &middot; continued</span>
+      <h2>The First Three Intake Sessions</h2>
+
+      <div class="session-card s2">
+        <div class="head">
+          <h3 style="color:var(--bone)">Session 2 &middot; Child's First Session</h3>
+          <p class="who">With parent present for part of it</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Your child and you &mdash; together for the opening, then the child continues with
+            Katy, and you wait nearby or return at the close.</p>
+          <p><strong>Purpose:</strong> This session is designed primarily for your child to encounter the space, the materials, and
+            Katy &mdash; at their own pace, with as little demand as possible. It is not the session where the &ldquo;work&rdquo;
+            begins. It is the session where the child begins to form a first impression of whether this place might be
+            safe.<sup class="fn">23,21</sup></p>
+          <h4>Opening &middot; parent and child together (approx. 10 min)</h4>
+          <p>Katy will briefly orient both of you to the space &mdash; where things are, how sessions generally work, the basic
+            agreement about confidentiality and what gets shared with you. She will use language that is appropriate for your child's
+            age. The goal is for your child to hear, in concrete terms, that this space is theirs, that they do not have to do anything
+            they don't want to, and that their parent is close by.</p>
+          <h4>Your role in this opening</h4>
+          <p>Simply be present. You do not need to explain your child, advocate for them, or fill silence. Your calm presence signals
+            to the child that you trust this space &mdash; which matters. When Katy signals the transition, you will say a brief, easy
+            goodbye and let the child know where you will be.<sup class="fn">24</sup></p>
+          <h4>The child's session (approx. 30 min)</h4>
+          <p>Katy will offer a low-demand, materially rich environment and simply follow the child's lead. She is watching, taking in,
+            and beginning to build the relationship. She will not push into anything meaningful. Her goal is to make this hour feel
+            different from being evaluated or questioned &mdash; and to leave the child with a sense of having had a positive,
+            low-pressure experience in this room.<sup class="fn">9</sup> She may offer:</p>
+          <ul>
+            <li>Free exploration of materials with no task attached</li>
+            <li>A brief warm-up activity that is playful and low-stakes</li>
+            <li>Simple, curious conversation &mdash; not about adoption, not about what the child feels, but about what they like,
+              what they notice in the room, what they're interested in</li>
+          </ul>
+          <h4>Closing &middot; brief parent return</h4>
+          <p>Katy will invite you back for a few minutes at the end of the session. In front of your child, she will briefly reflect
+            on something positive about the session and let your child know what to expect next time. This closing moment is also part
+            of establishing predictability and warmth.</p>
+          <div class="callout"><strong>After this session.</strong> Your child may have strong feelings in any direction &mdash;
+            excited, flat, resistant, animated. All of it is data and all of it is welcome. You do not need to process the session with
+            them. A simple &ldquo;I'm glad you went&rdquo; is enough.</div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C cont. 2 ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-c">Section C &middot; continued</span>
+      <h2>The First Three Intake Sessions</h2>
+
+      <div class="session-card s3">
+        <div class="head">
+          <h3 style="color:var(--bone)">Session 3 &middot; Child's Second Session</h3>
+          <p class="who">Child and Katy alone &middot; brief parent check-in at close</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Your child and Katy for the full session. You wait and check in briefly at the close.</p>
+          <p><strong>Purpose:</strong> The third session deepens what began in the second &mdash; continued rapport-building, more
+            time with materials, and the beginning of the child's sense of &ldquo;this is my place and my time.&rdquo; Katy is also
+            continuing her informal assessment: noticing the child's relational style, what they move toward and away from, how they
+            use the room, and what themes &mdash; if any &mdash; begin to surface spontaneously.<sup class="fn">20</sup></p>
+          <h4>What Katy is doing</h4>
+          <p>She will again follow the child's lead in most of the session. She may begin to introduce slightly more structure &mdash;
+            an invitation or two &mdash; to observe how the child responds to gentle direction within an otherwise child-led space. She
+            is not yet working on adoption content or specific therapeutic goals. She is still building the relational
+            container.<sup class="fn">17</sup></p>
+          <h4>Parent check-in at the close</h4>
+          <p>Katy will spend a few minutes with you at the end of this session to share general observations, answer any questions that
+            have come up across these first sessions, and offer a brief frame for what ongoing weekly sessions will look like. This is
+            also your opportunity to share anything you noticed at home between sessions one and two.</p>
+        </div>
+      </div>
+
+      <div class="callout"><strong>After the intake.</strong> Following these three sessions, Katy will have enough context to begin
+        shaping a loose treatment arc &mdash; not a rigid plan, but a set of intentions and observations that will guide the work as it
+        unfolds. You will receive a brief verbal summary of her initial impressions and the general direction she anticipates, with space
+        for your input and questions.</div>
+
+      <div class="footer-note">
+        This supplement is intended to accompany the full Beyond the Sun Therapy Parent Orientation Guide. Both documents are the
+        property of Beyond the Sun Therapy and may not be reproduced or distributed without permission.
+      </div>
+
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

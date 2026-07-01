@@ -47,7 +47,7 @@
     box-shadow:12px 12px 0 #000;
     padding:.55in .6in;
     position:relative;
-    overflow:hidden;
+    overflow:visible;
     display:flex;
     flex-direction:column;
   }
@@ -215,6 +215,38 @@
   .looklike ul{margin:0;padding-left:20px}
   .looklike li{font-size:14.5px;line-height:1.45;margin:3px 0}
 
+  /* note on language / perspective */
+  .language-note{
+    border:3px solid var(--ink);
+    background:var(--gold);
+    padding:16px 18px;
+    margin:18px 0 6px;
+    box-shadow:6px 6px 0 var(--ink);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .language-note h4{margin:0 0 8px;font-size:19px}
+  .language-note p{margin:0 0 8px}
+  .language-note p:last-child{margin:0}
+
+  /* adoptee lived-experience voice */
+  .lived{
+    margin-top:12px;
+    border:2px solid var(--ink);
+    border-left:9px solid var(--rose);
+    background:#fbeeea;
+    padding:12px 15px;
+  }
+  .lived .lv-title{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:11px;
+    color:var(--magenta);
+    margin:0 0 6px;
+  }
+  .lived p{margin:0;font-size:14.5px;line-height:1.55;font-style:italic;font-weight:450}
+
   /* ---- Flow steps ---- */
   .flow-step{
     display:flex;
@@ -314,6 +346,9 @@
     color:#3a352c;
   }
 
+  /* keep a card intact rather than clipped or split across sheets */
+  .reaction,.session-card,.flow-step{break-inside:avoid;page-break-inside:avoid}
+
   @media print{
     body{background:white;padding:0}
     .stack{gap:0}
@@ -373,6 +408,18 @@
       <p class="lead">None of the behaviors below are problems to be immediately solved. They are communication. The therapy
         space is designed to hold all of it.</p>
 
+      <div class="language-note">
+        <h4>A note on language and perspective</h4>
+        <p>Some of the behaviors below have historically been described in clinical language &mdash; words like
+          &ldquo;charm,&rdquo; &ldquo;manipulation,&rdquo; or &ldquo;control&rdquo; &mdash; that many adult adoptees
+          experience as pathologizing: framing an intelligent survival response as a flaw in the child. This document
+          deliberately steps away from that framing.</p>
+        <p>What follows is written to hold two things at once: what a clinician observes, and how it is understood from the
+          inside by people who have lived it. Each reaction below is paired with an <strong>In their words</strong> note that
+          voices the adoptee perspective. The behaviors are not deficits. They are adaptations that once kept a child safe,
+          and they deserve respect before they are ever gently loosened.</p>
+      </div>
+
       <div class="reaction">
         <h3>Hypervigilance and Environmental Scanning</h3>
         <div class="body">
@@ -381,6 +428,12 @@
             distraction or restlessness, but it is more accurately understood as a nervous system doing what it learned to
             do: assess for safety before settling. It often decreases gradually, across weeks and months, as the space
             becomes familiar and predictable.<sup class="fn">1,2</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Reading the room isn't me being anxious or distracted &mdash; it's me being good at something I had to
+              learn. Knowing where the door is, and who you are before I trust you, is how I kept myself safe. Don't treat it
+              like a symptom. Let the room earn my ease.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">In session this may look like</p>
             <ul>
@@ -389,28 +442,6 @@
               <li>Tracking Katy's movements and expressions closely</li>
               <li>Needing to know what will happen next before engaging</li>
               <li>Sitting near the door or checking that it is accessible</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="reaction">
-        <h3>Superficial Charm and Indiscriminate Warmth</h3>
-        <div class="body">
-          <p>Some children are immediately warm, funny, engaging, and apparently very at ease with Katy &mdash; even from
-            the first session. This ease can be genuine. It can also, for some children, be a learned strategy: warmth as a
-            way of managing relationships before closeness has been established.<sup class="fn">3,4</sup></p>
-          <p>Indiscriminate warmth &mdash; treating a new adult as if already fully trusted &mdash; is worth gently noticing
-            over time, without pathologizing it. A child who is easy with strangers has often learned that charm is safer
-            than waiting to see what someone is really like. Katy holds this lightly and watches for how the warmth changes
-            (or deepens) as the relationship develops.<sup class="fn">5</sup></p>
-          <div class="looklike">
-            <p class="ll-title">This may look like</p>
-            <ul>
-              <li>Immediately offering information, hugs, or high engagement</li>
-              <li>Performing for Katy &mdash; being entertaining or very helpful</li>
-              <li>Seemingly no adjustment period at all</li>
-              <li>Treating Katy identically to a parent or very close adult</li>
             </ul>
           </div>
         </div>
@@ -427,6 +458,35 @@
       <h2>Common Adoptee Reactions in Session</h2>
 
       <div class="reaction">
+        <h3>Fast Warmth and Early Connection</h3>
+        <div class="body">
+          <p>Some children are immediately warm, funny, engaging, and apparently very at ease with Katy &mdash; even from
+            the first session. This ease is real. For some children it is also a well-practiced way of meeting new adults:
+            offering warmth early, before it is yet known whether a relationship is safe.<sup class="fn">3,4</sup></p>
+          <p>Reaching toward a new adult quickly &mdash; treating them as already trusted &mdash; can be one of the most
+            adaptive things a child has learned to do. It is a bid for connection, not a performance to see through. Over
+            time, Katy simply notices how this warmth settles and deepens as genuine safety is established &mdash; never
+            treating a child's openness as something suspect.<sup class="fn">5</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;When I'm warm with you right away, please don't decide it's fake or that I'm working an angle. I learned
+              early that being easy to like was safer than being a burden. It's still a real reach for connection. Being met as
+              &lsquo;charming&rsquo; or &lsquo;indiscriminate&rsquo; rather than as a kid who wants to belong is its own kind of
+              hurt.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Immediately offering information, hugs, or high engagement</li>
+              <li>Performing for Katy &mdash; being entertaining or very helpful</li>
+              <li>Seemingly no adjustment period at all</li>
+              <li>Treating Katy identically to a parent or very close adult</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
         <h3>Shutdown, Flatness, and Withdrawal</h3>
         <div class="body">
           <p>Other children arrive and go quiet. They may sit still, say little, and appear disengaged or unresponsive.
@@ -436,6 +496,12 @@
           <p>Katy responds to flatness with patient, low-demand presence &mdash; no pressure to perform, produce, or
             participate. The space remains available. Over time, most children in shutdown begin to reach toward the room in
             small ways.<sup class="fn">7</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Quiet doesn't mean nothing is happening. Sometimes it's the opposite &mdash; there's so much that going
+              still is the only way to manage it. The best thing you can do is not need me to perform being okay. Let me be here
+              at whatever volume I've got today.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">This may look like</p>
             <ul>
@@ -449,8 +515,18 @@
         </div>
       </div>
 
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
       <div class="reaction">
-        <h3>Control-Seeking and Negotiation</h3>
+        <h3>Needing Agency and Predictability</h3>
         <div class="body">
           <p>Some children arrive with a strong need to direct everything &mdash; which material is used, where Katy sits,
             what order things happen in, how much time is spent on each thing. This is not defiance. For a child whose early
@@ -459,6 +535,12 @@
           <p>Katy works with this, not against it. Child-led work is genuinely valued in art psychotherapy &mdash; the
             child's ownership of their own creative process is therapeutically important. Katy will gently hold structure
             around what needs structure, and offer genuine latitude within that.<sup class="fn">9</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Getting a say over small things &mdash; where I sit, what we use, what comes first &mdash; is me
+              repairing something. Huge things happened to me that I had zero say in. This isn't about power over you. It's
+              about not being moved around again without warning. Tell me what's coming, and let me hold the pieces I can.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">This may look like</p>
             <ul>
@@ -481,6 +563,12 @@
           <p>This is how a child learns through direct experience &mdash; not just words &mdash; that Katy is consistent, not
             retaliatory, and not going anywhere. The relationship being tested is the relationship being built. Katy expects
             this and meets it with steady warmth.<sup class="fn">11</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;When I push, I'm not trying to be bad. I'm asking a real question: will you still be here if I'm not easy
+              to love today? For a long time the honest answer to that was no. I have to find out with my whole body that you're
+              different &mdash; words aren't enough. Staying is the answer.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">This may look like</p>
             <ul>
@@ -510,6 +598,12 @@
           <p>Children sometimes move toward younger modes of being during sessions &mdash; using a baby voice, wanting to be
             read to, playing in ways that are more typical of a younger developmental stage. This is not a loss of ground. It
             often reflects unmet developmental needs surfacing in a space that feels safe enough to hold them.<sup class="fn">12</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Going to a younger place isn't me losing progress. It's me getting to be small in a way I didn't get to
+              be the first time. Something in me is finally safe enough to ask for what it needed back then. Let it happen
+              without making it weird &mdash; that's the whole point.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">This may look like</p>
             <ul>
@@ -531,6 +625,12 @@
             older.<sup class="fn">13</sup></p>
           <p>Katy is trained to meet activation with regulated, grounding presence. The session is not derailed by big
             feelings &mdash; it simply becomes the space where those feelings can exist safely.</p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Sometimes grief doesn't come with a reason attached. A color or a smell or nothing at all opens a door,
+              and suddenly it's right here. Please don't hunt for what I &lsquo;did&rsquo; to set it off. Just stay steady with
+              me until it passes. It's always older than this room.&rdquo;</p>
+          </div>
           <div class="looklike">
             <p class="ll-title">This may look like</p>
             <ul>
@@ -544,6 +644,16 @@
         </div>
       </div>
 
+      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
       <div class="reaction">
         <h3>Positive Engagement, Depth, and Creative Richness</h3>
         <div class="body">
@@ -552,6 +662,12 @@
             or surprising. They may tell stories, make jokes, share things freely, or arrive at insights through the making
             process that neither they nor Katy anticipated.<sup class="fn">14,15</sup></p>
           <p>This is the work too &mdash; and it is worth naming. Therapy does not only happen in hard moments.</p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;I'm not only my hard story. I'm funny, I make cool stuff, I get lost in things I love. When you see that
+              part of me, you're not missing the &lsquo;real&rsquo; work &mdash; the joy is real too. Adoptees get to have whole
+              lives, not just wounds. See all of me.&rdquo;</p>
+          </div>
         </div>
       </div>
 

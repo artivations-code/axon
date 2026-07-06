@@ -3,384 +3,299 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Parent Orientation Supplement · Beyond The Sun Therapy</title>
+<title>Parent Orientation Supplement · Beyond the Sun Therapy</title>
 <style>
   :root{
-    --ink:#171717;
-    --paper:#f7f3ea;
-    --bone:#fffaf0;
-    --teal:#008478;
-    --slate:#44697D;
-    --olive:#879637;
-    --plum:#885E80;
-    --magenta:#AE0055;
-    --orange:#CF7600;
-    --gold:#D7A33A;
-    --rose:#B65B63;
-    --soft:#E8DDCB;
-    --serif: Georgia, "Times New Roman", serif;
-    --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --ink:#3e3f46;
+    --olive:#666741;
+    --olive-deep:#4b4c33;
+    --sage:#8a8b70;
+    --paper:#f7f6f5;
+    --bone:#ffffff;
+    --wash:#edefe4;
+    --line:#e2e0da;
+    --line-olive:#d4d6c5;
+    --backdrop:#e7e5de;
+    --serif:"Cormorant Garamond","Didot","Bodoni MT","Hoefler Text",Georgia,"Times New Roman",serif;
+    --sans:"Jost",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   }
 
   *{box-sizing:border-box}
 
   body{
     margin:0;
-    background:#242424;
+    background:var(--backdrop);
     color:var(--ink);
     font-family:var(--sans);
-    padding:28px;
+    font-size:15px;
+    line-height:1.62;
+    padding:32px;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
   }
 
-  .stack{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:34px;
-  }
+  .stack{display:flex;flex-direction:column;align-items:center;gap:36px}
 
   .page{
     width:min(8.5in, 100%);
     min-height:11in;
     background:var(--paper);
-    border:3px solid var(--ink);
-    box-shadow:12px 12px 0 #000;
-    padding:.55in .6in;
+    border:1px solid var(--line);
+    border-radius:2px;
+    box-shadow:0 20px 46px -26px rgba(62,63,70,.4);
+    padding:.72in .8in;
     position:relative;
-    overflow:visible;
     display:flex;
     flex-direction:column;
-  }
-
-  .page:before{
-    content:"";
-    position:absolute;
-    inset:14px;
-    border:1.5px solid rgba(23,23,23,.30);
-    pointer-events:none;
+    overflow:hidden;
   }
 
   .inner{position:relative;z-index:1;display:flex;flex-direction:column;flex:1}
 
+  /* botanical corner watermark on content pages */
+  .corner{
+    position:absolute;
+    top:.3in;right:.42in;
+    width:1.15in;height:auto;
+    color:var(--olive);
+    opacity:.14;
+    z-index:0;
+    pointer-events:none;
+  }
+  .botanic{display:block}
+
   .kicker{
-    font-weight:900;
-    letter-spacing:.13em;
-    text-transform:uppercase;
-    font-size:12px;
-    margin:0 0 10px;
+    font-family:var(--sans);font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;font-size:11px;color:var(--olive);margin:0 0 12px;
   }
 
   h1,h2,h3,h4{
-    font-family:var(--serif);
-    line-height:1.02;
-    margin:0;
-    letter-spacing:0;
+    font-family:var(--serif);font-weight:500;line-height:1.06;margin:0;
+    color:var(--ink);text-wrap:balance;
   }
+  h1{font-size:50px;letter-spacing:.005em;max-width:9in}
+  h2{font-size:34px}
+  h3{font-size:24px}
+  h4{font-size:18px;font-weight:600}
 
-  h1{font-size:54px; max-width:650px}
-  h2{font-size:38px}
-  h3{font-size:25px}
-  h4{font-size:19px}
-
-  .sub{
-    font-size:18px;
-    line-height:1.4;
-    max-width:610px;
-    margin:16px 0 0;
-    font-weight:650;
-  }
-
-  p{font-size:15.5px;line-height:1.5;font-weight:450}
-  .lead{font-size:16.5px;line-height:1.5}
+  .sub{font-size:17px;line-height:1.55;max-width:5.4in;margin:18px 0 0;color:#55564b;font-weight:400}
+  p{font-size:15px;line-height:1.62;font-weight:400}
+  .lead{font-size:16px;line-height:1.6}
+  em{font-style:italic}
+  strong{font-weight:600;color:var(--ink)}
 
   .sig{
-    margin-top:auto;
-    border-top:3px solid var(--ink);
-    padding-top:12px;
-    text-align:right;
-    font-size:11px;
-    font-weight:900;
-    letter-spacing:.12em;
-    text-transform:uppercase;
+    margin-top:auto;border-top:1px solid var(--line-olive);padding-top:12px;
+    text-align:right;font-family:var(--sans);font-size:10px;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--sage);
   }
 
-  /* footnote markers */
-  sup.fn{
-    font-size:10px;
-    font-weight:800;
-    color:var(--magenta);
-    vertical-align:super;
-    padding:0 1px;
-  }
+  sup.fn{font-size:9.5px;font-weight:700;color:var(--olive);vertical-align:super;padding:0 1px}
 
   /* ---- Cover ---- */
-  .cover .rule{
-    height:8px;
-    background:var(--ink);
-    margin:22px 0;
+  .cover{padding:0}
+  .hero{
+    position:relative;overflow:hidden;
+    background-color:var(--olive-deep);
+    background-image:
+      radial-gradient(circle at 19% 32%, rgba(247,246,245,.16) 0 34px, transparent 36px),
+      radial-gradient(circle at 33% 66%, rgba(247,246,245,.10) 0 48px, transparent 50px),
+      radial-gradient(circle at 60% 22%, rgba(247,246,245,.13) 0 24px, transparent 26px),
+      radial-gradient(circle at 74% 54%, rgba(247,246,245,.08) 0 62px, transparent 64px),
+      radial-gradient(circle at 88% 30%, rgba(247,246,245,.10) 0 30px, transparent 32px);
+    padding:.9in .8in 1in;min-height:4.3in;
+    display:flex;flex-direction:column;justify-content:center;
+    border-radius:1px 1px 0 0;
   }
+  .hero-sprig{position:absolute;right:.45in;bottom:-.25in;width:1.75in;height:auto;color:#f7f6f5;opacity:.4}
+  .cover-body{display:flex;flex-direction:column;flex:1;padding:.5in .8in .7in;position:relative;z-index:1}
 
-  .cover-band{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin:6px 0 0;
+  .wordmark{
+    font-family:var(--serif);font-size:44px;font-weight:500;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--olive);margin:0;line-height:1;position:relative;z-index:1;
   }
+  .wordmark span{text-transform:lowercase;font-style:italic;letter-spacing:.01em;font-size:37px;padding:0 .06em}
+  .wordmark.light{color:#f7f6f5}
+  .wordmark-sub{
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--sage);margin:14px 0 0;position:relative;z-index:1;
+  }
+  .wordmark-sub.light{color:rgba(247,246,245,.82)}
 
+  .cover-band{display:flex;flex-wrap:wrap;gap:14px;margin:30px 0 0}
   .chip{
-    border:3px solid var(--ink);
-    background:var(--bone);
-    padding:14px 16px;
-    font-family:var(--serif);
-    font-size:18px;
-    font-weight:800;
-    line-height:1.1;
-    box-shadow:6px 6px 0 var(--ink);
-    flex:1 1 200px;
+    flex:1 1 180px;background:var(--bone);border:1px solid var(--line);
+    border-top:2px solid var(--olive);border-radius:2px;padding:16px 18px;
+    font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.2;color:var(--ink);
   }
-  .chip:nth-child(1){background:var(--teal);color:var(--bone)}
-  .chip:nth-child(2){background:var(--plum);color:var(--bone)}
-  .chip:nth-child(3){background:var(--orange);color:var(--bone)}
-
   .prepared{
-    margin-top:34px;
-    border:3px solid var(--ink);
-    background:var(--bone);
-    padding:18px 20px;
-    font-family:var(--serif);
-    font-size:18px;
-    box-shadow:8px 8px 0 var(--ink);
+    margin-top:32px;background:var(--wash);border:1px solid var(--line-olive);border-radius:2px;
+    padding:16px 20px;font-family:var(--serif);font-size:18px;color:var(--ink);
   }
-  .prepared strong{font-weight:800}
+  .prepared strong{font-weight:600;color:var(--olive)}
 
-  /* ---- Section divider header ---- */
+  /* ---- Section eyebrow ---- */
   .section-tab{
-    display:inline-block;
-    border:3px solid var(--ink);
-    padding:8px 14px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    font-size:12px;
-    margin-bottom:14px;
-    box-shadow:5px 5px 0 var(--ink);
+    display:inline-block;font-family:var(--sans);font-weight:600;text-transform:uppercase;
+    letter-spacing:.24em;font-size:11px;color:var(--olive);padding-bottom:9px;margin-bottom:16px;
+    border-bottom:2px solid var(--olive);
   }
-  .tab-a{background:var(--teal);color:var(--bone)}
-  .tab-b{background:var(--plum);color:var(--bone)}
-  .tab-c{background:var(--orange);color:var(--bone)}
 
   .intro-box{
-    border-left:8px solid var(--teal);
-    background:var(--bone);
-    padding:16px 18px;
-    margin:18px 0 6px;
-    font-size:15.5px;
-    line-height:1.5;
+    border-left:2px solid var(--olive);background:var(--wash);padding:16px 20px;margin:18px 0 6px;
+    border-radius:0 2px 2px 0;font-size:15px;line-height:1.6;
   }
-  .intro-box.b{border-left-color:var(--plum)}
-  .intro-box.c{border-left-color:var(--orange)}
+
+  /* ---- range-of-responses spectrum ---- */
+  .spectrum{margin:18px 0 4px}
+  .spectrum-bar{
+    height:12px;border-radius:100px;border:1px solid var(--line-olive);
+    background:linear-gradient(90deg,#eef0e7,#aeb389 48%,var(--olive));
+  }
+  .spectrum-labels{
+    display:flex;justify-content:space-between;margin-top:7px;
+    font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--sage);
+  }
+  .spectrum-labels span:nth-child(2){color:var(--olive)}
 
   /* ---- Reaction block ---- */
-  .reaction{
-    border:3px solid var(--ink);
-    background:var(--bone);
-    margin:18px 0;
-    box-shadow:6px 6px 0 var(--ink);
-  }
+  .reaction{border:1px solid var(--line);border-radius:3px;background:var(--bone);margin:22px 0;overflow:hidden}
   .reaction > h3{
-    background:var(--slate);
-    color:var(--bone);
-    padding:12px 16px;
-    border-bottom:3px solid var(--ink);
-    font-size:23px;
+    display:flex;align-items:center;gap:13px;
+    background:var(--wash);color:var(--ink);padding:12px 18px;
+    border-bottom:1px solid var(--line-olive);font-size:22px;
   }
-  .reaction:nth-of-type(odd) > h3{background:var(--slate)}
-  .reaction:nth-of-type(even) > h3{background:var(--magenta)}
-  .reaction .body{padding:14px 18px}
+  .ric{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--olive);display:flex;align-items:center;justify-content:center}
+  .ric svg{width:20px;height:20px;color:var(--paper);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .reaction .body{padding:16px 20px}
   .reaction .body p{margin:0 0 10px}
 
-  .looklike{
-    margin-top:10px;
-    background:var(--paper);
-    border:2px solid var(--ink);
-    padding:12px 14px 12px 14px;
-  }
-  .looklike .ll-title{
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    font-size:11px;
-    margin:0 0 8px;
-  }
+  .looklike{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:14px 16px}
+  .ll-title{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:var(--olive);margin:0 0 8px}
   .looklike ul{margin:0;padding-left:20px}
-  .looklike li{font-size:14.5px;line-height:1.45;margin:3px 0}
+  .looklike li{font-size:14px;line-height:1.5;margin:4px 0}
 
-  /* note on language / perspective */
   .language-note{
-    border:3px solid var(--ink);
-    background:var(--gold);
-    padding:16px 18px;
-    margin:18px 0 6px;
-    box-shadow:6px 6px 0 var(--ink);
-    font-size:15px;
-    line-height:1.5;
+    border:1px solid var(--line-olive);border-left:3px solid var(--olive);background:var(--wash);
+    padding:18px 20px;margin:20px 0 6px;border-radius:0 2px 2px 0;font-size:15px;line-height:1.6;
   }
-  .language-note h4{margin:0 0 8px;font-size:19px}
+  .language-note h4{font-size:21px;color:var(--olive);margin:0 0 8px}
   .language-note p{margin:0 0 8px}
   .language-note p:last-child{margin:0}
 
-  /* adoptee lived-experience voice */
+  /* adoptee lived-experience voice — pull quote */
   .lived{
-    margin-top:12px;
-    border:2px solid var(--ink);
-    border-left:9px solid var(--olive);
-    background:rgba(135,150,55,.14);
-    padding:12px 15px;
+    position:relative;overflow:hidden;margin-top:14px;border-left:3px solid var(--olive);
+    background:var(--wash);padding:14px 17px;border-radius:0 2px 2px 0;
   }
-  .lived .lv-title{
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    font-size:11px;
-    color:var(--magenta);
-    margin:0 0 6px;
+  .lived::before{
+    content:"\201C";position:absolute;top:-14px;right:14px;font-family:var(--serif);
+    font-size:82px;line-height:1;color:var(--olive);opacity:.13;pointer-events:none;
   }
-  .lived p{margin:0;font-size:14.5px;line-height:1.55;font-style:italic;font-weight:450}
+  .lv-title{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:var(--olive);margin:0 0 7px;position:relative}
+  .lived p{margin:0;font-family:var(--serif);font-size:18px;line-height:1.5;font-style:italic;color:var(--ink);position:relative;max-width:4.9in}
 
-  /* ---- Flow steps ---- */
-  .flow-step{
-    display:flex;
-    gap:16px;
-    margin:16px 0;
-    align-items:flex-start;
+  /* ---- Flow steps as a timeline ---- */
+  .flow-step{display:flex;gap:18px;margin:20px 0;align-items:flex-start;position:relative}
+  .flow-step:not(:last-of-type)::before{
+    content:"";position:absolute;left:22px;top:56px;bottom:-20px;width:2px;background:var(--line-olive);z-index:0;
   }
   .flow-num{
-    flex:0 0 auto;
-    width:54px;
-    height:54px;
-    border:3px solid var(--ink);
-    background:var(--gold);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:var(--serif);
-    font-size:26px;
-    font-weight:900;
-    box-shadow:5px 5px 0 var(--ink);
+    flex:0 0 auto;width:46px;height:46px;border-radius:50%;background:var(--olive);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:500;
+    position:relative;z-index:1;
   }
   .flow-body{flex:1}
-  .flow-body h3{font-size:22px;margin:2px 0 4px}
-  .flow-body .time{
-    display:inline-block;
-    font-size:11px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    background:var(--soft);
-    border:2px solid var(--ink);
-    padding:3px 8px;
-    margin-bottom:8px;
+  .flow-body h3{font-size:23px;margin:1px 0 6px}
+  .time{
+    display:inline-block;font-family:var(--sans);font-size:10px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.13em;color:var(--olive);background:var(--wash);border:1px solid var(--line-olive);
+    border-radius:100px;padding:4px 12px;margin-bottom:6px;
   }
+  .meter{height:6px;border-radius:100px;background:var(--wash);border:1px solid var(--line-olive);max-width:190px;overflow:hidden;margin:4px 0 12px}
+  .meter span{display:block;height:100%;background:var(--olive)}
   .flow-body ul{margin:8px 0 0;padding-left:20px}
-  .flow-body li{font-size:14.5px;line-height:1.45;margin:3px 0}
+  .flow-body li{font-size:14px;line-height:1.5;margin:4px 0}
 
-  .mode{
-    border-left:6px solid var(--teal);
-    background:var(--bone);
-    padding:8px 14px;
-    margin:10px 0;
-  }
-  .mode:nth-of-type(2){border-left-color:var(--plum)}
-  .mode:nth-of-type(3){border-left-color:var(--olive)}
-  .mode:nth-of-type(4){border-left-color:var(--orange)}
-  .mode b{font-family:var(--serif);font-size:16px}
+  .mode{border-left:2px solid var(--olive);background:var(--paper);padding:10px 16px;margin:10px 0;border-radius:0 2px 2px 0}
+  .mode b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink)}
 
   /* ---- Intake session card ---- */
-  .session-card{
-    border:3px solid var(--ink);
-    margin:18px 0;
-    box-shadow:8px 8px 0 var(--ink);
-    background:var(--bone);
-  }
-  .session-card .head{
-    padding:14px 18px;
-    border-bottom:3px solid var(--ink);
-    color:var(--bone);
-  }
-  .s1 .head{background:var(--slate)}
-  .s2 .head{background:var(--teal)}
-  .s3 .head{background:var(--plum)}
-  .session-card .head .who{
-    font-size:11px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    margin:6px 0 0;
-    opacity:.95;
-  }
-  .session-card .content{padding:16px 18px}
-  .session-card .content h4{
-    margin:14px 0 6px;
-    font-size:18px;
-  }
+  .session-card{border:1px solid var(--line);border-radius:3px;margin:20px 0;background:var(--bone);overflow:hidden}
+  .session-card .head{background:var(--olive-deep);padding:16px 22px}
+  .session-card .head h3{color:var(--paper);font-size:24px}
+  .session-card .head .who{font-family:var(--sans);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;margin:7px 0 0;color:var(--paper);opacity:.82}
+  .session-card .content{padding:18px 22px}
+  .session-card .content h4{margin:16px 0 6px;font-size:18px;color:var(--olive)}
   .session-card .content h4:first-child{margin-top:0}
   .session-card .content ul{margin:6px 0;padding-left:20px}
-  .session-card .content li{font-size:14.5px;line-height:1.45;margin:3px 0}
+  .session-card .content li{font-size:14px;line-height:1.5;margin:4px 0}
 
-  .callout{
-    border:2px solid var(--ink);
-    background:var(--soft);
-    padding:12px 14px;
-    margin:12px 0;
-    font-size:14.5px;
-    line-height:1.45;
-  }
+  .callout{border:1px solid var(--line-olive);background:var(--wash);border-radius:2px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.55}
 
-  .footer-note{
-    margin-top:24px;
-    border-top:3px solid var(--ink);
-    padding-top:14px;
-    font-size:12.5px;
-    font-style:italic;
-    line-height:1.5;
-    color:#3a352c;
-  }
+  .footer-note{margin-top:24px;border-top:1px solid var(--line-olive);padding-top:14px;font-size:12px;font-style:italic;line-height:1.55;color:var(--sage)}
 
-  /* keep a card intact rather than clipped or split across sheets */
-  .reaction,.session-card,.flow-step{break-inside:avoid;page-break-inside:avoid}
+  /* colored fills print faithfully */
+  .hero,.session-card .head,.ric,.flow-num,.spectrum-bar,.meter span,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  /* keep a block intact rather than split across sheets */
+  .reaction,.session-card,.flow-step,.language-note,.looklike,.lived,.callout{break-inside:avoid;page-break-inside:avoid}
+  h2,h3,h4,.section-tab{break-after:avoid;page-break-after:avoid}
 
   @media print{
-    body{background:white;padding:0}
+    body{background:#fff;padding:0}
     .stack{gap:0}
-    .page{
-      width:8.5in;
-      min-height:11in;
-      box-shadow:none;
-      border:0;
-      page-break-after:always;
-    }
-    .reaction,.session-card,.chip,.flow-num{box-shadow:none}
+    .page{width:8.5in;min-height:0;box-shadow:none;border:0;border-radius:0;padding:.5in .7in}
+    .cover{padding:0;min-height:10in;page-break-after:always}
+    .corner{opacity:.1}
   }
 
   @media(max-width:760px){
     body{padding:14px}
-    .page{min-height:auto;padding:24px}
+    .page{min-height:auto;padding:30px 24px}
+    .cover{padding:0}
     h1{font-size:38px}
-    h2{font-size:30px}
+    h2{font-size:28px}
+    .wordmark{font-size:32px}
+    .wordmark span{font-size:27px}
     .cover-band{flex-direction:column}
-    .flow-step{flex-direction:column}
+    .flow-step{gap:14px}
   }
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
+  <symbol id="sprig2" viewBox="0 0 130 170">
+    <path d="M65 168 C64 120 60 84 66 40 C68 24 74 12 78 4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <path d="M64 118 C46 112 34 96 32 78 C52 82 66 96 64 118 Z" fill="currentColor"/>
+    <path d="M66 92 C84 84 96 66 96 48 C78 54 66 70 66 92 Z" fill="currentColor"/>
+    <path d="M64 74 C48 66 40 50 40 34 C56 40 66 56 64 74 Z" fill="currentColor"/>
+    <path d="M70 50 C86 42 94 28 94 14 C80 20 70 34 70 50 Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6.4 10-6.4S22 12 22 12s-3.6 6.4-10 6.4S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+  <symbol id="ic-leaves" viewBox="0 0 24 24"><path d="M12 21c-.4-5.2-3.6-8.4-8.4-8.8C4 17.4 7.2 20.6 12 21z"/><path d="M12 21c.4-5.2 3.6-8.4 8.4-8.8C20 17.4 16.8 20.6 12 21z"/><path d="M12 21V9"/></symbol>
+  <symbol id="ic-moon" viewBox="0 0 24 24"><path d="M20.5 13.8A8 8 0 1 1 10.2 3.5a6.3 6.3 0 0 0 10.3 10.3z"/></symbol>
+  <symbol id="ic-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></symbol>
+  <symbol id="ic-ripple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.3"/><path d="M7 12a5 5 0 0 1 10 0"/><path d="M3.5 12a8.5 8.5 0 0 1 17 0"/></symbol>
+  <symbol id="ic-seedling" viewBox="0 0 24 24"><path d="M12 21v-7.5"/><path d="M12 13.5C11.4 9 8.6 6.7 4.5 6.7 5.1 11.2 7.9 13.5 12 13.5z"/><path d="M12 13.5c.6-4.5 3.4-6.8 7.5-6.8-.6 4.5-3.4 6.8-7.5 6.8z"/></symbol>
+  <symbol id="ic-pulse" viewBox="0 0 24 24"><path d="M2 12h4l2.4-7 4.2 14 2.4-7H21"/></symbol>
+  <symbol id="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.2 5.2l1.8 1.8M17 17l1.8 1.8M18.8 5.2l-1.8 1.8M7 17l-1.8 1.8"/></symbol>
+</defs></svg>
+
 <div class="stack">
 
   <!-- ======================= COVER ======================= -->
   <section class="page cover">
-    <div class="inner">
-      <p class="kicker" style="color:var(--teal)">Beyond The Sun Therapy</p>
-      <h1>Parent Orientation Supplement</h1>
-      <div class="rule"></div>
+    <div class="hero">
+      <svg class="hero-sprig botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+      <p class="wordmark light">Beyond <span>the</span> Sun</p>
+      <p class="wordmark-sub light">Therapeutic Practice &middot; Carmel, IN</p>
+    </div>
+    <div class="cover-body">
+      <p class="kicker">Parent Orientation Supplement</p>
+      <h1>What to Expect in Your Child's Therapy</h1>
       <p class="sub">A companion guide to what may happen in session, how a session is shaped, and what the first three intake meetings hold.</p>
       <div class="cover-band">
         <div class="chip">Section A<br>Common Child Reactions in Session</div>
@@ -390,12 +305,13 @@
       <div class="prepared">
         <strong>Prepared by Katy</strong> &middot; Art Psychotherapist &amp; Adoption Constellation Specialist
       </div>
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION A INTRO ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-a">Section A</span>
       <h2>Common Adoptee Reactions in Session</h2>
@@ -404,6 +320,10 @@
         These are offered as a <em>range of what is possible</em> &mdash; not a checklist of what will occur, and not a
         measure of severity or dysfunction. Every child is different. Some children show several of these; others show
         very few. Context, history, age, temperament, and timing all shape what emerges.
+      </div>
+      <div class="spectrum">
+        <div class="spectrum-bar"></div>
+        <div class="spectrum-labels"><span>Soft &middot; quiet</span><span>The whole range is welcome</span><span>Big &middot; intense</span></div>
       </div>
       <p class="lead">None of the behaviors below are problems to be immediately solved. They are communication. The therapy
         space is designed to hold all of it.</p>
@@ -421,7 +341,7 @@
       </div>
 
       <div class="reaction">
-        <h3>Hypervigilance and Environmental Scanning</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-eye"/></svg></span>Hypervigilance and Environmental Scanning</h3>
         <div class="body">
           <p>Some children enter the room with a heightened alertness &mdash; tracking the space carefully, noting where
             Katy stands, noticing small changes in the room from session to session, watching the door. This can look like
@@ -447,18 +367,19 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION A cont. ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-a">Section A &middot; continued</span>
       <h2>Common Adoptee Reactions in Session</h2>
 
       <div class="reaction">
-        <h3>Fast Warmth and Early Connection</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-leaves"/></svg></span>Fast Warmth and Early Connection</h3>
         <div class="body">
           <p>Some children are immediately warm, funny, engaging, and apparently very at ease with Katy &mdash; even from
             the first session. This ease is real. For some children it is also a well-practiced way of meeting new adults:
@@ -487,7 +408,7 @@
       </div>
 
       <div class="reaction">
-        <h3>Shutdown, Flatness, and Withdrawal</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-moon"/></svg></span>Shutdown, Flatness, and Withdrawal</h3>
         <div class="body">
           <p>Other children arrive and go quiet. They may sit still, say little, and appear disengaged or unresponsive.
             This is not necessarily disinterest or resistance. For some children, shutdown is the nervous system's protective
@@ -515,18 +436,19 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION A cont. ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-a">Section A &middot; continued</span>
       <h2>Common Adoptee Reactions in Session</h2>
 
       <div class="reaction">
-        <h3>Needing Agency and Predictability</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-compass"/></svg></span>Needing Agency and Predictability</h3>
         <div class="body">
           <p>Some children arrive with a strong need to direct everything &mdash; which material is used, where Katy sits,
             what order things happen in, how much time is spent on each thing. This is not defiance. For a child whose early
@@ -555,7 +477,7 @@
       </div>
 
       <div class="reaction">
-        <h3>Testing Behavior</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-ripple"/></svg></span>Testing Behavior</h3>
         <div class="body">
           <p>Some children will, at some point in the early-to-middle phase of therapy, test whether the relationship holds
             under pressure. This might mean pushing limits, being deliberately difficult, creating a small mess or disruption,
@@ -582,18 +504,19 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION A cont. 2 ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-a">Section A &middot; continued</span>
       <h2>Common Adoptee Reactions in Session</h2>
 
       <div class="reaction">
-        <h3>Regression in Session</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-seedling"/></svg></span>Regression in Session</h3>
         <div class="body">
           <p>Children sometimes move toward younger modes of being during sessions &mdash; using a baby voice, wanting to be
             read to, playing in ways that are more typical of a younger developmental stage. This is not a loss of ground. It
@@ -617,7 +540,7 @@
       </div>
 
       <div class="reaction">
-        <h3>Emotional Activation Mid-Session</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-pulse"/></svg></span>Emotional Activation Mid-Session</h3>
         <div class="body">
           <p>Sometimes a child enters a session seemingly fine and then, without an obvious trigger, becomes upset, tearful,
             angry, or agitated mid-way through. Artwork or play can surface what daily life holds at bay. A color, an image, a
@@ -644,18 +567,19 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION A cont. ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-a">Section A &middot; continued</span>
       <h2>Common Adoptee Reactions in Session</h2>
 
       <div class="reaction">
-        <h3>Positive Engagement, Depth, and Creative Richness</h3>
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-sun"/></svg></span>Positive Engagement, Depth, and Creative Richness</h3>
         <div class="body">
           <p>Not every session holds difficulty. Many sessions are marked by genuine play, laughter, creative momentum, and
             real warmth. Children often become deeply absorbed in their work. They may make things that are beautiful, complex,
@@ -671,16 +595,17 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION B ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-b">Section B</span>
       <h2>Art Therapy Session Flow</h2>
-      <div class="intro-box b">
+      <div class="intro-box">
         <strong>The shape of a typical session.</strong> Sessions with Katy are 45&ndash;50 minutes. They are not rigidly
         scripted &mdash; the flow is responsive to the child &mdash; but they hold a consistent enough shape that children can
         learn to anticipate it. Predictability, even in small structures, supports a sense of safety.<sup class="fn">16,17</sup>
@@ -693,6 +618,7 @@
         <div class="flow-body">
           <h3>Arrival and Transition</h3>
           <span class="time">Approximately 5 minutes</span>
+          <div class="meter"><span style="width:17%"></span></div>
           <p>The session begins before anything is made. The child moves from the outside world &mdash; school, car, the mood
             of the day &mdash; into the therapy room. This transition is acknowledged, not rushed.</p>
           <p>Katy may offer a brief warm-up ritual that becomes consistent over time: a simple sensory check-in, a gesture
@@ -708,6 +634,7 @@
         <div class="flow-body">
           <h3>Warm-Up and Opening</h3>
           <span class="time">Approximately 5&ndash;10 minutes</span>
+          <div class="meter"><span style="width:28%"></span></div>
           <p>Many sessions include a low-stakes opening activity &mdash; something that invites engagement without demanding
             it. This might be:</p>
           <ul>
@@ -722,12 +649,13 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION B cont. ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-b">Section B &middot; continued</span>
       <h2>Art Therapy Session Flow</h2>
@@ -737,6 +665,7 @@
         <div class="flow-body">
           <h3>Art-Making or Play</h3>
           <span class="time">Approximately 20&ndash;30 minutes</span>
+          <div class="meter"><span style="width:92%"></span></div>
           <p>This is the core of the session. It may be:</p>
           <div class="mode"><b>Child-directed.</b> The child chooses materials and direction entirely. Katy observes, narrates
             what she notices, reflects feeling states, and participates as invited. This is the primary mode in early phases and
@@ -762,6 +691,7 @@
         <div class="flow-body">
           <h3>Reflection and Closing</h3>
           <span class="time">Approximately 5&ndash;10 minutes</span>
+          <div class="meter"><span style="width:28%"></span></div>
           <p>Most sessions include some form of closing reflection &mdash; not an interrogation of the artwork, but a gentle
             acknowledgment of what was made and what the session held. This might look like:</p>
           <ul>
@@ -780,6 +710,7 @@
         <div class="flow-body">
           <h3>Parent Check-In</h3>
           <span class="time">Select sessions &middot; approximately 5 minutes</span>
+          <div class="meter"><span style="width:17%"></span></div>
           <p>At the close of some sessions, Katy will briefly touch base with the parent &mdash; either with the child present
             or, occasionally, in a separate moment. This is not a full debrief. It is a brief exchange of observations, questions,
             or anything relevant to how the week is going. It keeps the home context and the therapy context in dialogue without
@@ -792,16 +723,17 @@
         taken home, or returned to across multiple sessions. There is no obligation to display or share what is made. What belongs
         to the child stays with the child.</div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION C INTRO ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-c">Section C</span>
       <h2>The First Three Intake Sessions</h2>
-      <div class="intro-box c">
+      <div class="intro-box">
         <strong>Overview.</strong> The intake process at Beyond the Sun Therapy typically spans the first three sessions. Its
         purposes are: gathering the history and context Katy needs to be genuinely useful; establishing the structure, roles, and
         agreements of the therapeutic relationship; and beginning &mdash; not completing &mdash; the process of building rapport
@@ -811,7 +743,7 @@
 
       <div class="session-card s1">
         <div class="head">
-          <h3 style="color:var(--bone)">Session 1 &middot; Parent-Only Meeting</h3>
+          <h3>Session 1 &middot; Parent-Only Meeting</h3>
           <p class="who">Without child present</p>
         </div>
         <div class="content">
@@ -840,19 +772,20 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION C cont. ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-c">Section C &middot; continued</span>
       <h2>The First Three Intake Sessions</h2>
 
       <div class="session-card s2">
         <div class="head">
-          <h3 style="color:var(--bone)">Session 2 &middot; Child's First Session</h3>
+          <h3>Session 2 &middot; Child's First Session</h3>
           <p class="who">With parent present for part of it</p>
         </div>
         <div class="content">
@@ -892,19 +825,20 @@
         </div>
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 
   <!-- ======================= SECTION C cont. 2 ======================= -->
   <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
     <div class="inner">
       <span class="section-tab tab-c">Section C &middot; continued</span>
       <h2>The First Three Intake Sessions</h2>
 
       <div class="session-card s3">
         <div class="head">
-          <h3 style="color:var(--bone)">Session 3 &middot; Child's Second Session</h3>
+          <h3>Session 3 &middot; Child's Second Session</h3>
           <p class="who">Child and Katy alone &middot; brief parent check-in at close</p>
         </div>
         <div class="content">
@@ -935,7 +869,7 @@
         property of Beyond the Sun Therapy and may not be reproduced or distributed without permission.
       </div>
 
-      <div class="sig">Katy &middot; Beyond The Sun Therapy</div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
     </div>
   </section>
 

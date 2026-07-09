@@ -24,12 +24,19 @@
 
   *{box-sizing:border-box}
 
+  html{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
   body{
     margin:0;
     background:#242424;
     color:var(--ink);
     font-family:var(--sans);
     padding:28px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
 
   .stack{
@@ -604,16 +611,31 @@
   .parent-card:nth-child(3){background:var(--plum);color:var(--bone)}
   .parent-card:nth-child(4){background:var(--orange);color:var(--bone)}
 
+  @page{
+    size:8.5in 11in;
+    margin:0;
+  }
+
   @media print{
-    body{background:white;padding:0}
-    .stack{gap:0}
+    body{background:white;padding:0;margin:0}
+    .stack{gap:0;align-items:stretch}
     .page{
       width:8.5in;
       height:11in;
       min-height:11in;
+      max-height:11in;
       box-shadow:none;
       border:0;
       page-break-after:always;
+      break-after:page;
+      page-break-inside:avoid;
+      break-inside:avoid;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+    .page:last-child{
+      page-break-after:auto;
+      break-after:auto;
     }
   }
 

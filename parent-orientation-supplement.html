@@ -159,6 +159,17 @@
   }
   .spectrum-labels span:nth-child(2){color:var(--olive)}
 
+  /* brain & nervous-system figure */
+  .figure{border:1px solid var(--line);border-radius:3px;background:var(--bone);padding:20px 22px;margin:20px 0}
+  .ns-diagram{width:100%;height:auto;max-width:560px;display:block;margin:2px auto 4px}
+  .fig-cap{font-size:14px;line-height:1.55;margin:12px 0 0;color:var(--ink)}
+  .fig-cap.small{font-size:13px;color:var(--sage);margin-top:12px}
+  .ns-states{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .ns-state{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:100px;border:1px solid var(--line-olive)}
+  .ns-state.safe{background:var(--olive);color:var(--paper)}
+  .ns-state.fight{background:#b7bb96;color:var(--olive-deep)}
+  .ns-state.freeze{background:var(--wash);color:var(--olive)}
+
   /* ---- Reaction block ---- */
   .reaction{border:1px solid var(--line);border-radius:3px;background:var(--bone);margin:22px 0;overflow:hidden}
   .reaction > h3{
@@ -237,10 +248,10 @@
   .footer-note{margin-top:24px;border-top:1px solid var(--line-olive);padding-top:14px;font-size:12px;font-style:italic;line-height:1.55;color:var(--sage)}
 
   /* colored fills print faithfully */
-  .hero,.session-card .head,.ric,.flow-num,.spectrum-bar,.meter span,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .hero,.session-card .head,.ric,.flow-num,.spectrum-bar,.meter span,.chip,.ns-state,.ns-diagram{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
   /* keep a block intact rather than split across sheets */
-  .reaction,.session-card,.flow-step,.language-note,.looklike,.lived,.callout{break-inside:avoid;page-break-inside:avoid}
+  .reaction,.session-card,.flow-step,.language-note,.looklike,.lived,.callout,.ns-diagram,.ns-states{break-inside:avoid;page-break-inside:avoid}
   h2,h3,h4,.section-tab{break-after:avoid;page-break-after:avoid}
 
   @media print{
@@ -621,6 +632,47 @@
         period is stored in the body and nervous system as <em>implicit</em> (non-verbal) memory. Talk alone often cannot reach
         it, because it was never encoded in language. Art therapy works from the <strong>bottom up</strong> &mdash; through the
         senses and body first &mdash; which is why it can meet the adoptee experience where it actually lives.
+      </div>
+
+      <div class="figure">
+        <svg class="ns-diagram" viewBox="0 0 620 400" role="img" aria-label="The brain's three bottom-up layers — brainstem, limbic, and cortex — with the spinal cord and nerves extending into the body">
+          <line x1="30" y1="248" x2="30" y2="98" stroke="#666741" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M23 112 L30 94 L37 112" fill="none" stroke="#666741" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="14" y="178" transform="rotate(-90 14 178)" text-anchor="middle" font-family="Jost, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="2" fill="#666741">REGULATE &#183; FEEL &#183; THINK</text>
+
+          <path d="M55 250 A145 145 0 0 1 345 250 Z" fill="#edefe4" stroke="#666741" stroke-width="2.5"/>
+          <path d="M105 250 A95 95 0 0 1 295 250 Z" fill="#b7bb96" stroke="#666741" stroke-width="2"/>
+          <path d="M152 250 A48 48 0 0 1 248 250 Z" fill="#4b4c33"/>
+
+          <line x1="200" y1="250" x2="200" y2="362" stroke="#4b4c33" stroke-width="7" stroke-linecap="round"/>
+          <path d="M200 288 C182 294 172 306 162 322 M200 288 C218 294 228 306 238 322 M200 320 C184 326 174 336 166 352 M200 320 C216 326 226 336 234 352" fill="none" stroke="#666741" stroke-width="2" stroke-linecap="round"/>
+          <text x="252" y="352" font-family="Jost, system-ui, sans-serif" font-size="11" font-style="italic" fill="#8a8b70">into the body</text>
+
+          <line x1="250" y1="120" x2="392" y2="120" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="109" width="16" height="16" fill="#edefe4" stroke="#666741" stroke-width="1.5"/>
+          <text x="418" y="118" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Cortex</text>
+          <text x="418" y="137" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Think &#183; reflect &#183; put into words</text>
+
+          <line x1="282" y1="176" x2="392" y2="180" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="169" width="16" height="16" fill="#b7bb96" stroke="#666741" stroke-width="1.5"/>
+          <text x="418" y="178" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Limbic</text>
+          <text x="418" y="197" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Feel &#183; alarm &#183; implicit memory</text>
+
+          <line x1="240" y1="230" x2="392" y2="238" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="229" width="16" height="16" fill="#4b4c33"/>
+          <text x="418" y="238" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Brainstem &amp; body</text>
+          <text x="418" y="257" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Breathe &#183; regulate &#183; survive</text>
+        </svg>
+        <p class="fig-cap"><strong>Bottom-up.</strong> The brainstem and body settle first; only then do feeling and thinking come
+          fully online. For adoptees this is why <em>regulation comes before insight</em> &mdash; and why sensory, rhythmic art
+          reaches the lower brain that words alone cannot.</p>
+        <p class="fig-cap small">The same system moves the body between nervous-system states &mdash; the states behind the
+          reactions in Section A:</p>
+        <div class="ns-states">
+          <span class="ns-state safe">Safe &amp; connected</span>
+          <span class="ns-state fight">Fight / flight</span>
+          <span class="ns-state freeze">Shutdown / freeze</span>
+        </div>
       </div>
 
       <div class="reaction">

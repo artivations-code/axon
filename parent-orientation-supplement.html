@@ -251,15 +251,20 @@
   .hero,.session-card .head,.ric,.flow-num,.spectrum-bar,.meter span,.chip,.ns-state,.ns-diagram{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
   /* keep a block intact rather than split across sheets */
-  .reaction,.session-card,.flow-step,.language-note,.looklike,.lived,.callout,.ns-diagram,.ns-states{break-inside:avoid;page-break-inside:avoid}
-  h2,h3,h4,.section-tab{break-after:avoid;page-break-after:avoid}
+  .reaction,.language-note,.looklike,.lived,.callout,.mode,.intro-box,.spectrum,.figure,.ns-diagram,.ns-states,.looklike ul,.flow-body ul{break-inside:avoid;page-break-inside:avoid}
+  h1,h2,h3,h4,.section-tab{break-after:avoid;page-break-after:avoid}
+
+  /* true Letter sheets for printing */
+  @page{ size:8.5in 11in; margin:0.5in; }
 
   @media print{
-    body{background:#fff;padding:0}
+    body{background:#fff;padding:0;margin:0}
     .stack{gap:0}
-    .page{width:8.5in;min-height:0;box-shadow:none;border:0;border-radius:0;padding:.5in .7in}
-    .cover{padding:0;min-height:10in;page-break-after:always}
-    .corner{opacity:.1}
+    .page{width:auto;min-height:0;box-shadow:none;border:0;border-radius:0;padding:0;margin:0;break-before:page}
+    .page:first-child{break-before:auto}
+    .cover{padding:0}
+    .hero{border-radius:0}
+    .corner{opacity:.08}
   }
 
   @media(max-width:760px){

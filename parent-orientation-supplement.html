@@ -16,8 +16,11 @@
     --line:#e2e0da;
     --line-olive:#d4d6c5;
     --backdrop:#e7e5de;
-    --serif:"Cormorant Garamond","Didot","Bodoni MT","Hoefler Text",Georgia,"Times New Roman",serif;
-    --sans:"Jost",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    /* Brand fonts: Valdo (serif, headings) + Lusio (sans, body). Commercial fonts —
+       render live where installed; graceful fallbacks otherwise. Embed the .otf/.woff2
+       as @font-face data URIs once the files are available for universal fidelity. */
+    --serif:"Valdo","Cormorant Garamond","Didot","Hoefler Text",Georgia,serif;
+    --sans:"Lusio","DM Sans","Jost",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   }
 
   *{box-sizing:border-box}

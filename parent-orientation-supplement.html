@@ -38,7 +38,7 @@
 
   .page{
     width:min(8.5in, 100%);
-    min-height:11in;
+    min-height:auto;
     background:var(--paper);
     border:1px solid var(--line);
     border-radius:2px;
@@ -122,12 +122,13 @@
   }
   .wordmark-sub.light{color:rgba(247,246,245,.82)}
 
-  .cover-band{display:flex;flex-wrap:wrap;gap:14px;margin:30px 0 0}
+  .cover-band{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0 0}
   .chip{
-    flex:1 1 180px;background:var(--bone);border:1px solid var(--line);
-    border-top:2px solid var(--olive);border-radius:2px;padding:16px 18px;
-    font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.2;color:var(--ink);
+    background:var(--bone);border:1px solid var(--line);
+    border-top:2px solid var(--olive);border-radius:2px;padding:13px 15px;
+    font-family:var(--serif);font-size:16px;font-weight:500;line-height:1.22;color:var(--ink);
   }
+  .chip b{display:block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 5px}
   .prepared{
     margin-top:32px;background:var(--wash);border:1px solid var(--line-olive);border-radius:2px;
     padding:16px 20px;font-family:var(--serif);font-size:18px;color:var(--ink);
@@ -275,7 +276,7 @@
     h2{font-size:28px}
     .wordmark{font-size:32px}
     .wordmark span{font-size:27px}
-    .cover-band{flex-direction:column}
+    .cover-band{grid-template-columns:1fr}
     .flow-step{gap:14px}
   }
 </style>
@@ -314,9 +315,9 @@
       <h1>What to Expect in Your Child's Therapy</h1>
       <p class="sub">A companion guide to what may happen in session, how a session is shaped, and what the first three intake meetings hold.</p>
       <div class="cover-band">
-        <div class="chip">Section A<br>Common Child Reactions in Session</div>
-        <div class="chip">Section B<br>Art Therapy Session Flow</div>
-        <div class="chip">Section C<br>The First Three Intake Sessions</div>
+        <div class="chip"><b>Section A</b>Common Child Reactions in Session</div>
+        <div class="chip"><b>Section B</b>Art Therapy Session Flow</div>
+        <div class="chip"><b>Section C</b>The First Three Intake Sessions</div>
       </div>
       <div class="prepared">
         <strong>Prepared by Katy</strong> &middot; Art Psychotherapist &amp; Adoption Constellation Specialist

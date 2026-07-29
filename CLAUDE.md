@@ -46,8 +46,6 @@ Olive/sage band, full width, centered text, cream brush-circle mark at right.
 - Prepare for grief, anniversaries, holidays, and milestones
 - Build routines, supports, and boundaries that make steadiness more possible
 
-LEARN MORE →
-
 Card image: bed or daybed with cream linen throw and olive velvet pillow, sheer
 curtain light, olive branches in a bronze vase.
 
@@ -56,8 +54,6 @@ curtain light, olive branches in a bronze vase.
 - Understand what motherhood means after custody changes
 - Grieve the loss of daily parenting and ordinary shared life
 - Identify what remains within your role
-
-LEARN MORE →
 
 Card image: ceramic bowl of tea on a dark wood table with a pencil, papers, and
 an olive sprig.
@@ -68,12 +64,10 @@ an olive sprig.
 - Respond to anger, silence, mixed feelings, or changing boundaries
 - Build consistency without demanding closeness
 
-LEARN MORE →
-
 Card image: olive branch over a pebbled shoreline and calm water.
 
 Each card sits under a small olive ring/circle icon, image above the heading,
-bulleted list below, "LEARN MORE →" as the card link.
+bulleted list below. No card link.
 
 ---
 
@@ -85,18 +79,15 @@ bulleted list below, "LEARN MORE →" as the card link.
 
 > Support focuses on accountability, steadiness, and making repair attempts that do not require immediate forgiveness or closeness.
 
-LEARN MORE →
-
 #### WORKING WITH THE CURRENT CAREGIVING FAMILY
 
 > When appropriate and agreed upon, support may include collaborative work with relatives, guardians, foster caregivers, or adoptive parents.
 
 > We can address communication breakdowns, contact expectations, boundaries, and how adults speak about one another.
 
-LEARN MORE →
-
 Cream/paper-textured section, two columns divided by a thin vertical olive rule.
-Torn-paper collage at far left, faint olive leaf watermark at far right.
+Torn-paper collage at far left, faint olive leaf watermark at far right. No panel
+links.
 
 ---
 
@@ -123,4 +114,13 @@ Olive band, speech-bubble icon at left, cream outlined button at right.
 - Section order: Hero → Olive Statement Band → Three Cards → Two Panels → Closing CTA Band.
 - Palette: olive/sage, warm cream, soft off-white, muted bronze.
 - Type: serif headings, sans-serif body, script accent for the statement line only.
-- Every card and panel ends in "LEARN MORE →"; the page ends in one CTA button.
+- Cards and panels carry no links. The page has exactly one action: the
+  "SCHEDULE A CONSULTATION" button in the closing band.
+
+---
+
+### Revisions
+
+- **2026-07-29** — "LEARN MORE →" removed from all three cards and both panels,
+  authored by Katy. The original design carried five such links with no
+  destination pages behind them. The page now ends in a single action.

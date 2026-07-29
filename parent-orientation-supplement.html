@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parent Orientation Supplement · Beyond the Sun Therapy</title>
+<style>
+  :root{
+    --ink:#3e3f46;
+    --olive:#666741;
+    --olive-deep:#4b4c33;
+    --sage:#8a8b70;
+    --paper:#f7f6f5;
+    --bone:#ffffff;
+    --wash:#edefe4;
+    --line:#e2e0da;
+    --line-olive:#d4d6c5;
+    --backdrop:#e7e5de;
+    /* Brand fonts: Valdo (serif, headings) + Lusio (sans, body). Commercial fonts —
+       render live where installed; graceful fallbacks otherwise. Embed the .otf/.woff2
+       as @font-face data URIs once the files are available for universal fidelity. */
+    --serif:"Valdo","Cormorant Garamond","Didot","Hoefler Text",Georgia,serif;
+    --sans:"Lusio","DM Sans","Jost",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--backdrop);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.62;
+    padding:32px;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .stack{display:flex;flex-direction:column;align-items:center;gap:36px}
+
+  .page{
+    width:min(8.5in, 100%);
+    min-height:auto;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    box-shadow:0 20px 46px -26px rgba(62,63,70,.4);
+    padding:.72in .8in;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    overflow:visible;
+  }
+
+  .inner{position:relative;z-index:1;display:flex;flex-direction:column;flex:1}
+
+  /* botanical corner watermark on content pages */
+  .corner{
+    position:absolute;
+    top:.3in;right:.42in;
+    width:1.15in;height:auto;
+    color:var(--olive);
+    opacity:.14;
+    z-index:0;
+    pointer-events:none;
+  }
+  .botanic{display:block}
+
+  .kicker{
+    font-family:var(--sans);font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;font-size:11px;color:var(--olive);margin:0 0 12px;
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);font-weight:500;line-height:1.06;margin:0;
+    color:var(--ink);text-wrap:balance;
+  }
+  h1{font-size:50px;letter-spacing:.005em;max-width:9in}
+  h2{font-size:34px}
+  h3{font-size:24px}
+  h4{font-size:18px;font-weight:600}
+
+  .sub{font-size:17px;line-height:1.55;max-width:5.4in;margin:18px 0 0;color:#55564b;font-weight:400}
+  p{font-size:15px;line-height:1.62;font-weight:400}
+  .lead{font-size:16px;line-height:1.6}
+  em{font-style:italic}
+  strong{font-weight:600;color:var(--ink)}
+
+  .sig{
+    margin-top:auto;border-top:1px solid var(--line-olive);padding-top:12px;
+    text-align:right;font-family:var(--sans);font-size:10px;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--sage);
+  }
+
+  sup.fn{font-size:9.5px;font-weight:700;color:var(--olive);vertical-align:super;padding:0 1px}
+
+  /* ---- Cover ---- */
+  .cover{padding:0}
+  .hero{
+    position:relative;overflow:hidden;
+    background-color:#f2f1ea;
+    background-image:
+      radial-gradient(150px 210px at 14% 22%, rgba(102,103,65,.09), transparent 68%),
+      radial-gradient(190px 240px at 34% 74%, rgba(62,63,70,.05), transparent 70%),
+      radial-gradient(220px 260px at 68% 26%, rgba(102,103,65,.08), transparent 72%),
+      radial-gradient(160px 220px at 90% 66%, rgba(62,63,70,.05), transparent 70%);
+    padding:.9in .8in 1in;min-height:4.3in;
+    display:flex;flex-direction:column;justify-content:center;
+    border-radius:1px 1px 0 0;
+  }
+  .hero-shadow{position:absolute;left:5%;top:-10%;width:3.4in;height:auto;color:#6b6c47;opacity:.10;filter:blur(7px);transform:rotate(-13deg);pointer-events:none}
+  .hero-sprig{position:absolute;right:.3in;bottom:-.3in;width:2in;height:auto;color:#6b6c47;opacity:.9;transform:rotate(6deg)}
+  .cover-body{display:flex;flex-direction:column;flex:1;padding:.5in .8in .7in;position:relative;z-index:1}
+
+  .wordmark-logo{display:block;width:min(4.6in,74%);height:auto;margin:0 0 6px;position:relative;z-index:1}
+  .wordmark{
+    font-family:var(--serif);font-size:44px;font-weight:500;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--olive);margin:0;line-height:1;position:relative;z-index:1;
+  }
+  .wordmark span{text-transform:lowercase;font-style:italic;letter-spacing:.01em;font-size:37px;padding:0 .06em}
+  .wordmark.light{color:#f7f6f5}
+  .wordmark-sub{
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--sage);margin:14px 0 0;position:relative;z-index:1;
+  }
+  .wordmark-sub.light{color:rgba(247,246,245,.82)}
+
+  .cover-band{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0 0}
+  .chip{
+    background:var(--bone);border:1px solid var(--line);
+    border-top:2px solid var(--olive);border-radius:2px;padding:13px 15px;
+    font-family:var(--serif);font-size:16px;font-weight:500;line-height:1.22;color:var(--ink);
+  }
+  .chip b{display:block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 5px}
+  .prepared{
+    margin-top:32px;background:var(--wash);border:1px solid var(--line-olive);border-radius:2px;
+    padding:16px 20px;font-family:var(--serif);font-size:18px;color:var(--ink);
+  }
+  .prepared strong{font-weight:600;color:var(--olive)}
+
+  /* ---- Section eyebrow ---- */
+  .section-tab{
+    display:inline-block;font-family:var(--sans);font-weight:600;text-transform:uppercase;
+    letter-spacing:.24em;font-size:11px;color:var(--olive);padding-bottom:9px;margin-bottom:16px;
+    border-bottom:2px solid var(--olive);
+  }
+
+  .intro-box{
+    border-left:2px solid var(--olive);background:var(--wash);padding:16px 20px;margin:18px 0 6px;
+    border-radius:0 2px 2px 0;font-size:15px;line-height:1.6;
+  }
+
+  /* ---- range-of-responses spectrum ---- */
+  .spectrum{margin:18px 0 4px}
+  .spectrum-bar{
+    height:12px;border-radius:100px;border:1px solid var(--line-olive);
+    background:linear-gradient(90deg,#eef0e7,#aeb389 48%,var(--olive));
+  }
+  .spectrum-labels{
+    display:flex;justify-content:space-between;margin-top:7px;
+    font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--sage);
+  }
+  .spectrum-labels span:nth-child(2){color:var(--olive)}
+
+  /* brain & nervous-system figure */
+  .figure{border:1px solid var(--line);border-radius:3px;background:var(--bone);padding:20px 22px;margin:20px 0}
+  .ns-diagram{width:100%;height:auto;max-width:560px;display:block;margin:2px auto 4px}
+  .fig-cap{font-size:14px;line-height:1.55;margin:12px 0 0;color:var(--ink)}
+  .fig-cap.small{font-size:13px;color:var(--sage);margin-top:12px}
+  .ns-states{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .ns-state{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:100px;border:1px solid var(--line-olive)}
+  .ns-state.safe{background:var(--olive);color:var(--paper)}
+  .ns-state.fight{background:#b7bb96;color:var(--olive-deep)}
+  .ns-state.freeze{background:var(--wash);color:var(--olive)}
+
+  /* ---- Reaction block ---- */
+  .reaction{border:1px solid var(--line);border-radius:3px;background:var(--bone);margin:22px 0;overflow:hidden}
+  .reaction > h3{
+    display:flex;align-items:center;gap:13px;
+    background:var(--wash);color:var(--ink);padding:12px 18px;
+    border-bottom:1px solid var(--line-olive);font-size:22px;
+  }
+  .ric{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--olive);display:flex;align-items:center;justify-content:center}
+  .ric svg{width:20px;height:20px;color:var(--paper);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .reaction .body{padding:16px 20px}
+  .reaction .body p{margin:0 0 10px}
+
+  .looklike{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:14px 16px}
+  .ll-title{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:var(--olive);margin:0 0 8px}
+  .looklike ul{margin:0;padding-left:20px}
+  .looklike li{font-size:14px;line-height:1.5;margin:4px 0}
+
+  .language-note{
+    border:1px solid var(--line-olive);border-left:3px solid var(--olive);background:var(--wash);
+    padding:18px 20px;margin:20px 0 6px;border-radius:0 2px 2px 0;font-size:15px;line-height:1.6;
+  }
+  .language-note h4{font-size:21px;color:var(--olive);margin:0 0 8px}
+  .language-note p{margin:0 0 8px}
+  .language-note p:last-child{margin:0}
+
+  /* adoptee lived-experience voice — pull quote */
+  .lived{
+    position:relative;overflow:hidden;margin-top:14px;border-left:3px solid var(--olive);
+    background:var(--wash);padding:14px 17px;border-radius:0 2px 2px 0;
+  }
+  .lived::before{
+    content:"\201C";position:absolute;top:-14px;right:14px;font-family:var(--serif);
+    font-size:82px;line-height:1;color:var(--olive);opacity:.13;pointer-events:none;
+  }
+  .lv-title{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:var(--olive);margin:0 0 7px;position:relative}
+  .lived p{margin:0;font-family:var(--serif);font-size:18px;line-height:1.5;font-style:italic;color:var(--ink);position:relative;max-width:4.9in}
+
+  /* ---- Flow steps as a timeline ---- */
+  .flow-step{display:flex;gap:18px;margin:20px 0;align-items:flex-start;position:relative}
+  .flow-step:not(:last-of-type)::before{
+    content:"";position:absolute;left:22px;top:56px;bottom:-20px;width:2px;background:var(--line-olive);z-index:0;
+  }
+  .flow-num{
+    flex:0 0 auto;width:46px;height:46px;border-radius:50%;background:var(--olive);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:500;
+    position:relative;z-index:1;
+  }
+  .flow-body{flex:1}
+  .flow-body h3{font-size:23px;margin:1px 0 6px}
+  .time{
+    display:inline-block;font-family:var(--sans);font-size:10px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.13em;color:var(--olive);background:var(--wash);border:1px solid var(--line-olive);
+    border-radius:100px;padding:4px 12px;margin-bottom:6px;
+  }
+  .meter{height:6px;border-radius:100px;background:var(--wash);border:1px solid var(--line-olive);max-width:190px;overflow:hidden;margin:4px 0 12px}
+  .meter span{display:block;height:100%;background:var(--olive)}
+  .flow-body ul{margin:8px 0 0;padding-left:20px}
+  .flow-body li{font-size:14px;line-height:1.5;margin:4px 0}
+
+  .mode{border-left:2px solid var(--olive);background:var(--paper);padding:10px 16px;margin:10px 0;border-radius:0 2px 2px 0}
+  .mode b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink)}
+
+  /* ---- Intake session card ---- */
+  .session-card{border:1px solid var(--line);border-radius:3px;margin:20px 0;background:var(--bone);overflow:hidden}
+  .session-card .head{background:var(--olive-deep);padding:16px 22px}
+  .session-card .head h3{color:var(--paper);font-size:24px}
+  .session-card .head .who{font-family:var(--sans);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;margin:7px 0 0;color:var(--paper);opacity:.82}
+  .session-card .content{padding:18px 22px}
+  .session-card .content h4{margin:16px 0 6px;font-size:18px;color:var(--olive)}
+  .session-card .content h4:first-child{margin-top:0}
+  .session-card .content ul{margin:6px 0;padding-left:20px}
+  .session-card .content li{font-size:14px;line-height:1.5;margin:4px 0}
+
+  .callout{border:1px solid var(--line-olive);background:var(--wash);border-radius:2px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.55}
+
+  .footer-note{margin-top:24px;border-top:1px solid var(--line-olive);padding-top:14px;font-size:12px;font-style:italic;line-height:1.55;color:var(--sage)}
+
+  /* colored fills print faithfully */
+  .hero,.session-card .head,.ric,.flow-num,.spectrum-bar,.meter span,.chip,.ns-state,.ns-diagram{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  /* keep a block intact rather than split across sheets */
+  .reaction,.language-note,.looklike,.lived,.callout,.mode,.intro-box,.spectrum,.figure,.ns-diagram,.ns-states,.looklike ul,.flow-body ul{break-inside:avoid;page-break-inside:avoid}
+  h1,h2,h3,h4,.section-tab{break-after:avoid;page-break-after:avoid}
+
+  /* true Letter sheets for printing */
+  @page{ size:8.5in 11in; margin:0.5in; }
+
+  @media print{
+    body{background:#fff;padding:0;margin:0}
+    .stack{gap:0}
+    .page{width:auto;min-height:0;box-shadow:none;border:0;border-radius:0;padding:0;margin:0;break-before:page}
+    .page:first-child{break-before:auto}
+    .cover{padding:0}
+    .hero{border-radius:0}
+    .corner{opacity:.08}
+  }
+
+  @media(max-width:760px){
+    body{padding:14px}
+    .page{min-height:auto;padding:30px 24px}
+    .cover{padding:0}
+    h1{font-size:38px}
+    h2{font-size:28px}
+    .wordmark{font-size:32px}
+    .wordmark span{font-size:27px}
+    .cover-band{grid-template-columns:1fr}
+    .flow-step{gap:14px}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
+  <symbol id="sprig2" viewBox="0 0 130 170">
+    <path d="M65 168 C64 120 60 84 66 40 C68 24 74 12 78 4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <path d="M64 118 C46 112 34 96 32 78 C52 82 66 96 64 118 Z" fill="currentColor"/>
+    <path d="M66 92 C84 84 96 66 96 48 C78 54 66 70 66 92 Z" fill="currentColor"/>
+    <path d="M64 74 C48 66 40 50 40 34 C56 40 66 56 64 74 Z" fill="currentColor"/>
+    <path d="M70 50 C86 42 94 28 94 14 C80 20 70 34 70 50 Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6.4 10-6.4S22 12 22 12s-3.6 6.4-10 6.4S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+  <symbol id="ic-leaves" viewBox="0 0 24 24"><path d="M12 21c-.4-5.2-3.6-8.4-8.4-8.8C4 17.4 7.2 20.6 12 21z"/><path d="M12 21c.4-5.2 3.6-8.4 8.4-8.8C20 17.4 16.8 20.6 12 21z"/><path d="M12 21V9"/></symbol>
+  <symbol id="ic-moon" viewBox="0 0 24 24"><path d="M20.5 13.8A8 8 0 1 1 10.2 3.5a6.3 6.3 0 0 0 10.3 10.3z"/></symbol>
+  <symbol id="ic-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></symbol>
+  <symbol id="ic-ripple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.3"/><path d="M7 12a5 5 0 0 1 10 0"/><path d="M3.5 12a8.5 8.5 0 0 1 17 0"/></symbol>
+  <symbol id="ic-seedling" viewBox="0 0 24 24"><path d="M12 21v-7.5"/><path d="M12 13.5C11.4 9 8.6 6.7 4.5 6.7 5.1 11.2 7.9 13.5 12 13.5z"/><path d="M12 13.5c.6-4.5 3.4-6.8 7.5-6.8-.6 4.5-3.4 6.8-7.5 6.8z"/></symbol>
+  <symbol id="ic-pulse" viewBox="0 0 24 24"><path d="M2 12h4l2.4-7 4.2 14 2.4-7H21"/></symbol>
+  <symbol id="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.2 5.2l1.8 1.8M17 17l1.8 1.8M18.8 5.2l-1.8 1.8M7 17l-1.8 1.8"/></symbol>
+</defs></svg>
+
+<div class="stack">
+
+  <!-- ======================= COVER ======================= -->
+  <section class="page cover">
+    <div class="hero">
+      <svg class="hero-shadow botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+      <svg class="hero-sprig botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+      <img class="wordmark-logo" alt="Beyond the Sun" src="data:image/png;base64,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">
+      <p class="wordmark-sub">Therapeutic Practice &middot; Carmel, IN</p>
+    </div>
+    <div class="cover-body">
+      <p class="kicker">Parent Orientation Supplement</p>
+      <h1>What to Expect in Your Child's Therapy</h1>
+      <p class="sub">A companion guide to what may happen in session, how a session is shaped, and what the first three intake meetings hold.</p>
+      <div class="cover-band">
+        <div class="chip"><b>Section A</b>Common Child Reactions in Session</div>
+        <div class="chip"><b>Section B</b>Art Therapy Session Flow</div>
+        <div class="chip"><b>Section C</b>The First Three Intake Sessions</div>
+      </div>
+      <div class="prepared">
+        <strong>Prepared by Katy</strong> &middot; Art Psychotherapist &amp; Adoption Constellation Specialist
+      </div>
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A INTRO ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-a">Section A</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+      <div class="intro-box">
+        The following describes behaviors and responses that may appear during therapy with adoptee children.
+        These are offered as a <em>range of what is possible</em> &mdash; not a checklist of what will occur, and not a
+        measure of severity or dysfunction. Every child is different. Some children show several of these; others show
+        very few. Context, history, age, temperament, and timing all shape what emerges.
+      </div>
+      <div class="spectrum">
+        <div class="spectrum-bar"></div>
+        <div class="spectrum-labels"><span>Soft &middot; quiet</span><span>The whole range is welcome</span><span>Big &middot; intense</span></div>
+      </div>
+      <p class="lead">None of the behaviors below are problems to be immediately solved. They are communication. The therapy
+        space is designed to hold all of it.</p>
+
+      <div class="language-note">
+        <h4>A note on language and perspective</h4>
+        <p>Some of the behaviors below have historically been described in clinical language &mdash; words like
+          &ldquo;charm,&rdquo; &ldquo;manipulation,&rdquo; or &ldquo;control&rdquo; &mdash; that many adult adoptees
+          experience as pathologizing: framing an intelligent survival response as a flaw in the child. This document
+          deliberately steps away from that framing.</p>
+        <p>What follows is written to hold two things at once: what a clinician observes, and how it is understood from the
+          inside by people who have lived it. Each reaction below is paired with an <strong>In their words</strong> note that
+          voices the adoptee perspective. The behaviors are not deficits. They are adaptations that once kept a child safe,
+          and they deserve respect before they are ever gently loosened.</p>
+      </div>
+
+      <div class="callout" style="margin-top:18px">
+        <strong>You may meet a slightly different child than the one you see at home.</strong> Adoptees often present
+        differently in session than at home &mdash; sometimes more settled, open, and talkative; sometimes more activated.
+        This is not inconsistency, and it does not mean anything is being hidden from you. Because Katy is herself an adoptee,
+        this is an <em>adoptee-to-adoptee</em> space: your child does not have to explain, translate, or manage their adoptee
+        experience here. That shared understanding relieves an enormous internal load &mdash; and a nervous system carrying
+        less load shows up differently. If Katy describes a child you don't quite recognize, both are true: the child at home
+        and the child here are the same child, met in two very different contexts.
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-eye"/></svg></span>Hypervigilance and Environmental Scanning</h3>
+        <div class="body">
+          <p>Some children enter the room with a heightened alertness &mdash; tracking the space carefully, noting where
+            Katy stands, noticing small changes in the room from session to session, watching the door. This can look like
+            distraction or restlessness, but it is more accurately understood as a nervous system doing what it learned to
+            do: assess for safety before settling. It often decreases gradually, across weeks and months, as the space
+            becomes familiar and predictable.<sup class="fn">1,2</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Reading the room isn't me being anxious or distracted &mdash; it's me being good at something I had to
+              learn. Knowing where the door is, and who you are before I trust you, is how I kept myself safe. Don't treat it
+              like a symptom. Let the room earn my ease.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">In session this may look like</p>
+            <ul>
+              <li>Eyes moving around the room rather than staying on materials</li>
+              <li>Asking many questions before starting anything</li>
+              <li>Tracking Katy's movements and expressions closely</li>
+              <li>Needing to know what will happen next before engaging</li>
+              <li>Sitting near the door or checking that it is accessible</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-leaves"/></svg></span>Fast Warmth and Early Connection</h3>
+        <div class="body">
+          <p>Some children are immediately warm, funny, engaging, and apparently very at ease with Katy &mdash; even from
+            the first session. This ease is real. For some children it is also a well-practiced way of meeting new adults:
+            offering warmth early, before it is yet known whether a relationship is safe.<sup class="fn">3,4</sup></p>
+          <p>Reaching toward a new adult quickly &mdash; treating them as already trusted &mdash; can be one of the most
+            adaptive things a child has learned to do. It is a bid for connection, not a performance to see through. Over
+            time, Katy simply notices how this warmth settles and deepens as genuine safety is established &mdash; never
+            treating a child's openness as something suspect.<sup class="fn">5</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;When I'm warm with you right away, please don't decide it's fake or that I'm working an angle. I learned
+              early that being easy to like was safer than being a burden. It's still a real reach for connection. Being met as
+              &lsquo;charming&rsquo; or &lsquo;indiscriminate&rsquo; rather than as a kid who wants to belong is its own kind of
+              hurt.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Immediately offering information, hugs, or high engagement</li>
+              <li>Performing for Katy &mdash; being entertaining or very helpful</li>
+              <li>Seemingly no adjustment period at all</li>
+              <li>Treating Katy identically to a parent or very close adult</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-moon"/></svg></span>Shutdown, Flatness, and Withdrawal</h3>
+        <div class="body">
+          <p>Other children arrive and go quiet. They may sit still, say little, and appear disengaged or unresponsive.
+            This is not necessarily disinterest or resistance. For some children, shutdown is the nervous system's protective
+            response to newness and uncertain safety &mdash; a freeze or fawn state that conserves energy and minimizes
+            risk.<sup class="fn">6</sup></p>
+          <p>Katy responds to flatness with patient, low-demand presence &mdash; no pressure to perform, produce, or
+            participate. The space remains available. Over time, most children in shutdown begin to reach toward the room in
+            small ways.<sup class="fn">7</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Quiet doesn't mean nothing is happening. Sometimes it's the opposite &mdash; there's so much that going
+              still is the only way to manage it. The best thing you can do is not need me to perform being okay. Let me be here
+              at whatever volume I've got today.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Sitting without choosing materials</li>
+              <li>Short or one-word answers</li>
+              <li>Avoiding eye contact</li>
+              <li>Appearing uninterested in the space or what is offered</li>
+              <li>Seeming far away or lightly dissociated</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-compass"/></svg></span>Needing Agency and Predictability</h3>
+        <div class="body">
+          <p>Some children arrive with a strong need to direct everything &mdash; which material is used, where Katy sits,
+            what order things happen in, how much time is spent on each thing. This is not defiance. For a child whose early
+            experience included having very little agency over significant events, the need to manage details of the
+            environment makes complete sense.<sup class="fn">8</sup></p>
+          <p>Katy works with this, not against it. Child-led work is genuinely valued in art psychotherapy &mdash; the
+            child's ownership of their own creative process is therapeutically important. Katy will gently hold structure
+            around what needs structure, and offer genuine latitude within that.<sup class="fn">9</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Getting a say over small things &mdash; where I sit, what we use, what comes first &mdash; is me
+              repairing something. Huge things happened to me that I had zero say in. This isn't about power over you. It's
+              about not being moved around again without warning. Tell me what's coming, and let me hold the pieces I can.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Asking to change the activity, the seat, the materials</li>
+              <li>Setting rules for how the session will go</li>
+              <li>Checking whether Katy will comply before engaging</li>
+              <li>Negotiating the terms of any invitation or prompt</li>
+              <li>Becoming visibly uncomfortable when something is decided without them</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-ripple"/></svg></span>Testing Behavior</h3>
+        <div class="body">
+          <p>Some children will, at some point in the early-to-middle phase of therapy, test whether the relationship holds
+            under pressure. This might mean pushing limits, being deliberately difficult, creating a small mess or disruption,
+            or saying something provocative &mdash; and then watching carefully to see what happens.<sup class="fn">10</sup></p>
+          <p>This is how a child learns through direct experience &mdash; not just words &mdash; that Katy is consistent, not
+            retaliatory, and not going anywhere. The relationship being tested is the relationship being built. Katy expects
+            this and meets it with steady warmth.<sup class="fn">11</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;When I push, I'm not trying to be bad. I'm asking a real question: will you still be here if I'm not easy
+              to love today? For a long time the honest answer to that was no. I have to find out with my whole body that you're
+              different &mdash; words aren't enough. Staying is the answer.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Refusing a prompt and waiting to see the response</li>
+              <li>Making a mess beyond what seems accidental</li>
+              <li>Saying something meant to be shocking or uncomfortable</li>
+              <li>Ignoring Katy and seeing whether that is tolerated</li>
+              <li>Being increasingly challenging over several sessions before softening</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. 2 ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-seedling"/></svg></span>Regression in Session</h3>
+        <div class="body">
+          <p>Children sometimes move toward younger modes of being during sessions &mdash; using a baby voice, wanting to be
+            read to, playing in ways that are more typical of a younger developmental stage. This is not a loss of ground. It
+            often reflects unmet developmental needs surfacing in a space that feels safe enough to hold them.<sup class="fn">12</sup></p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Going to a younger place isn't me losing progress. It's me getting to be small in a way I didn't get to
+              be the first time. Something in me is finally safe enough to ask for what it needed back then. Let it happen
+              without making it weird &mdash; that's the whole point.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Baby talk or very simplified language</li>
+              <li>Wanting to be physically near Katy in a way that is younger than their age</li>
+              <li>Play that is more sensorimotor than their typical developmental level</li>
+              <li>Asking Katy to do things for them that they are clearly capable of doing themselves</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-pulse"/></svg></span>Emotional Activation Mid-Session</h3>
+        <div class="body">
+          <p>Sometimes a child enters a session seemingly fine and then, without an obvious trigger, becomes upset, tearful,
+            angry, or agitated mid-way through. Artwork or play can surface what daily life holds at bay. A color, an image, a
+            theme, or something in the room can connect &mdash; consciously or not &mdash; to something much
+            older.<sup class="fn">13</sup></p>
+          <p>Katy is trained to meet activation with regulated, grounding presence. The session is not derailed by big
+            feelings &mdash; it simply becomes the space where those feelings can exist safely.</p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;Sometimes grief doesn't come with a reason attached. A color or a smell or nothing at all opens a door,
+              and suddenly it's right here. Please don't hunt for what I &lsquo;did&rsquo; to set it off. Just stay steady with
+              me until it passes. It's always older than this room.&rdquo;</p>
+          </div>
+          <div class="looklike">
+            <p class="ll-title">This may look like</p>
+            <ul>
+              <li>Sudden tears, anger, or emotional shutdown mid-activity</li>
+              <li>Destroying or covering what was made</li>
+              <li>Asking to stop or leave</li>
+              <li>Becoming very still or dissociated mid-session</li>
+              <li>Emotional release followed by calmness and then apparent amnesia about it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION A cont. ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-a">Section A &middot; continued</span>
+      <h2>Common Adoptee Reactions in Session</h2>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-sun"/></svg></span>Positive Engagement, Depth, and Creative Richness</h3>
+        <div class="body">
+          <p>Not every session holds difficulty. Many sessions are marked by genuine play, laughter, creative momentum, and
+            real warmth. Children often become deeply absorbed in their work. They may make things that are beautiful, complex,
+            or surprising. They may tell stories, make jokes, share things freely, or arrive at insights through the making
+            process that neither they nor Katy anticipated.<sup class="fn">14,15</sup></p>
+          <p>This is the work too &mdash; and it is worth naming. Therapy does not only happen in hard moments.</p>
+          <div class="lived">
+            <p class="lv-title">In their words</p>
+            <p>&ldquo;I'm not only my hard story. I'm funny, I make cool stuff, I get lost in things I love. When you see that
+              part of me, you're not missing the &lsquo;real&rsquo; work &mdash; the joy is real too. Adoptees get to have whole
+              lives, not just wounds. See all of me.&rdquo;</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION B · NEURO ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-b">Section B</span>
+      <h2>The Neuroscience Underneath the Art</h2>
+      <div class="intro-box">
+        For adoptees, much of what shapes them happened early &mdash; often before words, sometimes before conscious memory:
+        relinquishment, separation from the birth mother, disrupted or changing early care, transitions. Experience from that
+        period is stored in the body and nervous system as <em>implicit</em> (non-verbal) memory. Talk alone often cannot reach
+        it, because it was never encoded in language. Art therapy works from the <strong>bottom up</strong> &mdash; through the
+        senses and body first &mdash; which is why it can meet the adoptee experience where it actually lives.
+      </div>
+
+      <div class="figure">
+        <svg class="ns-diagram" viewBox="0 0 620 400" role="img" aria-label="The brain's three bottom-up layers — brainstem, limbic, and cortex — with the spinal cord and nerves extending into the body">
+          <line x1="30" y1="248" x2="30" y2="98" stroke="#666741" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M23 112 L30 94 L37 112" fill="none" stroke="#666741" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="14" y="178" transform="rotate(-90 14 178)" text-anchor="middle" font-family="Jost, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="2" fill="#666741">REGULATE &#183; FEEL &#183; THINK</text>
+
+          <path d="M55 250 A145 145 0 0 1 345 250 Z" fill="#edefe4" stroke="#666741" stroke-width="2.5"/>
+          <path d="M105 250 A95 95 0 0 1 295 250 Z" fill="#b7bb96" stroke="#666741" stroke-width="2"/>
+          <path d="M152 250 A48 48 0 0 1 248 250 Z" fill="#4b4c33"/>
+
+          <line x1="200" y1="250" x2="200" y2="362" stroke="#4b4c33" stroke-width="7" stroke-linecap="round"/>
+          <path d="M200 288 C182 294 172 306 162 322 M200 288 C218 294 228 306 238 322 M200 320 C184 326 174 336 166 352 M200 320 C216 326 226 336 234 352" fill="none" stroke="#666741" stroke-width="2" stroke-linecap="round"/>
+          <text x="252" y="352" font-family="Jost, system-ui, sans-serif" font-size="11" font-style="italic" fill="#8a8b70">into the body</text>
+
+          <line x1="250" y1="120" x2="392" y2="120" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="109" width="16" height="16" fill="#edefe4" stroke="#666741" stroke-width="1.5"/>
+          <text x="418" y="118" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Cortex</text>
+          <text x="418" y="137" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Think &#183; reflect &#183; put into words</text>
+
+          <line x1="282" y1="176" x2="392" y2="180" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="169" width="16" height="16" fill="#b7bb96" stroke="#666741" stroke-width="1.5"/>
+          <text x="418" y="178" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Limbic</text>
+          <text x="418" y="197" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Feel &#183; alarm &#183; implicit memory</text>
+
+          <line x1="240" y1="230" x2="392" y2="238" stroke="#d4d6c5" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <rect x="392" y="229" width="16" height="16" fill="#4b4c33"/>
+          <text x="418" y="238" font-family="Georgia, serif" font-size="17" fill="#3e3f46">Brainstem &amp; body</text>
+          <text x="418" y="257" font-family="Jost, system-ui, sans-serif" font-size="12" fill="#55564b">Breathe &#183; regulate &#183; survive</text>
+        </svg>
+        <p class="fig-cap"><strong>Bottom-up.</strong> The brainstem and body settle first; only then do feeling and thinking come
+          fully online. For adoptees this is why <em>regulation comes before insight</em> &mdash; and why sensory, rhythmic art
+          reaches the lower brain that words alone cannot.</p>
+        <p class="fig-cap small">The same system moves the body between nervous-system states &mdash; the states behind the
+          reactions in Section A:</p>
+        <div class="ns-states">
+          <span class="ns-state safe">Safe &amp; connected</span>
+          <span class="ns-state fight">Fight / flight</span>
+          <span class="ns-state freeze">Shutdown / freeze</span>
+        </div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-moon"/></svg></span>Pre-verbal &amp; implicit memory</h3>
+        <div class="body"><p>Early separation and relinquishment are encoded before language &mdash; largely in the right
+          hemisphere and the body. Image, color, texture, and gesture can express and access what words cannot reach, without
+          forcing a child to narrate what they have no words for.</p></div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-pulse"/></svg></span>Bottom-up regulation</h3>
+        <div class="body"><p>Rhythmic, sensory materials &mdash; clay, paint, water, repetitive mark-making &mdash; engage the
+          lower, regulatory brain first, settling the nervous system before higher-order reflection is possible. For adoptees,
+          <strong>regulation comes before insight</strong>, not the other way around.</p></div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-ripple"/></svg></span>Integration across the brain</h3>
+        <div class="body"><p>Moving between sensation, image, emotion, and words helps link experience that developmental trauma
+          can keep fragmented &mdash; connecting body and story, feeling and language, so a more coherent sense of self can form
+          over time.</p></div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-leaves"/></svg></span>Co-regulation &amp; the window of tolerance</h3>
+        <div class="body"><p>Katy's steady, regulated presence helps the child's nervous system stay within a tolerable range
+          &mdash; their &ldquo;window of tolerance&rdquo; &mdash; so hard material can be approached without overwhelm or
+          shutdown. Borrowed regulation, repeated, becomes the child's own capacity to self-regulate.</p></div>
+      </div>
+
+      <div class="reaction">
+        <h3><span class="ric"><svg viewBox="0 0 24 24"><use href="#ic-seedling"/></svg></span>Safety, repetition &amp; neuroplasticity</h3>
+        <div class="body"><p>Repeated experiences of safety, attunement, and completed emotional cycles lay down new neural
+          pathways. The relationship itself is the intervention; the art is how it becomes reachable, expressible, and &mdash;
+          over time &mdash; rewired.</p></div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION B · FLOW ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-b">Section B &middot; The Session Flow</span>
+      <h2>Art Therapy Session Flow</h2>
+      <div class="intro-box">
+        <strong>The shape of a typical session.</strong> Sessions with Katy are 45&ndash;50 minutes. They are not rigidly
+        scripted &mdash; the flow is responsive to the child &mdash; but they hold a consistent enough shape that children can
+        learn to anticipate it. Predictability, even in small structures, supports a sense of safety.<sup class="fn">16,17</sup>
+      </div>
+      <p class="lead">Below is how a session typically moves. How it unfolds &mdash; and how much structure Katy brings &mdash;
+        depends on the individual adoptee child: their goals, needs, and interests, their phase of therapy, and what a given
+        session holds. Sessions are <strong>not</strong> uniformly child-led; the balance of open exploration and guided,
+        goal-directed work is a deliberate clinical choice.</p>
+      <div class="spectrum">
+        <div class="spectrum-bar"></div>
+        <div class="spectrum-labels"><span>Child-led</span><span>Chosen by goals, needs &amp; interests</span><span>Therapist-led</span></div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <h3>Arrival and Transition</h3>
+          <span class="time">Approximately 5 minutes</span>
+          <div class="meter"><span style="width:17%"></span></div>
+          <p>The session begins before anything is made. The child moves from the outside world &mdash; school, car, the mood
+            of the day &mdash; into the therapy room. This transition is acknowledged, not rushed.</p>
+          <p>Katy may offer a brief warm-up ritual that becomes consistent over time: a simple sensory check-in, a gesture
+            toward the materials, a moment to settle. The goal is to help the child's nervous system shift from external
+            orientation to internal orientation &mdash; to become present to this room and this hour.<sup class="fn">18</sup></p>
+          <p>For some children, arrival itself is rich with information: how they walk in, what they move toward first, whether
+            they are louder or quieter than last time.</p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <h3>Warm-Up and Opening</h3>
+          <span class="time">Approximately 5&ndash;10 minutes</span>
+          <div class="meter"><span style="width:28%"></span></div>
+          <p>Many sessions include a low-stakes opening activity &mdash; something that invites engagement without demanding
+            it. This might be:</p>
+          <ul>
+            <li>Free exploration of materials without a specific task</li>
+            <li>A brief, playful sensory interaction (handling clay, choosing a color, looking through a materials collection)</li>
+            <li>A simple opening question or check-in that the child can answer in words, gesture, or drawing</li>
+            <li>A game or activity that has become a ritual between this child and Katy over time</li>
+          </ul>
+          <p>The warm-up serves multiple purposes: it regulates the nervous system, establishes the relational tone of the
+            session, and often &mdash; without either person deliberately planning it &mdash; surfaces what is alive for the
+            child that day.<sup class="fn">14,9</sup></p>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION B cont. ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-b">Section B &middot; continued</span>
+      <h2>Art Therapy Session Flow</h2>
+
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <h3>Art-Making or Play</h3>
+          <span class="time">Approximately 20&ndash;30 minutes</span>
+          <div class="meter"><span style="width:92%"></span></div>
+          <p>This is the core of the session. How directive it is depends on the child &mdash; their goals, needs, and
+            interests &mdash; not on a fixed rule. Katy moves deliberately between open, child-led exploration and more
+            structured, goal-directed work:</p>
+          <div class="mode"><b>Child-directed.</b> The child chooses materials and direction; Katy observes, narrates what she
+            notices, reflects feeling states, and participates as invited. Often valuable &mdash; especially early on and for
+            restoring a sense of agency &mdash; but it is not automatically the default, and not the only mode.<sup class="fn">17,19</sup></div>
+          <div class="mode"><b>Goal-directed / therapist-led.</b> When a specific need is being worked toward &mdash; nervous-system
+            regulation, identity and narrative, grief and loss, or a particular skill &mdash; Katy brings intentional structure: a
+            targeted directive, a sequence, or a chosen material or theme designed to meet that goal for this adoptee child.</div>
+          <div class="mode"><b>Invitational / prompted.</b> Katy offers an invitation &mdash; a prompt, a question, a material, a
+            theme &mdash; and the child decides how (or whether) to engage with it. Prompts are always invitations, never
+            requirements. A child who declines a prompt and does something else entirely has not failed the session.</div>
+          <div class="mode"><b>Collaborative.</b> At certain moments in therapy, Katy and the child make something together &mdash;
+            a shared piece, a parallel drawing, a structure built side by side. This can be a powerful relational experience,
+            particularly for children who are learning that shared creative space is safe.</div>
+          <div class="mode"><b>Movement or play-based.</b> Sessions may also include non-art modalities &mdash; movement, games,
+            storytelling, sand, or imaginative play &mdash; especially with younger children or when a child needs to move before
+            they can settle into making.<sup class="fn">14</sup></div>
+          <div class="callout"><strong>What Katy is doing while the child makes.</strong> Katy is not passively observing. She is
+            tracking the process &mdash; which materials are chosen, which avoided; the rhythm and pacing of the making; what the
+            child's body is doing; what themes emerge in imagery or narrative; what the child says and what they don't. All of
+            this is clinical information, and it shapes how she responds.<sup class="fn">16,17</sup></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <h3>Reflection and Closing</h3>
+          <span class="time">Approximately 5&ndash;10 minutes</span>
+          <div class="meter"><span style="width:28%"></span></div>
+          <p>Most sessions include some form of closing reflection &mdash; not an interrogation of the artwork, but a gentle
+            acknowledgment of what was made and what the session held. This might look like:</p>
+          <ul>
+            <li>Katy naming something she noticed (&ldquo;I noticed you kept coming back to blue today&rdquo;)</li>
+            <li>A brief open question (&ldquo;Is there anything you want to say about what you made?&rdquo;)</li>
+            <li>Simply looking at the artwork together in quiet for a moment</li>
+            <li>A brief grounding activity to help the child return to an alert, settled state before leaving</li>
+          </ul>
+          <p>The child is never required to explain, interpret, or justify their artwork. Katy's reflections are offered as
+            observations, not conclusions.<sup class="fn">17</sup></p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <h3>Parent Check-In</h3>
+          <span class="time">Select sessions &middot; approximately 5 minutes</span>
+          <div class="meter"><span style="width:17%"></span></div>
+          <p>At the close of some sessions, Katy will briefly touch base with the parent &mdash; either with the child present
+            or, occasionally, in a separate moment. This is not a full debrief. It is a brief exchange of observations, questions,
+            or anything relevant to how the week is going. It keeps the home context and the therapy context in dialogue without
+            breaching the child's relational privacy.</p>
+        </div>
+      </div>
+
+      <div class="callout"><strong>What carries between sessions.</strong> The session does not end at the door. Children continue
+        to process between sessions &mdash; in dreams, play, conversations, and behavior. Artwork may be kept in the therapy studio,
+        taken home, or returned to across multiple sessions. There is no obligation to display or share what is made. What belongs
+        to the child stays with the child.</div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C INTRO ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-c">Section C</span>
+      <h2>The First Three Intake Sessions</h2>
+      <div class="intro-box">
+        <strong>Overview.</strong> The intake process at Beyond the Sun Therapy typically spans the first three sessions. Its
+        purposes are: gathering the history and context Katy needs to be genuinely useful; establishing the structure, roles, and
+        agreements of the therapeutic relationship; and beginning &mdash; not completing &mdash; the process of building rapport
+        with your child. These sessions are not fully representative of what ongoing therapy looks like. They are the foundation
+        being laid.
+      </div>
+
+      <div class="session-card s1">
+        <div class="head">
+          <h3>Session 1 &middot; Parent-Only Meeting</h3>
+          <p class="who">Without child present</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Parent(s) or primary caregiver(s). Your child does not attend this session.</p>
+          <p><strong>Purpose:</strong> This session belongs to you. It gives Katy the adoption-specific history and context she
+            needs before meeting your child &mdash; and it gives you the opportunity to share what you know without your child in
+            the room, which allows for a different level of candor.<sup class="fn">20,21</sup></p>
+          <h4>What Katy will ask about</h4>
+          <ul>
+            <li>Your child's adoption history: age at placement, what is known about early care, transitions, previous placements if relevant</li>
+            <li>Your child's current functioning across settings (home, school, relationships, sleep, eating, sensory experience)</li>
+            <li>What brings you now &mdash; what you are noticing, hoping for, or wondering about</li>
+            <li>The family constellation &mdash; siblings, extended family, any relevant open adoption relationships</li>
+            <li>Previous therapy experiences, if any, and how those went</li>
+            <li>Your own questions about how this process will work</li>
+          </ul>
+          <h4>What you can expect from Katy</h4>
+          <p>Katy will listen more than she speaks in this session. She is not forming conclusions from what you share &mdash; she
+            is building context. You may find that some questions are hard to answer, or that you don't know certain pieces of your
+            child's early history. That is common and expected. Uncertainty about history is itself part of the adoption context, and
+            Katy works with that.<sup class="fn">22</sup></p>
+          <div class="callout"><strong>Paperwork.</strong> Consent forms, confidentiality agreements, and any relevant intake
+            documentation will be completed in this session or sent in advance.<sup class="fn">21</sup></div>
+          <p><strong>At the close of this session:</strong> Katy will offer a brief frame for how the next two sessions will be
+            structured, and answer any questions you have before your child begins.</p>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C cont. ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-c">Section C &middot; continued</span>
+      <h2>The First Three Intake Sessions</h2>
+
+      <div class="session-card s2">
+        <div class="head">
+          <h3>Session 2 &middot; Child's First Session</h3>
+          <p class="who">With parent present for part of it</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Your child and you &mdash; together for the opening, then the child continues with
+            Katy, and you wait nearby or return at the close.</p>
+          <p><strong>Purpose:</strong> This session is designed primarily for your child to encounter the space, the materials, and
+            Katy &mdash; at their own pace, with as little demand as possible. It is not the session where the &ldquo;work&rdquo;
+            begins. It is the session where the child begins to form a first impression of whether this place might be
+            safe.<sup class="fn">23,21</sup></p>
+          <h4>Opening &middot; parent and child together (approx. 10 min)</h4>
+          <p>Katy will briefly orient both of you to the space &mdash; where things are, how sessions generally work, the basic
+            agreement about confidentiality and what gets shared with you. She will use language that is appropriate for your child's
+            age. The goal is for your child to hear, in concrete terms, that this space is theirs, that they do not have to do anything
+            they don't want to, and that their parent is close by.</p>
+          <h4>Your role in this opening</h4>
+          <p>Simply be present. You do not need to explain your child, advocate for them, or fill silence. Your calm presence signals
+            to the child that you trust this space &mdash; which matters. When Katy signals the transition, you will say a brief, easy
+            goodbye and let the child know where you will be.<sup class="fn">24</sup></p>
+          <h4>The child's session (approx. 30 min)</h4>
+          <p>Katy will offer a low-demand, materially rich environment and simply follow the child's lead. She is watching, taking in,
+            and beginning to build the relationship. She will not push into anything meaningful. Her goal is to make this hour feel
+            different from being evaluated or questioned &mdash; and to leave the child with a sense of having had a positive,
+            low-pressure experience in this room.<sup class="fn">9</sup> She may offer:</p>
+          <ul>
+            <li>Free exploration of materials with no task attached</li>
+            <li>A brief warm-up activity that is playful and low-stakes</li>
+            <li>Simple, curious conversation &mdash; not about adoption, not about what the child feels, but about what they like,
+              what they notice in the room, what they're interested in</li>
+          </ul>
+          <h4>Closing &middot; brief parent return</h4>
+          <p>Katy will invite you back for a few minutes at the end of the session. In front of your child, she will briefly reflect
+            on something positive about the session and let your child know what to expect next time. This closing moment is also part
+            of establishing predictability and warmth.</p>
+          <div class="callout"><strong>After this session.</strong> Your child may have strong feelings in any direction &mdash;
+            excited, flat, resistant, animated. All of it is data and all of it is welcome. You do not need to process the session with
+            them. A simple &ldquo;I'm glad you went&rdquo; is enough.</div>
+        </div>
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+  <!-- ======================= SECTION C cont. 2 ======================= -->
+  <section class="page">
+    <svg class="corner botanic" viewBox="0 0 130 170" aria-hidden="true"><use href="#sprig2"/></svg>
+    <div class="inner">
+      <span class="section-tab tab-c">Section C &middot; continued</span>
+      <h2>The First Three Intake Sessions</h2>
+
+      <div class="session-card s3">
+        <div class="head">
+          <h3>Session 3 &middot; Child's Second Session</h3>
+          <p class="who">Child and Katy alone &middot; brief parent check-in at close</p>
+        </div>
+        <div class="content">
+          <p><strong>Who is present:</strong> Your child and Katy for the full session. You wait and check in briefly at the close.</p>
+          <p><strong>Purpose:</strong> The third session deepens what began in the second &mdash; continued rapport-building, more
+            time with materials, and the beginning of the child's sense of &ldquo;this is my place and my time.&rdquo; Katy is also
+            continuing her informal assessment: noticing the child's relational style, what they move toward and away from, how they
+            use the room, and what themes &mdash; if any &mdash; begin to surface spontaneously.<sup class="fn">20</sup></p>
+          <h4>What Katy is doing</h4>
+          <p>She will again follow the child's lead in most of the session. She may begin to introduce slightly more structure &mdash;
+            an invitation or two &mdash; to observe how the child responds to gentle direction within an otherwise child-led space. She
+            is not yet working on adoption content or specific therapeutic goals. She is still building the relational
+            container.<sup class="fn">17</sup></p>
+          <h4>Parent check-in at the close</h4>
+          <p>Katy will spend a few minutes with you at the end of this session to share general observations, answer any questions that
+            have come up across these first sessions, and offer a brief frame for what ongoing weekly sessions will look like. This is
+            also your opportunity to share anything you noticed at home between sessions one and two.</p>
+        </div>
+      </div>
+
+      <div class="callout"><strong>After the intake.</strong> Following these three sessions, Katy will have enough context to begin
+        shaping a loose treatment arc &mdash; not a rigid plan, but a set of intentions and observations that will guide the work as it
+        unfolds. You will receive a brief verbal summary of her initial impressions and the general direction she anticipates, with space
+        for your input and questions.</div>
+
+      <div class="footer-note">
+        This supplement is intended to accompany the full Beyond the Sun Therapy Parent Orientation Guide. Both documents are the
+        property of Beyond the Sun Therapy and may not be reproduced or distributed without permission.
+      </div>
+
+      <div class="sig">Katy &middot; Beyond the Sun Therapy</div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

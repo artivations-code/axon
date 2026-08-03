@@ -126,12 +126,31 @@
 .iata-stu .ln .ar{transition:transform .2s ease}
 .iata-stu .rcard:hover .ln .ar{transform:translateX(4px)}
 
-/* ---- subscribe ---- */
-.iata-stu .subs{display:flex;flex-wrap:wrap;gap:.7rem;max-width:520px;margin-top:1.6rem}
-.iata-stu .subs input{flex:1;min-width:220px;background:transparent;border:0;border-bottom:1px solid var(--line2);
-  color:var(--off);font-family:var(--body);font-size:1rem;padding:.7rem .2rem}
-.iata-stu .subs input::placeholder{color:var(--off-mut)}
-.iata-stu .subs input:focus{outline:none;border-color:var(--olive)}
+/* ---- signup form ---- */
+.iata-stu .su-kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
+  line-height:.95;letter-spacing:.01em;font-size:clamp(2.6rem,1.3rem+7vw,5.5rem)}
+.iata-stu .su-title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
+  letter-spacing:.02em;font-size:clamp(1.35rem,1rem+2vw,2.2rem);margin:.45rem 0 1.1rem}
+.iata-stu .su-intro{color:var(--off-mut);max-width:46ch;margin-bottom:2.5rem;
+  font-size:clamp(1.05rem,1rem+.4vw,1.25rem)}
+.iata-stu .su-form{display:grid;gap:1.5rem;max-width:560px}
+.iata-stu .fld{display:grid;gap:.55rem}
+.iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
+  font-size:.78rem;color:var(--slate-lt)}
+.iata-stu .fld label .opt{color:var(--off-mut);font-weight:600;letter-spacing:.06em;text-transform:none;font-size:.92em}
+.iata-stu .fld input,.iata-stu .fld select{width:100%;background:var(--navy2);border:1px solid var(--line2);
+  border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;padding:1rem 1.1rem;
+  transition:border-color .2s ease,background .2s ease}
+.iata-stu .fld input::placeholder{color:var(--off-mut)}
+.iata-stu .fld input:focus,.iata-stu .fld select:focus{outline:none;border-color:var(--olive);background:var(--band)}
+.iata-stu .fld select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;padding-right:2.8rem;
+  background-repeat:no-repeat;background-position:right 1.1rem center;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239FB0BC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
+.iata-stu .fld select:has(option[value=""]:checked){color:var(--off-mut)} /* muted placeholder */
+.iata-stu .su-form button{justify-self:start;margin-top:.3rem}
+.iata-stu .su-ok{display:none;margin-top:.4rem;padding:1rem 1.2rem;border:1px solid var(--olive-deep);
+  border-radius:14px;background:rgba(135,150,55,.12);color:var(--off);font-size:1rem}
+.iata-stu .su-ok.show{display:block}
 
 .iata-stu .foot-note{border-top:1px solid var(--line);margin-top:clamp(2.5rem,5vw,4rem);padding-top:1.6rem;
   color:var(--off-mut);font-size:.85rem}
@@ -210,16 +229,53 @@
   </div>
 </section>
 
-<!-- STAY CONNECTED -->
+<!-- STAY IN THE LOOP (signup) -->
 <footer class="sect on-footer" id="connect">
   <div class="wrap">
-    <div class="lead rv"><span class="num">04</span><span class="eyebrow">Stay connected</span><span class="rule"></span></div>
-    <h2 class="rv">Get student updates <span class="it">and event invites.</span></h2>
-    <p class="sub rv">Workshops, advocacy, and what&rsquo;s next for art therapy students in Indiana &mdash; straight to your inbox.</p>
-    <form class="subs rv" onsubmit="return false">
-      <input type="email" placeholder="you@school.edu" aria-label="Email address" required>
-      <button class="btn pri" type="submit">Subscribe <span class="ar">&rarr;</span></button>
+    <p class="su-kicker rv">For students</p>
+    <h2 class="su-title rv">Stay in the loop</h2>
+    <p class="su-intro rv">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
+
+    <!--
+      COLLECTING SUBMISSIONS: this form shows a thank-you message only (demo mode).
+      To capture signups, set action="" to your form endpoint (Formspree, your email
+      provider, etc.) and delete data-demo="1". Or replace it with a Squarespace
+      Newsletter block if you'd rather use Squarespace's built-in signups.
+    -->
+    <form class="su-form rv" action="" method="post" data-demo="1">
+      <div class="fld">
+        <label for="su-name">First name</label>
+        <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
+      </div>
+      <div class="fld">
+        <label for="su-email">Email</label>
+        <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
+      </div>
+      <div class="fld">
+        <label for="su-member">Membership</label>
+        <select id="su-member" name="membership" required>
+          <option value="" disabled selected>Select one</option>
+          <option>IndiATA student member</option>
+          <option>Not a member yet</option>
+          <option>Just exploring the field</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="su-program">Program <span class="opt">(optional)</span></label>
+        <select id="su-program" name="program">
+          <!-- edit these options to match the programs you want to list -->
+          <option value="" disabled selected>Select your program</option>
+          <option>Herron School of Art + Design (IU)</option>
+          <option>Saint Mary-of-the-Woods College</option>
+          <option>Other Indiana program</option>
+          <option>Out-of-state program</option>
+          <option>Not enrolled yet</option>
+        </select>
+      </div>
+      <button class="btn pri" type="submit">Sign me up <span class="ar">&rarr;</span></button>
+      <p class="su-ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list. Watch your inbox for the next student note.</p>
     </form>
+
     <p class="foot-note rv">&copy; 2026 Indiana Art Therapy Association (IndiATA) &middot; Indiana chapter of the American Art Therapy Association.</p>
   </div>
 </footer>
@@ -230,6 +286,20 @@
   var root=document.getElementById('iata-students');
   if(!root) return;
   root.classList.add('js'); /* enables reveal animation; without JS content stays visible */
+
+  /* signup form: demo mode shows a thank-you note. Remove data-demo + set a real
+     action to actually collect submissions. */
+  var form=root.querySelector('.su-form');
+  if(form&&form.getAttribute('data-demo')){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(form.checkValidity&&!form.checkValidity()){form.reportValidity&&form.reportValidity();return;}
+      var ok=form.querySelector('.su-ok');
+      if(ok)ok.classList.add('show');
+      form.querySelectorAll('input,select,button').forEach(function(el){el.disabled=true;});
+    });
+  }
+
   var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
   var items=root.querySelectorAll('.rv');
   if(rm||!('IntersectionObserver'in window)){items.forEach(function(e){e.classList.add('in');});return;}

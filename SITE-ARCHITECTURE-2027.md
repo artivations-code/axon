@@ -129,6 +129,40 @@ identified as unowned in Indiana.
 
 ---
 
+## Stack rank
+
+All pages in a single priority order. Ranked by search intent, competition,
+whether copy already exists, and conversion value. Use this when build capacity
+is the constraint rather than the calendar.
+
+| # | Page | Copy | Why here |
+|---|---|---|---|
+| 1 | `/` | approved | Everything depends on it. Entity, local pack. |
+| 2 | `/consultation` | needs authoring | The single conversion endpoint. Every page points here. |
+| 3 | `/for-birth-parents` | approved | Zero independent non-agency competition in Indiana. |
+| 4 | `/for-adoptees` | approved | Highest search volume of any page. |
+| 5 | `/about` | approved | YMYL trust gate — read before booking. |
+| 6 | `/katy-wagner` | draft exists | E-E-A-T. Ranks for "adoptee art therapist." |
+| 7 | `/records` | needs authoring | Highest-intent situation page. Indiana law authority play. |
+| 8 | `/after-teen-placement` | approved | Finished copy, zero competition. Cheapest real win. |
+| 9 | `/grief-loss` | approved | Real demand, copy ready. |
+| 10 | `/search-reunion` | needs authoring | High intent and volume. |
+| 11 | `/for-adoptive-parents` | approved | Most competitive population page. |
+| 12 | `/art-therapy` | approved | Strong differentiation, lower direct intent. |
+| 13 | `/amanda-[surname]` | draft exists | E-E-A-T. Where records credibility lives. |
+| 14 | `/dna-discovery` | needs authoring | Rising demand, uncontested. |
+| 15 | `/beyond-home` | approved | Uncontested but low volume. |
+| 16 | `/adoption-and-neurodivergence` | needs authoring | Uncontested, narrow. |
+| 17 | `/all-abilities` | needs authoring | Positioning more than search. |
+| 18 | `/for-professionals` | needs authoring | Referral driver, not a search play. |
+| 19 | `/resources` | ongoing | Starts once 1–9 are live. |
+
+`/after-teen-placement` at #8 is the outlier worth noting: it is the only page
+with finished approved copy *and* no competition. It can ship in the same week
+as the homepage.
+
+---
+
 ## Technical
 
 **Schema.** `MedicalBusiness` or `LocalBusiness` on home and contact.

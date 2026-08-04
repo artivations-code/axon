@@ -147,6 +147,31 @@
 .iata-stu .pin .what{color:var(--off-mut);font-size:.94rem}
 .iata-stu .pin .what b{color:var(--off);font-weight:700}
 
+/* bulletin categories */
+.iata-stu .bgroup{margin-top:1.9rem}
+.iata-stu .bgroup .board{margin-top:0}
+.iata-stu .bg-h{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.18em;
+  font-size:.7rem;margin-bottom:.85rem;display:flex;align-items:center;gap:.7rem}
+.iata-stu .bg-h::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
+.iata-stu .bg-h.op{color:var(--magenta)}
+.iata-stu .bg-h.dl{color:var(--orange)}
+.iata-stu .bg-h.ev{color:var(--slate)}
+
+/* light variant — the bulletin flips to a bright panel */
+.iata-stu .on-light{background:#EDF1F4}
+.iata-stu .on-light h2.big{color:#0A1722}
+.iata-stu .on-light .sub{color:#4A5B68}
+.iata-stu .on-light .lead .rule{background:linear-gradient(90deg,var(--acc),#C9D3DB 40%)}
+.iata-stu .on-light .pin{background:#fff;border-color:#D8E0E6;--pc:var(--slate)}
+.iata-stu .on-light .pin:has(.tag.op){--pc:var(--magenta)}
+.iata-stu .on-light .pin:has(.tag.dl){--pc:var(--orange)}
+.iata-stu .on-light .pin .what{color:#4A5B68}
+.iata-stu .on-light .pin .what b{color:#0A1722}
+.iata-stu .on-light .pin .date{background:color-mix(in srgb,var(--pc) 10%,#fff);
+  border-color:color-mix(in srgb,var(--pc) 40%,#D8E0E6);border-top-color:var(--pc)}
+.iata-stu .on-light .pin .date .dy{color:#0A1722}
+.iata-stu .on-light .pin .lnk{border-bottom-color:#D8E0E6}
+
 .iata-stu .pulse{border:1px solid var(--line2);border-radius:3px;background:var(--band);
   padding:clamp(1.5rem,3vw,2.2rem);margin-top:1.9rem}
 .iata-stu .pulse .q{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;
@@ -320,22 +345,31 @@
 </section>
 
 <!-- ============ BOARD BULLETIN ============ -->
-<section class="sect on-navy2 a-magenta" id="bulletin">
+<section class="sect on-light a-magenta" id="bulletin">
   <div class="wrap">
     <div class="lead"><span class="num">03</span><span class="eyebrow">Board bulletin</span><span class="rule"></span></div>
     <h2 class="big">Opportunities <span class="it">&amp; updates.</span></h2>
     <p class="sub">Posted by the IndiATA board &mdash; events, deadlines, calls, and opportunities for students across Indiana. Check back through the semester.</p>
-    <!-- TO POST: copy one .pin block, set the tag (Event / Deadline / Opportunity), the date, and the text. Newest first. -->
-    <div class="board">
+    <!-- TO POST: add a .pin inside the right category. Keep Events in date order. -->
+    <div class="bgroup">
+      <h3 class="bg-h op">Open calls</h3>
       <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
-      <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">7</span></div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. Graduate study and what comes next.</div></div>
-      <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">9</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. What the chapter is building and where students fit. <a class="lnk" href="mailto:Indianaarttherapy@gmail.com?subject=Zoom%20link%20please">Get the link &rarr;</a></div></div>
+    </div>
+    <div class="bgroup">
+      <h3 class="bg-h dl">Deadlines</h3>
       <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">30</span></div><div class="what"><span class="tag dl">Deadline</span><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit. <a class="lnk" href="mailto:Indianaarttherapy@gmail.com?subject=Showcase%20entry">Enter &rarr;</a></div></div>
-      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">13</span></div><div class="what"><span class="tag ev">Event</span><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
-      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">14&ndash;27</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Members Showcase</b> &mdash; Phoenix Theatre, Indianapolis.</div></div>
-      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">25</span></div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
-      <div class="pin"><div class="date"><span class="mo">Oct</span><span class="dy">14&ndash;17</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina. <a class="lnk" href="https://arttherapy.org/" target="_blank" rel="noopener">Details &rarr;</a></div></div>
-      <div class="pin"><div class="date"><span class="mo">Nov</span><span class="dy">14&ndash;15</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose. <a class="lnk" href="https://arttherapy.org/" target="_blank" rel="noopener">Details &rarr;</a></div></div>
+    </div>
+    <div class="bgroup">
+      <h3 class="bg-h ev">Events</h3>
+      <div class="board">
+        <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">7</span></div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. Graduate study and what comes next.</div></div>
+        <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">9</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. What the chapter is building and where students fit. <a class="lnk" href="mailto:Indianaarttherapy@gmail.com?subject=Zoom%20link%20please">Get the link &rarr;</a></div></div>
+        <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">13</span></div><div class="what"><span class="tag ev">Event</span><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
+        <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">14&ndash;27</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Members Showcase</b> &mdash; Phoenix Theatre, Indianapolis.</div></div>
+        <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">25</span></div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
+        <div class="pin"><div class="date"><span class="mo">Oct</span><span class="dy">14&ndash;17</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina. <a class="lnk" href="https://arttherapy.org/" target="_blank" rel="noopener">Details &rarr;</a></div></div>
+        <div class="pin"><div class="date"><span class="mo">Nov</span><span class="dy">14&ndash;15</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose. <a class="lnk" href="https://arttherapy.org/" target="_blank" rel="noopener">Details &rarr;</a></div></div>
+      </div>
     </div>
   </div>
 </section>

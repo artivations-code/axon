@@ -119,6 +119,13 @@
 .iata-stu .opt-r input{accent-color:var(--teal);width:1.05rem;height:1.05rem;flex:none}
 .iata-stu .opt-r span{color:var(--off-mut);font-size:.98rem}
 .iata-stu .pulse form{margin-top:0}
+.iata-stu .checks{display:grid;gap:.55rem}
+@media(min-width:520px){.iata-stu .checks{grid-template-columns:1fr 1fr}}
+.iata-stu .fld .chk{display:flex;align-items:center;gap:.55rem;cursor:pointer;min-width:0;
+  font-family:var(--body);font-weight:400;text-transform:none;letter-spacing:0;font-size:.92rem;color:var(--off-mut)}
+.iata-stu .fld .chk input{accent-color:var(--teal);width:.95rem;height:.95rem;min-width:0;flex:none;
+  padding:0;border:0;background:none;border-radius:0;margin:0}
+.iata-stu .chk span{color:var(--off-mut);line-height:1.3}
 
 /* forms */
 .iata-stu .formrow{display:grid;gap:clamp(2rem,5vw,3.4rem);margin-top:1.7rem}
@@ -321,6 +328,20 @@
               <option>Other Indiana program</option>
               <option>Prospective student</option>
             </select>
+          </div>
+          <div class="fld">
+            <label>Interests <span class="opt">(pick any &mdash; shapes what you get)</span></label>
+            <div class="checks">
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Self-care & wellness"><span>Self-care &amp; wellness</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Community & connection"><span>Community &amp; connection</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Creating & studio practice"><span>Creating &amp; studio practice</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Advocacy & licensure"><span>Advocacy &amp; licensure</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Career & credentialing"><span>Career &amp; credentialing</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="CEUs & CE experiences"><span>CEUs &amp; CE experiences</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Professional development"><span>Professional development</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Burnout care in school"><span>Burnout care in school</span></label>
+              <label class="chk"><input type="checkbox" name="INTERESTS" value="Events & opportunities"><span>Events &amp; opportunities</span></label>
+            </div>
           </div>
           <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
           <button type="submit">Sign me up <span class="ar">&rarr;</span></button>

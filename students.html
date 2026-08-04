@@ -4,309 +4,105 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IndiATA · For Students</title>
-<!--
-  ============================================================
-  IndiATA — Student page
-  HOW TO USE IN SQUARESPACE:
-    1. Edit the page/section where you want this to appear.
-    2. Add a "Code" block (or use Settings > Advanced > Code Injection).
-    3. Paste EVERYTHING from <div class="iata-stu"> ... down to the
-       closing </script> tag below (i.e. everything inside <body>).
-       You do NOT need the <!doctype>, <html>, <head>, or <body> tags.
-    4. Save. The <style> and <script> are scoped to .iata-stu so they
-       will not affect the rest of your Squarespace site.
-  Replace every href="#..." with your real links.
-  ============================================================
--->
 </head>
 <body>
 
 <!-- ==== PASTE FROM HERE ==== -->
 <div class="iata-stu" id="iata-students">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Open+Sans:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@700;800&display=swap');
 
 .iata-stu{
-  --navy:#02060E; --navy2:#061320; --band:#0A1722; --footer:#000A12;
-  --off:#E9EEF2; --off-mut:#9FB0BC;
-  --slate:#44697D; --slate-lt:#8AA6B5;
+  --navy:#02060E; --navy2:#061320;
+  --off:#E9EEF2; --off-mut:#9FB0BC; --slate-lt:#8AA6B5;
   --magenta:#AE0055; --magenta-deep:#8A0044;
   --olive:#879637; --olive-deep:#5E6312;
-  --orange:#CF7600; --plum:#885E80;
-  --line:#1E2A35; --line2:#2A3A47;
+  --line2:#2A3A47;
   --disp:'Open Sans',-apple-system,Segoe UI,sans-serif;
   --body:'Lato',-apple-system,Segoe UI,sans-serif;
-
-  font-family:var(--body);
-  background:var(--navy);
-  color:var(--off);
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-  position:relative;
-  overflow:hidden;
+  font-family:var(--body);background:var(--navy);color:var(--off);line-height:1.55;
+  -webkit-font-smoothing:antialiased;padding:clamp(2.5rem,7vw,5rem) clamp(1.15rem,5vw,3rem)
 }
 .iata-stu *{box-sizing:border-box;margin:0;padding:0}
-.iata-stu a{color:inherit;text-decoration:none}
-.iata-stu .disp{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.006em;line-height:1.05}
-.iata-stu .it{font-style:italic;font-weight:400;text-transform:none;letter-spacing:0}
-
-.iata-stu .wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(1.15rem,4.5vw,3.2rem)}
-.iata-stu .eyebrow{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;color:var(--slate-lt)}
-.iata-stu .lead{display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem}
-.iata-stu .lead .num{font-family:var(--disp);font-weight:800;color:var(--magenta);font-size:.9rem}
-.iata-stu .lead .rule{flex:1;height:1px;background:var(--line2)}
-
-/* ---- reveal (content is visible without JS; JS only animates) ---- */
-.iata-stu.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
-.iata-stu.js .rv.in{opacity:1;transform:none}
-
-/* ---- hero ---- */
-.iata-stu .hero{position:relative;padding:clamp(4rem,10vw,7rem) 0 clamp(3rem,7vw,5rem);overflow:hidden}
-.iata-stu .hero::before{content:"";position:absolute;inset:0;z-index:0;
-  background:
-    radial-gradient(60% 80% at 82% 20%, rgba(174,0,85,.28), transparent 60%),
-    radial-gradient(50% 70% at 18% 90%, rgba(135,150,55,.22), transparent 60%),
-    linear-gradient(180deg,var(--navy),var(--navy2));}
-.iata-stu .hero .wrap{position:relative;z-index:1}
-.iata-stu .hero h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:1.02;
-  font-size:clamp(2.4rem,1.5rem+4.6vw,5rem);margin:.7rem 0 1.1rem;max-width:16ch}
-.iata-stu .hero p.sub{max-width:52ch;color:var(--off-mut);font-size:clamp(1rem,.96rem+.3vw,1.2rem)}
-.iata-stu .acts{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;margin-top:1.9rem}
-
-.iata-stu .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--disp);font-weight:800;
-  text-transform:uppercase;letter-spacing:.08em;font-size:.82rem;padding:.85rem 1.35rem;border-radius:999px;
-  border:1px solid var(--line2);transition:transform .2s ease,background .2s ease,border-color .2s ease}
-.iata-stu .btn .ar{transition:transform .2s ease}
-.iata-stu .btn:hover{transform:translateY(-2px)}
-.iata-stu .btn:hover .ar{transform:translateX(4px)}
-.iata-stu .btn.pri{background:var(--magenta);border-color:var(--magenta)}
-.iata-stu .btn.pri:hover{background:var(--magenta-deep)}
-.iata-stu .btn.gho:hover{border-color:var(--slate-lt)}
-
-/* ---- generic section ---- */
-.iata-stu .sect{padding:clamp(3rem,7vw,5.5rem) 0;position:relative;z-index:1}
-.iata-stu .on-navy2{background:var(--navy2)}
-.iata-stu .on-band{background:var(--band)}
-.iata-stu .on-footer{background:var(--footer)}
-.iata-stu .sect h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:1.05;
-  font-size:clamp(1.7rem,1.3rem+2vw,2.9rem);margin-bottom:.5rem}
-.iata-stu .sect .sub{color:var(--off-mut);max-width:56ch;margin-bottom:2.4rem}
-
-/* ---- path steps ---- */
-.iata-stu .steps{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.iata-stu .step{background:var(--navy);padding:clamp(1.4rem,3vw,2rem);display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:start}
-.iata-stu .step .k{font-family:var(--disp);font-weight:800;font-size:1.6rem;color:var(--magenta);line-height:1;min-width:2.2ch}
-.iata-stu .step h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;letter-spacing:.02em;margin-bottom:.35rem}
-.iata-stu .step p{color:var(--off-mut);font-size:.98rem}
-@media(min-width:720px){.iata-stu .steps{grid-template-columns:1fr 1fr}}
-
-/* ---- benefits ---- */
-.iata-stu .split{display:grid;gap:2.4rem;align-items:center}
-@media(min-width:860px){.iata-stu .split{grid-template-columns:1.1fr .9fr}}
-.iata-stu .blist{list-style:none;display:grid;gap:.9rem}
-.iata-stu .blist li{position:relative;padding-left:1.7rem;color:var(--off);font-size:1.02rem}
-.iata-stu .blist li::before{content:"";position:absolute;left:0;top:.55em;width:.55rem;height:.55rem;border-radius:2px;
-  background:var(--olive);transform:rotate(45deg)}
-.iata-stu .card-cta{background:linear-gradient(160deg,var(--band),var(--navy2));border:1px solid var(--line2);
-  border-radius:18px;padding:clamp(1.6rem,3vw,2.3rem)}
-.iata-stu .card-cta .price{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,1.5rem+2vw,3rem);color:var(--off)}
-.iata-stu .card-cta .price small{display:block;font-size:.8rem;color:var(--off-mut);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:.4rem}
-
-/* ---- resource cards ---- */
-.iata-stu .cards{display:grid;gap:1.2rem}
-@media(min-width:720px){.iata-stu .cards{grid-template-columns:repeat(3,1fr)}}
-.iata-stu .rcard{background:var(--navy);border:1px solid var(--line);border-radius:16px;padding:1.5rem;
-  transition:border-color .25s ease,transform .25s ease}
-.iata-stu .rcard:hover{border-color:var(--slate);transform:translateY(-3px)}
-.iata-stu .rcard .ix{font-family:var(--disp);font-weight:800;font-size:.72rem;letter-spacing:.14em;color:var(--slate-lt);text-transform:uppercase}
-.iata-stu .rcard h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;margin:.7rem 0 .5rem}
-.iata-stu .rcard p{color:var(--off-mut);font-size:.95rem;margin-bottom:1rem}
-.iata-stu .ln{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--disp);font-weight:700;font-size:.8rem;
-  text-transform:uppercase;letter-spacing:.06em;color:var(--olive)}
-.iata-stu .ln .ar{transition:transform .2s ease}
-.iata-stu .rcard:hover .ln .ar{transform:translateX(4px)}
-
-/* ---- signup form ---- */
-.iata-stu .su-kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
-  line-height:.95;letter-spacing:.01em;font-size:clamp(2.6rem,1.3rem+7vw,5.5rem)}
-.iata-stu .su-title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
-  letter-spacing:.02em;font-size:clamp(1.35rem,1rem+2vw,2.2rem);margin:.45rem 0 1.1rem}
-.iata-stu .su-intro{color:var(--off-mut);max-width:46ch;margin-bottom:2.5rem;
-  font-size:clamp(1.05rem,1rem+.4vw,1.25rem)}
-.iata-stu .su-form{display:grid;gap:1.5rem;max-width:560px}
-.iata-stu .fld{display:grid;gap:.55rem}
+.iata-stu .inner{max-width:600px;margin:0 auto}
+.iata-stu .kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
+  line-height:.95;letter-spacing:.01em;font-size:clamp(2.4rem,1.3rem+6vw,4.5rem)}
+.iata-stu .title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
+  letter-spacing:.02em;font-size:clamp(1.3rem,1rem+2vw,2rem);margin:.4rem 0 1rem}
+.iata-stu .intro{color:var(--off-mut);margin-bottom:2.4rem;font-size:clamp(1rem,.96rem+.3vw,1.15rem)}
+.iata-stu form{display:grid;gap:1.4rem}
+.iata-stu .fld{display:grid;gap:.5rem}
 .iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
-  font-size:.78rem;color:var(--slate-lt)}
-.iata-stu .fld label .opt{color:var(--off-mut);font-weight:600;letter-spacing:.06em;text-transform:none;font-size:.92em}
+  font-size:.76rem;color:var(--slate-lt)}
+.iata-stu .fld label .opt{color:var(--off-mut);font-weight:600;text-transform:none;letter-spacing:.04em;font-size:.92em}
 .iata-stu .fld input,.iata-stu .fld select{width:100%;background:var(--navy2);border:1px solid var(--line2);
-  border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;padding:1rem 1.1rem;
-  transition:border-color .2s ease,background .2s ease}
+  border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;padding:1rem 1.1rem}
 .iata-stu .fld input::placeholder{color:var(--off-mut)}
-.iata-stu .fld input:focus,.iata-stu .fld select:focus{outline:none;border-color:var(--olive);background:var(--band)}
-.iata-stu .fld select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;padding-right:2.8rem;
+.iata-stu .fld input:focus,.iata-stu .fld select:focus{outline:none;border-color:var(--olive)}
+.iata-stu .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.8rem;
   background-repeat:no-repeat;background-position:right 1.1rem center;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239FB0BC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
-.iata-stu .fld select:has(option[value=""]:checked){color:var(--off-mut)} /* muted placeholder */
-.iata-stu .su-form button{justify-self:start;margin-top:.3rem}
-.iata-stu .su-ok{display:none;margin-top:.4rem;padding:1rem 1.2rem;border:1px solid var(--olive-deep);
-  border-radius:14px;background:rgba(135,150,55,.12);color:var(--off);font-size:1rem}
-.iata-stu .su-ok.show{display:block}
-
-.iata-stu .foot-note{border-top:1px solid var(--line);margin-top:clamp(2.5rem,5vw,4rem);padding-top:1.6rem;
-  color:var(--off-mut);font-size:.85rem}
-
-@media(prefers-reduced-motion:reduce){
-  .iata-stu.js .rv{opacity:1;transform:none;transition:none}
-  .iata-stu .btn,.iata-stu .rcard{transition:none}
-}
+.iata-stu .fld select:has(option[value=""]:checked){color:var(--off-mut)}
+.iata-stu button{justify-self:start;margin-top:.3rem;display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;
+  padding:.9rem 1.5rem;border-radius:999px;border:0;cursor:pointer;color:var(--off);background:var(--magenta)}
+.iata-stu button:hover{background:var(--magenta-deep)}
+.iata-stu .ok{display:none;margin-top:.4rem;padding:1rem 1.2rem;border:1px solid var(--olive-deep);
+  border-radius:14px;background:rgba(135,150,55,.12);color:var(--off)}
+.iata-stu .ok.show{display:block}
 </style>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="wrap">
-    <p class="eyebrow rv">For students &middot; future art therapists</p>
-    <h1 class="rv">Start your path in art therapy.</h1>
-    <p class="sub rv">Whether you&rsquo;re exploring the field or already in a graduate program, IndiATA connects Indiana students to the people, training, and advocacy that turn interest into a profession.</p>
-    <div class="acts rv">
-      <a class="btn pri" href="#join">Become a student member <span class="ar">&rarr;</span></a>
-      <a class="btn gho" href="#path">See the path <span class="ar">&rarr;</span></a>
+<div class="inner">
+  <p class="kicker">For students</p>
+  <h2 class="title">Stay in the loop</h2>
+  <p class="intro">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
+
+  <!-- To collect signups: set action="" to your form service and delete data-demo="1".
+       Or swap this for a Squarespace Newsletter block. -->
+  <form action="" method="post" data-demo="1">
+    <div class="fld">
+      <label for="su-name">First name</label>
+      <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
     </div>
-  </div>
-</header>
-
-<!-- PATH -->
-<section class="sect on-navy2" id="path">
-  <div class="wrap">
-    <div class="lead rv"><span class="num">01</span><span class="eyebrow">Your path into the field</span><span class="rule"></span></div>
-    <h2 class="rv">How you become <span class="it">an art therapist.</span></h2>
-    <p class="sub rv">Art therapy is a distinct mental-health profession. Here&rsquo;s the road from student to credentialed practitioner &mdash; and where Indiana is working to make it official.</p>
-    <div class="steps rv">
-      <div class="step"><div class="k">01</div><div><h3>Explore the field</h3><p>Learn what art therapists actually do across hospitals, schools, clinics, and communities. Talk to practitioners and sit in on IndiATA events.</p></div></div>
-      <div class="step"><div class="k">02</div><div><h3>Earn a master&rsquo;s degree</h3><p>Complete a graduate program in art therapy (or a related field with the required coursework) accredited by the field&rsquo;s standards.</p></div></div>
-      <div class="step"><div class="k">03</div><div><h3>Gain supervised experience</h3><p>Build clinical hours under a qualified supervisor &mdash; the practice that turns coursework into real-world skill.</p></div></div>
-      <div class="step"><div class="k">04</div><div><h3>Earn your credential (ATR)</h3><p>Apply for the Registered Art Therapist credential (and beyond) through the national credentials board to formally enter the profession.</p></div></div>
-      <div class="step"><div class="k">05</div><div><h3>Advocate in Indiana</h3><p>Indiana doesn&rsquo;t yet license art therapists. As a student, your voice helps win title protection and access to care statewide.</p></div></div>
+    <div class="fld">
+      <label for="su-email">Email</label>
+      <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
     </div>
-  </div>
-</section>
-
-<!-- MEMBERSHIP -->
-<section class="sect" id="join">
-  <div class="wrap">
-    <div class="lead rv"><span class="num">02</span><span class="eyebrow">Student membership</span><span class="rule"></span></div>
-    <div class="split">
-      <div class="rv">
-        <h2>Join IndiATA <span class="it">as a student.</span></h2>
-        <p class="sub">Student membership is the easiest way to plug into Indiana&rsquo;s art therapy community &mdash; and it&rsquo;s built for where you are right now.</p>
-        <ul class="blist">
-          <li>Connect with practicing art therapists and fellow students across Indiana.</li>
-          <li>Get mentorship, guidance on programs, and help navigating credentialing.</li>
-          <li>Early access to workshops, events, and continuing-education opportunities.</li>
-          <li>Add your voice to advocacy for art therapy licensure in Indiana.</li>
-          <li>Links to your national AATA student membership benefits.</li>
-        </ul>
-      </div>
-      <div class="card-cta rv">
-        <div class="price">Student rate<small>Reduced membership for enrolled students</small></div>
-        <p style="color:var(--off-mut);margin:1.1rem 0 1.4rem">Join or renew online in a few minutes. Membership runs alongside your national AATA membership.</p>
-        <a class="btn pri" href="#" style="width:100%;justify-content:center">Join or renew <span class="ar">&rarr;</span></a>
-      </div>
+    <div class="fld">
+      <label for="su-member">Membership</label>
+      <select id="su-member" name="membership" required>
+        <option value="" disabled selected>Select one</option>
+        <option>IndiATA student member</option>
+        <option>Not a member yet</option>
+      </select>
     </div>
-  </div>
-</section>
-
-<!-- RESOURCES -->
-<section class="sect on-band" id="resources">
-  <div class="wrap">
-    <div class="lead rv"><span class="num">03</span><span class="eyebrow">Resources &amp; mentorship</span><span class="rule"></span></div>
-    <h2 class="rv">Support for <span class="it">every step.</span></h2>
-    <p class="sub rv">Tools and connections to help you move from curious to credentialed.</p>
-    <div class="cards">
-      <div class="rcard rv"><div class="ix">Mentorship</div><h3>Talk to a therapist</h3><p>Get matched with a practicing art therapist to ask the questions program pages can&rsquo;t answer.</p><a class="ln" href="#">Request a mentor <span class="ar">&rarr;</span></a></div>
-      <div class="rcard rv"><div class="ix">Programs</div><h3>Find a program</h3><p>Explore graduate art therapy programs and the coursework you&rsquo;ll need for credentialing.</p><a class="ln" href="#">Explore programs <span class="ar">&rarr;</span></a></div>
-      <div class="rcard rv"><div class="ix">Credentials</div><h3>Understand the ATR</h3><p>A plain-language guide to the credentials that define the profession, and how to earn them.</p><a class="ln" href="#">Learn about credentials <span class="ar">&rarr;</span></a></div>
+    <div class="fld">
+      <label for="su-program">Program <span class="opt">(optional)</span></label>
+      <select id="su-program" name="program">
+        <option value="" disabled selected>Select your program</option>
+        <option>Herron School of Art + Design (IU)</option>
+        <option>Saint Mary-of-the-Woods College</option>
+        <option>Other</option>
+      </select>
     </div>
-  </div>
-</section>
-
-<!-- STAY IN THE LOOP (signup) -->
-<footer class="sect on-footer" id="connect">
-  <div class="wrap">
-    <p class="su-kicker rv">For students</p>
-    <h2 class="su-title rv">Stay in the loop</h2>
-    <p class="su-intro rv">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
-
-    <!--
-      COLLECTING SUBMISSIONS: this form shows a thank-you message only (demo mode).
-      To capture signups, set action="" to your form endpoint (Formspree, your email
-      provider, etc.) and delete data-demo="1". Or replace it with a Squarespace
-      Newsletter block if you'd rather use Squarespace's built-in signups.
-    -->
-    <form class="su-form rv" action="" method="post" data-demo="1">
-      <div class="fld">
-        <label for="su-name">First name</label>
-        <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
-      </div>
-      <div class="fld">
-        <label for="su-email">Email</label>
-        <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
-      </div>
-      <div class="fld">
-        <label for="su-member">Membership</label>
-        <select id="su-member" name="membership" required>
-          <option value="" disabled selected>Select one</option>
-          <option>IndiATA student member</option>
-          <option>Not a member yet</option>
-          <option>Just exploring the field</option>
-        </select>
-      </div>
-      <div class="fld">
-        <label for="su-program">Program <span class="opt">(optional)</span></label>
-        <select id="su-program" name="program">
-          <!-- edit these options to match the programs you want to list -->
-          <option value="" disabled selected>Select your program</option>
-          <option>Herron School of Art + Design (IU)</option>
-          <option>Saint Mary-of-the-Woods College</option>
-          <option>Other Indiana program</option>
-          <option>Out-of-state program</option>
-          <option>Not enrolled yet</option>
-        </select>
-      </div>
-      <button class="btn pri" type="submit">Sign me up <span class="ar">&rarr;</span></button>
-      <p class="su-ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list. Watch your inbox for the next student note.</p>
-    </form>
-
-    <p class="foot-note rv">&copy; 2026 Indiana Art Therapy Association (IndiATA) &middot; Indiana chapter of the American Art Therapy Association.</p>
-  </div>
-</footer>
+    <button type="submit">Sign me up &rarr;</button>
+    <p class="ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list.</p>
+  </form>
 </div>
 
 <script>
 (function(){
   var root=document.getElementById('iata-students');
-  if(!root) return;
-  root.classList.add('js'); /* enables reveal animation; without JS content stays visible */
-
-  /* signup form: demo mode shows a thank-you note. Remove data-demo + set a real
-     action to actually collect submissions. */
-  var form=root.querySelector('.su-form');
+  var form=root&&root.querySelector('form');
   if(form&&form.getAttribute('data-demo')){
     form.addEventListener('submit',function(e){
       e.preventDefault();
       if(form.checkValidity&&!form.checkValidity()){form.reportValidity&&form.reportValidity();return;}
-      var ok=form.querySelector('.su-ok');
+      var ok=form.querySelector('.ok');
       if(ok)ok.classList.add('show');
       form.querySelectorAll('input,select,button').forEach(function(el){el.disabled=true;});
     });
   }
-
-  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var items=root.querySelectorAll('.rv');
-  if(rm||!('IntersectionObserver'in window)){items.forEach(function(e){e.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
-  },{threshold:.15});
-  items.forEach(function(e){io.observe(e);});
 })();
 </script>
 <!-- ==== PASTE TO HERE ==== -->

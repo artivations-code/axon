@@ -37,6 +37,7 @@
 .iata-stu .lead{display:flex;align-items:center;gap:.9rem;margin-bottom:1.5rem;--acc:var(--olive)}
 .iata-stu .a-slate .lead{--acc:var(--slate-lt)} .iata-stu .a-olive .lead{--acc:var(--olive)}
 .iata-stu .a-magenta .lead{--acc:var(--magenta)} .iata-stu .a-orange .lead{--acc:var(--orange)}
+.iata-stu .a-teal .lead{--acc:var(--teal)} .iata-stu .a-plum .lead{--acc:var(--plum)}
 .iata-stu .lead .num{font-family:var(--disp);font-weight:800;font-size:.74rem;letter-spacing:.16em;color:var(--acc)}
 .iata-stu .lead .eyebrow{color:var(--acc)}
 .iata-stu .lead .rule{height:1px;flex:1;background:var(--line2)}
@@ -106,6 +107,18 @@
 .iata-stu .tag.ev{color:var(--slate-lt)}.iata-stu .tag.dl{color:var(--orange)}.iata-stu .tag.op{color:var(--magenta)}
 .iata-stu .pin .what{color:var(--off-mut);font-size:.94rem}
 .iata-stu .pin .what b{color:var(--off);font-weight:700}
+
+.iata-stu .pulse{border:1px solid var(--line2);border-radius:3px;background:var(--band);
+  padding:clamp(1.5rem,3vw,2.2rem);margin-top:1.9rem}
+.iata-stu .pulse .q{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;
+  letter-spacing:.01em;color:var(--off);margin-bottom:1rem}
+.iata-stu .opts{display:grid;gap:.6rem;margin-bottom:1.4rem}
+.iata-stu .opt-r{display:flex;align-items:center;gap:.7rem;padding:.7rem 1rem;border:1px solid var(--line2);
+  border-radius:3px;cursor:pointer;transition:border-color .2s}
+.iata-stu .opt-r:hover{border-color:var(--teal)}
+.iata-stu .opt-r input{accent-color:var(--teal);width:1.05rem;height:1.05rem;flex:none}
+.iata-stu .opt-r span{color:var(--off-mut);font-size:.98rem}
+.iata-stu .pulse form{margin-top:0}
 
 /* forms */
 .iata-stu .formrow{display:grid;gap:clamp(2rem,5vw,3.4rem);margin-top:1.7rem}
@@ -217,7 +230,7 @@
     <!-- TO POST: copy one .pin block, set the tag (Event / Deadline / Opportunity), the date, and the text. Newest first. -->
     <div class="board">
       <div class="pin"><div class="date">Open</div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
-      <div class="pin"><div class="date">Fri</div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
+      <div class="pin"><div class="date">Sep 25</div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
       <div class="pin"><div class="date">Aug 7</div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. Graduate study and what comes next.</div></div>
       <div class="pin"><div class="date">Aug 9</div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. What the chapter is building and where students fit.</div></div>
       <div class="pin"><div class="date">Aug 30</div><div class="what"><span class="tag dl">Deadline</span><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
@@ -230,9 +243,42 @@
 </section>
 
 <!-- ============ CONNECT (newsletter + share) ============ -->
+<section class="sect a-teal">
+  <div class="wrap">
+    <div class="lead"><span class="num">04</span><span class="eyebrow">Student pulse</span><span class="rule"></span></div>
+    <h2 class="big">Tell us <span class="it">where you are.</span></h2>
+    <p class="sub">Short questions and quick polls the board posts to hear from students. Answer anonymously, or add your name &mdash; your input shapes what IndiATA does next.</p>
+    <div class="pulse">
+      <!-- Posted by the board. To run a new poll: edit the question and options; submissions email to the inbox. -->
+      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
+        <input type="hidden" name="_subject" value="IndiATA student pulse">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <p class="q">This semester, what do you most want more of?</p>
+        <div class="opts">
+          <label class="opt-r"><input type="radio" name="POLL" value="Community & events"><span>Community &amp; events</span></label>
+          <label class="opt-r"><input type="radio" name="POLL" value="Advocacy & licensure"><span>Advocacy &amp; licensure</span></label>
+          <label class="opt-r"><input type="radio" name="POLL" value="Career & credentialing"><span>Career &amp; credentialing help</span></label>
+          <label class="opt-r"><input type="radio" name="POLL" value="Scholarships & financial support"><span>Scholarships &amp; financial support</span></label>
+        </div>
+        <div class="fld">
+          <label for="pl-ans">Anything to add? <span class="opt">(optional)</span></label>
+          <textarea id="pl-ans" name="ANSWER" placeholder="A topic you need, a barrier to name, an event you&rsquo;d attend&hellip;"></textarea>
+        </div>
+        <div class="fld">
+          <label for="pl-name">Name <span class="opt">(optional &mdash; leave blank to stay anonymous)</span></label>
+          <input id="pl-name" name="NAME" type="text" placeholder="Anonymous" autocomplete="name">
+        </div>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Submit response <span class="ar">&rarr;</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section class="sect on-band a-orange">
   <div class="wrap">
-    <div class="lead"><span class="num">04</span><span class="eyebrow">Connect</span><span class="rule"></span></div>
+    <div class="lead"><span class="num">05</span><span class="eyebrow">Connect</span><span class="rule"></span></div>
     <h2 class="big">Get updates <span class="it">&amp; share ideas.</span></h2>
     <div class="formrow" style="margin-top:2.2rem">
 

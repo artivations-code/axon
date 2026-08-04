@@ -109,7 +109,15 @@
 .iata-stu .pin:has(.tag.op){--pc:var(--magenta)}
 .iata-stu .pin:has(.tag.dl){--pc:var(--orange)}
 .iata-stu .pin .date{display:grid;justify-items:center;gap:.1rem;min-width:66px;padding:.5rem .55rem;
-  background:var(--band);border:1px solid var(--line2);border-top:3px solid var(--pc);border-radius:6px}
+  background:color-mix(in srgb,var(--pc) 14%,var(--band));
+  border:1px solid color-mix(in srgb,var(--pc) 45%,var(--line2));border-top:3px solid var(--pc);border-radius:6px;
+  box-shadow:0 0 12px color-mix(in srgb,var(--pc) 35%,transparent);
+  animation:iata-glow 3.2s ease-in-out infinite alternate}
+@keyframes iata-glow{
+  from{box-shadow:0 0 7px color-mix(in srgb,var(--pc) 25%,transparent)}
+  to{box-shadow:0 0 18px color-mix(in srgb,var(--pc) 60%,transparent)}}
+.iata-stu .pin:hover .date{box-shadow:0 0 24px color-mix(in srgb,var(--pc) 75%,transparent);animation:none}
+@media(prefers-reduced-motion:reduce){.iata-stu .pin .date{animation:none}}
 .iata-stu .pin .date .mo{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
   font-size:.58rem;color:var(--pc)}
 .iata-stu .pin .date .dy{font-family:var(--disp);font-weight:800;font-size:1rem;color:var(--off);line-height:1;white-space:nowrap}

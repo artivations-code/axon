@@ -13,7 +13,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@700;800&display=swap');
 
 .iata-stu{
-  --navy:#02060E; --navy2:#061320;
+  --navy:#02060E; --navy2:#061320; --band:#0A1722;
   --off:#E9EEF2; --off-mut:#9FB0BC; --slate-lt:#8AA6B5;
   --magenta:#AE0055; --magenta-deep:#8A0044;
   --olive:#879637; --olive-deep:#5E6312;
@@ -25,23 +25,55 @@
 }
 .iata-stu *{box-sizing:border-box;margin:0;padding:0}
 .iata-stu a{color:inherit}
-.iata-stu .inner{max-width:600px;margin:0 auto}
+.iata-stu .inner{max-width:680px;margin:0 auto}
 .iata-stu .sec+.sec{margin-top:clamp(2.6rem,6vw,4rem);padding-top:clamp(2.6rem,6vw,4rem);border-top:1px solid var(--line)}
 .iata-stu .ey{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
   letter-spacing:.14em;font-size:.8rem;margin-bottom:.7rem}
 .iata-stu .kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
-  line-height:.95;letter-spacing:.01em;font-size:clamp(2.4rem,1.3rem+6vw,4.5rem)}
+  line-height:.95;letter-spacing:.01em;font-size:clamp(2.4rem,1.3rem+6vw,4.2rem)}
 .iata-stu .title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
   letter-spacing:.02em;font-size:clamp(1.35rem,1rem+2vw,2.1rem);margin:0 0 1rem}
 .iata-stu p.body{color:var(--off-mut);font-size:clamp(1rem,.96rem+.3vw,1.15rem);margin-bottom:1.1rem}
-.iata-stu .intro{color:var(--off-mut);margin-bottom:2.4rem;font-size:clamp(1rem,.96rem+.3vw,1.15rem)}
+.iata-stu .intro{color:var(--off-mut);margin-bottom:2rem;font-size:clamp(1rem,.96rem+.3vw,1.15rem)}
+.iata-stu .progs{color:var(--slate-lt);font-size:.95rem;margin-top:.4rem}
 
-.iata-stu .rep{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;
-  padding:clamp(1.2rem,3vw,1.6rem);margin-top:1.4rem}
-.iata-stu .rep .who{font-family:var(--disp);font-weight:800;color:var(--off);font-size:1.05rem;margin-bottom:.25rem}
-.iata-stu .rep .con{color:var(--slate-lt)}
-.iata-stu .rep .con a{color:var(--olive);font-weight:700}
+/* ways to get involved */
+.iata-stu .ways{display:grid;gap:1rem;margin-top:1.6rem}
+.iata-stu .way{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;padding:1.4rem}
+.iata-stu .way h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
+  font-size:1.05rem;letter-spacing:.02em;margin-bottom:.4rem}
+.iata-stu .way p{color:var(--off-mut);font-size:.98rem;margin-bottom:.7rem}
+.iata-stu .way .meta{color:var(--slate-lt);font-size:.82rem;font-weight:700}
+.iata-stu .note{margin-top:1.3rem;color:var(--off-mut);font-size:.95rem}
+.iata-stu .note strong{color:var(--off)}
 
+/* join steps */
+.iata-stu .steps2{display:grid;gap:1rem;margin-top:1.6rem}
+@media(min-width:560px){.iata-stu .steps2{grid-template-columns:1fr 1fr}}
+.iata-stu .stepc{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;padding:1.4rem}
+.iata-stu .stepc .n{font-family:var(--disp);font-weight:800;color:var(--olive);font-size:1.5rem;line-height:1}
+.iata-stu .stepc h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
+  font-size:1.02rem;letter-spacing:.02em;margin:.5rem 0 .3rem}
+.iata-stu .stepc p{color:var(--off-mut);font-size:.95rem}
+.iata-stu .stepc .cost{font-family:var(--disp);font-weight:800;color:var(--off);font-size:1.5rem;margin-top:.7rem}
+.iata-stu .stepc .cost span{font-size:.85rem;color:var(--off-mut);font-weight:600}
+.iata-stu .total{margin-top:1rem;background:var(--olive);color:#0a0f02;border-radius:14px;
+  padding:.9rem 1.3rem;font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.iata-stu .total .big{font-size:1.7rem}
+.iata-stu .req{margin-top:.9rem;color:var(--slate-lt);font-size:.9rem}
+
+/* bulletin board */
+.iata-stu .board{display:grid;gap:.8rem;margin-top:1.4rem}
+.iata-stu .pin{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;
+  background:var(--band);border:1px solid var(--line2);border-left:3px solid var(--olive);
+  border-radius:12px;padding:1rem 1.2rem}
+.iata-stu .pin .date{font-family:var(--disp);font-weight:800;color:var(--olive);font-size:.85rem;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;min-width:8.5ch}
+.iata-stu .pin .what b{color:var(--off);font-weight:700}
+.iata-stu .pin .what{color:var(--off-mut);font-size:.96rem}
+
+/* forms */
 .iata-stu form{display:grid;gap:1.3rem}
 .iata-stu .fld{display:grid;gap:.5rem}
 .iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
@@ -68,30 +100,137 @@
 
 <div class="inner">
 
-  <!-- ============ 1. STUDENT REPRESENTATIVE ============ -->
+  <!-- ============ INTRO ============ -->
   <section class="sec">
-    <p class="ey">Student representative</p>
-    <h2 class="title">You have a voice on the board.</h2>
-    <p class="body">IndiATA&rsquo;s student representative is a current art therapy student who holds a seat with the board. They carry student ideas, questions, and concerns into leadership &mdash; and bring opportunities and updates back to students across Indiana. It&rsquo;s how what matters to you actually gets heard.</p>
-    <!-- EDIT: replace with your current rep's name and email -->
-    <div class="rep">
-      <div class="who">Your rep: [Rep name]</div>
-      <div class="con">Reach out anytime &mdash; <a href="mailto:studentrep@example.org">studentrep@example.org</a></div>
+    <p class="kicker">For students</p>
+    <p class="intro" style="margin-top:.9rem">One student lane connecting art therapy students across Indiana&rsquo;s graduate programs &mdash; a place to stay informed, get involved, and bring your ideas and questions into IndiATA.</p>
+    <p class="progs">Saint Mary-of-the-Woods College &middot; Herron School of Art + Design at IU Indianapolis &middot; University of Indianapolis</p>
+  </section>
+
+  <!-- ============ STUDENT COMMUNITY ============ -->
+  <section class="sec">
+    <p class="ey">Student community</p>
+    <h2 class="title">Ways to get involved.</h2>
+    <p class="body">Connect with students across all three Indiana programs, and choose the level of involvement that fits your semester. No single path is required &mdash; start where you are.</p>
+    <div class="ways">
+      <div class="way">
+        <h3>Student representative</h3>
+        <p>Serve as an appointed, nonvoting student liaison between students in your program and IndiATA. Up to two representatives may be appointed from each program.</p>
+        <div class="meta">~2&ndash;4 hrs/month &middot; works around classes, internship, work, and life</div>
+      </div>
+      <div class="way">
+        <h3>Committee member</h3>
+        <p>Join work that matches your interests &mdash; Multicultural, Continuing Education, or Advocacy. Project-based; you&rsquo;re not on the hook for every chapter task.</p>
+        <div class="meta">Project-based &middot; as much or as little as you choose</div>
+      </div>
+      <div class="way">
+        <h3>One bounded contribution</h3>
+        <p>Help with a single thing &mdash; an event, a resource, a newsletter section, a Student Pulse question, or a cross-program gathering. A title isn&rsquo;t required.</p>
+        <div class="meta">One-time &middot; no ongoing commitment</div>
+      </div>
+    </div>
+    <p class="note">Interested in any of these? <strong>Email the chapter</strong> at <a href="mailto:Indianaarttherapy@gmail.com" style="color:var(--olive);font-weight:700">Indianaarttherapy@gmail.com</a> &mdash; or use the form at the bottom of this page.</p>
+  </section>
+
+  <!-- ============ JOIN INDIATA ============ -->
+  <section class="sec">
+    <p class="ey">Membership</p>
+    <h2 class="title">Want to join IndiATA?</h2>
+    <p class="body">Membership is two steps &mdash; and it&rsquo;s how you build community across Indiana. You join AATA first, then add the Indiana chapter.</p>
+    <div class="steps2">
+      <div class="stepc">
+        <div class="n">1</div>
+        <h3>Join AATA</h3>
+        <p>Art Therapy Student membership through the American Art Therapy Association.</p>
+        <div class="cost">$67<span>&nbsp;/year</span></div>
+      </div>
+      <div class="stepc">
+        <div class="n">2</div>
+        <h3>Add IndiATA</h3>
+        <p>Add the Indiana chapter through your MyAATA account.</p>
+        <div class="cost">$15<span>&nbsp;/year</span></div>
+      </div>
+    </div>
+    <div class="total"><span>Combined annual cost</span><span class="big">$82 / year</span></div>
+    <p class="req">Active AATA membership is required before you can add the Indiana chapter.</p>
+  </section>
+
+  <!-- ============ BULLETIN BOARD ============ -->
+  <section class="sec">
+    <p class="ey">Bulletin board</p>
+    <h2 class="title">What&rsquo;s coming up.</h2>
+    <p class="body">Dates, deadlines, and opportunities for student members across Indiana. <!-- EDIT: keep this list current --></p>
+    <div class="board">
+      <div class="pin"><div class="date">Aug 7</div><div class="what"><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. A conversation about graduate study and what comes next.</div></div>
+      <div class="pin"><div class="date">Aug 9</div><div class="what"><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. Hear what the chapter is building and where students can participate.</div></div>
+      <div class="pin"><div class="date">Aug 28</div><div class="what"><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
+      <div class="pin"><div class="date">Sep 13</div><div class="what"><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
+      <div class="pin"><div class="date">Sep 14&ndash;27</div><div class="what"><b>IndiATA Members Showcase</b> &mdash; exhibit at Phoenix Theatre.</div></div>
+      <div class="pin"><div class="date">Oct 14&ndash;17</div><div class="what"><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina.</div></div>
+      <div class="pin"><div class="date">Nov 14&ndash;15</div><div class="what"><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose.</div></div>
     </div>
   </section>
 
-  <!-- ============ 2. SUBMIT / POST ============ -->
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="sec">
+    <p class="kicker">Stay in the loop</p>
+    <p class="intro" style="margin-top:.8rem"><b style="color:var(--off)">The Student Current</b> &mdash; a monthly note for art therapy students across Indiana, plus bonus blog posts and resources: events, deadlines, opportunities, and what&rsquo;s next for the field. No membership required. Leave any time.</p>
+
+    <!-- Sign-ups are emailed to Indianaarttherapy@gmail.com via FormSubmit.
+         FIRST sign-up triggers a one-time activation email to that inbox — open it and click Activate.
+         Optional: to return people to your page after submit, uncomment _next and set your URL. -->
+    <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
+      <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <!-- <input type="hidden" name="_next" value="https://YOURSITE/students"> -->
+      <div class="fld">
+        <label for="nl-name">First name</label>
+        <input id="nl-name" name="FNAME" type="text" placeholder="Your name" autocomplete="given-name">
+      </div>
+      <div class="fld">
+        <label for="nl-email">Email</label>
+        <input id="nl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
+      </div>
+      <div class="fld">
+        <label for="nl-member">Membership</label>
+        <select id="nl-member" name="MEMBERSHIP" required>
+          <option value="" disabled selected>Select one</option>
+          <option>AATA + IndiATA member</option>
+          <option>AATA member only</option>
+          <option>Not yet a member</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="nl-school">Program <span class="opt">(optional)</span></label>
+        <select id="nl-school" name="SCHOOL">
+          <option value="" disabled selected>Select your program</option>
+          <option>Saint Mary-of-the-Woods College (SMWC)</option>
+          <option>University of Indianapolis (UIndy)</option>
+          <option>Herron / IU Indianapolis</option>
+          <option>Other Indiana program</option>
+          <option>Prospective student</option>
+        </select>
+      </div>
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+      <button type="submit">Sign me up &rarr;</button>
+    </form>
+  </section>
+
+  <!-- ============ SHARE / PULSE ============ -->
   <section class="sec">
     <p class="ey">Share it</p>
     <h2 class="title">Updates, ideas, opportunities, questions.</h2>
-    <p class="intro">Got something for the student rep? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes straight to your rep.</p>
+    <p class="intro">Got something for the chapter? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes to the IndiATA student inbox.</p>
 
-    <!-- EDIT: set data-to to your student rep's real email address. On submit this
-         opens the sender's email app pre-filled and addressed to the rep. -->
-    <form id="su-share" data-to="studentrep@example.org">
+    <!-- Submissions are emailed to Indianaarttherapy@gmail.com via FormSubmit (same inbox as sign-ups). -->
+    <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
+      <input type="hidden" name="_subject" value="IndiATA student submission">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
       <div class="fld">
         <label for="sh-type">This is a&hellip;</label>
-        <select id="sh-type" name="type" required>
+        <select id="sh-type" name="TYPE" required>
           <option value="" disabled selected>Select one</option>
           <option>Update</option>
           <option>Idea</option>
@@ -101,81 +240,22 @@
       </div>
       <div class="fld">
         <label for="sh-msg">Details</label>
-        <textarea id="sh-msg" name="message" placeholder="Share the details here&hellip;" required></textarea>
+        <textarea id="sh-msg" name="MESSAGE" placeholder="Share the details here&hellip;" required></textarea>
       </div>
       <div class="fld">
-        <label for="sh-name">Your name</label>
-        <input id="sh-name" name="name" type="text" placeholder="Your name" autocomplete="name">
+        <label for="sh-name">Your name <span class="opt">(optional)</span></label>
+        <input id="sh-name" name="NAME" type="text" placeholder="Your name" autocomplete="name">
       </div>
       <div class="fld">
-        <label for="sh-email">Email <span class="opt">(so the rep can reply)</span></label>
-        <input id="sh-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email">
+        <label for="sh-email">Email <span class="opt">(so the chapter can reply)</span></label>
+        <input id="sh-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
       </div>
-      <button type="submit">Send to rep &rarr;</button>
-      <p class="ok" role="status" aria-live="polite">Thanks &mdash; your email app should open, ready to send to the rep.</p>
-    </form>
-  </section>
-
-  <!-- ============ 3. NEWSLETTER SIGNUP ============ -->
-  <section class="sec">
-    <p class="kicker">Stay in the loop</p>
-    <p class="intro" style="margin-top:.8rem">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
-
-    <form id="su-news" data-demo="1" action="" method="post">
-      <div class="fld">
-        <label for="su-name">First name</label>
-        <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
-      </div>
-      <div class="fld">
-        <label for="su-email">Email</label>
-        <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
-      </div>
-      <button type="submit">Sign me up &rarr;</button>
-      <p class="ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list.</p>
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+      <button type="submit">Send it &rarr;</button>
     </form>
   </section>
 
 </div>
-
-<script>
-(function(){
-  var root=document.getElementById('iata-students');
-  if(!root) return;
-
-  /* Submit-to-rep form: builds a pre-filled email to the address in data-to */
-  var share=root.querySelector('#su-share');
-  if(share){
-    share.addEventListener('submit',function(e){
-      e.preventDefault();
-      if(share.checkValidity&&!share.checkValidity()){share.reportValidity&&share.reportValidity();return;}
-      var to=share.getAttribute('data-to')||'';
-      var type=(share.querySelector('[name=type]')||{}).value||'Message';
-      var msg=(share.querySelector('[name=message]')||{}).value||'';
-      var name=(share.querySelector('[name=name]')||{}).value||'';
-      var email=(share.querySelector('[name=email]')||{}).value||'';
-      var subject=type+' from a student'+(name?(' ('+name+')'):'');
-      var body=msg+'\n\n— '+(name||'A student')+(email?(' <'+email+'>'):'');
-      var ok=share.querySelector('.ok');
-      if(ok)ok.classList.add('show');
-      window.location.href='mailto:'+encodeURIComponent(to)
-        +'?subject='+encodeURIComponent(subject)
-        +'&body='+encodeURIComponent(body);
-    });
-  }
-
-  /* Newsletter form: demo mode shows a thank-you only. Wire an action to collect. */
-  var news=root.querySelector('#su-news');
-  if(news&&news.getAttribute('data-demo')){
-    news.addEventListener('submit',function(e){
-      e.preventDefault();
-      if(news.checkValidity&&!news.checkValidity()){news.reportValidity&&news.reportValidity();return;}
-      var ok=news.querySelector('.ok');
-      if(ok)ok.classList.add('show');
-      news.querySelectorAll('input,button').forEach(function(el){el.disabled=true;});
-    });
-  }
-})();
-</script>
 <!-- ==== PASTE TO HERE ==== -->
 
 </body>

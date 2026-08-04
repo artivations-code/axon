@@ -197,7 +197,7 @@
 .iata-stu .pulse{border:1px solid var(--line2);border-radius:3px;background:var(--band);
   padding:clamp(1.5rem,3vw,2.2rem);margin-top:1.9rem}
 .iata-stu .pulse .q{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;
-  letter-spacing:.01em;color:var(--off);margin-bottom:1rem}
+  letter-spacing:.01em;color:var(--acc);margin-bottom:1rem}
 .iata-stu .opts{display:grid;gap:.6rem;margin-bottom:1.4rem}
 .iata-stu .opt-r{display:flex;align-items:center;gap:.7rem;padding:.7rem 1rem;border:1px solid var(--line2);
   border-radius:3px;cursor:pointer;transition:border-color .2s}
@@ -267,18 +267,34 @@
 .iata-stu .route:hover{background:var(--band)}
 .iata-stu .route h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:.9rem;
   letter-spacing:.02em;color:var(--off)}
+.iata-stu .routes .route:nth-child(6n+1) h4{color:var(--teal)}
+.iata-stu .routes .route:nth-child(6n+2) h4{color:var(--olive)}
+.iata-stu .routes .route:nth-child(6n+3) h4{color:var(--orange)}
+.iata-stu .routes .route:nth-child(6n+4) h4{color:var(--plum)}
+.iata-stu .routes .route:nth-child(6n+5) h4{color:var(--slate-lt)}
+.iata-stu .routes .route:nth-child(6n+6) h4{color:#2D9285}
 .iata-stu .route p{color:var(--off-mut);font-size:.92rem}
 .iata-stu .route .btn,.iata-stu .ans .btn{justify-self:start;margin-top:.45rem;font-size:.66rem;padding:.65rem 1.05rem}
-.iata-stu .faqgrp{margin-top:2.1rem}
-.iata-stu .faqgrp .bg-h{margin-bottom:.9rem}
+.iata-stu .faqgrp{margin-top:2.1rem;--gc:var(--slate-lt)}
+.iata-stu .faqgrp.g-green{--gc:#2D9285}
+.iata-stu .faqgrp.g-teal{--gc:var(--teal)}
+.iata-stu .faqgrp.g-olive{--gc:var(--olive)}
+.iata-stu .faqgrp.g-orange{--gc:var(--orange)}
+.iata-stu .faqgrp.g-plum{--gc:var(--plum)}
+.iata-stu .faqgrp.g-slate{--gc:var(--slate-lt)}
+.iata-stu .faqgrp .bg-h{margin-bottom:.9rem;color:var(--gc)}
 .iata-stu details{border:1px solid var(--line2);border-radius:3px;background:var(--band);margin-bottom:.55rem}
+.iata-stu .faqgrp details{border-left:3px solid color-mix(in srgb,var(--gc) 55%,var(--line2))}
 .iata-stu details summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;justify-content:space-between;
-  gap:1rem;padding:.95rem 1.15rem;font-weight:700;color:var(--off);font-size:.97rem}
+  gap:1rem;padding:.95rem 1.15rem;font-weight:600;color:var(--off-mut);font-size:.97rem;transition:color .2s}
+.iata-stu details summary:hover,.iata-stu details[open] summary{color:var(--off)}
 .iata-stu details summary::-webkit-details-marker{display:none}
 .iata-stu details summary::after{content:"+";font-family:var(--disp);font-weight:800;font-size:1.05rem;color:var(--acc);flex:none;line-height:1}
+.iata-stu .faqgrp details summary::after{color:var(--gc)}
 .iata-stu details[open] summary::after{content:"\2013"}
 .iata-stu details .ans{padding:0 1.15rem 1.15rem;color:var(--off-mut);font-size:.94rem;display:grid;gap:.65rem;justify-items:start}
 .iata-stu details .ans b{color:var(--off)}
+.iata-stu details .frm{padding:1rem 1.15rem 1.15rem;display:grid;gap:1rem}
 
 /* collapsed rep form — opens on click */
 .iata-stu details.repbox{border:0;background:none;margin:1.4rem 0 0;border-radius:0}
@@ -579,7 +595,13 @@
           <textarea id="pl-ans" name="ANSWER" placeholder="A topic you need, a barrier to name, an event you&rsquo;d attend&hellip;"></textarea>
         </div>
         <div class="fld">
-          <label>What response would be useful? <span class="opt">(optional)</span></label>
+          <label for="pl-name">Name <span class="opt">(optional &mdash; leave blank to stay anonymous)</span></label>
+          <input id="pl-name" name="NAME" type="text" placeholder="Anonymous" autocomplete="name">
+        </div>
+        <details><summary>Want a reply, or this routed to the reps or Board? <span style="color:var(--off-mut);font-weight:400">(optional)</span></summary>
+        <div class="frm">
+        <div class="fld">
+          <label>What response would be useful?</label>
           <div class="opts" style="margin-bottom:0">
             <label class="opt-r"><input type="radio" name="ROUTE" value="No reply needed"><span>No reply needed</span></label>
             <label class="opt-r"><input type="radio" name="ROUTE" value="Email reply"><span>Email reply &mdash; add your email below</span></label>
@@ -591,13 +613,11 @@
           <label class="chk"><input type="checkbox" name="SUMMARY_OK" value="Yes"><span>IndiATA may share an anonymous summary of this &mdash; without identifying me &mdash; with Student Representatives or the Board.</span></label>
         </div>
         <div class="fld">
-          <label for="pl-name">Name <span class="opt">(optional &mdash; leave blank to stay anonymous)</span></label>
-          <input id="pl-name" name="NAME" type="text" placeholder="Anonymous" autocomplete="name">
-        </div>
-        <div class="fld">
-          <label for="pl-email">Email <span class="opt">(optional &mdash; needed only if you&rsquo;d like a reply)</span></label>
+          <label for="pl-email">Email <span class="opt">(needed only if you&rsquo;d like a reply)</span></label>
           <input id="pl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
         </div>
+        </div>
+        </details>
         <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
         <button type="submit">Submit response</button>
       </form>
@@ -615,6 +635,8 @@
 
     <div class="bgroup">
       <h3 class="bg-h orh">What will arrive</h3>
+      <details><summary>See what each issue brings</summary>
+      <div class="frm">
       <div class="arrive">
         <div class="a1"><h4>Professional wellness in practice</h4><p>Short, useful support for capacity, boundaries, burnout prevention, recovery, and sustainable participation while in school.</p></div>
         <div class="a2"><h4>Professional identity in development</h4><p>Prompts and resources for values, strengths, culture, access, professional voice, collaboration, and the practitioner you are becoming.</p></div>
@@ -622,15 +644,19 @@
         <div class="a4"><h4>Continuing education and advocacy</h4><p>Relevant learning, chapter updates, calls for participation, and clear routes to official sources when questions involve membership, credentials, or licensure.</p></div>
         <div class="a5"><h4>Ways to take part</h4><p>Student Representative opportunities, the Multicultural Committee, Continuing Education, Advocacy, member events, and one-time chapter projects.</p></div>
       </div>
+      </div>
+      </details>
     </div>
 
     <div class="pulse" id="newsletter-signup">
+      <p class="q">Join the student member list</p>
+      <p class="fineprint" style="margin-top:0">This list is for current IndiATA student members at Indiana graduate art therapy programs. Signing up does not create AATA or IndiATA membership.</p>
+      <details class="repbox" id="nl-details">
+        <summary><span class="when-closed">Open the signup form</span><span class="when-open">Hide the form</span></summary>
       <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="You’re connected" data-oksub="Student Member Current will bring chapter connection, professional development, and practical support into one place throughout the school year.">
         <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <p class="q">Join the student member list</p>
-        <p class="fineprint" style="margin-top:0">This list is for current IndiATA student members at Indiana graduate art therapy programs. Signing up does not create AATA or IndiATA membership.</p>
         <div class="fld">
           <label for="nl-fname">First name</label>
           <input id="nl-fname" name="FNAME" type="text" placeholder="First name" autocomplete="given-name" required>
@@ -679,6 +705,7 @@
         <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
         <button type="submit">Keep me connected</button>
       </form>
+      </details>
     </div>
 
     <div class="bgroup">
@@ -749,8 +776,8 @@
     <p class="sub">Student updates, cross-program connection, student input, representative roles, and committee participation for IndiATA student members.</p>
     <p class="fineprint">The ongoing student lane is for active IndiATA student members. Community outreach to prospective students, nonmembers, or related programs happens only when Student Representatives and IndiATA choose to open a specific opportunity.</p>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">Start here &mdash; what are you trying to do?</h3>
+    <div class="faqgrp g-green">
+      <h3 class="bg-h">Start here &mdash; what are you trying to do?</h3>
       <p class="fineprint" style="margin-top:0">Choose the closest situation. You can move between routes as your interests and capacity change.</p>
       <div class="routes">
         <div class="route"><h4>I want student-member updates.</h4><p>Events, advocacy, calls for art, volunteer roles, and cross-program opportunities.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div>
@@ -762,22 +789,22 @@
       </div>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">01 &mdash; Staying connected without taking a formal role</h3>
+    <div class="faqgrp g-teal">
+      <h3 class="bg-h">01 &mdash; Staying connected without taking a formal role</h3>
       <details><summary>I am an IndiATA student member and only want updates.</summary><div class="ans"><p>You do not need to become a Student Representative. Join Student Updates for member events, advocacy, calls for art, volunteer roles, and cross-program opportunities. You may unsubscribe at any time.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div></details>
       <details><summary>I am not an IndiATA student member. Can I still take part?</summary><div class="ans"><p>The ongoing student lane is for current IndiATA student members. Student Representatives may choose, with IndiATA, to offer a specific community event, outreach project, or open resource. Each opportunity will state who may participate.</p></div></details>
       <details><summary>I want to participate, but I do not want a title.</summary><div class="ans"><p>As a student member, you may attend member student events, answer Student Pulse questions, share an opportunity, propose a bounded project, join a cross-program gathering, or help with one specific task. Participation can stay limited to what fits.</p></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">02 &mdash; Sharing what student members need</h3>
+    <div class="faqgrp g-olive">
+      <h3 class="bg-h">02 &mdash; Sharing what student members need</h3>
       <details><summary>I want to share something without giving my name.</summary><div class="ans"><p>Use Student Pulse and leave the name and email fields blank. IndiATA can review the issue, but it cannot reply directly without contact information.</p><a class="btn" href="#pulse">Open Student Pulse</a></div></details>
       <details><summary>I want a direct reply.</summary><div class="ans"><p>Include an email address and select &ldquo;email reply&rdquo; as the response that would be useful. IndiATA will respond within the stated response window when a reply is requested.</p></div></details>
       <details><summary>I want a pattern or concern brought to Student Representatives or the Board.</summary><div class="ans"><p>Select the route you want on Student Pulse. IndiATA may summarize the issue without identifying you when you give permission for an anonymous summary.</p></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">03 &mdash; Considering the Student Representative role</h3>
+    <div class="faqgrp g-orange">
+      <h3 class="bg-h">03 &mdash; Considering the Student Representative role</h3>
       <details><summary>I want to become a Student Representative.</summary><div class="ans"><p>Complete the interest form. IndiATA will follow up for a brief conversation about your program, what you want to contribute, the time you have, and any questions. Submitting the form begins the process; the Executive Board makes appointments by recorded motion.</p><a class="btn" href="#rep-apply">Become a Student Representative</a></div></details>
       <details><summary>What does a Student Representative actually do?</summary><div class="ans"><p>Representatives share accurate IndiATA information, gather student questions and ideas, join brief cross-program check-ins, contribute to one bounded initiative at a time, and leave a usable handoff for the next representative.</p></div></details>
       <details><summary>How much time does the role take?</summary><div class="ans"><p>Plan for an average of two to four hours per month during active semesters. Finals, internship demands, work, health, caregiving, and other capacity changes can be named and planned around.</p></div></details>
@@ -787,8 +814,8 @@
       <details><summary>What support and recognition are included?</summary><div class="ans"><p>Representatives have a Board Liaison, shared project leadership, clear task boundaries, access planning, and a named route for concerns. Completed service may be documented through a confirmation letter and a CV-ready role description.</p></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">04 &mdash; Joining an IndiATA committee</h3>
+    <div class="faqgrp g-plum">
+      <h3 class="bg-h">04 &mdash; Joining an IndiATA committee</h3>
       <details><summary>I want to join the Multicultural Committee.</summary><div class="ans"><p>Share what draws you to the work, what you may want to contribute, and the time you realistically have. IndiATA will connect you with the committee lead to discuss current priorities and whether an ongoing role or bounded task is available.</p><a class="btn" href="#share">Express interest in Multicultural</a></div></details>
       <details><summary>I want to join the Continuing Education Committee.</summary><div class="ans"><p>Student members may contribute to program ideas, speaker research, accessibility, event support, communications, or another defined task. The committee lead will explain the current work and where student participation is useful.</p><a class="btn" href="#share">Express interest in Continuing Education</a></div></details>
       <details><summary>I want to join the Advocacy Committee.</summary><div class="ans"><p>Student members may help with research, member education, legislative updates, outreach, or another defined project under committee guidance. Share the advocacy areas that interest you and the amount of time that fits.</p><a class="btn" href="#share">Express interest in Advocacy</a></div></details>
@@ -797,8 +824,8 @@
       <details><summary>Can I be a Student Representative and join a committee?</summary><div class="ans"><p>Possibly. The roles are separate. A Student Representative appointment does not place you on a committee, and committee participation does not create a representative appointment. Name your capacity before taking both so each role stays clear and limited.</p><a class="btn ghost" href="#share">Ask about both roles</a></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">05 &mdash; Membership and applying</h3>
+    <div class="faqgrp g-slate">
+      <h3 class="bg-h">05 &mdash; Membership and applying</h3>
       <details><summary>I want to become a Student Representative, but my AATA or IndiATA student membership is not active.</summary><div class="ans"><p>The representative interest form is for current student members. Establish active AATA student membership and add IndiATA through MyAATA before submitting it. You may contact IndiATA with membership questions before deciding whether to move forward.</p><a class="btn" href="#join">Learn about membership</a></div></details>
       <details><summary>I already have AATA membership. How do I add IndiATA?</summary><div class="ans"><p>AATA designed state chapter sign-up to be accessible through an active AATA membership, with IndiATA added through MyAATA.</p><a class="btn ghost" href="#join">See the two steps</a></div></details>
       <details><summary>Do I need faculty approval, a GPA, portfolio, recommendation, r&eacute;sum&eacute;, or photograph?</summary><div class="ans"><p>No. Faculty may share the opportunity, but they do not appoint representatives. The interest process does not request a GPA, transcript, portfolio, recommendation letter, r&eacute;sum&eacute;, photograph, disability documentation, diagnosis disclosure, or personal trauma narrative.</p></div></details>
@@ -807,8 +834,8 @@
       <details><summary>I expressed interest and was not appointed. Can I still participate?</summary><div class="ans"><p>Yes. A formal appointment is only one route. As a student member, you may remain connected through updates, member check-ins, bounded projects, the contributor pool, and future openings.</p></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">06 &mdash; Program, transition, and access situations</h3>
+    <div class="faqgrp g-teal">
+      <h3 class="bg-h">06 &mdash; Program, transition, and access situations</h3>
       <details><summary>I am an IndiATA student member in an Indiana program that is missing or newly developing.</summary><div class="ans"><p>Contact IndiATA with the program name and the best public or faculty contact. Program names and offerings change, and IndiATA can review how the student lane applies.</p></div></details>
       <details><summary>I am an undergraduate student, in a related field, or outside an Indiana graduate art therapy program.</summary><div class="ans"><p>Current IndiATA student members may receive member student updates and participate in eligible opportunities. Formal Student Representative appointments currently connect Indiana graduate art therapy programs. Outreach beyond membership occurs only when Student Representatives and IndiATA open a specific opportunity.</p></div></details>
       <details><summary>I am graduating soon.</summary><div class="ans"><p>You may continue using the student lane while your student membership is active. Representatives complete a short handoff before the role ends. When your student eligibility changes, update your AATA membership category and continue through IndiATA&rsquo;s general member opportunities.</p></div></details>
@@ -816,8 +843,8 @@
       <details><summary>I have a concern about the representative process or an interaction.</summary><div class="ans"><p>Contact the Student Engagement Liaison or IndiATA directly. Share the specific concern, the response you are seeking, and whether you want your identity kept limited to the people needed to respond.</p></div></details>
     </div>
 
-    <div class="faqgrp">
-      <h3 class="bg-h slh">Choose one route now</h3>
+    <div class="faqgrp g-green">
+      <h3 class="bg-h">Choose one route now</h3>
       <p class="fineprint" style="margin-top:0"><b>IndiATA student membership connects you now &mdash; before graduation.</b> Representative, committee, and project participation can remain available later.</p>
       <div class="routes">
         <div class="route"><h4>Receive student-member information.</h4><p>Member events, opportunities, advocacy, calls for art, and cross-program connection.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div>
@@ -858,14 +885,15 @@
 
   /* submit via FormSubmit AJAX and show an inline branded thank-you
      (falls back to the normal redirect if fetch fails) */
-  /* the rep interest form is collapsed; any link to #rep-apply opens it */
-  var repD=document.getElementById('rep-details');
-  if(repD){
-    root.querySelectorAll('a[href="#rep-apply"]').forEach(function(a){
-      a.addEventListener('click',function(){repD.open=true;});
+  /* long forms are collapsed; any link to their section opens them */
+  [['rep-details','#rep-apply'],['nl-details','#newsletter-signup']].forEach(function(pair){
+    var d=document.getElementById(pair[0]);
+    if(!d) return;
+    root.querySelectorAll('a[href="'+pair[1]+'"]').forEach(function(a){
+      a.addEventListener('click',function(){d.open=true;});
     });
-    if(location.hash==='#rep-apply')repD.open=true;
-  }
+    if(location.hash===pair[1])d.open=true;
+  });
 
   /* "pick at least one" checkbox groups (marked data-minone) */
   root.querySelectorAll('[data-minone]').forEach(function(g){

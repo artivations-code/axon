@@ -10,130 +10,198 @@
 <!-- ==== PASTE FROM HERE ==== -->
 <div class="iata-stu" id="iata-students">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@700;800&family=Caveat:wght@600;700&display=swap');
 
 .iata-stu{
-  --navy:#02060E; --navy2:#061320; --band:#0A1722;
-  --off:#E9EEF2; --off-mut:#9FB0BC; --slate-lt:#8AA6B5;
+  --paper:#F5EFE2; --paper-alt:#EFE7D6; --card:#FFFFFF;
+  --ink:#14313E; --ink-mut:#5E6D6E;
   --magenta:#AE0055; --magenta-deep:#8A0044;
-  --olive:#879637; --olive-deep:#5E6312;
-  --line:#1E2A35; --line2:#2A3A47;
+  --olive:#7C8A2C; --olive-fill:#879637; --olive-deep:#5E6312;
+  --orange:#CF7600; --slate:#44697D; --plum:#885E80;
+  --line:#E3DAC6; --line2:#D6CBB2;
   --disp:'Open Sans',-apple-system,Segoe UI,sans-serif;
   --body:'Lato',-apple-system,Segoe UI,sans-serif;
-  font-family:var(--body);background:var(--navy);color:var(--off);line-height:1.55;
-  -webkit-font-smoothing:antialiased;padding:clamp(2.5rem,7vw,5rem) clamp(1.15rem,5vw,3rem)
+  --script:'Caveat',cursive;
+  --shadow:0 12px 34px rgba(20,49,62,.10);
+  font-family:var(--body);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;
+  position:relative;overflow:hidden;
+  padding:clamp(2.2rem,5vw,4rem) clamp(1.15rem,5vw,3rem);
+  background:
+    radial-gradient(60% 40% at 100% -5%, rgba(174,0,85,.10), transparent 60%),
+    radial-gradient(50% 45% at -8% 18%, rgba(135,150,55,.12), transparent 60%),
+    radial-gradient(45% 40% at 108% 82%, rgba(207,118,0,.09), transparent 60%),
+    var(--paper);
 }
+/* paper grain */
+.iata-stu::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .iata-stu *{box-sizing:border-box;margin:0;padding:0}
 .iata-stu a{color:inherit}
-.iata-stu .inner{max-width:680px;margin:0 auto}
-.iata-stu .sec+.sec{margin-top:clamp(2.6rem,6vw,4rem);padding-top:clamp(2.6rem,6vw,4rem);border-top:1px solid var(--line)}
-.iata-stu .ey{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
-  letter-spacing:.14em;font-size:.8rem;margin-bottom:.7rem}
-.iata-stu .kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
-  line-height:.95;letter-spacing:.01em;font-size:clamp(2.4rem,1.3rem+6vw,4.2rem)}
-.iata-stu .title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
-  letter-spacing:.02em;font-size:clamp(1.35rem,1rem+2vw,2.1rem);margin:0 0 1rem}
-.iata-stu p.body{color:var(--off-mut);font-size:clamp(1rem,.96rem+.3vw,1.15rem);margin-bottom:1.1rem}
-.iata-stu .intro{color:var(--off-mut);margin-bottom:2rem;font-size:clamp(1rem,.96rem+.3vw,1.15rem)}
-.iata-stu .progs{color:var(--slate-lt);font-size:.95rem;margin-top:.4rem}
+.iata-stu .inner{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+
+/* section rhythm + per-section accent color */
+.iata-stu .sec,.iata-stu .formcol{--acc:var(--olive-fill)}
+.iata-stu .a-slate{--acc:var(--slate)}
+.iata-stu .a-magenta{--acc:var(--magenta)}
+.iata-stu .a-orange{--acc:var(--orange)}
+.iata-stu .a-plum{--acc:var(--plum)}
+.iata-stu .sec+.sec{margin-top:clamp(1.9rem,4vw,3rem);padding-top:clamp(1.9rem,4vw,3rem);
+  border-top:2px dashed var(--line2)}
+.iata-stu p.body,.iata-stu .intro{max-width:64ch}
+
+.iata-stu .ey{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--acc);
+  letter-spacing:.13em;font-size:.8rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.55rem}
+.iata-stu .ey::before{content:"";width:1.8rem;height:.32rem;border-radius:3px;flex:none;background:var(--acc);
+  clip-path:polygon(2% 40%,15% 10%,40% 55%,60% 12%,82% 60%,100% 30%,98% 85%,70% 100%,45% 70%,22% 96%,4% 72%)}
+.iata-stu .kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--ink);
+  line-height:.95;letter-spacing:.005em;font-size:clamp(2.3rem,1.3rem+5vw,4rem);display:inline-block}
+.iata-stu .brush-u{display:block;width:min(340px,74%);height:20px;margin-top:.35rem;
+  background:no-repeat left center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 22'%3E%3Cpath d='M6 14 C64 5 128 19 178 11 C230 4 274 18 314 10' fill='none' stroke='%23AE0055' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E")}
+.iata-stu .script{font-family:var(--script);font-weight:600;color:var(--slate);font-size:1.3rem;line-height:1;margin-top:.7rem}
+.iata-stu .title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--ink);
+  letter-spacing:.01em;font-size:clamp(1.3rem,1rem+1.7vw,2rem);margin:0 0 .8rem}
+.iata-stu p.body{color:var(--ink-mut);font-size:clamp(1rem,.96rem+.3vw,1.12rem);margin-bottom:1rem}
+.iata-stu .intro{color:var(--ink-mut);margin-bottom:1.6rem;font-size:clamp(1rem,.96rem+.3vw,1.12rem)}
+.iata-stu .progs{color:var(--slate);font-weight:700;font-size:.95rem;margin-top:.6rem}
+
+/* hero decorative brush */
+.iata-stu .swoosh{position:absolute;top:-10px;right:-40px;width:340px;height:250px;z-index:0;opacity:.9;pointer-events:none;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M18 120 C120 38 288 58 384 132' stroke='%23AE0055' stroke-width='28' fill='none' stroke-linecap='round'/%3E%3Cpath d='M28 172 C142 98 300 120 374 196' stroke='%23879637' stroke-width='23' fill='none' stroke-linecap='round' opacity='.92'/%3E%3Cpath d='M40 216 C150 164 288 178 360 238' stroke='%23CF7600' stroke-width='16' fill='none' stroke-linecap='round' opacity='.88'/%3E%3C/svg%3E")}
+@media(max-width:760px){.iata-stu .swoosh{display:none}}
+
+/* cards shared */
+.iata-stu .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
 
 /* ways to get involved */
-.iata-stu .ways{display:grid;gap:1rem;margin-top:1.6rem}
-.iata-stu .way{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;padding:1.4rem}
-.iata-stu .way h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
-  font-size:1.05rem;letter-spacing:.02em;margin-bottom:.4rem}
-.iata-stu .way p{color:var(--off-mut);font-size:.98rem;margin-bottom:.7rem}
-.iata-stu .way .meta{color:var(--slate-lt);font-size:.82rem;font-weight:700}
-.iata-stu .note{margin-top:1.3rem;color:var(--off-mut);font-size:.95rem}
-.iata-stu .note strong{color:var(--off)}
+.iata-stu .ways{display:grid;gap:1.1rem;margin-top:1.4rem}
+@media(min-width:720px){.iata-stu .ways{grid-template-columns:repeat(3,1fr)}}
+.iata-stu .way{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--w);
+  border-radius:16px;padding:1.3rem;box-shadow:var(--shadow)}
+.iata-stu .way:nth-child(1){--w:var(--magenta)}
+.iata-stu .way:nth-child(2){--w:var(--olive-fill)}
+.iata-stu .way:nth-child(3){--w:var(--orange)}
+.iata-stu .way .dot{width:1.5rem;height:1.5rem;border-radius:50%;background:var(--w);margin-bottom:.7rem;
+  clip-path:polygon(20% 8%,55% 0,78% 18%,100% 45%,92% 74%,66% 96%,34% 92%,8% 72%,0 42%,10% 16%)}
+.iata-stu .way h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--ink);
+  font-size:1.02rem;letter-spacing:.01em;margin-bottom:.4rem}
+.iata-stu .way p{color:var(--ink-mut);font-size:.96rem;margin-bottom:.7rem}
+.iata-stu .way .meta{color:var(--w);font-size:.8rem;font-weight:700}
+.iata-stu .note{margin-top:1.2rem;color:var(--ink-mut);font-size:.95rem}
+.iata-stu .note strong{color:var(--ink)}
+.iata-stu .note a{color:var(--magenta);font-weight:700}
 
 /* join steps */
-.iata-stu .steps2{display:grid;gap:1rem;margin-top:1.6rem}
+.iata-stu .steps2{display:grid;gap:1rem;margin-top:1.4rem}
 @media(min-width:560px){.iata-stu .steps2{grid-template-columns:1fr 1fr}}
-.iata-stu .stepc{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;padding:1.4rem}
-.iata-stu .stepc .n{font-family:var(--disp);font-weight:800;color:var(--olive);font-size:1.5rem;line-height:1}
-.iata-stu .stepc h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
-  font-size:1.02rem;letter-spacing:.02em;margin:.5rem 0 .3rem}
-.iata-stu .stepc p{color:var(--off-mut);font-size:.95rem}
-.iata-stu .stepc .cost{font-family:var(--disp);font-weight:800;color:var(--off);font-size:1.5rem;margin-top:.7rem}
-.iata-stu .stepc .cost span{font-size:.85rem;color:var(--off-mut);font-weight:600}
-.iata-stu .total{margin-top:1rem;background:var(--olive);color:#0a0f02;border-radius:14px;
-  padding:.9rem 1.3rem;font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.03em;
-  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
-.iata-stu .total .big{font-size:1.7rem}
-.iata-stu .req{margin-top:.9rem;color:var(--slate-lt);font-size:.9rem}
+.iata-stu .stepc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.3rem;box-shadow:var(--shadow)}
+.iata-stu .stepc:nth-child(1){border-top:5px solid var(--olive-fill)}
+.iata-stu .stepc:nth-child(2){border-top:5px solid var(--slate)}
+.iata-stu .stepc .n{width:2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;font-size:1.1rem;color:#fff}
+.iata-stu .stepc:nth-child(1) .n{background:var(--olive-fill)}
+.iata-stu .stepc:nth-child(2) .n{background:var(--slate)}
+.iata-stu .stepc h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--ink);
+  font-size:1rem;letter-spacing:.01em;margin:.55rem 0 .3rem}
+.iata-stu .stepc p{color:var(--ink-mut);font-size:.93rem}
+.iata-stu .stepc .cost{font-family:var(--disp);font-weight:800;color:var(--magenta);font-size:1.5rem;margin-top:.6rem}
+.iata-stu .stepc .cost span{font-size:.82rem;color:var(--ink-mut);font-weight:600}
+.iata-stu .total{margin-top:1rem;background:var(--olive-fill);color:#fff;border-radius:14px;
+  padding:1rem 1.4rem;font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow);
+  clip-path:polygon(0 8%,3% 0,60% 4%,99% 0,100% 92%,97% 100%,40% 96%,1% 100%)}
+.iata-stu .total .big{font-size:1.8rem}
+.iata-stu .req{margin-top:.85rem;color:var(--slate);font-size:.9rem;font-style:italic}
 
-/* bulletin board */
-.iata-stu .board{display:grid;gap:.8rem;margin-top:1.4rem}
-.iata-stu .pin{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;
-  background:var(--band);border:1px solid var(--line2);border-left:3px solid var(--olive);
-  border-radius:12px;padding:1rem 1.2rem}
-.iata-stu .pin .date{font-family:var(--disp);font-weight:800;color:var(--olive);font-size:.85rem;
-  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;min-width:8.5ch}
-.iata-stu .pin .what b{color:var(--off);font-weight:700}
-.iata-stu .pin .what{color:var(--off-mut);font-size:.96rem}
+/* board bulletin */
+.iata-stu .board{display:grid;gap:.85rem;margin-top:1.3rem}
+@media(min-width:720px){.iata-stu .board{grid-template-columns:1fr 1fr}}
+.iata-stu .pin{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;
+  background:var(--card);border:1px solid var(--line);border-left:5px solid var(--slate);
+  border-radius:12px;padding:.95rem 1.1rem;box-shadow:var(--shadow)}
+.iata-stu .pin:has(.tag.op){border-left-color:var(--magenta)}
+.iata-stu .pin:has(.tag.dl){border-left-color:var(--orange)}
+.iata-stu .pin:has(.tag.ev){border-left-color:var(--slate)}
+.iata-stu .pin .date{font-family:var(--disp);font-weight:800;color:var(--ink);font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;min-width:7ch}
+.iata-stu .pin .what{color:var(--ink-mut);font-size:.94rem}
+.iata-stu .pin .what b{color:var(--ink);font-weight:700}
+.iata-stu .pin .tag{display:inline-block;font-family:var(--disp);font-weight:800;font-size:.58rem;
+  letter-spacing:.1em;text-transform:uppercase;padding:.16rem .5rem;border-radius:6px;margin-right:.45rem;vertical-align:1px;color:#fff}
+.iata-stu .tag.ev{background:var(--slate)}
+.iata-stu .tag.dl{background:var(--orange)}
+.iata-stu .tag.op{background:var(--magenta)}
 
 /* forms */
-.iata-stu form{display:grid;gap:1.3rem}
-.iata-stu .fld{display:grid;gap:.5rem}
-.iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
-  font-size:.76rem;color:var(--slate-lt)}
-.iata-stu .fld label .opt{color:var(--off-mut);font-weight:600;text-transform:none;letter-spacing:.04em;font-size:.92em}
-.iata-stu .fld input,.iata-stu .fld select,.iata-stu .fld textarea{width:100%;background:var(--navy2);
-  border:1px solid var(--line2);border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;
-  padding:1rem 1.1rem}
-.iata-stu .fld textarea{min-height:120px;resize:vertical;line-height:1.5}
-.iata-stu .fld input::placeholder,.iata-stu .fld textarea::placeholder{color:var(--off-mut)}
-.iata-stu .fld input:focus,.iata-stu .fld select:focus,.iata-stu .fld textarea:focus{outline:none;border-color:var(--olive)}
-.iata-stu .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.8rem;
-  background-repeat:no-repeat;background-position:right 1.1rem center;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239FB0BC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
-.iata-stu .fld select:has(option[value=""]:checked){color:var(--off-mut)}
+.iata-stu .formrow{display:grid;gap:clamp(1.4rem,3vw,2rem)}
+@media(min-width:820px){.iata-stu .formrow{grid-template-columns:1fr 1fr}}
+.iata-stu .formcol{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--acc);
+  border-radius:18px;padding:clamp(1.4rem,3.5vw,2rem);box-shadow:var(--shadow)}
+.iata-stu .formcol:nth-child(1){--acc:var(--magenta)}
+.iata-stu .formcol:nth-child(2){--acc:var(--plum)}
+.iata-stu form{display:grid;gap:1rem;margin-top:.3rem}
+.iata-stu .fld{display:grid;gap:.4rem}
+.iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.12em;
+  font-size:.72rem;color:var(--slate)}
+.iata-stu .fld label .opt{color:var(--ink-mut);font-weight:600;text-transform:none;letter-spacing:.03em;font-size:.92em}
+.iata-stu .fld input,.iata-stu .fld select,.iata-stu .fld textarea{width:100%;background:var(--paper);
+  border:1.5px solid var(--line2);border-radius:12px;color:var(--ink);font-family:var(--body);font-size:1.02rem;
+  padding:.85rem 1rem}
+.iata-stu .fld textarea{min-height:110px;resize:vertical;line-height:1.5}
+.iata-stu .fld input::placeholder,.iata-stu .fld textarea::placeholder{color:#9aa39c}
+.iata-stu .fld input:focus,.iata-stu .fld select:focus,.iata-stu .fld textarea:focus{outline:none;border-color:var(--acc)}
+.iata-stu .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.6rem;
+  background-repeat:no-repeat;background-position:right 1rem center;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2314313E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
+.iata-stu .fld select:has(option[value=""]:checked){color:#9aa39c}
 .iata-stu button{justify-self:start;margin-top:.3rem;display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;
-  padding:.9rem 1.5rem;border-radius:999px;border:0;cursor:pointer;color:var(--off);background:var(--magenta)}
+  font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.07em;font-size:.83rem;
+  padding:.85rem 1.5rem;border:0;cursor:pointer;color:#fff;background:var(--magenta);
+  border-radius:40px 38px 40px 36px/38px 40px 36px 40px}
 .iata-stu button:hover{background:var(--magenta-deep)}
-.iata-stu .ok{display:none;margin-top:.4rem;padding:1rem 1.2rem;border:1px solid var(--olive-deep);
-  border-radius:14px;background:rgba(135,150,55,.12);color:var(--off)}
-.iata-stu .ok.show{display:block}
 </style>
 
 <div class="inner">
 
   <!-- ============ INTRO ============ -->
   <section class="sec">
+    <span class="swoosh" aria-hidden="true"></span>
     <p class="kicker">For students</p>
-    <p class="intro" style="margin-top:.9rem">One student lane connecting art therapy students across Indiana&rsquo;s graduate programs &mdash; a place to stay informed, get involved, and bring your ideas and questions into IndiATA.</p>
+    <span class="brush-u" aria-hidden="true"></span>
+    <p class="script">made by students, across Indiana.</p>
+    <p class="intro" style="margin-top:1rem">One student lane connecting art therapy students across Indiana&rsquo;s graduate programs &mdash; a place to stay informed, get involved, and bring your ideas and questions into IndiATA.</p>
     <p class="progs">Saint Mary-of-the-Woods College &middot; Herron School of Art + Design at IU Indianapolis &middot; University of Indianapolis</p>
   </section>
 
   <!-- ============ STUDENT COMMUNITY ============ -->
-  <section class="sec">
+  <section class="sec a-slate">
     <p class="ey">Student community</p>
     <h2 class="title">Ways to get involved.</h2>
     <p class="body">Connect with students across all three Indiana programs, and choose the level of involvement that fits your semester. No single path is required &mdash; start where you are.</p>
     <div class="ways">
       <div class="way">
+        <span class="dot" aria-hidden="true"></span>
         <h3>Student representative</h3>
         <p>Serve as an appointed, nonvoting student liaison between students in your program and IndiATA. Up to two representatives may be appointed from each program.</p>
         <div class="meta">~2&ndash;4 hrs/month &middot; works around classes, internship, work, and life</div>
       </div>
       <div class="way">
+        <span class="dot" aria-hidden="true"></span>
         <h3>Committee member</h3>
         <p>Join work that matches your interests &mdash; Multicultural, Continuing Education, or Advocacy. Project-based; you&rsquo;re not on the hook for every chapter task.</p>
         <div class="meta">Project-based &middot; as much or as little as you choose</div>
       </div>
       <div class="way">
+        <span class="dot" aria-hidden="true"></span>
         <h3>One bounded contribution</h3>
         <p>Help with a single thing &mdash; an event, a resource, a newsletter section, a Student Pulse question, or a cross-program gathering. A title isn&rsquo;t required.</p>
         <div class="meta">One-time &middot; no ongoing commitment</div>
       </div>
     </div>
-    <p class="note">Interested in any of these? <strong>Email the chapter</strong> at <a href="mailto:Indianaarttherapy@gmail.com" style="color:var(--olive);font-weight:700">Indianaarttherapy@gmail.com</a> &mdash; or use the form at the bottom of this page.</p>
+    <p class="note">Interested in any of these? <strong>Email the chapter</strong> at <a href="mailto:Indianaarttherapy@gmail.com">Indianaarttherapy@gmail.com</a> &mdash; or use the form at the bottom of this page.</p>
   </section>
 
   <!-- ============ JOIN INDIATA ============ -->
-  <section class="sec">
+  <section class="sec a-olive">
     <p class="ey">Membership</p>
     <h2 class="title">Want to join IndiATA?</h2>
     <p class="body">Membership is two steps &mdash; and it&rsquo;s how you build community across Indiana. You join AATA first, then add the Indiana chapter.</p>
@@ -155,104 +223,111 @@
     <p class="req">Active AATA membership is required before you can add the Indiana chapter.</p>
   </section>
 
-  <!-- ============ BULLETIN BOARD ============ -->
-  <section class="sec">
-    <p class="ey">Bulletin board</p>
-    <h2 class="title">What&rsquo;s coming up.</h2>
-    <p class="body">Dates, deadlines, and opportunities for student members across Indiana. <!-- EDIT: keep this list current --></p>
+  <!-- ============ BOARD BULLETIN ============ -->
+  <section class="sec a-magenta">
+    <p class="ey">Board bulletin</p>
+    <h2 class="title">Opportunities &amp; updates.</h2>
+    <p class="body">Posted by the IndiATA board &mdash; events, deadlines, calls, and opportunities for students across Indiana. Check back through the semester.</p>
+    <!-- TO POST: copy one .pin block below and edit the tag (Event / Deadline / Opportunity), the date, and the text. Put the newest at the top. -->
     <div class="board">
-      <div class="pin"><div class="date">Aug 7</div><div class="what"><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. A conversation about graduate study and what comes next.</div></div>
-      <div class="pin"><div class="date">Aug 9</div><div class="what"><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. Hear what the chapter is building and where students can participate.</div></div>
-      <div class="pin"><div class="date">Aug 28</div><div class="what"><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
-      <div class="pin"><div class="date">Sep 13</div><div class="what"><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
-      <div class="pin"><div class="date">Sep 14&ndash;27</div><div class="what"><b>IndiATA Members Showcase</b> &mdash; exhibit at Phoenix Theatre.</div></div>
-      <div class="pin"><div class="date">Oct 14&ndash;17</div><div class="what"><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina.</div></div>
-      <div class="pin"><div class="date">Nov 14&ndash;15</div><div class="what"><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose.</div></div>
+      <div class="pin"><div class="date">Open</div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
+      <div class="pin"><div class="date">Aug 7</div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. A conversation about graduate study and what comes next.</div></div>
+      <div class="pin"><div class="date">Aug 9</div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. Hear what the chapter is building and where students can participate.</div></div>
+      <div class="pin"><div class="date">Aug 28</div><div class="what"><span class="tag dl">Deadline</span><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
+      <div class="pin"><div class="date">Sep 13</div><div class="what"><span class="tag ev">Event</span><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
+      <div class="pin"><div class="date">Sep 14&ndash;27</div><div class="what"><span class="tag ev">Event</span><b>IndiATA Members Showcase</b> &mdash; exhibit at Phoenix Theatre, Indianapolis.</div></div>
+      <div class="pin"><div class="date">Oct 14&ndash;17</div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina.</div></div>
+      <div class="pin"><div class="date">Nov 14&ndash;15</div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose.</div></div>
     </div>
   </section>
 
-  <!-- ============ NEWSLETTER ============ -->
+  <!-- ============ NEWSLETTER + SHARE (two columns) ============ -->
   <section class="sec">
-    <p class="kicker">Stay in the loop</p>
-    <p class="intro" style="margin-top:.8rem"><b style="color:var(--off)">The Student Current</b> &mdash; a monthly note for art therapy students across Indiana, plus bonus blog posts and resources: events, deadlines, opportunities, and what&rsquo;s next for the field. No membership required. Leave any time.</p>
+    <div class="formrow">
 
-    <!-- Sign-ups are emailed to Indianaarttherapy@gmail.com via FormSubmit.
-         FIRST sign-up triggers a one-time activation email to that inbox — open it and click Activate.
-         Optional: to return people to your page after submit, uncomment _next and set your URL. -->
-    <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
-      <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <!-- <input type="hidden" name="_next" value="https://YOURSITE/students"> -->
-      <div class="fld">
-        <label for="nl-name">First name</label>
-        <input id="nl-name" name="FNAME" type="text" placeholder="Your name" autocomplete="given-name">
-      </div>
-      <div class="fld">
-        <label for="nl-email">Email</label>
-        <input id="nl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
-      </div>
-      <div class="fld">
-        <label for="nl-member">Membership</label>
-        <select id="nl-member" name="MEMBERSHIP" required>
-          <option value="" disabled selected>Select one</option>
-          <option>AATA + IndiATA member</option>
-          <option>AATA member only</option>
-          <option>Not yet a member</option>
-        </select>
-      </div>
-      <div class="fld">
-        <label for="nl-school">Program <span class="opt">(optional)</span></label>
-        <select id="nl-school" name="SCHOOL">
-          <option value="" disabled selected>Select your program</option>
-          <option>Saint Mary-of-the-Woods College (SMWC)</option>
-          <option>University of Indianapolis (UIndy)</option>
-          <option>Herron / IU Indianapolis</option>
-          <option>Other Indiana program</option>
-          <option>Prospective student</option>
-        </select>
-      </div>
-      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-      <button type="submit">Sign me up &rarr;</button>
-    </form>
-  </section>
+      <div class="formcol">
+        <p class="ey">Newsletter</p>
+        <h2 class="title">Stay in the loop.</h2>
+        <p class="intro"><b style="color:var(--ink)">The Student Current</b> &mdash; a monthly note plus bonus blog posts and resources: events, deadlines, opportunities, and what&rsquo;s next for the field. No membership required. Leave any time.</p>
 
-  <!-- ============ SHARE / PULSE ============ -->
-  <section class="sec">
-    <p class="ey">Share it</p>
-    <h2 class="title">Updates, ideas, opportunities, questions.</h2>
-    <p class="intro">Got something for the chapter? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes to the IndiATA student inbox.</p>
+        <!-- Sign-ups email to Indianaarttherapy@gmail.com via FormSubmit. The FIRST sign-up
+             triggers a one-time activation email to that inbox — open it and click Activate. -->
+        <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
+          <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <!-- <input type="hidden" name="_next" value="https://YOURSITE/students"> -->
+          <div class="fld">
+            <label for="nl-name">First name</label>
+            <input id="nl-name" name="FNAME" type="text" placeholder="Your name" autocomplete="given-name">
+          </div>
+          <div class="fld">
+            <label for="nl-email">Email</label>
+            <input id="nl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
+          </div>
+          <div class="fld">
+            <label for="nl-member">Membership</label>
+            <select id="nl-member" name="MEMBERSHIP" required>
+              <option value="" disabled selected>Select one</option>
+              <option>AATA + IndiATA member</option>
+              <option>AATA member only</option>
+              <option>Not yet a member</option>
+            </select>
+          </div>
+          <div class="fld">
+            <label for="nl-school">Program <span class="opt">(optional)</span></label>
+            <select id="nl-school" name="SCHOOL">
+              <option value="" disabled selected>Select your program</option>
+              <option>Saint Mary-of-the-Woods College (SMWC)</option>
+              <option>University of Indianapolis (UIndy)</option>
+              <option>Herron / IU Indianapolis</option>
+              <option>Other Indiana program</option>
+              <option>Prospective student</option>
+            </select>
+          </div>
+          <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+          <button type="submit">Sign me up &rarr;</button>
+        </form>
+      </div>
 
-    <!-- Submissions are emailed to Indianaarttherapy@gmail.com via FormSubmit (same inbox as sign-ups). -->
-    <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
-      <input type="hidden" name="_subject" value="IndiATA student submission">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <div class="fld">
-        <label for="sh-type">This is a&hellip;</label>
-        <select id="sh-type" name="TYPE" required>
-          <option value="" disabled selected>Select one</option>
-          <option>Update</option>
-          <option>Idea</option>
-          <option>Opportunity</option>
-          <option>Question</option>
-        </select>
+      <div class="formcol">
+        <p class="ey">Share it</p>
+        <h2 class="title">Ideas &amp; questions.</h2>
+        <p class="intro">Got something for the chapter? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes to the IndiATA student inbox.</p>
+
+        <!-- Submissions email to the same inbox via FormSubmit. -->
+        <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post">
+          <input type="hidden" name="_subject" value="IndiATA student submission">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <div class="fld">
+            <label for="sh-type">This is a&hellip;</label>
+            <select id="sh-type" name="TYPE" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Update</option>
+              <option>Idea</option>
+              <option>Opportunity</option>
+              <option>Question</option>
+            </select>
+          </div>
+          <div class="fld">
+            <label for="sh-msg">Details</label>
+            <textarea id="sh-msg" name="MESSAGE" placeholder="Share the details here&hellip;" required></textarea>
+          </div>
+          <div class="fld">
+            <label for="sh-name">Your name <span class="opt">(optional)</span></label>
+            <input id="sh-name" name="NAME" type="text" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="fld">
+            <label for="sh-email">Email <span class="opt">(so the chapter can reply)</span></label>
+            <input id="sh-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
+          </div>
+          <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+          <button type="submit">Send it &rarr;</button>
+        </form>
       </div>
-      <div class="fld">
-        <label for="sh-msg">Details</label>
-        <textarea id="sh-msg" name="MESSAGE" placeholder="Share the details here&hellip;" required></textarea>
-      </div>
-      <div class="fld">
-        <label for="sh-name">Your name <span class="opt">(optional)</span></label>
-        <input id="sh-name" name="NAME" type="text" placeholder="Your name" autocomplete="name">
-      </div>
-      <div class="fld">
-        <label for="sh-email">Email <span class="opt">(so the chapter can reply)</span></label>
-        <input id="sh-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
-      </div>
-      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-      <button type="submit">Send it &rarr;</button>
-    </form>
+
+    </div>
   </section>
 
 </div>

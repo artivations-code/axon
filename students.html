@@ -284,6 +284,10 @@
 .iata-stu details[open]>summary.bg-h::before{content:"\2013"}
 .iata-stu .faqgrp>summary.bg-h::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
 .iata-stu details.faqgrp:not([open])>summary.bg-h{margin-bottom:0}
+.iata-stu summary.bg-h .cnt{font-family:var(--body);font-weight:700;text-transform:none;letter-spacing:.02em;
+  font-size:.72rem;line-height:1;color:var(--gc);border:1px solid color-mix(in srgb,var(--gc) 45%,transparent);
+  border-radius:999px;padding:.28rem .65rem;flex:none}
+.iata-stu details.faqgrp[open]>summary.bg-h .cnt{opacity:.55}
 .iata-stu .faqgrp .qs{margin-top:.9rem}
 @media(min-width:760px){
   .iata-stu .faqgrp .qs{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;align-items:start}
@@ -807,7 +811,7 @@
     </div>
 
     <details class="faqgrp g-teal">
-      <summary class="bg-h">01 &mdash; Staying connected without taking a formal role</summary>
+      <summary class="bg-h">01 &mdash; Staying connected without taking a formal role <span class="cnt">2 questions</span></summary>
       <div class="qs">
       <details><summary>I am an IndiATA student member and only want updates.</summary><div class="ans"><p>You do not need to become a Student Representative. Join Student Updates for member events, advocacy, calls for art, volunteer roles, and cross-program opportunities. You may unsubscribe at any time.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div></details>
       <details><summary>I am not an IndiATA student member. Can I still take part?</summary><div class="ans"><p>The ongoing student lane is for current IndiATA student members. Student Representatives may choose, with IndiATA, to offer a specific community event, outreach project, or open resource. Each opportunity will state who may participate.</p></div></details>
@@ -815,7 +819,7 @@
     </details>
 
     <details class="faqgrp g-olive">
-      <summary class="bg-h">02 &mdash; Sharing what student members need</summary>
+      <summary class="bg-h">02 &mdash; Sharing what student members need <span class="cnt">3 questions</span></summary>
       <div class="qs">
       <details><summary>How do I know something belongs with IndiATA or the Student Reps?</summary><div class="ans"><p>IndiATA can act on what is IndiATA-specific: chapter events, membership, resources, opportunities, committees, and the student lane. Two checks help &mdash; is this about IndiATA, and what are you asking the chapter to do with it? Matters tied to coursework, supervision, placements, or conduct follow your program&rsquo;s own protocol. IndiATA hosts and safeguards this space; it does not police, investigate, or replace those procedures. Responses stay within IndiATA&rsquo;s bylaws and ethics guidelines.</p></div></details>
       <details><summary>I want to share something without giving my name.</summary><div class="ans"><p>Use Student Pulse and leave the name and email fields blank. IndiATA can review the issue, but it cannot reply directly without contact information.</p><a class="btn" href="#pulse">Open Student Pulse</a></div></details>
@@ -824,7 +828,7 @@
     </details>
 
     <details class="faqgrp g-orange">
-      <summary class="bg-h">03 &mdash; Considering the Student Representative role</summary>
+      <summary class="bg-h">03 &mdash; Considering the Student Representative role <span class="cnt">4 questions</span></summary>
       <div class="qs">
       <details><summary>What does a Student Representative actually do?</summary><div class="ans"><p>Representatives share accurate IndiATA information, gather student questions and ideas, join brief cross-program check-ins, contribute to one bounded initiative at a time, and leave a usable handoff for the next representative.</p></div></details>
       <details><summary>How much time does the role take?</summary><div class="ans"><p>Plan for an average of two to four hours per month during active semesters. Finals, internship demands, work, health, caregiving, and other capacity changes can be named and planned around.</p></div></details>
@@ -834,7 +838,7 @@
     </details>
 
     <details class="faqgrp g-plum">
-      <summary class="bg-h">04 &mdash; Joining an IndiATA committee</summary>
+      <summary class="bg-h">04 &mdash; Joining an IndiATA committee <span class="cnt">2 questions</span></summary>
       <div class="qs">
       <details><summary>How do I join a committee?</summary><div class="ans"><p>Pick the committee in the Share form &mdash; Multicultural, Continuing Education, or Advocacy (or &ldquo;Help me find a committee&rdquo;) &mdash; and note what you&rsquo;d like to contribute and the time you realistically have. The committee lead follows up about current priorities and whether an ongoing role or one bounded task fits.</p><a class="btn" href="#share">Express committee interest</a></div></details>
       <details><summary>Can I be a Student Representative and join a committee?</summary><div class="ans"><p>Possibly. The roles are separate. A Student Representative appointment does not place you on a committee, and committee participation does not create a representative appointment. Name your capacity before taking both so each role stays clear and limited.</p><a class="btn ghost" href="#share">Ask about both roles</a></div></details>
@@ -842,7 +846,7 @@
     </details>
 
     <details class="faqgrp g-slate">
-      <summary class="bg-h">05 &mdash; Membership and applying</summary>
+      <summary class="bg-h">05 &mdash; Membership and applying <span class="cnt">3 questions</span></summary>
       <div class="qs">
       <details><summary>I want to become a Student Representative, but my AATA or IndiATA student membership is not active.</summary><div class="ans"><p>The representative interest form is for current student members. Establish active AATA student membership and add IndiATA through MyAATA before submitting it. You may contact IndiATA with membership questions before deciding whether to move forward.</p><a class="btn" href="#join">Learn about membership</a></div></details>
       <details><summary>Do I need faculty approval, a GPA, portfolio, recommendation, r&eacute;sum&eacute;, or photograph?</summary><div class="ans"><p>No. Faculty may share the opportunity, but they do not appoint representatives. The interest process does not request a GPA, transcript, portfolio, recommendation letter, r&eacute;sum&eacute;, photograph, disability documentation, diagnosis disclosure, or personal trauma narrative.</p></div></details>
@@ -851,7 +855,7 @@
     </details>
 
     <details class="faqgrp g-teal">
-      <summary class="bg-h">06 &mdash; Program, transition, and access situations</summary>
+      <summary class="bg-h">06 &mdash; Program, transition, and access situations <span class="cnt">2 questions</span></summary>
       <div class="qs">
       <details><summary>I need another communication format or access support.</summary><div class="ans"><p>Use the access field on a form or email IndiATA. You may ask for an asynchronous conversation, another way to respond, or communication limited to the information needed for the question at hand &mdash; use the <b>Contact Us</b> page in the site menu.</p></div></details>
       <details><summary>I have a concern about the representative process or an interaction.</summary><div class="ans"><p>Contact the Student Engagement Liaison or IndiATA directly. Share the specific concern, the response you are seeking, and whether you want your identity kept limited to the people needed to respond.</p></div></details>
@@ -889,6 +893,11 @@
 
   /* submit via FormSubmit AJAX and show an inline branded thank-you
      (falls back to the normal redirect if fetch fails) */
+  /* FAQ groups open on hover and stay open */
+  root.querySelectorAll('details.faqgrp>summary').forEach(function(sm){
+    sm.addEventListener('mouseenter',function(){sm.parentElement.open=true;});
+  });
+
   /* long forms are collapsed; any link to their section opens them */
   [['rep-details','#rep-apply'],['nl-details','#newsletter-signup']].forEach(function(pair){
     var d=document.getElementById(pair[0]);

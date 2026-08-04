@@ -199,6 +199,7 @@
 .iata-stu .pulse .q{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1.05rem;
   letter-spacing:.01em;color:var(--acc);margin-bottom:1rem}
 .iata-stu .opts{display:grid;gap:.6rem;margin-bottom:1.4rem}
+@media(min-width:640px){.iata-stu .opts{grid-template-columns:1fr 1fr}}
 .iata-stu .opt-r{display:flex;align-items:center;gap:.7rem;padding:.7rem 1rem;border:1px solid var(--line2);
   border-radius:3px;cursor:pointer;transition:border-color .2s}
 .iata-stu .opt-r:hover{border-color:var(--teal)}
@@ -276,6 +277,10 @@
 .iata-stu .route p{color:var(--off-mut);font-size:.92rem}
 .iata-stu .route .btn,.iata-stu .ans .btn{justify-self:start;margin-top:.45rem;font-size:.66rem;padding:.65rem 1.05rem}
 .iata-stu .faqgrp{margin-top:2.1rem;--gc:var(--slate-lt)}
+@media(min-width:760px){
+  .iata-stu .faqgrp{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;align-items:start}
+  .iata-stu .faqgrp>.bg-h,.iata-stu .faqgrp>.fineprint,.iata-stu .faqgrp>.routes{grid-column:1/-1}
+}
 .iata-stu .faqgrp.g-green{--gc:#2D9285}
 .iata-stu .faqgrp.g-teal{--gc:var(--teal)}
 .iata-stu .faqgrp.g-olive{--gc:var(--olive)}
@@ -384,7 +389,7 @@
     </div>
     <div class="pulse" id="rep-apply">
       <p class="q">IndiATA Student Representative Interest Form</p>
-      <p class="fineprint" style="margin-top:0">Student Representatives connect students in their program with IndiATA and bring student questions, ideas, and priorities back to the association. The role averages two to four hours per month, works around school and internship demands, and is supported by a Board Liaison.</p>
+      <p class="fineprint" style="margin-top:0">Student Representatives bring student questions, ideas, and priorities into the association. The role works around school and internship demands and is supported by a Board Liaison.</p>
       <details class="repbox" id="rep-details">
         <summary><span class="when-closed">Open the interest form</span><span class="when-open">Hide the form</span></summary>
         <p class="fineprint">Submitting this form expresses interest; it does not create an appointment. No GPA, portfolio, recommendation, r&eacute;sum&eacute;, photograph, or personal diagnosis disclosure is requested.</p>
@@ -550,7 +555,7 @@
     <!-- TO POST: add a .pin inside the right category. Keep Events in date order. -->
     <div class="bgroup">
       <h3 class="bg-h op">Open calls</h3>
-      <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. <a class="lnk" href="#rep-apply">Apply on this page &rarr;</a></div></div>
+      <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; interest form open now. <a class="lnk" href="#rep-apply">Apply on this page &rarr;</a></div></div>
     </div>
     <div class="bgroup">
       <h3 class="bg-h dl">Deadlines</h3>
@@ -598,7 +603,7 @@
           <label for="pl-name">Name <span class="opt">(optional &mdash; leave blank to stay anonymous)</span></label>
           <input id="pl-name" name="NAME" type="text" placeholder="Anonymous" autocomplete="name">
         </div>
-        <details><summary>Want a reply, or this routed to the reps or Board? <span style="color:var(--off-mut);font-weight:400">(optional)</span></summary>
+        <details><summary><span>Want a reply, or this routed to the reps or Board? <span style="color:var(--off-mut);font-weight:400">(optional)</span></span></summary>
         <div class="frm">
         <div class="fld">
           <label>What response would be useful?</label>
@@ -631,7 +636,7 @@
     <div class="lead"><span class="num">05</span><span class="eyebrow">Student member current</span><span class="rule"></span></div>
     <h2 class="big">Stay connected <span class="it">while school is happening.</span></h2>
     <p class="sub">Professional identity grows in community. IndiATA&rsquo;s student member newsletter brings Indiana graduate art therapy students a steady place for professional wellness, burnout care and prevention, chapter connection, continuing education, advocacy, and ways to participate without taking on more than fits.</p>
-    <p class="progs">For current IndiATA student members &nbsp;&middot;&nbsp; Saint Mary-of-the-Woods College &nbsp;&middot;&nbsp; Herron at IU Indianapolis &nbsp;&middot;&nbsp; University of Indianapolis</p>
+    <p class="progs">For current IndiATA student members at Indiana&rsquo;s three graduate art therapy programs</p>
 
     <div class="bgroup">
       <h3 class="bg-h orh">What will arrive</h3>
@@ -640,7 +645,7 @@
       <div class="arrive">
         <div class="a1"><h4>Professional wellness in practice</h4><p>Short, useful support for capacity, boundaries, burnout prevention, recovery, and sustainable participation while in school.</p></div>
         <div class="a2"><h4>Professional identity in development</h4><p>Prompts and resources for values, strengths, culture, access, professional voice, collaboration, and the practitioner you are becoming.</p></div>
-        <div class="a3"><h4>Community across programs</h4><p>Connection among student members at Saint Mary-of-the-Woods College, Herron School of Art + Design at IU Indianapolis, and the University of Indianapolis.</p></div>
+        <div class="a3"><h4>Community across programs</h4><p>Connection among student members across Indiana&rsquo;s three graduate programs.</p></div>
         <div class="a4"><h4>Continuing education and advocacy</h4><p>Relevant learning, chapter updates, calls for participation, and clear routes to official sources when questions involve membership, credentials, or licensure.</p></div>
         <div class="a5"><h4>Ways to take part</h4><p>Student Representative opportunities, the Multicultural Committee, Continuing Education, Advocacy, member events, and one-time chapter projects.</p></div>
       </div>
@@ -710,11 +715,7 @@
 
     <div class="bgroup">
       <h3 class="bg-h olh">Not a member yet?</h3>
-      <p class="sub" style="font-size:.95rem">AATA membership begins at the national level. After your AATA student membership is active, add IndiATA through MyAATA. Then return here to join the student member list.</p>
-      <div class="btnrow">
-        <a class="btn" href="https://arttherapy.org/join-today/" target="_blank" rel="noopener">Start with AATA</a>
-        <a class="btn ghost" href="https://my.arttherapy.org/home" target="_blank" rel="noopener">Add IndiATA through MyAATA</a>
-      </div>
+      <p class="sub" style="font-size:.95rem">Membership starts with AATA, then you add IndiATA through MyAATA &mdash; the two steps, costs, and links are in <a href="#join" style="color:var(--olive);font-weight:700">Membership</a> above. Then return here to join the list.</p>
     </div>
 
     <p class="fineprint"><b>Need help?</b> Reach out through the IndiATA Facebook group or email <b>Indiana.art.therapy@gmail.com</b>.</p>
@@ -843,17 +844,6 @@
       <details><summary>I have a concern about the representative process or an interaction.</summary><div class="ans"><p>Contact the Student Engagement Liaison or IndiATA directly. Share the specific concern, the response you are seeking, and whether you want your identity kept limited to the people needed to respond.</p></div></details>
     </div>
 
-    <div class="faqgrp g-green">
-      <h3 class="bg-h">Choose one route now</h3>
-      <p class="fineprint" style="margin-top:0"><b>IndiATA student membership connects you now &mdash; before graduation.</b> Representative, committee, and project participation can remain available later.</p>
-      <div class="routes">
-        <div class="route"><h4>Receive student-member information.</h4><p>Member events, opportunities, advocacy, calls for art, and cross-program connection.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div>
-        <div class="route"><h4>Share what student members need.</h4><p>Questions, concerns, ideas, barriers, and opportunities may be submitted with your name or without it.</p><a class="btn" href="#pulse">Open Student Pulse</a></div>
-        <div class="route"><h4>Explore formal representation.</h4><p>Review the role and submit interest when the timing and structure fit.</p><a class="btn" href="#rep-apply">Become a Student Representative</a></div>
-        <div class="route"><h4>Join an IndiATA committee.</h4><p>Explore Multicultural, Continuing Education, Advocacy, or one bounded committee task.</p><a class="btn" href="#share">Explore committees</a></div>
-      </div>
-      <p class="fineprint">Questions or another response route: <b>Indiana.art.therapy@gmail.com</b></p>
-    </div>
   </div>
 </section>
 

@@ -582,14 +582,26 @@
       if(!window.fetch){return}
       ev.preventDefault();
       var btn=f.querySelector('button');
+      var btnText=btn?btn.textContent:'';
       if(btn){btn.disabled=true;btn.textContent='Sending…';}
-      if(SHEET_URL){try{fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:new FormData(f)});}catch(_){}}
+      var data=new FormData(f);
+      if(SHEET_URL){try{
+        var params=new URLSearchParams();
+        data.forEach(function(v,k){params.append(k,v);});
+        fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:params});
+      }catch(_){}}
       fetch(f.action.replace('formsubmit.co/','formsubmit.co/ajax/'),{
-        method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}
+        method:'POST',body:data,headers:{'Accept':'application/json'}
       }).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){
-        var d=document.createElement('div');d.className='ok';
+        /* keep the form; show the confirmation under it */
+        var prev=f.nextElementSibling;
+        if(prev&&prev.classList&&prev.classList.contains('ok'))prev.remove();
+        var d=document.createElement('div');d.className='ok';d.style.marginTop='1rem';
         d.innerHTML='<b>'+f.getAttribute('data-ok')+'</b><span>'+(f.getAttribute('data-oksub')||'')+'</span>';
-        f.replaceWith(d);
+        f.insertAdjacentElement('afterend',d);
+        f.reset();
+        if(btn){btn.disabled=false;btn.textContent=btnText;}
+        d.scrollIntoView({behavior:'smooth',block:'nearest'});
       }).catch(function(){HTMLFormElement.prototype.submit.call(f);});
     });
   });

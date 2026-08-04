@@ -47,6 +47,27 @@
 .iata-stu h2.big .it{color:var(--acc)}
 .iata-stu .sub{color:var(--off-mut);max-width:60ch;font-size:clamp(1rem,.97rem+.3vw,1.14rem)}
 
+/* development banner */
+.iata-stu .devnote{position:relative;z-index:5;text-align:center;padding:.6rem 1rem;
+  background:color-mix(in srgb,var(--orange) 14%,var(--navy));
+  border-bottom:1px solid color-mix(in srgb,var(--orange) 40%,var(--line2))}
+.iata-stu .devnote b{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
+  font-size:.62rem;color:color-mix(in srgb,var(--orange) 78%,white)}
+.iata-stu .devnote span{color:var(--off-mut);font-size:.78rem}
+
+/* what-will-arrive grid */
+.iata-stu .arrive{display:grid;gap:1.4rem clamp(1.4rem,3vw,2.4rem);margin-top:1rem}
+@media(min-width:760px){.iata-stu .arrive{grid-template-columns:1fr 1fr}}
+.iata-stu .arrive h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:.92rem;
+  letter-spacing:.02em;color:var(--off);margin-bottom:.35rem}
+.iata-stu .arrive p{color:var(--off-mut);font-size:.93rem}
+.iata-stu .arrive .a1 h4{color:var(--teal)} .iata-stu .arrive .a2 h4{color:var(--olive)}
+.iata-stu .arrive .a3 h4{color:var(--slate-lt)} .iata-stu .arrive .a4 h4{color:var(--orange)}
+.iata-stu .arrive .a5 h4{color:var(--plum)}
+.iata-stu .bg-h.orh{color:var(--orange)} .iata-stu .bg-h.olh{color:var(--olive)} .iata-stu .bg-h.slh{color:var(--slate-lt)}
+.iata-stu .fineprint{margin-top:1.2rem;color:var(--off-mut);font-size:.84rem;max-width:70ch}
+.iata-stu .fineprint b{color:var(--off)}
+
 /* page nav */
 .iata-stu{scroll-behavior:smooth}
 .iata-stu .pagenav{position:sticky;top:0;z-index:6;border-bottom:1px solid var(--line2);
@@ -64,6 +85,7 @@
 .iata-stu .pagenav a:nth-of-type(3){color:color-mix(in srgb,var(--magenta) 65%,white)}
 .iata-stu .pagenav a:nth-of-type(4){color:color-mix(in srgb,var(--teal) 75%,white)}
 .iata-stu .pagenav a:nth-of-type(5){color:color-mix(in srgb,var(--orange) 80%,white)}
+.iata-stu .pagenav a:nth-of-type(6){color:color-mix(in srgb,var(--plum) 65%,white)}
 .iata-stu section[id]{scroll-margin-top:64px}
 @media(max-width:520px){.iata-stu .pn-lbl{display:none}}
 
@@ -189,6 +211,9 @@
   font-family:var(--body);font-weight:400;text-transform:none;letter-spacing:0;font-size:.92rem;color:var(--off-mut)}
 .iata-stu .fld .chk input{accent-color:var(--teal);width:.95rem;height:.95rem;min-width:0;flex:none;
   padding:0;border:0;background:none;border-radius:0;margin:0}
+.iata-stu .fld .opt-r{font-family:var(--body);font-weight:400;text-transform:none;letter-spacing:0}
+.iata-stu .fld .opt-r input{accent-color:var(--teal);width:1.05rem;height:1.05rem;min-width:0;flex:none;
+  padding:0;border:0;background:none;border-radius:0;margin:0}
 .iata-stu .chk span{color:var(--off-mut);line-height:1.3}
 
 /* forms */
@@ -257,6 +282,8 @@
 <div class="orb o2" data-speed="-0.045" aria-hidden="true"></div>
 <div class="orb o3" data-speed="0.04" aria-hidden="true"></div>
 
+<div class="devnote"><b>Page in development</b> &nbsp;<span>We&rsquo;re just getting started and excited to keep building &mdash; you may find imperfections.</span></div>
+
 <nav class="pagenav" aria-label="On this page">
   <div class="wrap">
     <span class="pn-lbl">On this page</span>
@@ -264,7 +291,8 @@
     <a href="#join">Join</a>
     <a href="#bulletin">Bulletin</a>
     <a href="#pulse">Pulse</a>
-    <a href="#connect">Connect</a>
+    <a href="#connect">Newsletter</a>
+    <a href="#share">Share</a>
   </div>
 </nav>
 
@@ -409,14 +437,14 @@
   </div>
 </section>
 
-<!-- ============ CONNECT (newsletter + share) ============ -->
+<!-- ============ STUDENT PULSE ============ -->
 <section class="sect a-teal" id="pulse">
   <div class="wrap">
     <div class="lead"><span class="num">04</span><span class="eyebrow">Student pulse</span><span class="rule"></span></div>
     <h2 class="big">Tell us <span class="it">where you are.</span></h2>
     <p class="sub">Short questions and quick polls the board posts to hear from students. Answer anonymously, or add your name &mdash; your input shapes what IndiATA does next.</p>
     <div class="pulse">
-      <!-- Posted by the board. To run a new poll: edit the question and options; submissions email to the inbox. -->
+      <!-- Posted by the board. To run a new poll: edit the question and options; submissions email to the inbox and log to the Sheet. -->
       <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Response received" data-oksub="Thanks for weighing in — the board reads every one.">
         <input type="hidden" name="_subject" value="IndiATA student pulse">
         <input type="hidden" name="_template" value="table">
@@ -443,108 +471,132 @@
   </div>
 </section>
 
+<!-- ============ STUDENT MEMBER CURRENT (newsletter) ============ -->
 <section class="sect on-band a-orange" id="connect">
   <div class="wrap">
-    <div class="lead"><span class="num">05</span><span class="eyebrow">Connect</span><span class="rule"></span></div>
-    <h2 class="big">Get updates <span class="it">&amp; share ideas.</span></h2>
-    <div class="formrow" style="margin-top:2.2rem">
+    <div class="lead"><span class="num">05</span><span class="eyebrow">Student member current</span><span class="rule"></span></div>
+    <h2 class="big">Stay connected <span class="it">while school is happening.</span></h2>
+    <p class="sub">Professional identity grows in community. IndiATA&rsquo;s student member newsletter brings Indiana graduate art therapy students a steady place for professional wellness, burnout care and prevention, chapter connection, continuing education, advocacy, and ways to participate without taking on more than fits.</p>
+    <p class="progs">For current IndiATA student members &nbsp;&middot;&nbsp; Saint Mary-of-the-Woods College &nbsp;&middot;&nbsp; Herron at IU Indianapolis &nbsp;&middot;&nbsp; University of Indianapolis</p>
 
-      <div class="fcol">
-        <span class="eyebrow">Newsletter</span>
-        <h2 class="fhead">Stay in the loop.</h2>
-        <p class="fsub"><b style="color:var(--off)">The Student Loop</b> &mdash; a monthly note plus bonus blog posts and resources. No membership required. Leave any time.</p>
-
-        <!-- Sign-ups email to Indianaarttherapy@gmail.com via FormSubmit. The FIRST sign-up
-             triggers a one-time activation email to that inbox — open it and click Activate. -->
-        <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="You’re in the Loop" data-oksub="Watch your inbox for The Student Loop.">
-          <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <!-- <input type="hidden" name="_next" value="https://YOURSITE/students"> -->
-          <div class="fld">
-            <label for="nl-name">First name</label>
-            <input id="nl-name" name="FNAME" type="text" placeholder="Your name" autocomplete="given-name">
-          </div>
-          <div class="fld">
-            <label for="nl-email">Email</label>
-            <input id="nl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
-          </div>
-          <div class="fld">
-            <label for="nl-member">Membership</label>
-            <select id="nl-member" name="MEMBERSHIP" required>
-              <option value="" disabled selected>Select one</option>
-              <option>AATA + IndiATA member</option>
-              <option>AATA member only</option>
-              <option>Not yet a member</option>
-            </select>
-          </div>
-          <div class="fld">
-            <label for="nl-school">Program <span class="opt">(optional)</span></label>
-            <select id="nl-school" name="SCHOOL">
-              <option value="" disabled selected>Select your program</option>
-              <option>Saint Mary-of-the-Woods College (SMWC)</option>
-              <option>University of Indianapolis (UIndy)</option>
-              <option>Herron / IU Indianapolis</option>
-              <option>Other Indiana program</option>
-              <option>Prospective student</option>
-            </select>
-          </div>
-          <div class="fld">
-            <label>Interests <span class="opt">(pick any &mdash; shapes what you get)</span></label>
-            <div class="checks">
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Self-care & wellness"><span>Self-care &amp; wellness</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Community & connection"><span>Community &amp; connection</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Creating & studio practice"><span>Creating &amp; studio practice</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Advocacy & licensure"><span>Advocacy &amp; licensure</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Career & credentialing"><span>Career &amp; credentialing</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="CEUs & CE experiences"><span>CEUs &amp; CE experiences</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Professional development"><span>Professional development</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Burnout care in school"><span>Burnout care in school</span></label>
-              <label class="chk"><input type="checkbox" name="INTERESTS" value="Events & opportunities"><span>Events &amp; opportunities</span></label>
-            </div>
-          </div>
-          <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-          <button type="submit">Sign me up</button>
-        </form>
+    <div class="bgroup">
+      <h3 class="bg-h orh">What will arrive</h3>
+      <div class="arrive">
+        <div class="a1"><h4>Professional wellness in practice</h4><p>Short, useful support for capacity, boundaries, burnout prevention, recovery, and sustainable participation while in school.</p></div>
+        <div class="a2"><h4>Professional identity in development</h4><p>Prompts and resources for values, strengths, culture, access, professional voice, collaboration, and the practitioner you are becoming.</p></div>
+        <div class="a3"><h4>Community across programs</h4><p>Connection among student members at Saint Mary-of-the-Woods College, Herron School of Art + Design at IU Indianapolis, and the University of Indianapolis.</p></div>
+        <div class="a4"><h4>Continuing education and advocacy</h4><p>Relevant learning, chapter updates, calls for participation, and clear routes to official sources when questions involve membership, credentials, or licensure.</p></div>
+        <div class="a5"><h4>Ways to take part</h4><p>Student Representative opportunities, the Multicultural Committee, Continuing Education, Advocacy, member events, and one-time chapter projects.</p></div>
       </div>
+    </div>
 
-      <div class="fcol">
-        <span class="eyebrow">Share it</span>
-        <h2 class="fhead">Ideas &amp; questions.</h2>
-        <p class="fsub">Got something for the chapter? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes to the IndiATA student inbox.</p>
+    <div class="pulse" id="newsletter-signup">
+      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="You’re connected" data-oksub="Student Member Current will bring chapter connection, professional development, and practical support into one place throughout the school year.">
+        <input type="hidden" name="_subject" value="IndiATA student newsletter sign-up">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <p class="q">Join the student member list</p>
+        <p class="fineprint" style="margin-top:0">This list is for current IndiATA student members at Indiana graduate art therapy programs. Signing up does not create AATA or IndiATA membership.</p>
+        <div class="fld">
+          <label for="nl-fname">First name</label>
+          <input id="nl-fname" name="FNAME" type="text" placeholder="First name" autocomplete="given-name" required>
+        </div>
+        <div class="fld">
+          <label for="nl-lname">Last name</label>
+          <input id="nl-lname" name="LNAME" type="text" placeholder="Last name" autocomplete="family-name" required>
+        </div>
+        <div class="fld">
+          <label for="nl-email">Email address</label>
+          <input id="nl-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
+        </div>
+        <div class="fld">
+          <label for="nl-prog">Graduate program</label>
+          <select id="nl-prog" name="PROGRAM" required>
+            <option value="" disabled selected>Select your program</option>
+            <option>Saint Mary-of-the-Woods College</option>
+            <option>Herron at IU Indianapolis</option>
+            <option>University of Indianapolis</option>
+            <option>Another Indiana program</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Membership status</label>
+          <div class="opts" style="margin-bottom:0">
+            <label class="opt-r"><input type="radio" name="MEMBERSHIP" value="Current IndiATA student member" required><span>Current IndiATA student member</span></label>
+            <label class="opt-r"><input type="radio" name="MEMBERSHIP" value="AATA student member and need help adding IndiATA"><span>AATA student member and need help adding IndiATA</span></label>
+            <label class="opt-r"><input type="radio" name="MEMBERSHIP" value="Not sure how to check"><span>Not sure how to check</span></label>
+          </div>
+        </div>
+        <div class="fld">
+          <label>What would you like to hear about? <span class="opt">(pick any)</span></label>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Professional wellness"><span>Professional wellness</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Identity development"><span>Identity development</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Cross-program community"><span>Cross-program community</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Continuing education"><span>Continuing education</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Advocacy"><span>Advocacy</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Committees"><span>Committees</span></label>
+            <label class="chk"><input type="checkbox" name="INTERESTS" value="Student Representative role"><span>Student Representative role</span></label>
+          </div>
+        </div>
+        <div class="fld">
+          <label class="chk" style="align-items:flex-start"><input type="checkbox" name="CONSENT" value="Yes" required style="margin-top:.2rem"><span>I want to receive IndiATA student member emails and understand I can unsubscribe at any time.</span></label>
+        </div>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Keep me connected</button>
+      </form>
+    </div>
 
-        <!-- Submissions email to the same inbox via FormSubmit. -->
-        <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Sent to the chapter" data-oksub="If you left an email, the board will reply there.">
-          <input type="hidden" name="_subject" value="IndiATA student submission">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <div class="fld">
-            <label for="sh-type">This is a&hellip;</label>
-            <select id="sh-type" name="TYPE" required>
-              <option value="" disabled selected>Select one</option>
-              <option>Update</option>
-              <option>Idea</option>
-              <option>Opportunity</option>
-              <option>Question</option>
-            </select>
-          </div>
-          <div class="fld">
-            <label for="sh-msg">Details</label>
-            <textarea id="sh-msg" name="MESSAGE" placeholder="Share the details here&hellip;" required></textarea>
-          </div>
-          <div class="fld">
-            <label for="sh-name">Your name <span class="opt">(optional)</span></label>
-            <input id="sh-name" name="NAME" type="text" placeholder="Your name" autocomplete="name">
-          </div>
-          <div class="fld">
-            <label for="sh-email">Email <span class="opt">(so the chapter can reply)</span></label>
-            <input id="sh-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
-          </div>
-          <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-          <button type="submit">Send it</button>
-        </form>
+    <div class="bgroup">
+      <h3 class="bg-h olh">Not a member yet?</h3>
+      <p class="sub" style="font-size:.95rem">AATA membership begins at the national level. After your AATA student membership is active, add IndiATA through MyAATA. Then return here to join the student member list.</p>
+      <div class="btnrow">
+        <a class="btn" href="https://arttherapy.org/join-today/" target="_blank" rel="noopener">Start with AATA</a>
+        <a class="btn ghost" href="https://my.arttherapy.org/home" target="_blank" rel="noopener">Add IndiATA through MyAATA</a>
       </div>
+    </div>
 
+    <p class="fineprint"><b>Need help?</b> Reach out through the IndiATA Facebook group or email <b>Indiana.art.therapy@gmail.com</b>.</p>
+    <p class="fineprint"><b>Privacy and email permission.</b> IndiATA uses this information only for student-member communication and participation follow-up. Subscribers can unsubscribe at any time.</p>
+  </div>
+</section>
+
+<!-- ============ SHARE IT ============ -->
+<section class="sect on-navy2 a-plum" id="share">
+  <div class="wrap">
+    <div class="lead"><span class="num">06</span><span class="eyebrow">Share it</span><span class="rule"></span></div>
+    <h2 class="big">Ideas <span class="it">&amp; questions.</span></h2>
+    <p class="sub">Got something for the chapter? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes to the IndiATA student inbox.</p>
+    <div class="pulse">
+      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Sent to the chapter" data-oksub="If you left an email, the board will reply there.">
+        <input type="hidden" name="_subject" value="IndiATA student submission">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="fld">
+          <label for="sh-type">This is a&hellip;</label>
+          <select id="sh-type" name="TYPE" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Update</option>
+            <option>Idea</option>
+            <option>Opportunity</option>
+            <option>Question</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="sh-msg">Details</label>
+          <textarea id="sh-msg" name="MESSAGE" placeholder="Share the details here&hellip;" required></textarea>
+        </div>
+        <div class="fld">
+          <label for="sh-name">Your name <span class="opt">(optional)</span></label>
+          <input id="sh-name" name="NAME" type="text" placeholder="Your name" autocomplete="name">
+        </div>
+        <div class="fld">
+          <label for="sh-email">Email <span class="opt">(so the chapter can reply)</span></label>
+          <input id="sh-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email">
+        </div>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Send it</button>
+      </form>
     </div>
   </div>
 </section>

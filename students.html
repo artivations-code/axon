@@ -277,9 +277,16 @@
 .iata-stu .route p{color:var(--off-mut);font-size:.92rem}
 .iata-stu .route .btn,.iata-stu .ans .btn{justify-self:start;margin-top:.45rem;font-size:.66rem;padding:.65rem 1.05rem}
 .iata-stu .faqgrp{margin-top:2.1rem;--gc:var(--slate-lt)}
+.iata-stu details.faqgrp{border:0;background:none;border-radius:0;margin:1.2rem 0 0}
+.iata-stu summary.bg-h{cursor:pointer;list-style:none;color:var(--gc)}
+.iata-stu summary.bg-h::-webkit-details-marker{display:none}
+.iata-stu summary.bg-h::before{content:"+";font-family:var(--disp);font-weight:800;font-size:.95rem;line-height:1;flex:none}
+.iata-stu details[open]>summary.bg-h::before{content:"\2013"}
+.iata-stu .faqgrp>summary.bg-h::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
+.iata-stu details.faqgrp:not([open])>summary.bg-h{margin-bottom:0}
+.iata-stu .faqgrp .qs{margin-top:.9rem}
 @media(min-width:760px){
-  .iata-stu .faqgrp{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;align-items:start}
-  .iata-stu .faqgrp>.bg-h,.iata-stu .faqgrp>.fineprint,.iata-stu .faqgrp>.routes{grid-column:1/-1}
+  .iata-stu .faqgrp .qs{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;align-items:start}
 }
 .iata-stu .faqgrp.g-green{--gc:#2D9285}
 .iata-stu .faqgrp.g-teal{--gc:var(--teal)}
@@ -786,26 +793,31 @@
         <div class="route"><h4>I want to become a Student Representative.</h4><p>Review the role, time, membership, appointment process, and support.</p><a class="btn" href="#rep-apply">Become a Student Representative</a></div>
         <div class="route"><h4>I want to join an IndiATA committee.</h4><p>Explore Multicultural, Continuing Education, or Advocacy committee participation.</p><a class="btn" href="#share">Explore committees</a></div>
         <div class="route"><h4>I want to help with one committee project.</h4><p>Ask about one meeting, event, resource, or time-limited task.</p><a class="btn ghost" href="#share">Ask about a bounded task</a></div>
-        <div class="route"><h4>The form or usual route does not fit.</h4><p>Ask for another way to respond or an asynchronous conversation: <b style="color:var(--off)">Indiana.art.therapy@gmail.com</b></p></div>
+        <div class="route"><h4>Something else on your mind?</h4><p>Use the Share form &mdash; questions, ideas, and anything that doesn&rsquo;t fit another route all reach the chapter there.</p><a class="btn ghost" href="#share">Open the Share form</a></div>
       </div>
     </div>
 
-    <div class="faqgrp g-teal">
-      <h3 class="bg-h">01 &mdash; Staying connected without taking a formal role</h3>
+    <details class="faqgrp g-teal">
+      <summary class="bg-h">01 &mdash; Staying connected without taking a formal role</summary>
+      <div class="qs">
       <details><summary>I am an IndiATA student member and only want updates.</summary><div class="ans"><p>You do not need to become a Student Representative. Join Student Updates for member events, advocacy, calls for art, volunteer roles, and cross-program opportunities. You may unsubscribe at any time.</p><a class="btn" href="#newsletter-signup">Get student updates</a></div></details>
       <details><summary>I am not an IndiATA student member. Can I still take part?</summary><div class="ans"><p>The ongoing student lane is for current IndiATA student members. Student Representatives may choose, with IndiATA, to offer a specific community event, outreach project, or open resource. Each opportunity will state who may participate.</p></div></details>
       <details><summary>I want to participate, but I do not want a title.</summary><div class="ans"><p>As a student member, you may attend member student events, answer Student Pulse questions, share an opportunity, propose a bounded project, join a cross-program gathering, or help with one specific task. Participation can stay limited to what fits.</p></div></details>
-    </div>
+      </div>
+    </details>
 
-    <div class="faqgrp g-olive">
-      <h3 class="bg-h">02 &mdash; Sharing what student members need</h3>
+    <details class="faqgrp g-olive">
+      <summary class="bg-h">02 &mdash; Sharing what student members need</summary>
+      <div class="qs">
       <details><summary>I want to share something without giving my name.</summary><div class="ans"><p>Use Student Pulse and leave the name and email fields blank. IndiATA can review the issue, but it cannot reply directly without contact information.</p><a class="btn" href="#pulse">Open Student Pulse</a></div></details>
       <details><summary>I want a direct reply.</summary><div class="ans"><p>Include an email address and select &ldquo;email reply&rdquo; as the response that would be useful. IndiATA will respond within the stated response window when a reply is requested.</p></div></details>
       <details><summary>I want a pattern or concern brought to Student Representatives or the Board.</summary><div class="ans"><p>Select the route you want on Student Pulse. IndiATA may summarize the issue without identifying you when you give permission for an anonymous summary.</p></div></details>
-    </div>
+      </div>
+    </details>
 
-    <div class="faqgrp g-orange">
-      <h3 class="bg-h">03 &mdash; Considering the Student Representative role</h3>
+    <details class="faqgrp g-orange">
+      <summary class="bg-h">03 &mdash; Considering the Student Representative role</summary>
+      <div class="qs">
       <details><summary>I want to become a Student Representative.</summary><div class="ans"><p>Complete the interest form. IndiATA will follow up for a brief conversation about your program, what you want to contribute, the time you have, and any questions. Submitting the form begins the process; the Executive Board makes appointments by recorded motion.</p><a class="btn" href="#rep-apply">Become a Student Representative</a></div></details>
       <details><summary>What does a Student Representative actually do?</summary><div class="ans"><p>Representatives share accurate IndiATA information, gather student questions and ideas, join brief cross-program check-ins, contribute to one bounded initiative at a time, and leave a usable handoff for the next representative.</p></div></details>
       <details><summary>How much time does the role take?</summary><div class="ans"><p>Plan for an average of two to four hours per month during active semesters. Finals, internship demands, work, health, caregiving, and other capacity changes can be named and planned around.</p></div></details>
@@ -813,36 +825,43 @@
       <details><summary>What happens if my capacity changes after I begin?</summary><div class="ans"><p>Name the change early with the Board Liaison. Participation may be reduced or paused, and unfinished work is redistributed rather than left with one person.</p></div></details>
       <details><summary>Does a Student Representative vote or sit on the Executive Board?</summary><div class="ans"><p>No. This is an appointed, nonvoting volunteer liaison role. Representatives do not count toward quorum, hold an officer position, or receive unrestricted confidential Board material.</p></div></details>
       <details><summary>What support and recognition are included?</summary><div class="ans"><p>Representatives have a Board Liaison, shared project leadership, clear task boundaries, access planning, and a named route for concerns. Completed service may be documented through a confirmation letter and a CV-ready role description.</p></div></details>
-    </div>
+      </div>
+    </details>
 
-    <div class="faqgrp g-plum">
-      <h3 class="bg-h">04 &mdash; Joining an IndiATA committee</h3>
+    <details class="faqgrp g-plum">
+      <summary class="bg-h">04 &mdash; Joining an IndiATA committee</summary>
+      <div class="qs">
       <details><summary>I want to join the Multicultural Committee.</summary><div class="ans"><p>Share what draws you to the work, what you may want to contribute, and the time you realistically have. IndiATA will connect you with the committee lead to discuss current priorities and whether an ongoing role or bounded task is available.</p><a class="btn" href="#share">Express interest in Multicultural</a></div></details>
       <details><summary>I want to join the Continuing Education Committee.</summary><div class="ans"><p>Student members may contribute to program ideas, speaker research, accessibility, event support, communications, or another defined task. The committee lead will explain the current work and where student participation is useful.</p><a class="btn" href="#share">Express interest in Continuing Education</a></div></details>
       <details><summary>I want to join the Advocacy Committee.</summary><div class="ans"><p>Student members may help with research, member education, legislative updates, outreach, or another defined project under committee guidance. Share the advocacy areas that interest you and the amount of time that fits.</p><a class="btn" href="#share">Express interest in Advocacy</a></div></details>
       <details><summary>I am not sure which committee fits.</summary><div class="ans"><p>Describe what interests you, what you want to learn, and the type of contribution that fits your capacity. IndiATA can route your note to the appropriate committee lead.</p><a class="btn ghost" href="#share">Help me find a committee</a></div></details>
       <details><summary>I want to help with a committee project without taking an ongoing role.</summary><div class="ans"><p>Ask about one meeting, one event, one resource, or one time-limited task. You do not need to take an ongoing committee role to contribute to a specific project.</p><a class="btn ghost" href="#share">Ask about a bounded task</a></div></details>
       <details><summary>Can I be a Student Representative and join a committee?</summary><div class="ans"><p>Possibly. The roles are separate. A Student Representative appointment does not place you on a committee, and committee participation does not create a representative appointment. Name your capacity before taking both so each role stays clear and limited.</p><a class="btn ghost" href="#share">Ask about both roles</a></div></details>
-    </div>
+      </div>
+    </details>
 
-    <div class="faqgrp g-slate">
-      <h3 class="bg-h">05 &mdash; Membership and applying</h3>
+    <details class="faqgrp g-slate">
+      <summary class="bg-h">05 &mdash; Membership and applying</summary>
+      <div class="qs">
       <details><summary>I want to become a Student Representative, but my AATA or IndiATA student membership is not active.</summary><div class="ans"><p>The representative interest form is for current student members. Establish active AATA student membership and add IndiATA through MyAATA before submitting it. You may contact IndiATA with membership questions before deciding whether to move forward.</p><a class="btn" href="#join">Learn about membership</a></div></details>
       <details><summary>I already have AATA membership. How do I add IndiATA?</summary><div class="ans"><p>AATA designed state chapter sign-up to be accessible through an active AATA membership, with IndiATA added through MyAATA.</p><a class="btn ghost" href="#join">See the two steps</a></div></details>
       <details><summary>Do I need faculty approval, a GPA, portfolio, recommendation, r&eacute;sum&eacute;, or photograph?</summary><div class="ans"><p>No. Faculty may share the opportunity, but they do not appoint representatives. The interest process does not request a GPA, transcript, portfolio, recommendation letter, r&eacute;sum&eacute;, photograph, disability documentation, diagnosis disclosure, or personal trauma narrative.</p></div></details>
       <details><summary>Does submitting the form mean I am appointed?</summary><div class="ans"><p>No. The form begins the process. A designated reviewer follows up for a brief conversation, and the Executive Board appoints representatives by recorded motion.</p></div></details>
       <details><summary>My program already has two representatives.</summary><div class="ans"><p>You may still receive Student Updates, use Student Pulse, attend member student opportunities, and express interest in the contributor or alternate pool. A representative place may become available later.</p></div></details>
       <details><summary>I expressed interest and was not appointed. Can I still participate?</summary><div class="ans"><p>Yes. A formal appointment is only one route. As a student member, you may remain connected through updates, member check-ins, bounded projects, the contributor pool, and future openings.</p></div></details>
-    </div>
+      </div>
+    </details>
 
-    <div class="faqgrp g-teal">
-      <h3 class="bg-h">06 &mdash; Program, transition, and access situations</h3>
+    <details class="faqgrp g-teal">
+      <summary class="bg-h">06 &mdash; Program, transition, and access situations</summary>
+      <div class="qs">
       <details><summary>I am an IndiATA student member in an Indiana program that is missing or newly developing.</summary><div class="ans"><p>Contact IndiATA with the program name and the best public or faculty contact. Program names and offerings change, and IndiATA can review how the student lane applies.</p></div></details>
       <details><summary>I am an undergraduate student, in a related field, or outside an Indiana graduate art therapy program.</summary><div class="ans"><p>Current IndiATA student members may receive member student updates and participate in eligible opportunities. Formal Student Representative appointments currently connect Indiana graduate art therapy programs. Outreach beyond membership occurs only when Student Representatives and IndiATA open a specific opportunity.</p></div></details>
       <details><summary>I am graduating soon.</summary><div class="ans"><p>You may continue using the student lane while your student membership is active. Representatives complete a short handoff before the role ends. When your student eligibility changes, update your AATA membership category and continue through IndiATA&rsquo;s general member opportunities.</p></div></details>
       <details><summary>I need another communication format or access support.</summary><div class="ans"><p>Use the access field on a form or email IndiATA. You may ask for an asynchronous conversation, another way to respond, or communication limited to the information needed for the question at hand. <b>Indiana.art.therapy@gmail.com</b></p></div></details>
       <details><summary>I have a concern about the representative process or an interaction.</summary><div class="ans"><p>Contact the Student Engagement Liaison or IndiATA directly. Share the specific concern, the response you are seeking, and whether you want your identity kept limited to the people needed to respond.</p></div></details>
-    </div>
+      </div>
+    </details>
 
   </div>
 </section>

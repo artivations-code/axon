@@ -491,6 +491,10 @@
     root.querySelectorAll('.rv').forEach(function(e){io.observe(e);});
   }
 
+  /* submissions also append a row to the chapter's Google Sheet.
+     Paste the Apps Script Web app URL (ends in /exec) between the quotes. */
+  var SHEET_URL='';
+
   /* submit via FormSubmit AJAX and show an inline branded thank-you
      (falls back to the normal redirect if fetch fails) */
   root.querySelectorAll('form[data-ok]').forEach(function(f){
@@ -499,6 +503,7 @@
       ev.preventDefault();
       var btn=f.querySelector('button');
       if(btn){btn.disabled=true;btn.textContent='Sending…';}
+      if(SHEET_URL){try{fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:new FormData(f)});}catch(_){}}
       fetch(f.action.replace('formsubmit.co/','formsubmit.co/ajax/'),{
         method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}
       }).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){

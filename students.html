@@ -55,9 +55,15 @@
 .iata-stu .pn-lbl{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.16em;
   font-size:.6rem;color:var(--off-mut);margin-right:.5rem}
 .iata-stu .pagenav a{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.1em;
-  font-size:.66rem;color:var(--off-mut);padding:.45rem .85rem;border-radius:999px;border:1px solid transparent;
-  transition:color .2s,border-color .2s}
-.iata-stu .pagenav a:hover{color:var(--off);border-color:var(--line2)}
+  font-size:.66rem;padding:.45rem .85rem;border-radius:999px;
+  border:1px solid color-mix(in srgb,currentColor 35%,transparent);
+  transition:background .2s,border-color .2s}
+.iata-stu .pagenav a:hover{border-color:currentColor;background:color-mix(in srgb,currentColor 14%,transparent)}
+.iata-stu .pagenav a:nth-of-type(1){color:var(--slate-lt)}
+.iata-stu .pagenav a:nth-of-type(2){color:color-mix(in srgb,var(--olive) 80%,white)}
+.iata-stu .pagenav a:nth-of-type(3){color:color-mix(in srgb,var(--magenta) 65%,white)}
+.iata-stu .pagenav a:nth-of-type(4){color:color-mix(in srgb,var(--teal) 75%,white)}
+.iata-stu .pagenav a:nth-of-type(5){color:color-mix(in srgb,var(--orange) 80%,white)}
 .iata-stu section[id]{scroll-margin-top:64px}
 @media(max-width:520px){.iata-stu .pn-lbl{display:none}}
 

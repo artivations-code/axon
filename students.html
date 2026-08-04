@@ -280,6 +280,18 @@
 .iata-stu details .ans{padding:0 1.15rem 1.15rem;color:var(--off-mut);font-size:.94rem;display:grid;gap:.65rem;justify-items:start}
 .iata-stu details .ans b{color:var(--off)}
 
+/* collapsed rep form — opens on click */
+.iata-stu details.repbox{border:0;background:none;margin:1.4rem 0 0;border-radius:0}
+.iata-stu .repbox summary{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.6rem;
+  font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.76rem;
+  color:#fff;background:var(--magenta);border-radius:3px;cursor:pointer;list-style:none}
+.iata-stu .repbox summary:hover{background:var(--magenta-deep)}
+.iata-stu .repbox summary::after{content:none}
+.iata-stu .repbox summary .when-open{display:none}
+.iata-stu .repbox[open] summary .when-open{display:inline}
+.iata-stu .repbox[open] summary .when-closed{display:none}
+.iata-stu .repbox form{margin-top:1.5rem}
+
 /* ---- atmosphere: grain, parallax orbs, scroll reveal, hover ---- */
 .iata-stu::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -357,8 +369,10 @@
     <div class="pulse" id="rep-apply">
       <p class="q">IndiATA Student Representative Interest Form</p>
       <p class="fineprint" style="margin-top:0">Student Representatives connect students in their program with IndiATA and bring student questions, ideas, and priorities back to the association. The role averages two to four hours per month, works around school and internship demands, and is supported by a Board Liaison.</p>
-      <p class="fineprint">Submitting this form expresses interest; it does not create an appointment. No GPA, portfolio, recommendation, r&eacute;sum&eacute;, photograph, or personal diagnosis disclosure is requested.</p>
-      <form style="margin-top:1.4rem" action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Thank you. Your interest form reached IndiATA." data-oksub="A designated reviewer will contact you within 10 business days. The next step is a brief conversation about the role, your program, your capacity, and any questions you have. If you need another way to communicate, email Indiana.art.therapy@gmail.com.">
+      <details class="repbox" id="rep-details">
+        <summary><span class="when-closed">Open the interest form</span><span class="when-open">Hide the form</span></summary>
+        <p class="fineprint">Submitting this form expresses interest; it does not create an appointment. No GPA, portfolio, recommendation, r&eacute;sum&eacute;, photograph, or personal diagnosis disclosure is requested.</p>
+      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Thank you. Your interest form reached IndiATA." data-oksub="A designated reviewer will contact you within 10 business days. The next step is a brief conversation about the role, your program, your capacity, and any questions you have. If you need another way to communicate, email Indiana.art.therapy@gmail.com.">
         <input type="hidden" name="_subject" value="IndiATA student representative interest form">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
@@ -468,6 +482,7 @@
         <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
         <button type="submit">Submit interest form</button>
       </form>
+      </details>
     </div>
     <p class="note">Committee or one-time help instead? Use the <a href="#share">Share form</a> &mdash; its dropdown has committee-interest and bounded-task options &mdash; or find your route in the <a href="#faq">Student member FAQ</a>.</p>
   </div>
@@ -843,6 +858,15 @@
 
   /* submit via FormSubmit AJAX and show an inline branded thank-you
      (falls back to the normal redirect if fetch fails) */
+  /* the rep interest form is collapsed; any link to #rep-apply opens it */
+  var repD=document.getElementById('rep-details');
+  if(repD){
+    root.querySelectorAll('a[href="#rep-apply"]').forEach(function(a){
+      a.addEventListener('click',function(){repD.open=true;});
+    });
+    if(location.hash==='#rep-apply')repD.open=true;
+  }
+
   /* "pick at least one" checkbox groups (marked data-minone) */
   root.querySelectorAll('[data-minone]').forEach(function(g){
     g.addEventListener('change',function(){

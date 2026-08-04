@@ -34,22 +34,27 @@
 .iata-stu .it{font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;color:var(--off-mut)}
 .iata-stu .eyebrow{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.2em;font-size:.72rem}
 
-.iata-stu .lead{display:flex;align-items:center;gap:.9rem;margin-bottom:1.5rem;--acc:var(--olive)}
-.iata-stu .a-slate .lead{--acc:var(--slate-lt)} .iata-stu .a-olive .lead{--acc:var(--olive)}
-.iata-stu .a-magenta .lead{--acc:var(--magenta)} .iata-stu .a-orange .lead{--acc:var(--orange)}
-.iata-stu .a-teal .lead{--acc:var(--teal)} .iata-stu .a-plum .lead{--acc:var(--plum)}
+.iata-stu .sect{--acc:var(--olive)}
+.iata-stu .a-slate{--acc:var(--slate-lt)} .iata-stu .a-olive{--acc:var(--olive)}
+.iata-stu .a-magenta{--acc:var(--magenta)} .iata-stu .a-orange{--acc:var(--orange)}
+.iata-stu .a-teal{--acc:var(--teal)} .iata-stu .a-plum{--acc:var(--plum)}
+.iata-stu .lead{display:flex;align-items:center;gap:.9rem;margin-bottom:1.5rem}
 .iata-stu .lead .num{font-family:var(--disp);font-weight:800;font-size:.74rem;letter-spacing:.16em;color:var(--acc)}
 .iata-stu .lead .eyebrow{color:var(--acc)}
-.iata-stu .lead .rule{height:1px;flex:1;background:var(--line2)}
+.iata-stu .lead .rule{height:1px;flex:1;background:linear-gradient(90deg,var(--acc),var(--line2) 40%)}
 .iata-stu h2.big{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:1.02;
   font-size:clamp(1.9rem,1.2rem+2.6vw,3.4rem);color:var(--off);margin-bottom:1rem}
+.iata-stu h2.big .it{color:var(--acc)}
 .iata-stu .sub{color:var(--off-mut);max-width:60ch;font-size:clamp(1rem,.97rem+.3vw,1.14rem)}
 
 /* hero */
 .iata-stu .hero{padding-block:clamp(4rem,10vw,8rem);position:relative}
-.iata-stu .hero .eyebrow{color:var(--teal)}
 .iata-stu .hero h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:.98;
-  font-size:clamp(2.3rem,1.3rem+4.4vw,4.4rem);color:var(--off);margin:.9rem 0 1.1rem;max-width:20ch}
+  font-size:clamp(2.3rem,1.3rem+4.4vw,4.4rem);color:var(--off);margin:0 0 1.1rem;max-width:20ch}
+.iata-stu .hero h1::after{content:"";display:block;width:160px;height:6px;border-radius:3px;margin-top:1.2rem;
+  background:linear-gradient(90deg,var(--teal),var(--olive),var(--orange),var(--slate-lt));
+  background-size:300% 100%;animation:iata-band 9s ease-in-out infinite alternate}
+@keyframes iata-band{from{background-position:0% 0}to{background-position:100% 0}}
 .iata-stu .hero .sub{max-width:52ch}
 .iata-stu .progs{color:var(--slate-lt);font-weight:700;font-size:.86rem;letter-spacing:.02em;
   margin-top:1.5rem;border-top:1px solid var(--line2);padding-top:1.1rem}
@@ -163,10 +168,14 @@
 /* ---- atmosphere: grain, parallax orbs, scroll reveal, hover ---- */
 .iata-stu::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.iata-stu .orb{position:absolute;z-index:0;border-radius:50%;filter:blur(74px);opacity:.15;pointer-events:none;will-change:transform}
-.iata-stu .o1{width:520px;height:520px;background:var(--slate-lt);top:-140px;right:-150px}
-.iata-stu .o2{width:460px;height:460px;background:var(--teal);top:38%;left:-170px}
-.iata-stu .o3{width:440px;height:440px;background:var(--olive);bottom:4%;right:-130px}
+.iata-stu .orb{position:absolute;z-index:0;border-radius:50%;filter:blur(80px);opacity:.24;pointer-events:none;will-change:transform}
+.iata-stu .o1{width:560px;height:560px;background:var(--slate);top:-150px;right:-140px;animation:iata-o1 22s ease-in-out infinite alternate}
+.iata-stu .o2{width:500px;height:500px;background:var(--teal);top:36%;left:-180px;animation:iata-o2 28s ease-in-out infinite alternate}
+.iata-stu .o3{width:470px;height:470px;background:var(--olive);bottom:3%;right:-140px;animation:iata-o3 25s ease-in-out infinite alternate}
+@keyframes iata-o1{from{transform:translate3d(0,-24px,0) scale(1)}to{transform:translate3d(-70px,80px,0) scale(1.16)}}
+@keyframes iata-o2{from{transform:translate3d(0,36px,0) scale(1.08)}to{transform:translate3d(80px,-60px,0) scale(.94)}}
+@keyframes iata-o3{from{transform:translate3d(24px,44px,0) scale(1)}to{transform:translate3d(-60px,-50px,0) scale(1.14)}}
+@media(prefers-reduced-motion:reduce){.iata-stu .orb,.iata-stu .hero h1::after{animation:none}}
 .iata-stu.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 .iata-stu.js .rv.in{opacity:1;transform:none}
 .iata-stu .cell{transition:background .25s ease}
@@ -435,19 +444,6 @@
   }
 
   /* gentle parallax drift on the background orbs */
-  if(!reduce){
-    var orbs=root.querySelectorAll('.orb'),ticking=false;
-    function tick(){
-      var top=root.getBoundingClientRect().top;
-      orbs.forEach(function(o){
-        var s=parseFloat(o.getAttribute('data-speed'))||0;
-        o.style.transform='translate3d(0,'+(-top*s)+'px,0)';
-      });
-      ticking=false;
-    }
-    addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(tick);}},{passive:true});
-    tick();
-  }
 })();
 </script>
 </div>

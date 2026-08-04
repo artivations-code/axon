@@ -47,6 +47,20 @@
 .iata-stu h2.big .it{color:var(--acc)}
 .iata-stu .sub{color:var(--off-mut);max-width:60ch;font-size:clamp(1rem,.97rem+.3vw,1.14rem)}
 
+/* page nav */
+.iata-stu{scroll-behavior:smooth}
+.iata-stu .pagenav{position:sticky;top:0;z-index:6;border-bottom:1px solid var(--line2);
+  background:color-mix(in srgb,var(--navy) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.iata-stu .pagenav .wrap{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;padding-block:.6rem}
+.iata-stu .pn-lbl{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.16em;
+  font-size:.6rem;color:var(--off-mut);margin-right:.5rem}
+.iata-stu .pagenav a{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  font-size:.66rem;color:var(--off-mut);padding:.45rem .85rem;border-radius:999px;border:1px solid transparent;
+  transition:color .2s,border-color .2s}
+.iata-stu .pagenav a:hover{color:var(--off);border-color:var(--line2)}
+.iata-stu section[id]{scroll-margin-top:64px}
+@media(max-width:520px){.iata-stu .pn-lbl{display:none}}
+
 /* hero */
 .iata-stu .hero{padding-block:clamp(4rem,10vw,8rem);position:relative}
 .iata-stu .hero h1{font-family:var(--disp) !important;font-weight:800;text-transform:uppercase;line-height:.98;
@@ -212,6 +226,17 @@
 <div class="orb o2" data-speed="-0.045" aria-hidden="true"></div>
 <div class="orb o3" data-speed="0.04" aria-hidden="true"></div>
 
+<nav class="pagenav" aria-label="On this page">
+  <div class="wrap">
+    <span class="pn-lbl">On this page</span>
+    <a href="#involve">Get involved</a>
+    <a href="#join">Join</a>
+    <a href="#bulletin">Bulletin</a>
+    <a href="#pulse">Pulse</a>
+    <a href="#connect">Connect</a>
+  </div>
+</nav>
+
 <!-- ============ HERO ============ -->
 <section class="sect hero">
   <div class="wrap">
@@ -222,7 +247,7 @@
 </section>
 
 <!-- ============ STUDENT COMMUNITY ============ -->
-<section class="sect on-navy2 a-slate">
+<section class="sect on-navy2 a-slate" id="involve">
   <div class="wrap">
     <div class="lead"><span class="num">01</span><span class="eyebrow">Student community</span><span class="rule"></span></div>
     <h2 class="big">Ways to get involved <span class="it">&mdash; start where you are.</span></h2>
@@ -252,7 +277,7 @@
 </section>
 
 <!-- ============ MEMBERSHIP ============ -->
-<section class="sect on-band a-olive">
+<section class="sect on-band a-olive" id="join">
   <div class="wrap">
     <div class="lead"><span class="num">02</span><span class="eyebrow">Membership</span><span class="rule"></span></div>
     <h2 class="big">Want to join <span class="it">IndiATA?</span></h2>
@@ -289,7 +314,7 @@
 </section>
 
 <!-- ============ BOARD BULLETIN ============ -->
-<section class="sect on-navy2 a-magenta">
+<section class="sect on-navy2 a-magenta" id="bulletin">
   <div class="wrap">
     <div class="lead"><span class="num">03</span><span class="eyebrow">Board bulletin</span><span class="rule"></span></div>
     <h2 class="big">Opportunities <span class="it">&amp; updates.</span></h2>
@@ -310,7 +335,7 @@
 </section>
 
 <!-- ============ CONNECT (newsletter + share) ============ -->
-<section class="sect a-teal">
+<section class="sect a-teal" id="pulse">
   <div class="wrap">
     <div class="lead"><span class="num">04</span><span class="eyebrow">Student pulse</span><span class="rule"></span></div>
     <h2 class="big">Tell us <span class="it">where you are.</span></h2>
@@ -343,7 +368,7 @@
   </div>
 </section>
 
-<section class="sect on-band a-orange">
+<section class="sect on-band a-orange" id="connect">
   <div class="wrap">
     <div class="lead"><span class="num">05</span><span class="eyebrow">Connect</span><span class="rule"></span></div>
     <h2 class="big">Get updates <span class="it">&amp; share ideas.</span></h2>
@@ -457,7 +482,7 @@
   root.classList.add('js');
 
   /* staggered fade-in of each section's content */
-  root.querySelectorAll('.wrap').forEach(function(w){
+  root.querySelectorAll('.sect .wrap').forEach(function(w){
     Array.prototype.forEach.call(w.children,function(c,i){
       c.classList.add('rv'); c.style.transitionDelay=(i*60)+'ms';
     });

@@ -17,28 +17,42 @@
   --off:#E9EEF2; --off-mut:#9FB0BC; --slate-lt:#8AA6B5;
   --magenta:#AE0055; --magenta-deep:#8A0044;
   --olive:#879637; --olive-deep:#5E6312;
-  --line2:#2A3A47;
+  --line:#1E2A35; --line2:#2A3A47;
   --disp:'Open Sans',-apple-system,Segoe UI,sans-serif;
   --body:'Lato',-apple-system,Segoe UI,sans-serif;
   font-family:var(--body);background:var(--navy);color:var(--off);line-height:1.55;
   -webkit-font-smoothing:antialiased;padding:clamp(2.5rem,7vw,5rem) clamp(1.15rem,5vw,3rem)
 }
 .iata-stu *{box-sizing:border-box;margin:0;padding:0}
+.iata-stu a{color:inherit}
 .iata-stu .inner{max-width:600px;margin:0 auto}
+.iata-stu .sec+.sec{margin-top:clamp(2.6rem,6vw,4rem);padding-top:clamp(2.6rem,6vw,4rem);border-top:1px solid var(--line)}
+.iata-stu .ey{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
+  letter-spacing:.14em;font-size:.8rem;margin-bottom:.7rem}
 .iata-stu .kicker{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--olive);
   line-height:.95;letter-spacing:.01em;font-size:clamp(2.4rem,1.3rem+6vw,4.5rem)}
 .iata-stu .title{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--off);
-  letter-spacing:.02em;font-size:clamp(1.3rem,1rem+2vw,2rem);margin:.4rem 0 1rem}
+  letter-spacing:.02em;font-size:clamp(1.35rem,1rem+2vw,2.1rem);margin:0 0 1rem}
+.iata-stu p.body{color:var(--off-mut);font-size:clamp(1rem,.96rem+.3vw,1.15rem);margin-bottom:1.1rem}
 .iata-stu .intro{color:var(--off-mut);margin-bottom:2.4rem;font-size:clamp(1rem,.96rem+.3vw,1.15rem)}
-.iata-stu form{display:grid;gap:1.4rem}
+
+.iata-stu .rep{background:var(--navy2);border:1px solid var(--line2);border-radius:16px;
+  padding:clamp(1.2rem,3vw,1.6rem);margin-top:1.4rem}
+.iata-stu .rep .who{font-family:var(--disp);font-weight:800;color:var(--off);font-size:1.05rem;margin-bottom:.25rem}
+.iata-stu .rep .con{color:var(--slate-lt)}
+.iata-stu .rep .con a{color:var(--olive);font-weight:700}
+
+.iata-stu form{display:grid;gap:1.3rem}
 .iata-stu .fld{display:grid;gap:.5rem}
 .iata-stu .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
   font-size:.76rem;color:var(--slate-lt)}
 .iata-stu .fld label .opt{color:var(--off-mut);font-weight:600;text-transform:none;letter-spacing:.04em;font-size:.92em}
-.iata-stu .fld input,.iata-stu .fld select{width:100%;background:var(--navy2);border:1px solid var(--line2);
-  border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;padding:1rem 1.1rem}
-.iata-stu .fld input::placeholder{color:var(--off-mut)}
-.iata-stu .fld input:focus,.iata-stu .fld select:focus{outline:none;border-color:var(--olive)}
+.iata-stu .fld input,.iata-stu .fld select,.iata-stu .fld textarea{width:100%;background:var(--navy2);
+  border:1px solid var(--line2);border-radius:14px;color:var(--off);font-family:var(--body);font-size:1.05rem;
+  padding:1rem 1.1rem}
+.iata-stu .fld textarea{min-height:120px;resize:vertical;line-height:1.5}
+.iata-stu .fld input::placeholder,.iata-stu .fld textarea::placeholder{color:var(--off-mut)}
+.iata-stu .fld input:focus,.iata-stu .fld select:focus,.iata-stu .fld textarea:focus{outline:none;border-color:var(--olive)}
 .iata-stu .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.8rem;
   background-repeat:no-repeat;background-position:right 1.1rem center;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239FB0BC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
@@ -53,54 +67,111 @@
 </style>
 
 <div class="inner">
-  <p class="kicker">For students</p>
-  <h2 class="title">Stay in the loop</h2>
-  <p class="intro">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
 
-  <!-- To collect signups: set action="" to your form service and delete data-demo="1".
-       Or swap this for a Squarespace Newsletter block. -->
-  <form action="" method="post" data-demo="1">
-    <div class="fld">
-      <label for="su-name">First name</label>
-      <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
+  <!-- ============ 1. STUDENT REPRESENTATIVE ============ -->
+  <section class="sec">
+    <p class="ey">Student representative</p>
+    <h2 class="title">You have a voice on the board.</h2>
+    <p class="body">IndiATA&rsquo;s student representative is a current art therapy student who holds a seat with the board. They carry student ideas, questions, and concerns into leadership &mdash; and bring opportunities and updates back to students across Indiana. It&rsquo;s how what matters to you actually gets heard.</p>
+    <!-- EDIT: replace with your current rep's name and email -->
+    <div class="rep">
+      <div class="who">Your rep: [Rep name]</div>
+      <div class="con">Reach out anytime &mdash; <a href="mailto:studentrep@example.org">studentrep@example.org</a></div>
     </div>
-    <div class="fld">
-      <label for="su-email">Email</label>
-      <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
-    </div>
-    <div class="fld">
-      <label for="su-member">Membership</label>
-      <select id="su-member" name="membership" required>
-        <option value="" disabled selected>Select one</option>
-        <option>IndiATA student member</option>
-        <option>Not a member yet</option>
-      </select>
-    </div>
-    <div class="fld">
-      <label for="su-program">Program <span class="opt">(optional)</span></label>
-      <select id="su-program" name="program">
-        <option value="" disabled selected>Select your program</option>
-        <option>Herron School of Art + Design (IU)</option>
-        <option>Saint Mary-of-the-Woods College</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <button type="submit">Sign me up &rarr;</button>
-    <p class="ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list.</p>
-  </form>
+  </section>
+
+  <!-- ============ 2. SUBMIT / POST ============ -->
+  <section class="sec">
+    <p class="ey">Share it</p>
+    <h2 class="title">Updates, ideas, opportunities, questions.</h2>
+    <p class="intro">Got something for the student rep? Post an update, float an idea, share an opportunity, or ask a question &mdash; it goes straight to your rep.</p>
+
+    <!-- EDIT: set data-to to your student rep's real email address. On submit this
+         opens the sender's email app pre-filled and addressed to the rep. -->
+    <form id="su-share" data-to="studentrep@example.org">
+      <div class="fld">
+        <label for="sh-type">This is a&hellip;</label>
+        <select id="sh-type" name="type" required>
+          <option value="" disabled selected>Select one</option>
+          <option>Update</option>
+          <option>Idea</option>
+          <option>Opportunity</option>
+          <option>Question</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="sh-msg">Details</label>
+        <textarea id="sh-msg" name="message" placeholder="Share the details here&hellip;" required></textarea>
+      </div>
+      <div class="fld">
+        <label for="sh-name">Your name</label>
+        <input id="sh-name" name="name" type="text" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="fld">
+        <label for="sh-email">Email <span class="opt">(so the rep can reply)</span></label>
+        <input id="sh-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email">
+      </div>
+      <button type="submit">Send to rep &rarr;</button>
+      <p class="ok" role="status" aria-live="polite">Thanks &mdash; your email app should open, ready to send to the rep.</p>
+    </form>
+  </section>
+
+  <!-- ============ 3. NEWSLETTER SIGNUP ============ -->
+  <section class="sec">
+    <p class="kicker">Stay in the loop</p>
+    <p class="intro" style="margin-top:.8rem">A monthly note for art therapy students across Indiana &mdash; events, deadlines, opportunities, and what&rsquo;s next for the field. One email a month. Leave any time.</p>
+
+    <form id="su-news" data-demo="1" action="" method="post">
+      <div class="fld">
+        <label for="su-name">First name</label>
+        <input id="su-name" name="first_name" type="text" placeholder="Your name" autocomplete="given-name">
+      </div>
+      <div class="fld">
+        <label for="su-email">Email</label>
+        <input id="su-email" name="email" type="email" placeholder="you@school.edu" autocomplete="email" required>
+      </div>
+      <button type="submit">Sign me up &rarr;</button>
+      <p class="ok" role="status" aria-live="polite">Thanks &mdash; you&rsquo;re on the list.</p>
+    </form>
+  </section>
+
 </div>
 
 <script>
 (function(){
   var root=document.getElementById('iata-students');
-  var form=root&&root.querySelector('form');
-  if(form&&form.getAttribute('data-demo')){
-    form.addEventListener('submit',function(e){
+  if(!root) return;
+
+  /* Submit-to-rep form: builds a pre-filled email to the address in data-to */
+  var share=root.querySelector('#su-share');
+  if(share){
+    share.addEventListener('submit',function(e){
       e.preventDefault();
-      if(form.checkValidity&&!form.checkValidity()){form.reportValidity&&form.reportValidity();return;}
-      var ok=form.querySelector('.ok');
+      if(share.checkValidity&&!share.checkValidity()){share.reportValidity&&share.reportValidity();return;}
+      var to=share.getAttribute('data-to')||'';
+      var type=(share.querySelector('[name=type]')||{}).value||'Message';
+      var msg=(share.querySelector('[name=message]')||{}).value||'';
+      var name=(share.querySelector('[name=name]')||{}).value||'';
+      var email=(share.querySelector('[name=email]')||{}).value||'';
+      var subject=type+' from a student'+(name?(' ('+name+')'):'');
+      var body=msg+'\n\n— '+(name||'A student')+(email?(' <'+email+'>'):'');
+      var ok=share.querySelector('.ok');
       if(ok)ok.classList.add('show');
-      form.querySelectorAll('input,select,button').forEach(function(el){el.disabled=true;});
+      window.location.href='mailto:'+encodeURIComponent(to)
+        +'?subject='+encodeURIComponent(subject)
+        +'&body='+encodeURIComponent(body);
+    });
+  }
+
+  /* Newsletter form: demo mode shows a thank-you only. Wire an action to collect. */
+  var news=root.querySelector('#su-news');
+  if(news&&news.getAttribute('data-demo')){
+    news.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(news.checkValidity&&!news.checkValidity()){news.reportValidity&&news.reportValidity();return;}
+      var ok=news.querySelector('.ok');
+      if(ok)ok.classList.add('show');
+      news.querySelectorAll('input,button').forEach(function(el){el.disabled=true;});
     });
   }
 })();

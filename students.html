@@ -287,7 +287,7 @@
       <div class="cell">
         <span class="k">01 / Ongoing</span>
         <h3>Student representative</h3>
-        <p>An appointed, nonvoting student liaison between students in your program and IndiATA. Up to two representatives may be appointed from each program.</p>
+        <p>An appointed, nonvoting student liaison between students in your program and IndiATA. Up to two representatives may be appointed from each program &mdash; apply below.</p>
         <div class="meta">~2&ndash;4 hrs / month</div>
       </div>
       <div class="cell">
@@ -303,7 +303,42 @@
         <div class="meta">No ongoing commitment</div>
       </div>
     </div>
-    <p class="note">Interested in any of these? <strong>Email the chapter</strong> at <a href="mailto:Indianaarttherapy@gmail.com">Indianaarttherapy@gmail.com</a> &mdash; or use the form below.</p>
+    <div class="pulse" id="rep-apply">
+      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="Application received" data-oksub="Thanks — the board will follow up by email.">
+        <input type="hidden" name="_subject" value="IndiATA student rep application">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <p class="q">Apply &mdash; Student Representative</p>
+        <div class="fld">
+          <label for="rp-name">Name</label>
+          <input id="rp-name" name="NAME" type="text" placeholder="Your name" autocomplete="name" required>
+        </div>
+        <div class="fld">
+          <label for="rp-email">Email</label>
+          <input id="rp-email" name="EMAIL" type="email" placeholder="you@school.edu" autocomplete="email" required>
+        </div>
+        <div class="fld">
+          <label for="rp-prog">Program</label>
+          <select id="rp-prog" name="PROGRAM" required>
+            <option value="" disabled selected>Select your program</option>
+            <option>Saint Mary-of-the-Woods College (SMWC)</option>
+            <option>University of Indianapolis (UIndy)</option>
+            <option>Herron / IU Indianapolis</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="rp-year">Expected graduation <span class="opt">(optional)</span></label>
+          <input id="rp-year" name="GRADYEAR" type="text" placeholder="e.g. Spring 2027">
+        </div>
+        <div class="fld">
+          <label for="rp-why">Why you&rsquo;re interested</label>
+          <textarea id="rp-why" name="WHY" placeholder="A few sentences is plenty." required></textarea>
+        </div>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Apply</button>
+      </form>
+    </div>
+    <p class="note">Committee or one-time help instead? <strong>Email the chapter</strong> at <a href="mailto:Indianaarttherapy@gmail.com">Indianaarttherapy@gmail.com</a> &mdash; or use the forms at the bottom of the page.</p>
   </div>
 </section>
 
@@ -353,7 +388,7 @@
     <!-- TO POST: add a .pin inside the right category. Keep Events in date order. -->
     <div class="bgroup">
       <h3 class="bg-h op">Open calls</h3>
-      <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. <a class="lnk" href="#rep-apply">Apply on this page &rarr;</a></div></div>
     </div>
     <div class="bgroup">
       <h3 class="bg-h dl">Deadlines</h3>

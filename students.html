@@ -97,14 +97,19 @@
 .iata-stu .req{margin-top:1rem;color:var(--slate-lt);font-size:.9rem;font-style:italic}
 
 /* board bulletin — editorial list */
-.iata-stu .board{display:grid;gap:0 clamp(1.6rem,4vw,3rem);margin-top:1.7rem}
+.iata-stu .board{display:grid;gap:.7rem clamp(1.2rem,3vw,2rem);margin-top:1.7rem}
 @media(min-width:760px){.iata-stu .board{grid-template-columns:1fr 1fr}}
-.iata-stu .pin{display:grid;grid-template-columns:auto 1fr;gap:1rem;padding:1.05rem 0;border-top:1px solid var(--line2)}
-.iata-stu .pin .date{font-family:var(--disp);font-weight:800;font-size:.75rem;letter-spacing:.08em;color:var(--off);
-  white-space:nowrap;min-width:6.5ch;padding-top:.2rem}
+.iata-stu .pin{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;--pc:var(--slate-lt);
+  background:var(--navy);border:1px solid var(--line2);border-radius:6px;padding:.85rem 1rem}
+.iata-stu .pin:has(.tag.op){--pc:var(--magenta)}
+.iata-stu .pin:has(.tag.dl){--pc:var(--orange)}
+.iata-stu .pin .date{display:grid;justify-items:center;gap:.1rem;min-width:66px;padding:.5rem .55rem;
+  background:var(--band);border:1px solid var(--line2);border-top:3px solid var(--pc);border-radius:6px}
+.iata-stu .pin .date .mo{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;
+  font-size:.58rem;color:var(--pc)}
+.iata-stu .pin .date .dy{font-family:var(--disp);font-weight:800;font-size:1rem;color:var(--off);line-height:1;white-space:nowrap}
 .iata-stu .pin .tag{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:.6rem;
-  display:block;margin-bottom:.3rem}
-.iata-stu .tag.ev{color:var(--slate-lt)}.iata-stu .tag.dl{color:var(--orange)}.iata-stu .tag.op{color:var(--magenta)}
+  display:block;margin-bottom:.3rem;color:var(--pc)}
 .iata-stu .pin .what{color:var(--off-mut);font-size:.94rem}
 .iata-stu .pin .what b{color:var(--off);font-weight:700}
 
@@ -255,15 +260,15 @@
     <p class="sub">Posted by the IndiATA board &mdash; events, deadlines, calls, and opportunities for students across Indiana. Check back through the semester.</p>
     <!-- TO POST: copy one .pin block, set the tag (Event / Deadline / Opportunity), the date, and the text. Newest first. -->
     <div class="board">
-      <div class="pin"><div class="date">Open</div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
-      <div class="pin"><div class="date">Sep 25</div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
-      <div class="pin"><div class="date">Aug 7</div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. Graduate study and what comes next.</div></div>
-      <div class="pin"><div class="date">Aug 9</div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. What the chapter is building and where students fit.</div></div>
-      <div class="pin"><div class="date">Aug 30</div><div class="what"><span class="tag dl">Deadline</span><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
-      <div class="pin"><div class="date">Sep 13</div><div class="what"><span class="tag ev">Event</span><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
-      <div class="pin"><div class="date">Sep 14&ndash;27</div><div class="what"><span class="tag ev">Event</span><b>IndiATA Members Showcase</b> &mdash; Phoenix Theatre, Indianapolis.</div></div>
-      <div class="pin"><div class="date">Oct 14&ndash;17</div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina.</div></div>
-      <div class="pin"><div class="date">Nov 14&ndash;15</div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Now</span><span class="dy">Open</span></div><div class="what"><span class="tag op">Opportunity</span><b>Student representative</b> &mdash; up to two per program. Email the chapter to express interest.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">7</span></div><div class="what"><span class="tag ev">Event</span><b>AATA Student Community Conversation</b> &mdash; 12 noon ET. Graduate study and what comes next.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">9</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Zoom</b> &mdash; 3:00 p.m. ET. What the chapter is building and where students fit.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Aug</span><span class="dy">30</span></div><div class="what"><span class="tag dl">Deadline</span><b>Members Showcase &mdash; entry deadline.</b> Submit your work for the chapter exhibit.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">13</span></div><div class="what"><span class="tag ev">Event</span><b>Showcase installation drop-in</b> &mdash; 3:30&ndash;4:30 p.m.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">14&ndash;27</span></div><div class="what"><span class="tag ev">Event</span><b>IndiATA Members Showcase</b> &mdash; Phoenix Theatre, Indianapolis.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Sep</span><span class="dy">25</span></div><div class="what"><span class="tag ev">Event</span><b>ISMA Physician Wellness Symposium</b> &mdash; Indiana State Medical Association. Embassy Suites.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Oct</span><span class="dy">14&ndash;17</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (in person)</b> &mdash; Charlotte, North Carolina.</div></div>
+      <div class="pin"><div class="date"><span class="mo">Nov</span><span class="dy">14&ndash;15</span></div><div class="what"><span class="tag ev">Event</span><b>AATA2026 (virtual)</b> &mdash; attend live or use the recordings on purpose.</div></div>
     </div>
   </div>
 </section>

@@ -5,39 +5,61 @@
 <!-- ==== PASTE FROM HERE ==== -->
 <div class="iata-loc">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@700;800&display=swap');
 .iata-loc{--navy:#02060E;--band:#0A1722;--off:#E9EEF2;--off-mut:#9FB0BC;--green:#2D9285;
-  --orange:#CF7600;--line2:#2A3A47;
+  --plum:#82667D;--orange:#CF7600;--line2:#2A3A47;
   --disp:'Open Sans',-apple-system,Segoe UI,sans-serif;--body:'Lato',-apple-system,Segoe UI,sans-serif;
   font-family:var(--body);background:var(--navy);color:var(--off);line-height:1.55;
-  border-radius:8px;padding:clamp(1.6rem,4vw,2.6rem);max-width:720px;margin:0 auto}
+  border-radius:10px;padding:clamp(1.8rem,4.5vw,3rem);max-width:900px;margin:0 auto;
+  position:relative;overflow:hidden}
 .iata-loc *{box-sizing:border-box;margin:0;padding:0}
+.iata-loc::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+  background:var(--green);filter:blur(110px);opacity:.16;top:-160px;right:-120px;pointer-events:none}
+.iata-loc>*{position:relative}
+.iata-loc .eyebrow{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.22em;font-size:.68rem;color:var(--off-mut);margin-bottom:.7rem}
 .iata-loc h3{font-family:var(--disp) !important;font-weight:800;text-transform:uppercase;
-  letter-spacing:.02em;line-height:1.05;font-size:clamp(1.5rem,1.1rem+1.8vw,2.2rem);
-  color:var(--green) !important;margin-bottom:.6rem}
-.iata-loc .big{color:var(--off);font-size:1.05rem;margin-bottom:1.2rem}
-.iata-loc a.btn{display:inline-flex;align-items:center;font-family:var(--disp);font-weight:800;
-  text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;padding:.95rem 1.7rem;
-  border-radius:3px;color:#fff !important;background:var(--green);text-decoration:none}
+  letter-spacing:.01em;line-height:1.02;font-size:clamp(1.7rem,1.2rem+2.2vw,2.6rem);
+  color:var(--green) !important}
+.iata-loc h3::after{content:"";display:block;width:120px;height:5px;border-radius:3px;margin-top:.9rem;
+  background:linear-gradient(90deg,var(--green),var(--plum));background-size:300% 100%;
+  animation:iata-loc-band 9s ease-in-out infinite alternate}
+@keyframes iata-loc-band{from{background-position:0% 0}to{background-position:100% 0}}
+@media(prefers-reduced-motion:reduce){.iata-loc h3::after{animation:none}}
+.iata-loc .big{color:var(--off);font-size:clamp(1.02rem,1rem + .3vw,1.18rem);margin:1rem 0 1.4rem;max-width:34ch}
+.iata-loc a.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--disp);font-weight:800;
+  text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;padding:1rem 1.8rem;
+  border-radius:3px;color:#fff !important;background:var(--green);text-decoration:none;
+  transition:background .2s}
 .iata-loc a.btn:hover{background:#23756B}
-.iata-loc .card{border:1px solid var(--line2);background:var(--band);border-radius:6px;
-  padding:1.3rem 1.4rem;margin-top:1.6rem}
-.iata-loc .card b{color:var(--off)}
-.iata-loc .card p{color:var(--off-mut);font-size:.95rem}
-.iata-loc .card p+p{margin-top:.75rem}
+.iata-loc a.btn .ar{transition:transform .22s}
+.iata-loc a.btn:hover .ar{transform:translateX(5px)}
+.iata-loc .cols{display:grid;gap:clamp(1.4rem,3vw,2.4rem);margin-top:1.9rem;
+  border-top:1px solid var(--line2);padding-top:1.7rem}
+@media(min-width:700px){.iata-loc .cols{grid-template-columns:1fr 1fr}}
+.iata-loc .pt{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
+.iata-loc .pt .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--green);margin-top:.45rem}
+.iata-loc .pt:nth-child(2) .dot{background:var(--plum)}
+.iata-loc .pt p{color:var(--off-mut);font-size:.95rem}
+.iata-loc .pt b{color:var(--off)}
 .iata-loc .crisis{border:1px solid color-mix(in srgb,var(--orange) 55%,var(--line2));
-  border-left:4px solid var(--orange);background:color-mix(in srgb,var(--orange) 10%,var(--band));
-  border-radius:6px;padding:1.1rem 1.3rem;margin-top:1rem}
-.iata-loc .crisis p{color:var(--off);font-size:.95rem}
-.iata-loc .thanks{margin-top:1.2rem;color:var(--off-mut);font-size:.9rem}
+  border-left:5px solid var(--orange);background:color-mix(in srgb,var(--orange) 12%,var(--band));
+  border-radius:6px;padding:1.15rem 1.35rem;margin-top:1.7rem;display:grid;
+  grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
+.iata-loc .crisis .mark{font-family:var(--disp);font-weight:800;font-size:1.05rem;line-height:1.4;color:var(--orange)}
+.iata-loc .crisis p{color:var(--off);font-size:.97rem}
+.iata-loc .thanks{margin-top:1.4rem;color:var(--off-mut);font-size:.9rem;font-style:italic}
 </style>
+  <p class="eyebrow">For the public &middot; Find an art therapist</p>
   <h3>Seeking a therapist?</h3>
-  <p class="big">The Art Therapist Locator is for you.</p>
-  <a class="btn" href="https://www.indianaarttherapyassociation.org/art-therapist-directory">Open the Art Therapist Locator</a>
-  <div class="card">
-    <p><b>IndiATA is a professional association, not a direct service provider.</b> We do not provide therapy matching services for the public.</p>
-    <p>The locator lists licensed or credentialed art therapists. Contact therapists directly to confirm services, availability, fees, insurance acceptance, and modality &mdash; in-person, telehealth, or hybrid.</p>
+  <p class="big">This locator tool is for you &mdash; browse licensed and credentialed art therapists across Indiana.</p>
+  <a class="btn" href="https://www.indianaarttherapyassociation.org/art-therapist-directory">Open the Art Therapist Locator <span class="ar">&rarr;</span></a>
+  <div class="cols">
+    <div class="pt"><span class="dot"></span><p><b>IndiATA is a professional association, not a direct service provider.</b> We do not provide therapy matching services for the public.</p></div>
+    <div class="pt"><span class="dot"></span><p>The locator lists licensed or credentialed art therapists. Contact therapists directly to confirm services, availability, fees, insurance acceptance, and modality &mdash; in-person, telehealth, or hybrid.</p></div>
   </div>
   <div class="crisis">
+    <span class="mark">!</span>
     <p><b>If you are in immediate crisis or at risk of harm,</b> call emergency services or your local crisis number right away.</p>
   </div>
   <p class="thanks">Thank you!</p>

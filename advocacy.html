@@ -54,10 +54,10 @@
 .iata-adv .status p{color:var(--ink-mut);font-size:.94rem}
 .iata-adv .status b{color:var(--ink)}
 
-.iata-adv .acts{display:grid;gap:1px;background:var(--lite-line);border:1px solid var(--lite-line);
-  border-radius:6px;overflow:hidden;margin-top:1.6rem}
-@media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr}}
-.iata-adv .act{background:var(--lite);padding:clamp(1.4rem,3vw,2rem)}
+.iata-adv .acts{display:grid;gap:1.1rem;margin-top:1.6rem}
+@media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr;align-items:start}}
+.iata-adv .act{background:var(--lite);border:1px solid var(--lite-line);border-radius:6px;
+  padding:clamp(1.4rem,3vw,2rem)}
 .iata-adv .act .ah{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   letter-spacing:.05em;font-size:1.15rem;margin-bottom:.35rem}
 .iata-adv .act:nth-child(1) .ah{color:var(--slate)}

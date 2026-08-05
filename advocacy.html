@@ -89,6 +89,14 @@
 .iata-adv .faq details summary::after{color:var(--slate)}
 .iata-adv .faq .ans{padding:0 1.1rem 1.1rem;color:var(--ink-mut);font-size:.93rem;display:grid;gap:.6rem}
 .iata-adv .faq .ans b{color:var(--ink)}
+.iata-adv .help{background:var(--lite);border:1px solid var(--lite-line);border-radius:6px;
+  padding:clamp(1.4rem,3vw,2rem);margin-top:1.6rem}
+.iata-adv .help .hh{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.05em;font-size:clamp(1.1rem,1rem+.6vw,1.45rem);color:var(--magenta);margin-bottom:.4rem}
+.iata-adv .help p{color:var(--ink-mut);font-size:.96rem;max-width:66ch}
+.iata-adv .btnrow{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
+.iata-adv a.btn.alt{background:var(--slate)}
+.iata-adv a.btn.alt:hover{background:var(--ink)}
 .iata-adv .acts{display:grid;gap:1.1rem;margin-top:1.6rem}
 @media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr;align-items:start}}
 .iata-adv .act{background:var(--lite);border:1px solid var(--lite-line);border-radius:6px;
@@ -159,13 +167,13 @@
 
   <div class="natl">
     <span class="lbl">Nationally</span>
-    <p>A number of states already license art therapists, and more introduce legislation each session. The <b>State Advocacy</b> link on this page opens AATA&rsquo;s current state-by-state picture.</p>
+    <p>A number of states already license art therapists, and more introduce legislation each session. The <b>State advocacy</b> button below opens AATA&rsquo;s current state-by-state picture.</p>
   </div>
 
   <!-- CURRENT STATUS. Swap this block for the "Live now" block below when a bill is filed. -->
   <div class="status quiet">
     <span class="tag">Where it stands</span>
-    <p><b>No licensure bill is before the General Assembly right now &mdash; the next step is finding a legislator to author one.</b> Asking your own representative or senator to carry an art therapy licensure bill is the most useful thing a constituent can do this session &mdash; the <b>Advocacy Toolkit</b> on this page has materials to help you do it.</p>
+    <p><b>No licensure bill is before the General Assembly right now &mdash; the next step is finding a legislator to author one.</b> Asking your own representative or senator to carry an art therapy licensure bill is the most useful thing a constituent can do this session &mdash; the <b>Advocacy toolkit</b> below has materials to help you do it.</p>
   </div>
 
   <!-- WHEN A BILL IS FILED: delete the status block above, then uncomment this one and fill in the number and stage:
@@ -184,10 +192,20 @@
     <div class="step"><span class="n">4</span><h5>Second chamber &amp; Governor</h5><p>The process repeats in the other chamber before the bill reaches the Governor.</p></div>
   </div>
 
+  <div class="help">
+    <p class="hh">How can you help?</p>
+    <p>Find your representative and let them know that art therapy matters to you. The toolkit is filled with materials for raising awareness &mdash; use it, share it, and bring it with you when you write.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://www.canva.com/design/DAGDJyggwjs/oAjnlU61sASwBJBDyFJndw/view?utm_content=DAGDJyggwjs&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=editor" target="_blank" rel="noopener">Advocacy toolkit <span class="ar">&rarr;</span></a>
+      <a class="btn alt" href="https://arttherapy.org/state-advocacy/" target="_blank" rel="noopener">State advocacy <span class="ar">&rarr;</span></a>
+      <a class="btn alt" href="https://iga.in.gov/information/find-legislators" target="_blank" rel="noopener">Find your legislator <span class="ar">&rarr;</span></a>
+    </div>
+  </div>
+
   <div class="acts">
     <div class="act">
       <p class="ah">What to say when you write</p>
-      <p class="as">Use the <b>Find Your Legislator</b> link on this page to reach your representative and senator, then ask them to author or co-author a licensure bill. A brief note from a constituent goes directly to their office.</p>
+      <p class="as">Use <b>Find your legislator</b> above to reach your representative and senator, then ask them to author or co-author a licensure bill. A brief note from a constituent goes directly to their office.</p>
       <details open>
         <summary><span>A short message you can copy and personalize</span></summary>
         <div class="tpl">

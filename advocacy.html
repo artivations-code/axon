@@ -1,18 +1,17 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Advocacy block test</title></head>
-<body style="background:#EDF1F4;padding:2rem">
+<body style="background:#0A1722;padding:2rem">
 
 <!-- ==== PASTE FROM HERE ==== -->
 <div class="iata-adv" id="iata-adv">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@700;800&display=swap');
 .iata-adv{
-  /* IndiATA palette only */
-  --navy:#02060E;--navy2:#061320;--band:#0A1722;
-  --off:#E9EEF2;--off-mut:#9FB0BC;--slate-lt:#8AA6B5;
-  --green:#2D9285;--logo-plum:#82667D;--plum:#885E80;
+  /* IndiATA palette + the approved on-light tones from the bulletin */
+  --plum:#885E80;--logo-plum:#82667D;--green:#2D9285;
   --magenta:#AE0055;--magenta-deep:#8A0044;--olive:#879637;--orange:#CF7600;
-  --slate:#44697D;--teal:#0F8478;--line2:#2A3A47;
+  --slate:#44697D;--teal:#0F8478;
+  --off:#E9EEF2;--lite:#EDF1F4;--lite-line:#D8E0E6;--ink:#0A1722;--ink-mut:#4A5B68;
   --disp:'Open Sans',-apple-system,Segoe UI,sans-serif;--body:'Lato',-apple-system,Segoe UI,sans-serif;
   font-family:var(--body);background:var(--plum);color:var(--off);line-height:1.55;
   border-radius:10px;padding:clamp(1.8rem,4.5vw,3rem);margin:0 auto;max-width:1060px;
@@ -20,10 +19,10 @@
 .iata-adv *{box-sizing:border-box;margin:0;padding:0}
 .iata-adv a{text-decoration:none}
 .iata-adv::before{content:"";position:absolute;width:480px;height:480px;border-radius:50%;
-  background:var(--logo-plum);filter:blur(120px);opacity:.55;top:-190px;right:-150px;pointer-events:none}
+  background:var(--logo-plum);filter:blur(120px);opacity:.6;top:-190px;right:-150px;pointer-events:none}
 .iata-adv>*{position:relative}
 .iata-adv .eyebrow{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  letter-spacing:.22em;font-size:.68rem;color:var(--off);opacity:.85;margin-bottom:.7rem}
+  letter-spacing:.22em;font-size:.68rem;color:var(--off);opacity:.9;margin-bottom:.7rem}
 .iata-adv h3{font-family:var(--disp) !important;font-weight:800;text-transform:uppercase;
   letter-spacing:.01em;line-height:1.05;font-size:clamp(1.7rem,1.2rem+2.2vw,2.6rem);
   color:var(--off) !important;max-width:34ch}
@@ -33,38 +32,37 @@
 @keyframes iata-adv-band{from{background-position:0% 0}to{background-position:100% 0}}
 @media(prefers-reduced-motion:reduce){.iata-adv h3::after{animation:none}}
 .iata-adv .lede{color:var(--off);font-size:clamp(1rem,.97rem+.3vw,1.14rem);margin-top:1rem;max-width:64ch}
-.iata-adv .lede b{font-weight:700}
 
-/* navy panels over the plum ground */
-.iata-adv .goals{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);
+/* light panels float on the plum ground */
+.iata-adv .goals{display:grid;gap:1px;background:var(--lite-line);border:1px solid var(--lite-line);
   border-radius:6px;overflow:hidden;margin-top:2rem}
 @media(min-width:760px){.iata-adv .goals{grid-template-columns:repeat(3,1fr)}}
-.iata-adv .goal{background:var(--band);padding:clamp(1.3rem,3vw,1.8rem);display:grid;gap:.5rem;align-content:start}
+.iata-adv .goal{background:var(--lite);padding:clamp(1.3rem,3vw,1.8rem);display:grid;gap:.5rem;align-content:start}
 .iata-adv .goal .k{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.18em;font-size:.64rem}
-.iata-adv .goal:nth-child(1) .k{color:var(--teal)}
-.iata-adv .goal:nth-child(2) .k{color:var(--olive)}
-.iata-adv .goal:nth-child(3) .k{color:var(--orange)}
-.iata-adv .goal h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1rem;color:var(--off)}
-.iata-adv .goal p{color:var(--off-mut);font-size:.92rem}
+.iata-adv .goal:nth-child(1) .k{color:var(--magenta)}
+.iata-adv .goal:nth-child(2) .k{color:var(--slate)}
+.iata-adv .goal:nth-child(3) .k{color:var(--plum)}
+.iata-adv .goal h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:1rem;color:var(--ink)}
+.iata-adv .goal p{color:var(--ink-mut);font-size:.92rem}
 
 /* CAMPAIGN STATUS — when a bill is active, uncomment the pin below and fill in the number and stage. */
 .iata-adv .status{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;
-  background:var(--band);border:1px solid var(--line2);
+  background:var(--lite);border:1px solid var(--lite-line);
   border-left:5px solid var(--magenta);border-radius:6px;padding:1rem 1.2rem;margin-top:1.4rem}
 .iata-adv .status .tag{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   letter-spacing:.14em;font-size:.62rem;color:var(--magenta)}
-.iata-adv .status p{color:var(--off-mut);font-size:.94rem}
-.iata-adv .status b{color:var(--off)}
+.iata-adv .status p{color:var(--ink-mut);font-size:.94rem}
+.iata-adv .status b{color:var(--ink)}
 
-.iata-adv .acts{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);
+.iata-adv .acts{display:grid;gap:1px;background:var(--lite-line);border:1px solid var(--lite-line);
   border-radius:6px;overflow:hidden;margin-top:1.6rem}
 @media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr}}
-.iata-adv .act{background:var(--band);padding:clamp(1.4rem,3vw,2rem)}
+.iata-adv .act{background:var(--lite);padding:clamp(1.4rem,3vw,2rem)}
 .iata-adv .act .ah{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   letter-spacing:.05em;font-size:1.15rem;margin-bottom:.35rem}
-.iata-adv .act:nth-child(1) .ah{color:var(--teal)}
-.iata-adv .act:nth-child(2) .ah{color:var(--slate-lt)}
-.iata-adv .act .as{color:var(--off-mut);font-size:.95rem;margin-bottom:1.1rem}
+.iata-adv .act:nth-child(1) .ah{color:var(--slate)}
+.iata-adv .act:nth-child(2) .ah{color:var(--magenta)}
+.iata-adv .act .as{color:var(--ink-mut);font-size:.95rem;margin-bottom:1.1rem}
 .iata-adv a.btn,.iata-adv button{display:inline-flex;align-items:center;gap:.55rem;
   font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;
   padding:.9rem 1.5rem;border:0;border-radius:3px;cursor:pointer;color:#fff !important;
@@ -72,44 +70,46 @@
 .iata-adv a.btn:hover,.iata-adv button:hover{background:var(--magenta-deep)}
 .iata-adv a.btn .ar{transition:transform .22s}
 .iata-adv a.btn:hover .ar{transform:translateX(5px)}
-.iata-adv details{border:1px solid var(--line2);border-left:3px solid var(--teal);
-  border-radius:3px;background:var(--navy2);margin-top:1rem}
+.iata-adv details{border:1px solid var(--lite-line);border-left:3px solid var(--plum);
+  border-radius:3px;background:color-mix(in srgb,var(--ink) 4%,var(--lite));margin-top:1rem}
 .iata-adv summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;justify-content:space-between;
-  gap:1rem;padding:.9rem 1.1rem;font-weight:600;color:var(--off-mut);font-size:.95rem;transition:color .2s}
-.iata-adv summary:hover,.iata-adv details[open] summary{color:var(--off)}
+  gap:1rem;padding:.9rem 1.1rem;font-weight:700;color:var(--ink-mut);font-size:.95rem;transition:color .2s}
+.iata-adv summary:hover,.iata-adv details[open] summary{color:var(--ink)}
 .iata-adv summary::-webkit-details-marker{display:none}
-.iata-adv summary::after{content:"+";font-family:var(--disp);font-weight:800;font-size:1.05rem;color:var(--teal);flex:none;line-height:1}
+.iata-adv summary::after{content:"+";font-family:var(--disp);font-weight:800;font-size:1.05rem;color:var(--plum);flex:none;line-height:1}
 .iata-adv details[open] summary::after{content:"\2013"}
 .iata-adv .tpl{padding:0 1.1rem 1.1rem;display:grid;gap:.8rem}
-.iata-adv .tpl textarea{width:100%;min-height:180px;resize:vertical;background:var(--navy);
-  border:1px solid var(--line2);border-radius:3px;color:var(--off);font-family:var(--body);
+.iata-adv .tpl textarea{width:100%;min-height:180px;resize:vertical;background:var(--lite);
+  border:1px solid var(--lite-line);border-radius:3px;color:var(--ink);font-family:var(--body);
   font-size:.93rem;line-height:1.55;padding:.9rem 1rem}
-.iata-adv .tpl button{justify-self:start;background:var(--teal)}
-.iata-adv .tpl button:hover{background:var(--slate)}
-.iata-adv .tiny{color:var(--off-mut);font-size:.8rem}
+.iata-adv .tpl button{justify-self:start;background:var(--slate)}
+.iata-adv .tpl button:hover{background:var(--ink)}
+.iata-adv .tiny{color:var(--ink-mut);font-size:.8rem}
 
 .iata-adv form{display:grid;gap:.9rem}
 .iata-adv .fld{display:grid;gap:.35rem}
 .iata-adv .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  letter-spacing:.14em;font-size:.66rem;color:var(--slate-lt)}
-.iata-adv .fld label .opt{color:var(--off-mut);font-weight:600;text-transform:none;letter-spacing:.02em;font-size:.9em}
-.iata-adv .fld input,.iata-adv .fld select,.iata-adv .fld textarea{width:100%;background:var(--navy);
-  border:1px solid var(--line2);border-radius:3px;color:var(--off);font-family:var(--body);
+  letter-spacing:.14em;font-size:.66rem;color:var(--slate)}
+.iata-adv .fld label .opt{color:var(--ink-mut);font-weight:600;text-transform:none;letter-spacing:.02em;font-size:.9em}
+.iata-adv .fld input,.iata-adv .fld select,.iata-adv .fld textarea{width:100%;
+  background:color-mix(in srgb,var(--ink) 4%,var(--lite));
+  border:1px solid var(--lite-line);border-radius:3px;color:var(--ink);font-family:var(--body);
   font-size:1rem;padding:.8rem .95rem}
 .iata-adv .fld textarea{min-height:88px;resize:vertical;line-height:1.5}
-.iata-adv .fld input::placeholder,.iata-adv .fld textarea::placeholder{color:var(--off-mut)}
-.iata-adv .fld input:focus,.iata-adv .fld select:focus,.iata-adv .fld textarea:focus{outline:none;border-color:var(--teal)}
+.iata-adv .fld input::placeholder,.iata-adv .fld textarea::placeholder{color:var(--ink-mut)}
+.iata-adv .fld input:focus,.iata-adv .fld select:focus,.iata-adv .fld textarea:focus{outline:none;border-color:var(--plum)}
 .iata-adv .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.6rem;
   background-repeat:no-repeat;background-position:right 1rem center;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%239FB0BC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
-.iata-adv .ok{border:1px solid var(--teal);background:var(--navy2);border-radius:3px;padding:1.4rem;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%234A5B68' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
+.iata-adv .ok{border:1px solid var(--lite-line);border-left:4px solid var(--teal);
+  background:color-mix(in srgb,var(--ink) 4%,var(--lite));border-radius:3px;padding:1.4rem;
   display:grid;gap:.3rem;margin-top:1rem}
-.iata-adv .ok b{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:.95rem;color:var(--off)}
-.iata-adv .ok span{color:var(--off-mut);font-size:.92rem}
+.iata-adv .ok b{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:.95rem;color:var(--ink)}
+.iata-adv .ok span{color:var(--ink-mut);font-size:.92rem}
 
 .iata-adv .foot{margin-top:1.8rem;color:var(--off);font-size:.92rem;max-width:70ch}
-.iata-adv .foot a{color:var(--off);font-weight:700;border-bottom:2px solid var(--green)}
-.iata-adv .fine{margin-top:1rem;color:var(--off);opacity:.8;font-size:.8rem;max-width:78ch}
+.iata-adv .foot a{color:var(--off);font-weight:700;border-bottom:2px solid var(--off)}
+.iata-adv .fine{margin-top:1rem;color:var(--off);opacity:.85;font-size:.8rem;max-width:78ch}
 .iata-adv .fine a{color:var(--off);text-decoration:underline}
 </style>
   <p class="eyebrow">Advocacy &middot; Art therapy in Indiana</p>
@@ -189,7 +189,7 @@ Thank you for your time and your service.
   </div>
 
   <div class="foot">
-    <p><b>Advocacy is member-powered.</b> Chapter membership funds and staffs this work &mdash; join through <a href="/membership">Membership</a>, and students can plug in through the <a href="/students">Student Loop</a>.</p>
+    <p><b>Advocacy is member-powered.</b> More members means more constituent voices &mdash; see <a href="/membership">Membership</a>, and students can plug in through the <a href="/students">Student Loop</a>.</p>
   </div>
   <p class="fine">IndiATA provides education and advocacy; it does not provide legal advice. Campaign details change between legislative sessions &mdash; current bill status is always available from the <a href="https://iga.in.gov/" target="_blank" rel="noopener">Indiana General Assembly</a>.</p>
 

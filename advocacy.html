@@ -98,13 +98,11 @@
 .iata-adv a.btn.alt{background:var(--slate)}
 .iata-adv a.btn.alt:hover{background:var(--ink)}
 .iata-adv .acts{display:grid;gap:1.1rem;margin-top:1.6rem}
-@media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr;align-items:start}}
 .iata-adv .act{background:var(--lite);border:1px solid var(--lite-line);border-radius:6px;
   padding:clamp(1.4rem,3vw,2rem)}
 .iata-adv .act .ah{font-family:var(--disp);font-weight:800;text-transform:uppercase;
   letter-spacing:.05em;font-size:1.15rem;margin-bottom:.35rem}
 .iata-adv .act:nth-child(1) .ah{color:var(--slate)}
-.iata-adv .act:nth-child(2) .ah{color:var(--magenta)}
 .iata-adv .act .as{color:var(--ink-mut);font-size:.95rem;margin-bottom:1.1rem}
 .iata-adv a.btn,.iata-adv button{display:inline-flex;align-items:center;gap:.55rem;
   font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;
@@ -128,27 +126,6 @@
 .iata-adv .tpl button{justify-self:start;background:var(--slate)}
 .iata-adv .tpl button:hover{background:var(--ink)}
 .iata-adv .tiny{color:var(--ink-mut);font-size:.8rem}
-
-.iata-adv form{display:grid;gap:.9rem}
-.iata-adv .fld{display:grid;gap:.35rem}
-.iata-adv .fld label{font-family:var(--disp);font-weight:800;text-transform:uppercase;
-  letter-spacing:.14em;font-size:.66rem;color:var(--slate)}
-.iata-adv .fld label .opt{color:var(--ink-mut);font-weight:600;text-transform:none;letter-spacing:.02em;font-size:.9em}
-.iata-adv .fld input,.iata-adv .fld select,.iata-adv .fld textarea{width:100%;
-  background:color-mix(in srgb,var(--ink) 4%,var(--lite));
-  border:1px solid var(--lite-line);border-radius:3px;color:var(--ink);font-family:var(--body);
-  font-size:1rem;padding:.8rem .95rem}
-.iata-adv .fld textarea{min-height:88px;resize:vertical;line-height:1.5}
-.iata-adv .fld input::placeholder,.iata-adv .fld textarea::placeholder{color:var(--ink-mut)}
-.iata-adv .fld input:focus,.iata-adv .fld select:focus,.iata-adv .fld textarea:focus{outline:none;border-color:var(--plum)}
-.iata-adv .fld select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.6rem;
-  background-repeat:no-repeat;background-position:right 1rem center;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%234A5B68' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")}
-.iata-adv .ok{border:1px solid var(--lite-line);border-left:4px solid var(--teal);
-  background:color-mix(in srgb,var(--ink) 4%,var(--lite));border-radius:3px;padding:1.4rem;
-  display:grid;gap:.3rem;margin-top:1rem}
-.iata-adv .ok b{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:.95rem;color:var(--ink)}
-.iata-adv .ok span{color:var(--ink-mut);font-size:.92rem}
 
 .iata-adv .foot{margin-top:1.8rem;color:var(--off);font-size:.92rem;max-width:70ch}
 .iata-adv .foot a{color:var(--off);font-weight:700;border-bottom:2px solid var(--off)}
@@ -225,39 +202,6 @@ Thank you for your time and your service.
       </details>
     </div>
 
-    <div class="act">
-      <p class="ah">Get advocacy updates</p>
-      <p class="as">Tell IndiATA how you&rsquo;d like to take part. Advocacy work is bounded and shared &mdash; you choose what fits.</p>
-      <form action="https://formsubmit.co/Indianaarttherapy@gmail.com" method="post" data-ok="You’re on the advocacy list" data-oksub="IndiATA will reach out when there’s a concrete way to help — an action alert, a committee project, or a moment a constituent voice matters.">
-        <input type="hidden" name="_subject" value="IndiATA advocacy interest">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <div class="fld">
-          <label for="adv-name">Name</label>
-          <input id="adv-name" name="NAME" type="text" placeholder="Your name" autocomplete="name" required>
-        </div>
-        <div class="fld">
-          <label for="adv-email">Email</label>
-          <input id="adv-email" name="EMAIL" type="email" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <div class="fld">
-          <label for="adv-type">I&rsquo;d like to&hellip;</label>
-          <select id="adv-type" name="TYPE" required>
-            <option value="" disabled selected>Select one</option>
-            <option>Advocacy — receive action alerts</option>
-            <option>Advocacy — join the Advocacy Committee</option>
-            <option>Advocacy — share my story or expertise</option>
-            <option>Advocacy — help when a bill is active</option>
-          </select>
-        </div>
-        <div class="fld">
-          <label for="adv-msg">Anything to add? <span class="opt">(optional)</span></label>
-          <textarea id="adv-msg" name="MESSAGE" placeholder="Background, connections, or questions&hellip;"></textarea>
-        </div>
-        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-        <button type="submit">Add me to the list</button>
-      </form>
-    </div>
   </div>
 
   <div class="faq">
@@ -290,34 +234,6 @@ Thank you for your time and your service.
   }
 
   /* interest form: email via FormSubmit + log to the chapter Google Sheet */
-  var SHEET_URL='https://script.google.com/macros/s/AKfycbyBbNaac5Pz0WbUqZX0JqBcywzJCosEl5owFFAdof0TfHYycWj-PQqCC4E-xjkJKDpF/exec';
-  root.querySelectorAll('form[data-ok]').forEach(function(f){
-    f.addEventListener('submit',function(ev){
-      if(!window.fetch){return}
-      ev.preventDefault();
-      var btn=f.querySelector('button[type=submit]');
-      var btnText=btn?btn.textContent:'';
-      if(btn){btn.disabled=true;btn.textContent='Sending…';}
-      var data=new FormData(f);
-      if(SHEET_URL){try{
-        var params=new URLSearchParams();
-        data.forEach(function(v,k){params.append(k,v);});
-        fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:params});
-      }catch(_){}}
-      fetch(f.action.replace('formsubmit.co/','formsubmit.co/ajax/'),{
-        method:'POST',body:data,headers:{'Accept':'application/json'}
-      }).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){
-        var prev=f.nextElementSibling;
-        if(prev&&prev.classList&&prev.classList.contains('ok'))prev.remove();
-        var d=document.createElement('div');d.className='ok';
-        d.innerHTML='<b>'+f.getAttribute('data-ok')+'</b><span>'+(f.getAttribute('data-oksub')||'')+'</span>';
-        f.insertAdjacentElement('afterend',d);
-        f.reset();
-        if(btn){btn.disabled=false;btn.textContent=btnText;}
-        d.scrollIntoView({behavior:'smooth',block:'nearest'});
-      }).catch(function(){HTMLFormElement.prototype.submit.call(f);});
-    });
-  });
 })();
 </script>
 </div>

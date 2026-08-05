@@ -54,6 +54,39 @@
 .iata-adv .status p{color:var(--ink-mut);font-size:.94rem}
 .iata-adv .status b{color:var(--ink)}
 
+/* national context line */
+.iata-adv .natl{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:baseline;
+  margin-top:1.4rem;padding-top:1.3rem;border-top:1px solid color-mix(in srgb,var(--off) 35%,transparent)}
+.iata-adv .natl .lbl{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.16em;font-size:.62rem;color:var(--off);white-space:nowrap}
+.iata-adv .natl p{color:var(--off);opacity:.92;font-size:.94rem}
+.iata-adv .natl a{color:var(--off);font-weight:700;border-bottom:2px solid var(--off)}
+
+/* where your voice matters — legislative path */
+.iata-adv .pathhead{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.06em;font-size:clamp(1.05rem,.95rem+.5vw,1.35rem);color:var(--off);margin:2.2rem 0 .4rem}
+.iata-adv .pathsub{color:var(--off);opacity:.9;font-size:.94rem;max-width:62ch}
+.iata-adv .path{display:grid;gap:1px;background:var(--lite-line);border:1px solid var(--lite-line);
+  border-radius:6px;overflow:hidden;margin-top:1.2rem}
+@media(min-width:760px){.iata-adv .path{grid-template-columns:repeat(4,1fr)}}
+.iata-adv .step{background:var(--lite);padding:1.2rem 1.3rem;display:grid;gap:.4rem;align-content:start}
+.iata-adv .step.hot{background:color-mix(in srgb,var(--magenta) 8%,var(--lite))}
+.iata-adv .step .n{font-family:var(--disp);font-weight:800;font-size:1.5rem;line-height:1;color:var(--lite-line)}
+.iata-adv .step.hot .n{color:var(--magenta)}
+.iata-adv .step h5{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  font-size:.8rem;letter-spacing:.04em;color:var(--ink)}
+.iata-adv .step p{color:var(--ink-mut);font-size:.87rem}
+.iata-adv .step .you{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.14em;font-size:.58rem;color:var(--magenta);margin-top:.15rem}
+
+/* short FAQ */
+.iata-adv .faq{margin-top:2rem}
+.iata-adv .faq .fh{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+  letter-spacing:.06em;font-size:clamp(1.05rem,.95rem+.5vw,1.35rem);color:var(--off);margin-bottom:.9rem}
+.iata-adv .faq details{margin-top:0;margin-bottom:.55rem;border-left-color:var(--slate)}
+.iata-adv .faq details summary::after{color:var(--slate)}
+.iata-adv .faq .ans{padding:0 1.1rem 1.1rem;color:var(--ink-mut);font-size:.93rem;display:grid;gap:.6rem}
+.iata-adv .faq .ans b{color:var(--ink)}
 .iata-adv .acts{display:grid;gap:1.1rem;margin-top:1.6rem}
 @media(min-width:860px){.iata-adv .acts{grid-template-columns:1fr 1fr;align-items:start}}
 .iata-adv .act{background:var(--lite);border:1px solid var(--lite-line);border-radius:6px;
@@ -122,12 +155,26 @@
     <div class="goal"><span class="k">Protection</span><h4>Title protection</h4><p>Only qualified, credentialed practitioners may advertise themselves as art therapists.</p></div>
   </div>
 
+  <div class="natl">
+    <span class="lbl">Nationally</span>
+    <p>A number of states already license art therapists, and more introduce legislation each session. AATA keeps the current state-by-state picture on its <a href="https://arttherapy.org/state-advocacy/" target="_blank" rel="noopener">State Advocacy page</a>.</p>
+  </div>
+
   <!-- CAMPAIGN STATUS — when a bill is active, uncomment this block and fill in the number and stage:
   <div class="status">
     <span class="tag">Live now</span>
     <p><b>House Bill XXXX / Senate Bill XXXX</b> &mdash; current stage here (introduced / in committee / passed chamber).</p>
   </div>
   -->
+
+  <p class="pathhead">Where a constituent voice lands</p>
+  <p class="pathsub">A licensure bill moves through the General Assembly in stages. Committee is the stage where a bill most often stops &mdash; and where messages from people who live in the district are read most closely.</p>
+  <div class="path">
+    <div class="step"><span class="n">1</span><h5>Filed</h5><p>A legislator introduces the bill in the House or Senate.</p></div>
+    <div class="step hot"><span class="n">2</span><h5>Committee</h5><p>A committee decides whether to hear it, amend it, and vote it forward.</p><span class="you">Your message counts here</span></div>
+    <div class="step"><span class="n">3</span><h5>Chamber vote</h5><p>The full chamber debates and votes on the bill.</p></div>
+    <div class="step"><span class="n">4</span><h5>Second chamber &amp; Governor</h5><p>The process repeats in the other chamber before the bill reaches the Governor.</p></div>
+  </div>
 
   <div class="acts">
     <div class="act">
@@ -186,6 +233,14 @@ Thank you for your time and your service.
         <button type="submit">Add me to the list</button>
       </form>
     </div>
+  </div>
+
+  <div class="faq">
+    <p class="fh">Before you write</p>
+    <details><summary><span>I&rsquo;m not an art therapist. Can I still speak up?</span></summary><div class="ans"><p>Yes. Legislators weigh messages from anyone who lives in their district. Clients, families, educators, employers, and colleagues in other professions all have standing to say why access to qualified art therapists matters to them.</p></div></details>
+    <details><summary><span>What makes a message effective?</span></summary><div class="ans"><p>Three short parts: where you live, what you are asking for, and one specific reason it matters to you. A few sentences in your own words carries further than a long letter.</p></div></details>
+    <details><summary><span>Should I mention candidates or parties?</span></summary><div class="ans"><p>Keep your message about the policy. This work is about licensure standards, not elections &mdash; naming candidates or parties moves the conversation away from the ask.</p></div></details>
+    <details><summary><span>Can I share my own experience of art therapy?</span></summary><div class="ans"><p>You decide what to share and how much. A general statement about what access meant to you is enough &mdash; no diagnosis, treatment detail, or private health information is needed, and nothing you share with a legislator is confidential.</p></div></details>
   </div>
 
   <div class="foot">

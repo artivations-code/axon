@@ -1,41 +1,56 @@
 # Image assets
 
-The pages reference these filenames. Drop the files in with these exact names
-and everything wires up. Nothing here is committed yet — the five photos came
-through the chat as inline images rather than as files, so they could not be
-saved to the repo automatically.
+No page references a file that does not exist. Every image slot currently
+renders as a `<div class="ph">` — a quiet tonal block with an olive rule
+beneath it. It reads as a deliberate design element, never as a broken image.
 
-## Photos supplied 2026-07-30
+**To drop a photo in:** replace the `<div class="ph">` with an `<img>` and
+write alt text. The HTML comment directly beneath each slot names the intended
+file.
 
-| Filename | What it shows | Wired into |
+```html
+<!-- before -->
+<div class="ph" role="presentation"></div>
+<!-- image slot: card-tea.jpg — ceramic bowl of tea ... -->
+
+<!-- after -->
+<img src="assets/img/card-tea.jpg" alt="A ceramic bowl of tea on a dark wood table.">
+```
+
+## Open slots
+
+| Page | Slot | Design calls for |
 |---|---|---|
-| `puzzle-floor.jpg` | Two people seated on the floor with a jigsaw puzzle and a child's drawing nearby | `index.html` — first feature block |
-| `sidewalk-cane.jpg` | Two people walking a sidewalk together, one using a cane | `about.html` |
-| `records-file.jpg` | A person at a desk with an adoption file open, papers and photographs spread out | reserved for `/records` (not yet built) |
-| `repotting.jpg` | Two pairs of hands, one older and one younger, repotting a small tree | reserved for `/for-adoptive-parents` or `/beyond-home` |
-| `sidewalk-talking.jpg` | Two people walking and talking on a tree-lined street | reserved for `/for-birth-parents` |
+| `after-teen-placement.html` | `card-daybed.jpg` | Daybed with cream linen throw and olive velvet pillow, sheer curtain light, olive branches in a bronze vase |
+| `after-teen-placement.html` | `card-tea.jpg` | Ceramic bowl of tea on a dark wood table with a pencil, papers, and an olive sprig |
+| `after-teen-placement.html` | `card-shoreline.jpg` | Olive branch over a pebbled shoreline and calm water |
+| `index.html` | unassigned | First feature block |
+| `about.html` | unassigned | Full-width band |
 
-Placements are suggestions and easy to move — each is a single `src` change.
-Alt text is written on the page and describes what is visible without
-asserting a relationship between the people shown.
-
-## Still needed — `after-teen-placement.html`
-
-Three card images, described in the approved design and recorded in
-`CLAUDE.md`. Currently referenced but absent, so the cards render with broken
-images:
-
-| Filename | Design calls for |
-|---|---|
-| `card-daybed.jpg` | Bed or daybed with cream linen throw and olive velvet pillow, sheer curtain light, olive branches in a bronze vase |
-| `card-tea.jpg` | Ceramic bowl of tea on a dark wood table with a pencil, papers, and an olive sprig |
-| `card-shoreline.jpg` | Olive branch over a pebbled shoreline and calm water |
-
-These exist only as regions inside the full-page composite
+The three `card-*` images are specified in the approved design and recorded in
+`CLAUDE.md`. They exist only as regions inside the composite
 `motherhood_teen_placement.png` in the Drive folder "USE THESE - some need
-double checked". They need to be cropped out or re-sourced.
+double checked", so they need cropping or re-sourcing.
+
+## Photos supplied 2026-07-30 — not yet placed
+
+Five photographs came through chat as inline images rather than files, so they
+are not in the repo. Earlier drafts assigned two of them to pages; those
+assignments were guesses and have been removed. Nothing is placed until placement
+is specified.
+
+| Suggested filename | What it shows |
+|---|---|
+| `puzzle-floor.jpg` | Two people seated on the floor with a jigsaw puzzle and a child's drawing nearby |
+| `records-file.jpg` | A person at a desk with an adoption file open, papers and photographs spread out |
+| `repotting.jpg` | Two pairs of hands, one older and one younger, repotting a small tree |
+| `sidewalk-cane.jpg` | Two people walking a sidewalk together, one using a cane |
+| `sidewalk-talking.jpg` | Two people walking and talking on a tree-lined street |
+
+Descriptions state what is visible only. They do not name a relationship
+between the people shown.
 
 ## Format
 
-JPEG for photographs. Roughly 1600px on the long edge is enough for the card
-and feature slots at current layout widths.
+JPEG for photographs. Roughly 1600px on the long edge covers the card and
+feature slots at current layout widths.

@@ -6,210 +6,255 @@
 <title>Advocacy Consequences Explorer</title>
 <meta name="description" content="A branching model for tracing who and what an art therapy regulatory proposal would touch, with every item marked enacted, proposed, or hypothetical.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-    --night:#1B2730; --night-2:#24333E;
-    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-    --round:20px;
-    --line:rgba(43,58,66,.14);
+    --ground:#FFFFFF;
+    --paper:#FBFAF7;
+    --line:#D9CFBF;
+    --line-soft:#F7F6F5;
+    --ink:#3E3F46;
+    --ink-soft:#6B6C73;
+    --sage:#8E9A82;
+    --olive:#666741;
+    --clay:#C07A57; --clay-deep:#9A5C3E;
+    --gold:#E0B14C;
+    --teal:#0C4862;
+    --night:#2E3036; --night-2:#3E3F46;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'Mulish',Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    background:var(--paper); color:var(--ink);
-    font-family:"Nunito",system-ui,sans-serif; font-weight:600;
-    font-size:16px; line-height:1.5; overflow-x:hidden;
+    background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-weight:400; font-size:17px; line-height:1.65;
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:1200px;margin:0 auto;padding:28px 16px 40px}
-  a{color:var(--sky-d)}
-  a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
-    outline:3px solid var(--sky); outline-offset:2px;
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 16px 48px}
+  @media (min-width:901px){ .wrap{padding:60px 40px 64px} }
+  a{color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+    outline:2px solid var(--sage); outline-offset:2px;
   }
-  .chip{
-    display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-    font-weight:800; color:var(--sky-d); background:var(--sky-100);
-    padding:4px 10px; border-radius:999px;
-  }
-  h1{font-size:clamp(26px,4vw,38px);font-weight:900;line-height:1.15;margin:12px 0 8px}
-  .lede{font-size:17px;max-width:68ch;margin:0 0 12px}
-  details.howto{max-width:68ch;margin:0 0 18px}
-  details.howto summary{cursor:pointer;font-weight:800;color:var(--sky-d)}
-  details.howto ol{margin:8px 0 0;padding-left:22px}
-  details.howto li{margin:3px 0}
-  .frame{
-    border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; margin:0 0 18px;
-    font-size:14.5px; max-width:100%;
-  }
-  .frame p{margin:0 0 6px}
-  .frame p:last-child{margin:0}
-  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:8px}
-  .legend .key{display:inline-flex;align-items:center;gap:8px;font-weight:700}
-  .swatch{width:36px;height:0;border-top:3px solid;display:inline-block}
-  .sw-enacted{border-color:var(--leaf-d);border-style:solid}
-  .sw-proposed{border-color:var(--sunny-d);border-style:dashed}
-  .sw-hypo{border-color:var(--ink-soft);border-style:dotted}
 
-  h2{font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:0 0 8px}
-  .section{margin:0 0 18px}
+  /* ---------- page frame ---------- */
+  .eyebrow{display:block;font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0}
+  h1{font:500 clamp(34px,4.2vw,50px)/1.05 var(--serif);letter-spacing:.005em;text-wrap:balance;max-width:18ch;margin:16px 0 16px}
+  .lede{font:italic 400 21px/1.4 var(--serif);max-width:58ch;margin:0 0 12px}
+  .quiet{font-size:15px;line-height:1.55;color:var(--ink-soft);max-width:64ch;margin:0}
+  details.howto{max-width:64ch;margin:6px 0 0}
+  details.howto summary{list-style:none;display:inline;cursor:pointer;font-size:15px;color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  details.howto summary::-webkit-details-marker{display:none}
+  details.howto .pane{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:14px 18px;margin:12px 0 0;font-size:15px;line-height:1.6}
+  details.howto .pane p{margin:0}
+  details.howto .pane p+p{margin-top:4px}
+  hr.rule{border:0;border-top:1px solid var(--line);margin:30px 0}
 
+  .premise{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px 56px;align-items:start;margin:0 0 34px}
+  .premise p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:60ch}
+  .premise p strong{color:var(--ink);font-weight:600}
+  .key{list-style:none;margin:0;padding:0;min-width:220px}
+  .key li{display:flex;align-items:center;gap:14px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink)}
+  .key li:last-child{border-bottom:1px solid var(--line)}
+  .swatch{width:40px;height:0;border-top:1.5px solid;display:inline-block;flex:none}
+  .sw-enacted{border-color:var(--olive);border-style:solid}
+  .sw-proposed{border-color:var(--gold);border-style:dashed}
+  .sw-hypo{border-color:var(--sage);border-style:dotted}
+
+  h2{font:500 28px/1.15 var(--serif);margin:0 0 14px}
+  .section{margin:0 0 36px}
+
+  /* ---------- buttons ---------- */
   .btn{
-    font:inherit; font-weight:800; font-size:14px; color:var(--ink);
-    background:var(--card); border:1.5px solid var(--line); border-radius:999px;
-    padding:8px 14px; cursor:pointer; line-height:1.2;
+    font:700 14px/1.2 var(--sans); letter-spacing:.03em; color:var(--ink);
+    background:transparent; border:1px solid var(--line); border-radius:3px;
+    padding:10px 18px; cursor:pointer; text-decoration:none; display:inline-block;
   }
-  .btn:hover{border-color:var(--sky)}
-  .btn[aria-pressed="true"],.btn.on{background:var(--sky-d);border-color:var(--sky-d);color:#fff}
-  .btn.small{font-size:13px;padding:6px 11px}
-  .btn.primary{background:var(--sky-d);border-color:var(--sky-d);color:#fff}
-  .btn.quiet{background:transparent}
-  .btn[disabled]{opacity:.45;cursor:not-allowed}
-  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .btn:hover{border-color:var(--ink-soft)}
+  .btn.small{font-size:13px;padding:8px 14px}
+  .btn.primary{background:var(--clay);border-color:var(--clay);color:#fff}
+  .btn.primary:hover{background:var(--clay-deep);border-color:var(--clay-deep)}
+  .btn.quiet{border:0;padding-left:0;padding-right:0;color:var(--clay-deep);font-weight:600;letter-spacing:0;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;background:transparent}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+  .row{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
 
-  .proposals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  /* ---------- proposals: a ruled row of four ---------- */
+  .proposals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 32px;border-top:1px solid var(--line)}
   .proposal{
-    text-align:left; background:var(--card); border:1.5px dashed var(--sunny-d); border-radius:var(--round);
-    padding:14px 16px; cursor:pointer; font:inherit; color:var(--ink); box-shadow:var(--sh);
+    position:relative; text-align:left; background:none; border:0; border-radius:0;
+    padding:18px 0 20px; cursor:pointer; font:inherit; color:var(--ink);
   }
-  .proposal .num{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
-  .proposal strong{display:block;font-size:16px;font-weight:900;margin:2px 0 4px}
-  .proposal span{font-size:13.5px;color:var(--ink-soft);font-weight:600}
-  .proposal[aria-pressed="true"]{border-style:solid;border-color:var(--sky-d);border-width:2.5px;background:var(--sky-100)}
-  .proposal[aria-pressed="true"] .num{color:var(--sky-d)}
+  .proposal::before{content:"";position:absolute;top:-2px;left:0;width:26px;height:4px;background:transparent}
+  .proposal[aria-pressed="true"]::before{background:var(--sage)}
+  .proposal .num{display:block;font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--olive)}
+  .proposal strong{display:block;font:500 22px/1.15 var(--serif);margin:10px 0 6px;color:var(--ink-soft)}
+  .proposal[aria-pressed="true"] strong{color:var(--ink)}
+  .proposal:hover strong{color:var(--ink)}
+  .proposal span{display:block;font-size:14px;line-height:1.5;color:var(--ink-soft)}
 
-  .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin:0 0 14px}
+  /* ---------- controls: tabs and a dot switch ---------- */
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:20px 56px;margin:0 0 22px}
   .ctl{min-width:0}
-  .ctl h3{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:0 0 6px}
-  .switch{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px 6px 6px;cursor:pointer;font:inherit;font-weight:800;font-size:14px;color:var(--ink)}
-  .switch .track{width:40px;height:22px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
-  .switch .track::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
-  .switch[aria-checked="true"] .track{background:var(--sky-d)}
-  .switch[aria-checked="true"] .track::after{left:21px}
+  .ctl h3{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0 0 8px}
+  .tabs{gap:2px 18px}
+  .tabs .btn{
+    background:none; border:0; border-bottom:2px solid transparent; border-radius:0;
+    padding:4px 0 5px; font:600 14px/1.3 var(--sans); letter-spacing:0; color:var(--ink-soft);
+  }
+  .tabs .btn:hover{color:var(--ink)}
+  .tabs .btn[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--sage)}
+  .switch{display:inline-flex;align-items:center;gap:10px;background:none;border:0;padding:5px 0;cursor:pointer;font:600 14px/1.3 var(--sans);color:var(--ink);text-align:left}
+  .switch .track{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--sage);background:transparent;flex:none}
+  .switch[aria-checked="true"] .track{background:var(--sage)}
 
+  /* ---------- the graph plate ---------- */
   .stage{display:block}
-  .graph-card{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:10px;min-width:0}
-  .graph-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;padding:4px 6px 8px;font-size:13.5px;color:var(--ink-soft)}
-  .graph-head strong{color:var(--ink)}
-  .graph-scroll{overflow-x:auto;overflow-y:hidden;border-radius:12px}
-  .graph-scroll svg{display:block;width:100%;min-width:980px;height:auto;font-family:inherit}
-  .hint{font-size:12.5px;color:var(--ink-soft);padding:6px 6px 0}
+  .graph-card{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0 12px;min-width:0}
+  .graph-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;padding:0 0 10px;font-size:14px;color:var(--ink-soft)}
+  .graph-head strong{font:500 22px/1.2 var(--serif);color:var(--ink)}
+  #graphCount{font-variant-numeric:tabular-nums}
+  .graph-scroll{overflow-x:auto;overflow-y:hidden}
+  .graph-scroll svg{display:block;width:100%;min-width:980px;height:auto;font-family:var(--sans)}
+  .hint{font-size:13px;color:var(--ink-soft);margin:10px 0 0}
 
-  /* SVG */
+  /* SVG: nodes are ruled labels; the rule's line quality is the status */
   .node{cursor:pointer}
-  .node rect.box{fill:var(--card);stroke-width:2.5}
-  .node.s-enacted rect.box{stroke:var(--leaf-d);fill:var(--leaf-100)}
-  .node.s-proposed rect.box{stroke:var(--sunny-d);stroke-dasharray:7 4;fill:var(--sunny-100)}
-  .node.s-hypo rect.box{stroke:var(--ink-soft);stroke-dasharray:1.5 4.5;stroke-linecap:round}
-  .node text{fill:var(--ink);font-weight:800;font-size:12.5px;pointer-events:none}
-  .node text.tag{fill:var(--ink-soft);font-size:8.5px;letter-spacing:.12em;font-weight:800}
-  .node text.flag{fill:var(--coral-d);font-size:8.5px;font-weight:800;letter-spacing:.06em}
-  .node:hover rect.box,.node:focus rect.box{stroke-width:3.5}
-  .node.selected rect.box{stroke-width:4}
-  .node rect.halo{fill:var(--sky-100);stroke:var(--sky);stroke-width:2;opacity:0}
-  .node.role rect.halo{opacity:1}
+  .node rect.hit{fill:var(--ground);pointer-events:all}  /* invisible on the white ground; keeps stray edge labels and the guide out of the label */
+  .node line.rule{stroke-width:1.5;stroke-linecap:round}
+  .node.s-enacted line.rule{stroke:var(--olive)}
+  .node.s-proposed line.rule{stroke:var(--gold);stroke-dasharray:6 4}
+  .node.s-hypo line.rule{stroke:var(--sage);stroke-dasharray:0.1 4}
+  .node text{fill:var(--ink);font:500 15px var(--serif);paint-order:stroke;stroke:var(--ground);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+  .node.center text.label{font-size:18px}
+  .node text.tag{fill:var(--olive);font:700 8px var(--sans);letter-spacing:.16em}
+  .node.needs text.tag{fill:var(--clay-deep)}
+  .node text.flag{fill:var(--olive);font:700 8px var(--sans);letter-spacing:.1em}
+  .node circle.mark{fill:var(--sage);opacity:0}
+  .node.role circle.mark{opacity:1}
+  .node:hover line.rule,.node:focus line.rule{stroke-width:2.5}
+  .node.selected line.rule{stroke-width:2.5}
+  .node.selected text.label{fill:var(--clay-deep)}
   .node.dim{opacity:.22}
-  .edge path{fill:none;stroke:var(--ink-soft);stroke-width:1.4;opacity:.55}
-  .edge.lit path{stroke:var(--sky-d);stroke-width:2.4;opacity:1}
-  .edge text{font-size:9.5px;font-weight:700;fill:var(--ink-soft);paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round;text-anchor:middle}
-  .edge.lit text{fill:var(--sky-d);font-size:10.5px}
-  .edge.dim{opacity:.12}
-  .edge.hyp path{stroke-dasharray:1.5 4;stroke-linecap:round}
-  .ring-label{font-size:10px;letter-spacing:.14em;font-weight:800;fill:var(--ink-soft)}
-  .ring-guide{fill:none;stroke:var(--line);stroke-width:1.2;stroke-dasharray:2 6}
+  .edge path{fill:none;stroke:var(--line);stroke-width:1}
+  .edge.lit path{stroke:var(--olive);stroke-width:1.25}
+  .edge text{font:600 9.5px var(--sans);fill:var(--ink-soft);paint-order:stroke;stroke:var(--ground);stroke-width:4px;stroke-linejoin:round;text-anchor:middle}
+  .edge.lit text{fill:var(--olive)}
+  .edge.dim{opacity:.15}
+  .edge.hyp path{stroke-dasharray:0.1 4;stroke-linecap:round}
+  .ring-label{font:700 10px var(--sans);letter-spacing:.14em;fill:var(--olive)}
+  .ring-guide{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:0.1 5;stroke-linecap:round}
   @media (prefers-reduced-motion:no-preference){
     .node,.edge{transition:opacity .25s}
   }
 
-  /* card panel */
-  .panel{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:16px;min-width:0;margin-top:14px;position:relative}
+  /* ---------- card panel ---------- */
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:18px 20px 20px;min-width:0;margin-top:16px;position:relative}
   @media (min-width:901px){
-    .panel{position:fixed;right:16px;bottom:16px;width:360px;max-height:72vh;overflow:auto;z-index:5;margin:0;border:1.5px solid var(--line)}
+    .panel{position:fixed;right:24px;bottom:24px;width:372px;max-height:72vh;overflow:auto;z-index:5;margin:0}
     .panel.is-empty{display:none}
   }
   .panel .empty{color:var(--ink-soft);font-size:14.5px;margin:0}
-  .panel .tagline{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
-  .panel h3{font-size:19px;font-weight:900;margin:2px 0 8px;line-height:1.2}
-  .panel h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:12px 0 3px}
-  .panel p{margin:0;font-size:14.5px}
-  .pill{display:inline-flex;align-items:center;gap:8px;border:2px solid;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:800;background:var(--card)}
-  .pill.s-enacted{border-color:var(--leaf-d);border-style:solid;color:var(--leaf-d)}
-  .pill.s-proposed{border-color:var(--sunny-d);border-style:dashed;color:var(--sunny-d)}
-  .pill.s-hypo{border-color:var(--ink-soft);border-style:dotted;color:var(--ink-soft)}
-  .note{font-size:12.5px;color:var(--coral-d);font-weight:800;margin-top:4px}
-  .ok{font-size:12.5px;color:var(--leaf-d);font-weight:800;margin-top:4px}
+  .panel .tagline{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--olive);padding-right:64px}
+  .panel h3{font:500 24px/1.15 var(--serif);margin:8px 0 10px}
+  .panel h4{font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:16px 0 5px}
+  .panel p{margin:0;font-size:14.5px;line-height:1.55}
+  .pill{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--ink)}
+  .pill::before{content:"";width:34px;height:0;border-top:1.5px solid;flex:none}
+  .pill.s-enacted::before{border-color:var(--olive)}
+  .pill.s-proposed::before{border-color:var(--gold);border-style:dashed}
+  .pill.s-hypo::before{border-color:var(--sage);border-style:dotted}
+  .note{font-size:13px;color:var(--clay-deep);font-weight:600;margin-top:6px}
+  .ok{font-size:13px;color:var(--olive);font-weight:600;margin-top:6px}
   textarea,input[type="text"]{
-    width:100%;font:inherit;font-size:14px;font-weight:600;color:var(--ink);
-    border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);resize:vertical;
+    width:100%;font:400 14px/1.5 var(--sans);color:var(--ink);
+    border:1px solid var(--line);border-radius:4px;padding:8px 10px;background:#fff;resize:vertical;
   }
-  .panel .close{position:absolute;top:10px;right:10px}
-  .roles{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-  .roles span{font-size:12px;font-weight:800;background:var(--sky-100);color:var(--sky-d);border-radius:999px;padding:2px 9px}
-  .msg{font-size:13.5px;color:var(--ink-soft);min-height:1.4em;margin-top:6px}
+  textarea:focus-visible,input:focus-visible{outline:2px solid var(--sage);outline-offset:0}
+  .panel .close{position:absolute;top:14px;right:18px}
+  .roles{font-size:13.5px;color:var(--ink);margin-top:2px}
+  .roles span+span::before{content:"\00B7";color:var(--sage);margin:0 7px}
+  .msg{font-size:13px;color:var(--ink-soft);min-height:1.4em;margin-top:8px}
 
-  /* node list */
+  /* ---------- node list ---------- */
   .nodelist{margin-top:12px}
-  .nodelist summary{cursor:pointer;font-weight:800;color:var(--sky-d);font-size:14px}
-  .nodelist .grp{margin:8px 0}
-  .nodelist .grp h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 4px}
-  .nl{display:flex;flex-wrap:wrap;gap:6px}
-  .nl button{font:inherit;font-size:13px;font-weight:700;background:var(--card);border:2px solid;border-radius:10px;padding:5px 9px;cursor:pointer;color:var(--ink)}
-  .nl button.s-enacted{border-color:var(--leaf-d);border-style:solid}
-  .nl button.s-proposed{border-color:var(--sunny-d);border-style:dashed}
-  .nl button.s-hypo{border-color:var(--ink-soft);border-style:dotted}
+  .nodelist summary{list-style:none;display:inline;cursor:pointer;font-size:14px;color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  .nodelist summary::-webkit-details-marker{display:none}
+  .nodelist .grp{margin:14px 0 0}
+  .nodelist .grp h4{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin:0 0 6px}
+  .nl{display:flex;flex-wrap:wrap;gap:4px 18px}
+  .nl button{font:600 13.5px/1.3 var(--sans);background:none;border:0;border-bottom:1.5px solid;border-radius:0;padding:3px 0 4px;cursor:pointer;color:var(--ink)}
+  .nl button.s-enacted{border-color:var(--olive)}
+  .nl button.s-proposed{border-color:var(--gold);border-style:dashed}
+  .nl button.s-hypo{border-color:var(--sage);border-style:dotted}
+  .nl button[aria-pressed="true"]{color:var(--clay-deep)}
 
-  /* example statute */
-  .example{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:16px;max-width:620px}
-  .example .label{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--coral-d);background:var(--coral-100);padding:3px 9px;border-radius:999px;margin-bottom:8px}
-  .example dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:8px 0 0;font-size:14px}
-  .example dt{font-weight:800;color:var(--ink-soft)}
-  .example dd{margin:0;border-bottom:1.5px dotted var(--ink-soft);min-height:1.3em;color:var(--ink-soft)}
-  .example p{font-size:13.5px;margin:0 0 4px}
+  /* ---------- example statute: a ruled form ---------- */
+  .example{max-width:640px}
+  .example .label{display:block;font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--clay-deep);margin:0 0 10px}
+  .example p{font-size:15px;line-height:1.6;color:var(--ink-soft);margin:0 0 14px}
+  .example dl{display:grid;grid-template-columns:max-content 1fr;gap:0 28px;margin:0;font-size:14px}
+  .example dt{font-weight:600;color:var(--ink);padding:8px 0;border-top:1px solid var(--line)}
+  .example dd{margin:0;padding:8px 0;border-top:1px solid var(--line);min-height:1.3em;color:var(--ink-soft)}
+  .example dt:last-of-type,.example dd:last-of-type{border-bottom:1px solid var(--line)}
 
-  /* export */
-  .io{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .io .box{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:14px}
-  .io h3{font-size:15px;font-weight:900;margin:0 0 8px}
-  .io textarea{min-height:110px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .confirm{display:none;background:var(--sky-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px}
+  /* ---------- export / import: two columns, one rule between ---------- */
+  .io{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+  .io .box{min-width:0}
+  .io .box+.box{border-left:1px solid var(--line);padding-left:56px}
+  .io h3{font:500 22px/1.2 var(--serif);margin:0 0 8px}
+  .io .sub{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:0 0 14px}
+  .io textarea{min-height:120px;font:400 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+  .confirm{display:none;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px 14px;font-size:14px;line-height:1.5;margin-top:12px}
   .confirm.show{display:block}
+  .confirm .btn{margin-top:6px}
 
-  footer{margin-top:28px;padding-top:14px;border-top:1.5px solid var(--line);font-size:14px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   @media (max-width:900px){
-    .controls{grid-template-columns:1fr}
-    .io{grid-template-columns:1fr}
+    .controls,.io{grid-template-columns:1fr}
+    .io .box+.box{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:24px;margin-top:24px}
+    .premise{grid-template-columns:1fr}
+    .proposals{grid-template-columns:1fr 1fr;gap:0 24px}
+  }
+  @media (max-width:560px){
+    h1{font-size:34px}
+    .lede{font-size:20px}
+    h2{font-size:26px}
+    .proposals{grid-template-columns:1fr}
+    .proposal{border-top:1px solid var(--line);padding:14px 0 16px}
+    .proposals .proposal:first-child{border-top:0}
+    .panel .tagline{padding-right:56px}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="chip">IndiATA</span>
+  <span class="eyebrow">IndiATA</span>
   <h1>The Advocacy Consequences Explorer</h1>
   <p class="lede">Choose a proposal about art therapy regulation in Indiana and trace who and what it would touch, with every item marked enacted, proposed, or hypothetical.</p>
+  <p class="quiet">Choose one of the four proposals, then select any node in the graph to read its card.</p>
   <details class="howto">
-    <summary>How to use this</summary>
-    <ol>
-      <li>Choose one of the four proposals. The graph builds around it.</li>
-      <li>Click any node to read what it is and how the proposal touches it.</li>
-      <li>Turn on "If enacted" to add a second ring of hypothetical downstream effects.</li>
-      <li>Filter by group or status, or pick your role to see what touches you.</li>
-      <li>Add a source to any item to mark it documented. Export when you want to share.</li>
-    </ol>
+    <summary>How this page works</summary>
+    <div class="pane">
+      <p>The graph builds around the proposal you choose. Each node is a person, institution, requirement, or decision it would touch.</p>
+      <p>Turn on "If enacted" to add a second ring of hypothetical downstream effects.</p>
+      <p>Filter by group or status, or pick your role to see what touches you.</p>
+      <p>Add a source to any item to mark it documented. Export when you want to share.</p>
+    </div>
   </details>
 
-  <div class="frame">
+  <hr class="rule">
+
+  <div class="premise">
     <p><strong>This is a model for understanding consequences.</strong> It does not argue for or against any proposal. The statuses are the point. Hypothetical means unverified. Only one item on this page is marked as enacted, and it still needs source confirmation.</p>
-    <div class="legend" aria-label="Status key">
-      <span class="key"><span class="swatch sw-enacted"></span>Enacted law</span>
-      <span class="key"><span class="swatch sw-proposed"></span>Proposed change</span>
-      <span class="key"><span class="swatch sw-hypo"></span>Hypothetical outcome</span>
-    </div>
+    <ul class="key" aria-label="Status key">
+      <li><span class="swatch sw-enacted"></span>Enacted law</li>
+      <li><span class="swatch sw-proposed"></span>Proposed change</li>
+      <li><span class="swatch sw-hypo"></span>Hypothetical outcome</li>
+    </ul>
   </div>
 
   <div class="section">
@@ -224,15 +269,15 @@
     </div>
     <div class="ctl">
       <h3>Affected by me</h3>
-      <div class="row" id="roles" role="group" aria-label="Pick your role"></div>
+      <div class="row tabs" id="roles" role="group" aria-label="Pick your role"></div>
     </div>
     <div class="ctl">
       <h3>Show groups</h3>
-      <div class="row" id="groupFilter" role="group" aria-label="Filter by node group"></div>
+      <div class="row tabs" id="groupFilter" role="group" aria-label="Filter by node group"></div>
     </div>
     <div class="ctl">
       <h3>Show statuses</h3>
-      <div class="row" id="statusFilter" role="group" aria-label="Filter by status"></div>
+      <div class="row tabs" id="statusFilter" role="group" aria-label="Filter by status"></div>
     </div>
   </div>
 
@@ -256,7 +301,7 @@
     </aside>
   </div>
 
-  <div class="section" style="margin-top:22px">
+  <div class="section" style="margin-top:36px">
     <h2>What a documented statute entry would look like</h2>
     <div class="example">
       <span class="label">Example, blank on purpose. Not a real entry.</span>
@@ -277,21 +322,21 @@
     <div class="io">
       <div class="box">
         <h3>Export the current graph</h3>
-        <p style="font-size:13.5px;margin:0 0 8px">Includes the proposal, every node and effect, their statuses, and any sources you recorded.</p>
+        <p class="sub">Includes the proposal, every node and effect, their statuses, and any sources you recorded.</p>
         <div class="row">
           <button class="btn small" id="copyText">Copy as text</button>
           <a class="btn small" id="dlJson" href="#" download="advocacy-consequences.json">Download as JSON</a>
           <button class="btn small quiet" id="startFresh">Start fresh</button>
         </div>
-        <div class="confirm" id="freshConfirm">This clears every saved status, source, and setting on this device. <button class="btn small primary" id="freshYes">Clear and reset</button> <button class="btn small" id="freshNo">Keep my work</button></div>
-        <textarea id="textOut" aria-label="Text export" style="margin-top:10px;min-height:90px"></textarea>
+        <div class="confirm" id="freshConfirm">This clears every saved status, source, and setting on this device. <button class="btn small primary" id="freshYes">Clear and reset</button> <button class="btn small quiet" id="freshNo">Keep my work</button></div>
+        <textarea id="textOut" aria-label="Text export" style="margin-top:12px;min-height:90px"></textarea>
         <p class="msg" id="ioMsg"></p>
       </div>
       <div class="box">
         <h3>Import a saved graph</h3>
-        <p style="font-size:13.5px;margin:0 0 8px">Paste JSON exported from this page, or choose the file. Statuses and sources for matching items are applied.</p>
+        <p class="sub">Paste JSON exported from this page, or choose the file. Statuses and sources for matching items are applied.</p>
         <textarea id="jsonIn" aria-label="Paste JSON here" placeholder="Paste JSON here"></textarea>
-        <div class="row" style="margin-top:8px">
+        <div class="row" style="margin-top:10px">
           <button class="btn small primary" id="importBtn">Import</button>
           <label class="btn small" style="display:inline-block">Choose file<input type="file" id="fileIn" accept="application/json,.json" class="sr"></label>
         </div>
@@ -868,10 +913,11 @@ const PROPOSALS = [
     const title = el("title", { id: "graphDesc" }, svg);
     title.textContent = `Consequence graph for ${p.title}`;
     const defs = el("defs", {}, svg);
-    const mk = el("marker", { id: "arrow", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
-    el("path", { d: "M0,1 L9,5 L0,9 z", fill: "#5A6B74" }, mk);
-    const mkLit = el("marker", { id: "arrowLit", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
-    el("path", { d: "M0,1 L9,5 L0,9 z", fill: "#2F7FB0" }, mkLit);
+    /* open chevron arrowheads, 1.5px line, in the edge's own ink */
+    const mk = el("marker", { id: "arrow", viewBox: "0 0 10 10", refX: "8", refY: "5", markerWidth: "8", markerHeight: "8", markerUnits: "userSpaceOnUse", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M2,1.5 L8,5 L2,8.5", fill: "none", stroke: "#D9CFBF", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }, mk);
+    const mkLit = el("marker", { id: "arrowLit", viewBox: "0 0 10 10", refX: "8", refY: "5", markerWidth: "8", markerHeight: "8", markerUnits: "userSpaceOnUse", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M2,1.5 L8,5 L2,8.5", fill: "none", stroke: "#666741", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }, mkLit);
 
     el("rect", { class: "ring-guide", x: R1.x0, y: R1.y0, width: R1.x1 - R1.x0, height: R1.y1 - R1.y0, rx: 40 }, svg);
     const lbl1 = el("text", { class: "ring-label", x: R1.x0 - NODE.w / 2, y: R1.y0 - NODE.h / 2 - 10 }, svg);
@@ -912,29 +958,33 @@ const PROPOSALS = [
                              : (state.selected && shownIds.has(state.selected) && !isSel && !neighbors.has(it.id));
       const cls = ["node", STATUS[it.status].cls];
       if (isSel) cls.push("selected");
+      if (it.kind === "proposal" || it.kind === "baseline") cls.push("center");
+      if (it.kind === "baseline" && it.needsSource && !it.source) cls.push("needs");
       if (state.role && hasRole(it)) cls.push("role");
       if (dim) cls.push("dim");
       const g = el("g", { class: cls.join(" "), tabindex: "0", role: "button", "data-id": it.id,
         "aria-label": `${it.label}. ${STATUS[it.status].label}.${it.kind === "effect" ? " Hypothetical downstream effect." : ""}`,
         transform: `translate(${P.x.toFixed(1)},${P.y.toFixed(1)})` }, gNodes);
-      el("rect", { class: "halo", x: -P.w / 2 - 6, y: -P.h / 2 - 6, width: P.w + 12, height: P.h + 12, rx: 16 }, g);
-      el("rect", { class: "box", x: -P.w / 2, y: -P.h / 2, width: P.w, height: P.h, rx: 12 }, g);
+      /* a ruled label: invisible hit area, one rule whose line quality is the status, a dot for the role view */
+      el("rect", { class: "hit", x: -P.w / 2, y: -P.h / 2, width: P.w, height: P.h }, g);
+      el("line", { class: "rule", x1: -P.w / 2, y1: P.h / 2, x2: P.w / 2, y2: P.h / 2 }, g);
+      el("circle", { class: "mark", cx: -P.w / 2 - 9, cy: P.h / 2, r: 4.5 }, g);
       let tag = "";
       if (it.kind === "proposal") tag = "PROPOSAL";
       else if (it.kind === "baseline") tag = it.needsSource && !it.source ? "ENACTED · SOURCE NEEDED" : "ENACTED · BASELINE";
       else if (it.kind === "effect") tag = "HYPOTHETICAL EFFECT";
       else tag = GROUPS[it.group].toUpperCase();
-      const tagEl = el("text", { class: "tag", x: 0, y: -P.h / 2 + 13, "text-anchor": "middle" }, g);
+      const tagEl = el("text", { class: "tag", x: 0, y: -P.h / 2 + 10, "text-anchor": "middle" }, g);
       tagEl.textContent = tag;
       const maxChars = Math.floor(P.w / 8);
       const lines = wrap(it.label, maxChars);
-      const t = el("text", { x: 0, y: lines.length > 1 ? 3 : 9, "text-anchor": "middle" }, g);
+      const t = el("text", { class: "label", x: 0, y: lines.length > 1 ? 4 : 11, "text-anchor": "middle" }, g);
       lines.forEach((ln, i) => {
-        const ts = el("tspan", { x: 0, dy: i === 0 ? 0 : 13 }, t);
+        const ts = el("tspan", { x: 0, dy: i === 0 ? 0 : 14 }, t);
         ts.textContent = ln;
       });
       if (it.documentedAt) {
-        const f = el("text", { class: "flag", x: 0, y: P.h / 2 + 11, "text-anchor": "middle" }, g);
+        const f = el("text", { class: "flag", x: 0, y: P.h / 2 + 12, "text-anchor": "middle" }, g);
         f.textContent = "DOCUMENTED " + it.documentedAt;
       }
       g.addEventListener("click", () => selectNode(it.id));

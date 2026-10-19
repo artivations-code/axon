@@ -6,207 +6,249 @@
 <title>The Living Map</title>
 <meta name="description" content="A structure for documented information about art therapy across Indiana, maintained by IndiATA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-    --night:#1B2730; --night-2:#24333E;
-    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-    --round:20px;
-    --line:rgba(43,58,66,.14);
-    --hatch:repeating-linear-gradient(135deg, rgba(90,107,116,.0) 0 3px, rgba(90,107,116,.42) 3px 4px);
-    --hatch-soft:repeating-linear-gradient(135deg, rgba(78,158,96,0) 0 3px, rgba(78,158,96,.5) 3px 4px);
+    --ground:#FFFFFF;
+    --paper:#FBFAF7;
+    --line:#D9CFBF;
+    --line-soft:#F7F6F5;
+    --ink:#3E3F46;
+    --ink-soft:#6B6C73;
+    --sage:#8E9A82;
+    --olive:#666741;
+    --clay:#C07A57; --clay-deep:#9A5C3E;
+    --gold:#E0B14C;
+    --teal:#0C4862;
+    --night:#2E3036; --night-2:#3E3F46;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'Mulish',Arial,sans-serif;
+    /* derived */
+    --olive-tint:rgba(102,103,65,.14);
+    --sage-tint:rgba(142,154,130,.18);
+    --clay-tint:rgba(192,122,87,.12);
+    --hatch:repeating-linear-gradient(45deg, transparent 0 4px, rgba(102,103,65,.38) 4px 5px);
+    --stipple:radial-gradient(circle, var(--clay) 0 .7px, transparent .9px);
   }
   *{box-sizing:border-box}
+  [hidden]{display:none !important}
   html{-webkit-text-size-adjust:100%}
   body{
-    margin:0; background:var(--paper); color:var(--ink);
-    font-family:"Nunito", system-ui, sans-serif; font-weight:600;
-    font-size:16px; line-height:1.5; overflow-x:hidden;
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-weight:400; font-size:17px; line-height:1.65; overflow-x:hidden;
   }
-  .frame{max-width:1120px; margin:0 auto; padding:28px 16px 40px}
-  @media (min-width:700px){ .frame{padding:40px 28px 56px} }
+  .frame{max-width:1120px; margin:0 auto; padding:36px 16px 48px}
+  @media (min-width:700px){ .frame{padding:56px 40px 72px} }
+  p{margin:0 0 10px; max-width:64ch}
+  a{color:var(--clay-deep); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
 
-  /* ---------- header ---------- */
-  .chip{
-    display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-    font-weight:800; color:var(--leaf-d); border:1.5px solid var(--leaf); border-radius:999px;
-    padding:4px 10px; background:var(--card);
+  /* ---------- type ---------- */
+  .eyebrow{
+    display:block; font-family:var(--sans); font-weight:700; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--olive); margin:0 0 18px;
   }
-  h1{font-size:clamp(28px,4.6vw,44px); line-height:1.08; font-weight:900; margin:14px 0 10px; letter-spacing:-.01em}
-  .lede{font-size:18px; max-width:62ch; margin:0 0 14px; color:var(--ink)}
-  details.how{
-    max-width:62ch; border-left:3px solid var(--leaf); padding:4px 0 4px 14px; margin:0 0 22px;
+  h1{
+    font-family:var(--serif); font-weight:500; font-size:clamp(34px,4.2vw,50px); line-height:1.05;
+    letter-spacing:.005em; text-wrap:balance; max-width:18ch; margin:0 0 18px;
   }
-  details.how summary{cursor:pointer; font-weight:800; list-style:none; display:flex; align-items:center; gap:8px}
+  h2{font-family:var(--serif); font-weight:500; font-size:28px; line-height:1.15; margin:0 0 10px; letter-spacing:.005em}
+  h3{font-family:var(--serif); font-weight:500; font-size:21px; line-height:1.2; margin:0 0 6px}
+  .lede{font-family:var(--serif); font-style:italic; font-weight:400; font-size:21px; line-height:1.4; max-width:56ch; margin:0 0 14px; color:var(--ink)}
+  .quiet{font-size:15px; color:var(--ink-soft); margin:0 0 6px; max-width:64ch}
+  .quiet a{color:var(--clay-deep)}
+  .muted{color:var(--ink-soft)}
+  .small{font-size:15px}
+  .rule{border:0; border-top:1px solid var(--line); margin:22px 0 28px}
+
+  /* ---------- how this page works ---------- */
+  details.how{margin:4px 0 0; max-width:64ch}
+  details.how summary{
+    list-style:none; cursor:pointer; display:inline; font-size:15px; color:var(--clay-deep);
+    text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px;
+  }
   details.how summary::-webkit-details-marker{display:none}
-  details.how summary svg{width:14px; height:14px; transition:transform .2s}
-  details.how[open] summary svg{transform:rotate(90deg)}
-  details.how ol{margin:8px 0 0; padding-left:20px; color:var(--ink-soft)}
-  details.how li{margin:4px 0}
-  .about{
-    max-width:62ch; margin:0 0 28px; padding:14px 16px; background:var(--leaf-100);
-    border-radius:12px; font-size:15px;
+  details.how ol{
+    margin:12px 0 0; padding:14px 18px 14px 34px; background:var(--paper); border:1px solid var(--line);
+    border-radius:4px; font-size:15px; color:var(--ink-soft); line-height:1.6;
   }
-  .about p{margin:0}
-  .about p + p{margin-top:6px}
+  details.how li{margin:3px 0}
+  details.how li::marker{font-family:var(--serif); font-style:italic; color:var(--olive)}
+  #about p{font-size:15px; color:var(--ink-soft); margin:0 0 4px}
+  #about{margin-top:12px}
 
   /* ---------- layout ---------- */
-  .board{display:grid; gap:22px; grid-template-columns:1fr; align-items:start}
+  .board{display:grid; gap:28px; grid-template-columns:1fr; align-items:start}
   @media (max-width:939px){
     .col-main, .col-side{display:contents}
-    .layers-block{order:1} .mapcard{order:2} #detailCard{order:3} .status{order:4; margin-top:0}
+    .layers-block{order:1} .plate{order:2} #detailCard{order:3} .status{order:4; margin-top:0}
     #entryCard{order:5} #transferCard{order:6}
   }
   @media (min-width:940px){
-    .board{grid-template-columns:minmax(0,1fr) 380px; gap:28px}
-    .col-side{position:sticky; top:16px}
-    .card + .card{margin-top:18px}
+    .board{grid-template-columns:minmax(0,1fr) 380px; gap:48px}
+    .col-side{position:sticky; top:20px}
+    .card + .card{margin-top:22px}
   }
-  h2{font-size:17px; font-weight:900; margin:0 0 10px; letter-spacing:.01em}
-  h3{font-size:15px; font-weight:800; margin:0 0 6px}
-  .muted{color:var(--ink-soft)}
-  .small{font-size:13px}
 
-  /* ---------- layer tabs ---------- */
-  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px}
+  /* ---------- layer toggles ---------- */
+  .layers-block h2{margin-bottom:6px}
+  .tabs{display:flex; flex-wrap:wrap; gap:0 22px; margin:0 0 12px; border-bottom:1px solid var(--line)}
   .tab{
-    font:inherit; font-weight:800; font-size:14px; color:var(--ink);
-    background:var(--card); border:1.5px solid var(--line); border-radius:999px;
-    padding:7px 13px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--sans); font-weight:600; font-size:14px; color:var(--ink);
+    background:none; border:0; border-bottom:2px solid transparent; margin-bottom:-1px;
+    padding:9px 0 8px; cursor:pointer; display:inline-flex; align-items:baseline; gap:7px;
   }
-  .tab .n{
-    display:inline-block; min-width:22px; height:22px; line-height:22px; text-align:center; border-radius:11px;
-    background:var(--paper); color:var(--ink-soft); font-size:12px; padding:0 6px;
-  }
-  .tab[aria-pressed="true"]{background:var(--leaf-d); border-color:var(--leaf-d); color:#fff}
-  .tab[aria-pressed="true"] .n{background:rgba(255,255,255,.22); color:#fff}
-  .layer-desc{margin:0 0 14px; min-height:1.5em; color:var(--ink-soft); font-size:15px; max-width:62ch}
+  .tab .n{font-size:12px; color:var(--ink-soft); font-variant-numeric:tabular-nums; letter-spacing:.02em}
+  .tab[aria-pressed="true"]{border-bottom-color:var(--sage); color:var(--ink)}
+  .tab[aria-pressed="true"] .n{color:var(--olive)}
+  .tab:hover{color:var(--olive)}
+  .layer-desc{margin:0 0 18px; min-height:1.5em; color:var(--ink-soft); font-size:15px; max-width:64ch}
 
-  /* ---------- map ---------- */
-  .mapcard{
-    background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:14px 14px 10px;
-  }
+  /* ---------- the plate ---------- */
+  .plate{padding:6px 0 0}
   .mapwrap{max-width:470px; margin:0 auto}
   .map{width:100%; height:auto; display:block}
   .region{cursor:pointer; outline:none}
-  .region .fill{stroke:var(--card); stroke-width:1.6; transition:fill-opacity .2s}
+  .region .fill{stroke:none; transition:fill .2s, stroke .15s}
   .region.s-undoc .fill{fill:url(#hatch)}
-  .region.s-confirm .fill{fill:url(#hatchSoft)}
-  .region.s-doc .fill{fill:var(--leaf)}
-  .region.s-ready .fill{fill:var(--leaf-100)}
-  .region:hover .fill, .region.is-hover .fill{filter:brightness(.96)}
-  .region.is-selected .fill{stroke:var(--ink); stroke-width:2.2}
-  .region:focus-visible .fill{stroke:var(--sky-d); stroke-width:2.6}
-  .rlabel{font-family:"Nunito", system-ui, sans-serif; font-weight:800; font-size:9.5px; fill:var(--ink); pointer-events:none; text-anchor:middle}
-  .rsub{font-weight:700; font-size:6.4px; fill:var(--ink-soft)}
-  .s-doc .rsub{fill:var(--night)}
-  .outline{fill:none; stroke:var(--ink); stroke-width:1.8; stroke-linejoin:round; pointer-events:none}
+  .region.s-confirm .fill{fill:url(#stipple)}
+  .region.s-doc .fill{fill:var(--olive-tint)}
+  .region.s-ready .fill{fill:var(--sage-tint)}
+  .region:hover .fill, .region.is-hover .fill{stroke:var(--olive); stroke-width:1}
+  .region.is-selected .fill{stroke:var(--olive); stroke-width:1.5}
+  .region:focus-visible .fill{stroke:var(--sage); stroke-width:2}
+  .rlabel{font-family:var(--sans); font-weight:700; font-size:6.6px; letter-spacing:.14em; text-transform:uppercase; fill:var(--olive); pointer-events:none; text-anchor:middle}
+  .rsub{font-family:var(--serif); font-style:italic; font-weight:400; font-size:7.2px; letter-spacing:0; text-transform:none; fill:var(--ink-soft)}
+  .construction line{stroke:var(--line); stroke-width:.8; stroke-dasharray:1 2.6; stroke-linecap:round; pointer-events:none}
+  .outline{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round; pointer-events:none}
+  .water circle{fill:var(--teal); opacity:.45; pointer-events:none}
+  .water text{font-family:var(--serif); font-style:italic; font-size:6.4px; fill:var(--ink-soft); pointer-events:none}
   .city{pointer-events:none}
-  .city circle{fill:var(--ink); stroke:#fff; stroke-width:1.2}
-  .city text{font-family:"Nunito", system-ui, sans-serif; font-weight:700; font-size:7.4px; fill:var(--ink); paint-order:stroke; stroke:#fff; stroke-width:2.4px; stroke-linejoin:round}
-  .mapnote{font-size:12px; color:var(--ink-soft); margin:8px 0 0; text-align:center}
+  .city circle{fill:var(--ink); r:1.7}
+  .city text{font-family:var(--serif); font-style:italic; font-weight:400; font-size:8.2px; fill:var(--ink); paint-order:stroke; stroke:var(--ground); stroke-width:2px; stroke-linejoin:round}
+  .caption{font-family:var(--serif); font-style:italic; font-size:16px; color:var(--ink-soft); margin:10px auto 0; max-width:470px}
 
-  .legend{display:flex; flex-wrap:wrap; gap:10px 18px; margin:14px 0 0; padding:0; list-style:none; font-size:13px}
-  .legend li{display:flex; align-items:center; gap:8px}
-  .sw{width:22px; height:16px; border-radius:4px; border:1px solid var(--line); flex:none}
-  .sw.doc{background:var(--leaf)}
-  .sw.undoc{background:var(--paper); background-image:var(--hatch)}
-  .sw.confirm{background:var(--leaf-100); background-image:var(--hatch-soft)}
-  .sw.ready{background:var(--leaf-100)}
+  .legend{display:flex; flex-wrap:wrap; gap:8px 22px; margin:16px auto 0; padding:14px 0 0; max-width:470px; list-style:none; font-size:13px; color:var(--ink-soft); border-top:1px solid var(--line)}
+  .legend li{display:flex; align-items:center; gap:9px}
+  .sw{width:22px; height:12px; border:1px solid var(--line); flex:none; background-color:var(--ground)}
+  .sw.doc{background-color:var(--olive-tint)}
+  .sw.undoc{background-image:var(--hatch)}
+  .sw.confirm{background-image:var(--stipple); background-size:4px 4px}
+  .sw.ready{background-color:var(--sage-tint)}
 
-  /* ---------- status bar ---------- */
-  .status{margin-top:22px}
+  /* ---------- status table ---------- */
+  .status{margin-top:36px}
+  .status h2{margin-bottom:4px}
+  .status .lead{font-size:15px; color:var(--ink-soft); margin:0 0 12px}
+  #statusRows{border-top:1px solid var(--line)}
   .status-row{
-    display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px; align-items:center;
+    display:grid; grid-template-columns:16px minmax(0,1fr) auto; gap:2px 12px; align-items:center;
     width:100%; text-align:left; font:inherit; color:var(--ink); background:transparent; border:0;
-    border-top:1px solid var(--line); padding:10px 4px; cursor:pointer;
+    border-bottom:1px solid var(--line); padding:11px 0; cursor:pointer;
   }
-  .status-row:last-child{border-bottom:1px solid var(--line)}
-  .status-row:focus-visible{outline:2px solid var(--sky-d); outline-offset:2px; border-radius:6px}
-  .status-row[aria-pressed="true"] .status-name{color:var(--leaf-d)}
-  .status-name{font-weight:800; font-size:14px}
-  .status-count{font-size:13px; color:var(--ink-soft)}
-  @media (max-width:600px){ .status-row{grid-template-columns:1fr} .status-count{margin-top:-2px} }
-  .cells{grid-column:1 / -1; display:grid; grid-template-columns:repeat(9,1fr); gap:3px; max-width:320px}
-  .cell{height:10px; border-radius:2px; border:1px solid var(--line); background:var(--paper); background-image:var(--hatch)}
-  .cell.doc{background:var(--leaf); background-image:none; border-color:var(--leaf-d)}
-  .cell.confirm{background:var(--leaf-100); background-image:var(--hatch-soft)}
-  .cell.ready{background:var(--leaf-100); background-image:none}
+  .status-row::before{content:""; width:9px; height:9px; border-radius:50%; border:1px solid var(--line); background:transparent; grid-row:1 / span 2}
+  .status-row[aria-pressed="true"]::before{background:var(--sage); border-color:var(--sage)}
+  .status-row:hover .status-name{color:var(--olive)}
+  .status-row:focus-visible{outline:2px solid var(--sage); outline-offset:2px; border-radius:3px}
+  .status-name{font-family:var(--sans); font-weight:600; font-size:14px}
+  .status-count{font-size:14px; color:var(--ink-soft); font-variant-numeric:tabular-nums}
+  @media (max-width:600px){ .status-row{grid-template-columns:16px 1fr} .status-count{grid-column:2} }
+  .cells{grid-column:2 / -1; display:grid; grid-template-columns:repeat(9,1fr); gap:3px; max-width:234px; margin-top:4px}
+  .cell{height:9px; border:1px solid var(--line); background-color:var(--ground); background-image:var(--hatch)}
+  .cell.doc{background-color:var(--olive-tint); background-image:none}
+  .cell.confirm{background-image:var(--stipple); background-size:4px 4px}
+  .cell.ready{background-color:var(--sage-tint); background-image:none}
 
-  /* ---------- side cards ---------- */
-  .card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px 18px 16px}
+  /* ---------- side panels ---------- */
+  .card{background:var(--ground); border:1px solid var(--line); border-radius:5px; padding:22px 22px 20px}
+  .card h2{font-size:22px; margin-bottom:6px}
   .card-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap}
   .state{
-    display:inline-block; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
-    border-radius:6px; padding:3px 8px; background:var(--paper); color:var(--ink-soft);
+    display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-soft);
   }
+  .state::before{content:""; width:26px; height:4px; background:var(--line)}
   .state[hidden]{display:none}
-  .state.doc{background:var(--leaf-100); color:var(--leaf-d)}
-  .state.confirm{background:var(--sunny-100); color:#8a6410}
-  .entries{list-style:none; margin:12px 0 0; padding:0}
-  .entry{border-top:1px solid var(--line); padding:10px 0}
-  .entry:last-child{padding-bottom:2px}
-  .entry .val{font-weight:800; margin:0 0 2px}
-  .entry .meta{font-size:13px; color:var(--ink-soft); margin:0}
-  .entry .tag{display:inline-block; font-size:11px; font-weight:800; color:#8a6410; background:var(--sunny-100); border-radius:6px; padding:1px 7px; margin:4px 0 0}
-  .entry-actions{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; align-items:center}
-  .empty{margin:10px 0 0; padding:12px 14px; border-radius:12px; background:var(--paper); background-image:var(--hatch); background-size:100% 100%; font-size:14px}
-  .empty-inner{background:rgba(251,247,239,.92); padding:6px 8px; border-radius:8px}
+  .state.doc{color:var(--olive)} .state.doc::before{background:var(--sage)}
+  .state.confirm{color:var(--clay-deep)} .state.confirm::before{background:var(--clay)}
+  .state.ready{color:var(--olive)} .state.ready::before{background:var(--sage)}
+  .state.undoc::before{background-image:var(--hatch); background-color:var(--ground); border:1px solid var(--line); height:4px}
+  #detailLayer{font-size:13px; color:var(--ink-soft); margin:6px 0 0; letter-spacing:.02em}
+  #detailBody > p{font-size:15px; color:var(--ink-soft)}
+  #detailBody ul.small{font-size:15px}
+  .entries{list-style:none; margin:14px 0 0; padding:0; border-top:1px solid var(--line)}
+  .entry{border-bottom:1px solid var(--line); padding:12px 0}
+  .entry .val{font-family:var(--serif); font-size:19px; line-height:1.35; margin:0 0 4px; color:var(--ink)}
+  .entry .val .muted{font-family:var(--sans); font-size:13px; letter-spacing:.04em; color:var(--ink-soft)}
+  .entry .meta{font-size:14px; color:var(--ink-soft); margin:0}
+  .entry .tag{display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--clay-deep); margin:6px 0 0}
+  .entry .tag::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--clay)}
+  .entry-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; align-items:center}
+  .empty{margin:12px 0 0; font-family:var(--serif); font-style:italic; font-size:18px; line-height:1.4; color:var(--ink-soft)}
+  .empty-inner{padding:0}
 
   /* ---------- buttons & forms ---------- */
   .btn{
-    font:inherit; font-weight:800; font-size:14px; border-radius:999px; padding:8px 14px; cursor:pointer;
-    border:1.5px solid var(--leaf-d); background:var(--leaf-d); color:#fff;
+    display:inline-block; font-family:var(--sans); font-weight:700; font-size:14px; letter-spacing:.03em;
+    border-radius:3px; padding:11px 20px; cursor:pointer; line-height:1.2; text-decoration:none;
+    border:1px solid var(--clay); background:var(--clay); color:#fff;
   }
+  .btn:hover{background:var(--clay-deep); border-color:var(--clay-deep)}
   .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
-  .btn.danger{background:transparent; color:var(--coral-d); border-color:var(--coral)}
-  .btn.sm{font-size:12px; padding:4px 10px}
+  .btn.ghost:hover{border-color:var(--ink-soft); background:transparent}
+  .btn.danger{background:transparent; color:var(--clay-deep); border-color:var(--line)}
+  .btn.danger:hover{border-color:var(--clay-deep); background:transparent}
+  .btn.sm{font-size:13px; padding:6px 12px}
   .btn:focus-visible, .tab:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible, summary:focus-visible, .filebtn:focus-within{
-    outline:2px solid var(--sky-d); outline-offset:2px;
+    outline:2px solid var(--sage); outline-offset:2px;
   }
-  .btn:disabled{opacity:.5; cursor:not-allowed}
-  label{display:block; font-size:13px; font-weight:800; margin:10px 0 4px}
-  label .req{color:var(--coral-d)}
+  .btn:disabled{opacity:.45; cursor:not-allowed}
+  .btn:disabled:hover{background:var(--clay); border-color:var(--clay)}
+  label{display:block; font-family:var(--sans); font-weight:600; font-size:13px; margin:14px 0 5px; color:var(--ink)}
+  label .req{color:var(--clay)}
   input[type="text"], input[type="date"], select, textarea{
-    width:100%; font:inherit; font-size:15px; color:var(--ink); background:var(--paper);
-    border:1.5px solid var(--line); border-radius:10px; padding:8px 10px;
+    width:100%; font:inherit; font-size:15px; color:var(--ink); background:var(--ground);
+    border:1px solid var(--line); border-radius:4px; padding:9px 11px;
   }
-  textarea{min-height:68px; resize:vertical}
-  .hint{font-size:12px; color:var(--ink-soft); margin:3px 0 0}
-  .form-actions{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; align-items:center}
-  .msg{margin:10px 0 0; padding:9px 12px; border-radius:10px; font-size:14px; display:none}
+  input:focus-visible, select:focus-visible, textarea:focus-visible{outline:2px solid var(--sage); outline-offset:0; border-color:var(--sage)}
+  textarea{min-height:72px; resize:vertical}
+  .hint{font-size:13px; color:var(--ink-soft); margin:5px 0 0}
+  .form-actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; align-items:center}
+  .msg{display:none; position:relative; margin:12px 0 0; padding-left:18px; font-size:14px; color:var(--ink); max-width:none}
   .msg.show{display:block}
-  .msg.err{background:var(--coral-100); color:#7a2e21}
-  .msg.ok{background:var(--leaf-100); color:#2e6b3d}
-  .msg.note{background:var(--sunny-100); color:#6b4e0e}
-  .editing{background:var(--sunny-100); border-radius:10px; padding:8px 12px; font-size:13px; margin-top:8px; display:none}
+  .msg::before{content:""; position:absolute; left:0; top:.5em; width:9px; height:9px; border-radius:50%; background:var(--sage)}
+  .msg.err::before{background:var(--clay)}
+  .msg.ok::before{background:var(--sage)}
+  .msg.note::before{background:var(--gold)}
+  .editing{display:none; margin:12px 0 0; padding:10px 14px; font-size:14px; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:4px}
   .editing.show{display:block}
-  .confirm-inline{display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:13px}
+  .confirm-inline{display:inline-flex; gap:10px; align-items:center; flex-wrap:wrap; font-size:14px}
 
   /* ---------- transfer ---------- */
-  .transfer-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px}
+  #transferCard > p{font-size:15px; color:var(--ink-soft)}
+  .transfer-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px}
   .filebtn{position:relative; display:inline-block; overflow:hidden}
   .filebtn input{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%}
+  #freshNote{font-size:13px}
   .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
   .copybox{position:absolute; left:-9999px; top:0; width:10px; height:10px}
 
-  /* ---------- facts ---------- */
-  .facts{margin-top:34px; max-width:72ch}
-  .fact{border-top:1px solid var(--line); padding:14px 0}
-  .fact:last-child{border-bottom:1px solid var(--line)}
-  .fact p{margin:0 0 6px}
-  .fact .tagline{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800; color:#8a6410; background:var(--sunny-100); border-radius:6px; padding:2px 8px}
-  .fact .tagline svg{width:12px; height:12px}
+  /* ---------- context being checked ---------- */
+  .facts{margin-top:48px; max-width:72ch}
+  .facts h2{margin-bottom:4px}
+  .facts .lead{font-size:15px; color:var(--ink-soft); margin:0 0 14px}
+  #factsList{border-top:1px solid var(--line)}
+  .fact{border-bottom:1px solid var(--line); padding:18px 0}
+  .fact p{margin:0 0 6px; font-family:var(--serif); font-size:20px; line-height:1.4}
+  .fact .tagline{display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--clay-deep)}
+  .fact .tagline::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--clay)}
+  .fact .tagline svg{display:none}
   .fact ul{margin:6px 0 0; padding-left:20px; color:var(--ink-soft); font-size:15px}
+  .fact li{margin:2px 0}
+  .fact li::marker{color:var(--olive)}
 
-  footer{margin-top:40px; padding-top:18px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between}
-  footer a{color:var(--leaf-d); font-weight:800}
-  a{color:var(--leaf-d)}
+  footer{margin-top:56px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between}
+  footer a{color:var(--clay-deep)}
 
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important; animation:none !important}
@@ -217,15 +259,18 @@
 <div class="frame">
 
   <header>
-    <span class="chip">IndiATA</span>
+    <span class="eyebrow">IndiATA</span>
     <h1>Indiana Art Therapy: The Living Map</h1>
     <p class="lede">Switch layers, open a region, and record what IndiATA has documented about art therapy across Indiana.</p>
+    <p class="quiet">Choose a layer, then open a region on the map to read or add what has been documented there.</p>
     <details class="how">
-      <summary><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+      <summary>How this page works</summary>
       <ol id="howList"></ol>
     </details>
-    <div class="about" id="about"></div>
+    <div id="about"></div>
   </header>
+
+  <hr class="rule">
 
   <div class="board">
     <div class="col-main">
@@ -235,26 +280,40 @@
         <p class="layer-desc" id="layerDesc"></p>
       </div>
 
-      <div class="mapcard">
+      <div class="plate">
         <div class="mapwrap">
           <svg class="map" id="map" viewBox="20 12 272 428" role="group" aria-label="Schematic map of Indiana in nine regions">
             <defs>
               <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <rect width="5" height="5" style="fill:var(--paper)"/>
-                <line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--ink-soft); stroke-width:1.1; opacity:.42"/>
+                <rect width="5" height="5" style="fill:var(--ground)"/>
+                <line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--olive); stroke-width:.7; opacity:.38; stroke-linecap:round"/>
               </pattern>
-              <pattern id="hatchSoft" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <rect width="5" height="5" style="fill:var(--leaf-100)"/>
-                <line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--leaf-d); stroke-width:1.1; opacity:.5"/>
+              <pattern id="stipple" width="4.2" height="4.2" patternUnits="userSpaceOnUse">
+                <rect width="4.2" height="4.2" style="fill:var(--ground)"/>
+                <circle cx="1.3" cy="1.1" r=".55" style="fill:var(--clay); opacity:.8"/>
+                <circle cx="3.3" cy="3.2" r=".5" style="fill:var(--clay); opacity:.65"/>
               </pattern>
               <clipPath id="stateClip"><path id="stateShape" d=""/></clipPath>
             </defs>
             <g id="regions" clip-path="url(#stateClip)"></g>
+            <g class="construction" aria-hidden="true">
+              <line x1="139" y1="12" x2="139" y2="440"/>
+              <line x1="210" y1="12" x2="210" y2="440"/>
+              <line x1="20" y1="150" x2="292" y2="150"/>
+              <line x1="20" y1="275" x2="292" y2="275"/>
+            </g>
+            <g class="water" aria-hidden="true">
+              <circle cx="74" cy="22" r=".6"/><circle cx="81" cy="27" r=".6"/><circle cx="88" cy="20" r=".6"/><circle cx="94" cy="29" r=".6"/>
+              <circle cx="100" cy="23" r=".6"/><circle cx="107" cy="18" r=".6"/><circle cx="113" cy="23" r=".6"/><circle cx="78" cy="34" r=".6"/>
+              <circle cx="90" cy="35" r=".6"/><circle cx="102" cy="32" r=".6"/><circle cx="68" cy="27" r=".6"/><circle cx="110" cy="27" r=".6"/>
+              <circle cx="84" cy="16" r=".6"/><circle cx="96" cy="15" r=".6"/><circle cx="72" cy="30" r=".6"/><circle cx="104" cy="36" r=".6"/>
+              <text x="118" y="20" text-anchor="start">Lake Michigan</text>
+            </g>
             <path class="outline" id="outlinePath" d=""/>
             <g id="cities" class="city"></g>
           </svg>
         </div>
-        <p class="mapnote">Schematic outline. Region borders are a working grid, not county lines.</p>
+        <p class="caption">Schematic outline. Region borders are a working grid, not county lines.</p>
         <ul class="legend" aria-label="Legend">
           <li><span class="sw doc"></span>Documented, with source and date</li>
           <li><span class="sw confirm"></span>Listed, needs source confirmation</li>
@@ -265,7 +324,7 @@
 
       <section class="status" aria-labelledby="statusHeading">
         <h2 id="statusHeading">Documentation status</h2>
-        <p class="muted small" style="margin:0 0 8px">Regions documented per layer, out of 9. Select a row to show that layer.</p>
+        <p class="lead">Regions documented per layer, out of 9. Select a row to show that layer.</p>
         <div id="statusRows"></div>
       </section>
     </div>
@@ -276,7 +335,7 @@
           <h2 id="detailTitle" style="margin:0">Region</h2>
           <span class="state" id="detailState"></span>
         </div>
-        <p class="muted small" id="detailLayer" style="margin:4px 0 0"></p>
+        <p id="detailLayer"></p>
         <div id="detailBody"></div>
       </section>
 
@@ -311,7 +370,7 @@
 
       <section class="card" aria-labelledby="transferHeading" id="transferCard">
         <h2 id="transferHeading">Pass the file along</h2>
-        <p class="muted small" style="margin:0">Data stays in this browser until you export it. Export a JSON file to hand to another officer. Import theirs to load it here.</p>
+        <p style="margin:0">Data stays in this browser until you export it. Export a JSON file to hand to another officer. Import theirs to load it here.</p>
         <div class="transfer-row">
           <a class="btn" id="downloadLink" href="#" download="indiata-living-map.json">Download as JSON</a>
           <button type="button" class="btn ghost" id="copyBtn">Copy as text</button>
@@ -319,9 +378,9 @@
         </div>
         <div class="msg" id="transferMsg" role="status"></div>
         <div id="importConfirm" class="msg note" style="display:none"></div>
-        <div class="transfer-row" style="margin-top:14px">
+        <div class="transfer-row" style="margin-top:18px">
           <button type="button" class="btn danger sm" id="freshBtn">Start fresh</button>
-          <span class="small muted" id="freshNote">Clears everything saved in this browser.</span>
+          <span class="muted" id="freshNote">Clears everything saved in this browser.</span>
         </div>
         <div id="freshConfirm" class="msg note" style="display:none"></div>
         <textarea class="copybox" id="copyBox" aria-hidden="true" tabindex="-1"></textarea>
@@ -331,7 +390,7 @@
 
   <section class="facts" aria-labelledby="factsHeading">
     <h2 id="factsHeading">Context IndiATA is checking</h2>
-    <p class="muted small" style="margin:0 0 10px">Each item below stays flagged until an officer confirms it against a source.</p>
+    <p class="lead">Each item below stays flagged until an officer confirms it against a source.</p>
     <div id="factsList"></div>
   </section>
 

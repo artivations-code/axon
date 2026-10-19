@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Living Exhibition Wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+  /* Look: a long gallery wall on a warm neutral drawn from --paper. Frames are objects and carry the book's shadow.
+     Coral is the only accent and it belongs to the thematic threads alone. Everything else is ink on paper. */
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730; --night-2:#24333E;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --sh-sm:0 5px 12px rgba(43,58,66,.13);
+    --round:20px;
+    --sans:"Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    /* derived neutrals */
+    --wall:#F2ECE1; --wall:color-mix(in srgb, var(--paper) 90%, var(--ink));
+    --wall-line:rgba(43,58,66,.12);
+    --mat:#FFFDF9; --mat:color-mix(in srgb, var(--card) 92%, var(--paper));
+    --frame:#3F4D55; --frame:color-mix(in srgb, var(--ink) 82%, var(--paper));
+    --slot:#EFE9DE; --slot:color-mix(in srgb, var(--paper) 86%, var(--ink));
+    --rule:rgba(43,58,66,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  html{overflow-x:hidden}
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:700;line-height:1.45;
+    padding-block:28px 44px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+  .chip{display:inline-block;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:12px;padding:7px 14px;border-radius:999px;background:var(--card);color:var(--ink-soft);box-shadow:inset 0 0 0 1.5px var(--rule)}
+  h1{font-size:clamp(32px,5.6vw,50px);line-height:1.02;letter-spacing:-.01em;font-weight:900;margin:14px 0 10px;text-wrap:balance;max-width:720px}
+  .lede{font-size:18px;color:var(--ink-soft);max-width:680px;margin:0 0 12px}
+  details.how{max-width:680px;margin:0 0 6px;font-size:15px}
+  details.how summary{cursor:pointer;font-weight:800;padding:6px 0;list-style:none;display:inline-flex;align-items:center;gap:8px}
+  details.how summary::-webkit-details-marker{display:none}
+  details.how summary svg{width:14px;height:14px;transition:transform .2s}
+  details.how[open] summary svg{transform:rotate(90deg)}
+  details.how ul{margin:4px 0 0;padding-left:20px;color:var(--ink-soft)}
+  details.how li{margin:3px 0}
+  .as-supplied{font-size:14px;color:var(--ink-soft);margin:10px 0 0;max-width:680px}
+
+  /* buttons */
+  button{font:inherit;color:inherit}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:800;font-size:14px;cursor:pointer;line-height:1.2}
+  .btn svg{width:16px;height:16px;flex:none}
+  .btn:hover{background:var(--ink);color:var(--paper)}
+  .btn.solid{background:var(--ink);color:var(--paper)}
+  .btn.solid:hover{background:var(--night-2)}
+  .btn.quiet{border-color:var(--rule);font-weight:700}
+  .btn.quiet:hover{border-color:var(--ink);background:var(--card);color:var(--ink)}
+  .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn.small{padding:5px 11px;font-size:13px}
+  .btn:disabled{opacity:.45;cursor:default}
+  .btn:disabled:hover{background:var(--card);color:var(--ink)}
+  .btn.solid:disabled:hover{background:var(--ink);color:var(--paper)}
+  :focus-visible{outline:3px solid var(--sky-d);outline-offset:3px}
+  .linkish{background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;font-weight:800}
+
+  /* top bar over the wall */
+  .bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin:26px 0 12px}
+  .seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--card)}
+  .seg button{border:0;background:transparent;padding:8px 16px;font-weight:800;font-size:14px;cursor:pointer}
+  .seg button+button{border-left:1.5px solid var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .seg button:focus-visible{outline-offset:-4px}
+  .bar .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+  /* wall label */
+  .wall-label{background:var(--card);border-radius:var(--round);box-shadow:var(--sh-sm);padding:18px 22px;margin:0 0 14px;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:start}
+  .wall-label .kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
+  .wall-label h2{margin:2px 0 6px;font-size:24px;font-weight:900;line-height:1.1}
+  .wall-label p{margin:0;font-size:15px;max-width:720px}
+  .wall-label .credits{font-size:13px;color:var(--ink-soft);margin-top:6px}
+  .wall-label .muted{color:var(--ink-soft);font-weight:600}
+  .wall-label .count{text-align:right;font-size:13px;color:var(--ink-soft);white-space:nowrap}
+  .wall-label .count b{display:block;font-size:26px;color:var(--ink);line-height:1}
+  .wall-label label{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);margin:8px 0 4px}
+  .wall-label textarea,.wall-label input{width:100%;font:inherit;font-weight:600;font-size:15px;padding:8px 10px;border:1.5px solid var(--rule);border-radius:10px;background:var(--paper);color:var(--ink)}
+  .wall-label textarea{min-height:70px;resize:vertical}
+
+  /* themes */
+  .themes{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+  .themes .lbl{font-size:13px;color:var(--ink-soft);margin-right:4px}
+  .tchip{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--rule);background:var(--card);border-radius:999px;padding:6px 12px 6px 10px;font-size:13px;font-weight:800;cursor:pointer}
+  .tchip:hover{border-color:var(--ink)}
+  .tchip svg{width:26px;height:10px;flex:none}
+  .tchip[aria-pressed="true"]{border-color:var(--coral-d);background:var(--coral-100)}
+  .tchip .n{font-weight:700;color:var(--ink-soft)}
+
+  /* the wall */
+  .wall-shell{position:relative;border-radius:var(--round);background:var(--wall);box-shadow:inset 0 0 0 1.5px var(--wall-line);overflow:hidden}
+  .wall{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;touch-action:pan-x pan-y;cursor:grab;outline-offset:-4px}
+  .wall.dragging{cursor:grabbing;user-select:none}
+  .track{position:relative;height:var(--wall-h,540px)}
+  .track .eyeline{position:absolute;left:0;right:0;top:50%;border-top:1px dashed var(--wall-line);pointer-events:none}
+  .track .eyeline span{position:absolute;left:12px;top:-18px;font-size:11px;color:var(--ink-soft);font-weight:700;letter-spacing:.04em;white-space:nowrap}
+  .threads{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .threads path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .threads circle{fill:var(--card)}
+  .work{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;color:inherit;display:block}
+  .work .frame{width:100%;height:100%;border:6px solid var(--frame);background:var(--mat);box-shadow:var(--sh);padding:clamp(5px,1.6vw,12px);transition:transform .18s ease, opacity .25s ease}
+  .work:hover .frame,.work:focus-visible .frame{transform:translateY(-3px)}
+  .work .slot{width:100%;height:100%;background:var(--slot);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;position:relative}
+  .work .slot.empty{box-shadow:inset 0 0 0 1.5px var(--wall-line)}
+  .work .slot.empty span{font-size:clamp(9px,1.1vw,12px);font-weight:800;color:var(--ink-soft);padding:4px;line-height:1.25}
+  .work .slot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .work .wl{position:absolute;left:0;top:calc(100% + 8px);width:max(100%,112px);font-size:11px;line-height:1.25;color:var(--ink);background:var(--card);padding:5px 8px;border-radius:5px;box-shadow:var(--sh-sm);transition:opacity .25s ease}
+  .work .wl b{display:block;font-weight:800}
+  .work .wl i{font-weight:700}
+  .work .wl .yr{color:var(--ink-soft)}
+  .work.dim .frame,.work.dim .wl{opacity:.32}
+  .work.open .frame{outline:3px solid var(--ink);outline-offset:3px}
+  .wall:focus-visible{outline:3px solid var(--sky-d)}
+  .track .empty-wall{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);padding:16px 20px;border-radius:14px;box-shadow:var(--sh-sm);font-size:14px;max-width:320px;text-align:center}
+
+  .pan{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0 0;flex-wrap:wrap}
+  .pan .hint{font-size:13px;color:var(--ink-soft)}
+  .pan .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;align-items:center}
+  .pan .legend span{display:inline-flex;align-items:center;gap:6px}
+  .pan .legend svg{width:30px;height:10px}
+
+  /* work panel */
+  .panel-scrim{position:fixed;inset:0;background:rgba(43,58,66,.28);display:none;z-index:30}
+  .panel-scrim.show{display:block}
+  .panel{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--card);box-shadow:var(--sh);z-index:31;transform:translateX(104%);visibility:hidden;transition:transform .25s ease, visibility 0s linear .25s;display:flex;flex-direction:column;overflow:hidden}
+  .panel.show{transform:none;visibility:visible;transition-delay:0s}
+  .panel header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px;border-bottom:1.5px solid var(--rule)}
+  .panel header .kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
+  .panel .body{overflow-y:auto;padding:18px 18px 28px;flex:1}
+  .panel .pslot{aspect-ratio:var(--ar,4/3);max-height:260px;width:100%;background:var(--slot);box-shadow:inset 0 0 0 1.5px var(--wall-line);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:13px;font-weight:800;margin:0 0 14px;overflow:hidden}
+  .panel .pslot img{max-width:100%;max-height:100%;display:block;object-fit:contain}
+  .tomb{font-size:15px;line-height:1.4;margin:0 0 14px;padding:0 0 14px;border-bottom:1.5px solid var(--rule)}
+  .tomb .artist{font-weight:900;font-size:18px}
+  .tomb i{font-weight:700}
+  .tomb .yr{color:var(--ink-soft)}
+  .tomb .med,.tomb .dim{font-weight:600;color:var(--ink-soft)}
+  .tomb .perm{margin-top:6px;font-size:12px;font-weight:800;display:inline-block;padding:2px 9px;border-radius:999px;background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--rule);color:var(--ink-soft)}
+  .tomb .perm.on{color:var(--ink)}
+  .ptags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+  .ptags span{font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--paper);color:var(--ink-soft);box-shadow:inset 0 0 0 1.5px var(--rule)}
+  .panel h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px}
+  .statement{font-weight:600;font-size:15px;margin:0 0 18px;white-space:pre-line}
+  .steps{background:var(--paper);border-radius:14px;padding:14px}
+  .steps .shead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:var(--ink-soft)}
+  .steps .dots{display:flex;gap:6px;flex-wrap:wrap}
+  .steps .dots button{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink);background:var(--card);font-size:11px;font-weight:800;cursor:pointer;padding:0}
+  .steps .dots button[aria-current="step"]{background:var(--ink);color:var(--paper)}
+  .steps .stext{font-weight:600;font-size:15px;margin:0 0 10px;white-space:pre-line}
+  .steps .simg{background:var(--slot);box-shadow:inset 0 0 0 1.5px var(--wall-line);min-height:72px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin:0 0 10px;overflow:hidden}
+  .steps .simg img{max-width:100%;max-height:220px;display:block;object-fit:contain}
+  .steps .snav{display:flex;gap:8px;justify-content:space-between}
+  .panel .pfoot{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+
+  /* curator desk */
+  .desk{margin-top:22px;background:var(--card);border-radius:var(--round);box-shadow:var(--sh-sm);padding:20px 22px;display:none}
+  .desk.show{display:block}
+  .desk h2{margin:0 0 4px;font-size:22px;font-weight:900}
+  .desk .sub{margin:0 0 16px;font-size:14px;color:var(--ink-soft)}
+  .desk-grid{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:20px}
+  .desk ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .desk ol li{display:flex;align-items:center;gap:6px;background:var(--paper);border-radius:10px;padding:6px 8px;font-size:13px}
+  .desk ol li .nm{flex:1;min-width:0;text-align:left;background:none;border:0;padding:4px 2px;cursor:pointer;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .desk ol li.sel{box-shadow:inset 0 0 0 2px var(--ink)}
+  .ib{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--rule);background:var(--card);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;flex:none}
+  .ib svg{width:14px;height:14px}
+  .ib:hover{border-color:var(--ink)}
+  .ib:disabled{opacity:.35;cursor:default}
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  .form .full{grid-column:1/-1}
+  .form label{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);margin-bottom:4px}
+  .form input,.form textarea,.form select{width:100%;font:inherit;font-weight:600;font-size:14px;padding:8px 10px;border:1.5px solid var(--rule);border-radius:10px;background:var(--paper);color:var(--ink)}
+  .form textarea{min-height:84px;resize:vertical}
+  .form .help{font-size:12px;color:var(--ink-soft);margin:4px 0 0;font-weight:600}
+  .form .img-note{background:var(--slot);padding:10px 12px;border-radius:10px;font-size:13px;margin:0}
+  .psteps{display:flex;flex-direction:column;gap:8px}
+  .pstep{background:var(--paper);border-radius:12px;padding:10px;display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:start}
+  .pstep .num{font-size:12px;font-weight:900;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;justify-content:center}
+  .pstep textarea,.pstep input{width:100%;font:inherit;font-weight:600;font-size:14px;padding:7px 9px;border:1.5px solid var(--rule);border-radius:8px;background:var(--card);color:var(--ink)}
+  .pstep textarea{min-height:56px;resize:vertical}
+  .pstep .row{grid-column:2;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .pstep .row input{flex:1;min-width:140px}
+  .desk .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+  .desk .io{margin-top:18px;padding-top:16px;border-top:1.5px solid var(--rule)}
+  .desk .io h3{margin:0 0 8px;font-size:15px}
+  .desk .io textarea{width:100%;min-height:80px;font:inherit;font-weight:600;font-size:13px;padding:8px 10px;border:1.5px solid var(--rule);border-radius:10px;background:var(--paper);color:var(--ink)}
+  .msg{font-size:13px;font-weight:800;color:var(--ink-soft);min-height:1.2em}
+  .confirm{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  input[type=file]{font:inherit;font-size:13px;max-width:100%}
+
+  footer{margin-top:40px;padding-top:16px;border-top:1.5px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:14px;color:var(--ink-soft)}
+  footer a{color:var(--ink);font-weight:800}
+
+  @media (max-width:720px){
+    .wall-label{grid-template-columns:1fr}
+    .wall-label .count{text-align:left}
+    .wall-label .count b{display:inline;font-size:18px;margin-right:6px}
+    .desk-grid{grid-template-columns:1fr}
+    .form{grid-template-columns:1fr}
+    .track{--wall-h:430px}
+    .panel{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;scroll-behavior:auto !important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="chip">IndiATA</span>
+  <h1>The Living Exhibition Wall</h1>
+  <p class="lede">Pan a salon-style wall of IndiATA exhibition work, follow the threads between pieces, and open any work to read its label, statement, and process.</p>
+  <details class="how">
+    <summary><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3l6 5-6 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+    <ul>
+      <li>Drag the wall, scroll sideways, or use the arrow buttons. The left and right keys move between works.</li>
+      <li>Choose a theme to draw a thread between the works that share it. Choose more than one and each thread keeps its own line.</li>
+      <li>Open a work to read its full label, the artist statement, and the process steps.</li>
+      <li>Switch between the two exhibitions above the wall.</li>
+      <li>Curator mode adds, edits, reorders, and removes works. Export JSON to keep a copy outside this browser.</li>
+    </ul>
+  </details>
+  <p class="as-supplied">Artwork and statements appear as the artists supplied them. The page does not edit, crop, or interpret them.</p>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Exhibition" id="exSwitch"></div>
+    <div class="tools">
+      <button class="btn" id="curatorBtn" aria-pressed="false" aria-controls="desk">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 11.5V13h1.5l7-7L10 4.5l-7 7zM11 3.5L12.5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Curator mode
+      </button>
+      <span class="confirm" id="freshWrap">
+        <button class="btn quiet" id="freshBtn">Start fresh</button>
+      </span>
+    </div>
+  </div>
+
+  <section class="wall-label" id="wallLabel" aria-label="Wall label"></section>
+
+  <div class="themes" id="themes" role="group" aria-label="Thematic threads"></div>
+
+  <div class="wall-shell">
+    <div class="wall" id="wall" tabindex="0" aria-label="Exhibition wall. Use left and right arrow keys to move between works.">
+      <div class="track" id="track">
+        <div class="eyeline" aria-hidden="true"><span>57 in. eye line</span></div>
+        <svg class="threads" id="threads" aria-hidden="true"></svg>
+        <div id="works"></div>
+      </div>
+    </div>
+  </div>
+  <div class="pan">
+    <div class="legend" id="legend" aria-live="polite"></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="hint" id="posHint"></span>
+      <button class="btn small" id="panL" aria-label="Pan left"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="btn small" id="panR" aria-label="Pan right"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+
+  <section class="desk" id="desk" aria-label="Curator desk">
+    <h2>Curator desk</h2>
+    <p class="sub">Changes save in this browser as you type. Export JSON to keep a copy or to move the wall to another device.</p>
+    <div class="desk-grid">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
+          <h3 style="margin:0;font-size:15px">Works on this wall</h3>
+          <button class="btn small" id="addWork">Add work</button>
+        </div>
+        <ol id="workList"></ol>
+      </div>
+      <div id="formWrap"></div>
+    </div>
+    <div class="io">
+      <h3>Export and import</h3>
+      <div class="actions">
+        <a class="btn" id="dlJson" download="exhibition.json" href="#">Download as JSON</a>
+        <button class="btn" id="copyText">Copy as text</button>
+        <span class="msg" id="ioMsg"></span>
+      </div>
+      <div style="margin-top:12px;display:grid;gap:8px">
+        <label for="importFile" style="font-size:13px;font-weight:800">Import a JSON file exported from this page</label>
+        <input type="file" id="importFile" accept=".json,application/json">
+        <label for="importText" style="font-size:13px;font-weight:800">Or paste JSON here</label>
+        <textarea id="importText" placeholder="Paste exported JSON"></textarea>
+        <div class="actions" style="margin-top:0"><button class="btn small" id="importBtn">Load pasted JSON</button><span class="msg" id="importMsg"></span></div>
+      </div>
+      <textarea id="copyBuf" class="vh" aria-hidden="true" tabindex="-1"></textarea>
+    </div>
+  </section>
+
+  <footer>
+    <span>Prepared for IndiATA • Katy Wagner, MA, ATR-P, LMHCA</span>
+    <a href="index.html">All experiences</a>
+  </footer>
+</div>
+
+<div class="panel-scrim" id="scrim"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" aria-hidden="true">
+  <header>
+    <div><div class="kicker">Work</div><div id="panelTitle" style="font-weight:900;font-size:16px;line-height:1.2"></div></div>
+    <button class="btn small" id="panelClose">Close</button>
+  </header>
+  <div class="body" id="panelBody"></div>
+</aside>
+
+<script>
+/* ==========================================================================
+   HOW TO EDIT THE CONTENT
+   --------------------------------------------------------------------------
+   Everything the wall shows lives in SEED_EXHIBITIONS below. You can edit it
+   here, or switch on Curator mode in the page and use the form. The form saves
+   to this browser only. Download as JSON gives you a file you can paste back
+   into SEED_EXHIBITIONS or import on another device.
+
+   ADDING AN IMAGE TO A WORK
+   Each artwork has an "image" field. Leave it "" to show the placeholder slot.
+   To show the real artwork, set it to one of:
+     1. A URL, for example "https://your-host.org/uploads/work-01.jpg"
+     2. A data URI pasted from a small image file, for example
+        "data:image/jpeg;base64,/9j/4AAQ..."
+   The image is shown whole inside the frame. It is never cropped, filtered,
+   or resized beyond fitting the frame. Each process step also has an optional
+   "image" field that works the same way.
+
+   FIELDS PER ARTWORK
+     artist      The artist's name as they want it printed.
+     title       Title as supplied. The page sets it in italics.
+     year        Year of completion.
+     medium      Materials, as the artist lists them.
+     height      Height in inches (gallery convention: height before width).
+     width       Width in inches.
+     image       See above.
+     statement   The artist statement, verbatim.
+     process     Ordered steps. Each step is { text, image }.
+     themes      Tags. Works that share a tag get a thread drawn between them.
+     permission  "on-file" or "not-documented". Written permission to show the
+                 work. Stays "not-documented" until IndiATA records it.
+
+   Seed entries are examples. Every text field says so. Replace them.
+   ========================================================================== */
+
+const COPY = {
+  statementPlaceholder: 'Curatorial statement: to be written',
+  creditsPlaceholder: 'Credits line: to be written',
+  slot: 'Artwork slot. Add an image.',
+  stepSlot: 'Image slot (optional)',
+  noProcess: 'Process documentation: not yet documented.',
+  noStatement: 'Artist statement: not yet documented.',
+  permissionOn: 'Display permission on file',
+  permissionOff: 'Display permission: not yet documented',
+  emptyWall: 'This wall has no works yet. Switch on Curator mode and choose Add work.'
+};
+
+function exampleWork(letter, h, w, themes, steps){
+  return {
+    id: 'w' + letter + '-' + Math.random().toString(36).slice(2, 7),
+    artist: 'Example Artist ' + letter,
+    title: 'Example title, replace me',
+    year: 'Year, replace me',
+    medium: 'Example medium, replace me',
+    height: h, width: w, image: '',
+    statement: 'Example artist statement, replace me. The statement prints here exactly as the artist wrote it, line breaks included.',
+    process: steps.map(function(s, i){ return { text: 'Example step ' + (i + 1) + ', replace me. ' + s, image: '' }; }),
+    themes: themes,
+    permission: 'not-documented'
+  };
+}
+
+const SEED_EXHIBITIONS = [
+  {
+    id: 'midwest',
+    title: 'Art Therapists of the Midwest',
+    statement: '',
+    credits: '',
+    artworks: [
+      exampleWork('A', 24, 18, ['Materials', 'Place'], ['Name the first material choice.', 'Describe the middle of the work.', 'Say what changed near the end.']),
+      exampleWork('B', 11, 14, ['Identity', 'Repair'], ['Describe the surface before any mark.', 'Note the first mark and what followed.']),
+      exampleWork('C', 30, 22, ['Place', 'Grief'], ['Describe the starting image.', 'Describe a decision point.', 'Describe the finish.', 'Note anything left unresolved.']),
+      exampleWork('D', 9, 12, ['Materials', 'Play'], ['Describe the material test.', 'Describe the result.']),
+      exampleWork('E', 20, 16, ['Identity', 'Grief'], ['Describe the source.', 'Describe the layering.', 'Describe the last pass.']),
+      exampleWork('F', 16, 20, ['Repair', 'Play', 'Materials'], ['Describe the first session.', 'Describe the second session.'])
+    ]
+  },
+  {
+    id: 'trust',
+    title: 'Trust the Process',
+    statement: '',
+    credits: '',
+    artworks: [
+      exampleWork('G', 18, 24, ['Process', 'Materials'], ['Describe the warm-up.', 'Describe the shift.', 'Describe the stopping point.']),
+      exampleWork('H', 14, 11, ['Process', 'Body'], ['Describe the first gesture.', 'Describe the repetition.']),
+      exampleWork('I', 22, 22, ['Waiting', 'Place'], ['Describe the ground.', 'Describe the long middle.', 'Describe what settled.']),
+      exampleWork('J', 12, 9, ['Body', 'Materials'], ['Describe the tool.', 'Describe the pressure used.']),
+      exampleWork('K', 24, 20, ['Process', 'Waiting'], ['Describe the plan.', 'Describe where the plan was dropped.', 'Describe the end.']),
+      exampleWork('L', 10, 14, ['Place', 'Body', 'Process'], ['Describe the setting.', 'Describe one change.'])
+    ]
+  }
+];
+
+/* Thread styles. Up to four themes at once stay distinguishable by dash pattern and tone. Coral lives here only. */
+const THREAD_STYLES = [
+  { stroke: 'var(--coral-d)', width: 3, dash: '' },
+  { stroke: 'var(--coral)',   width: 3, dash: '12 7' },
+  { stroke: 'var(--coral-d)', width: 2.5, dash: '2 7' },
+  { stroke: 'var(--coral)',   width: 2, dash: '16 5 3 5' }
+];
+
+/* ======================== logic below ======================== */
+const STORE_KEY = 'bts-living-wall-v1';
+const FRAME = 6;
+
+let state = loadState();
+let activeThemes = [];
+let openId = null;
+let stepIndex = 0;
+let selId = null;
+let positions = {};
+let dragged = false;
+let lastJsonUrl = null;
+
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function defaultState(){
+  return { exhibitions: clone(SEED_EXHIBITIONS), active: 'midwest', curator: false };
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && Array.isArray(s.exhibitions) && s.exhibitions.length) return s;
+    }
+  }catch(e){}
+  return defaultState();
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function ex(){ return state.exhibitions.find(function(e){ return e.id === state.active; }) || state.exhibitions[0]; }
+function workById(id){ return ex().artworks.find(function(w){ return w.id === id; }); }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function num(v, d){ const n = parseFloat(v); return isFinite(n) && n > 0 ? n : d; }
+function dims(w){ return num(w.height, 12) + ' × ' + num(w.width, 12) + ' in'; }
+function allThemes(){
+  const seen = [];
+  ex().artworks.forEach(function(w){ (w.themes || []).forEach(function(t){ if(t && seen.indexOf(t) < 0) seen.push(t); }); });
+  return seen;
+}
+function reducedMotion(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+/* ---------- exhibition switch ---------- */
+function renderSwitch(){
+  const el = document.getElementById('exSwitch');
+  el.innerHTML = state.exhibitions.map(function(e){
+    return '<button type="button" data-ex="' + esc(e.id) + '" aria-pressed="' + (e.id === ex().id) + '">' + esc(e.title) + '</button>';
+  }).join('');
+  el.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      state.active = b.dataset.ex; activeThemes = []; selId = null; closePanel(); save(); renderAll();
+    });
+  });
+}
+
+/* ---------- wall label ---------- */
+function renderWallLabel(){
+  const e = ex();
+  const el = document.getElementById('wallLabel');
+  const count = e.artworks.length;
+  const docd = e.artworks.filter(function(w){ return w.permission === 'on-file'; }).length;
+  let html = '<div><div class="kicker">Wall label</div>';
+  if(state.curator){
+    html += '<label for="exTitle">Exhibition title</label><input id="exTitle" value="' + esc(e.title) + '">' +
+      '<label for="exStatement">Curatorial statement</label><textarea id="exStatement" placeholder="' + esc(COPY.statementPlaceholder) + '">' + esc(e.statement) + '</textarea>' +
+      '<label for="exCredits">Credits line</label><input id="exCredits" placeholder="' + esc(COPY.creditsPlaceholder) + '" value="' + esc(e.credits) + '">';
+  }else{
+    html += '<h2>' + esc(e.title) + '</h2>' +
+      '<p class="' + (e.statement ? '' : 'muted') + '">' + esc(e.statement || COPY.statementPlaceholder) + '</p>' +
+      '<div class="credits ' + (e.credits ? '' : 'muted') + '">' + esc(e.credits || COPY.creditsPlaceholder) + '</div>';
+  }
+  html += '</div><div class="count"><b>' + count + '</b>' + (count === 1 ? 'work' : 'works') + ' hung<br>' + docd + ' with display permission on file</div>';
+  el.innerHTML = html;
+  if(state.curator){
+    bindInput('exTitle', function(v){ e.title = v; renderSwitch(); });
+    bindInput('exStatement', function(v){ e.statement = v; });
+    bindInput('exCredits', function(v){ e.credits = v; });
+  }
+}
+function bindInput(id, fn){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('input', function(){ fn(el.value); save(); });
+}
+
+/* ---------- themes ---------- */
+function threadSvg(i){
+  const s = THREAD_STYLES[i % THREAD_STYLES.length];
+  return '<svg viewBox="0 0 30 10" aria-hidden="true"><path d="M1 5h28" stroke="' + s.stroke + '" stroke-width="' + s.width + '" stroke-linecap="round"' + (s.dash ? ' stroke-dasharray="' + s.dash + '"' : '') + '/></svg>';
+}
+function renderThemes(){
+  const el = document.getElementById('themes');
+  const themes = allThemes();
+  activeThemes = activeThemes.filter(function(t){ return themes.indexOf(t) >= 0; });
+  if(!themes.length){ el.innerHTML = '<span class="lbl">No themes on this wall yet.</span>'; return; }
+  el.innerHTML = '<span class="lbl">Threads</span>' + themes.map(function(t){
+    const i = activeThemes.indexOf(t);
+    const n = ex().artworks.filter(function(w){ return (w.themes || []).indexOf(t) >= 0; }).length;
+    return '<button type="button" class="tchip" data-theme="' + esc(t) + '" aria-pressed="' + (i >= 0) + '">' +
+      (i >= 0 ? threadSvg(i) : '<svg viewBox="0 0 30 10" aria-hidden="true"><path d="M1 5h28" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/></svg>') +
+      esc(t) + ' <span class="n">' + n + '</span></button>';
+  }).join('') + (activeThemes.length ? ' <button type="button" class="btn quiet small" id="clearThreads">Clear threads</button>' : '');
+  el.querySelectorAll('.tchip').forEach(function(b){
+    b.addEventListener('click', function(){
+      const t = b.dataset.theme;
+      const i = activeThemes.indexOf(t);
+      if(i >= 0) activeThemes.splice(i, 1); else activeThemes.push(t);
+      renderThemes(); renderThreads(); renderLegend();
+    });
+  });
+  const c = document.getElementById('clearThreads');
+  if(c) c.addEventListener('click', function(){ activeThemes = []; renderThemes(); renderThreads(); renderLegend(); });
+}
+function renderLegend(){
+  const el = document.getElementById('legend');
+  if(!activeThemes.length){ el.innerHTML = '<span class="hint">Choose a theme above to draw its thread.</span>'; return; }
+  el.innerHTML = activeThemes.map(function(t, i){ return '<span>' + threadSvg(i) + esc(t) + '</span>'; }).join('');
+}
+
+/* ---------- layout: salon hang ---------- */
+function metrics(){
+  const narrow = window.innerWidth < 720;
+  return { ppi: narrow ? 4.2 : 9, wallH: narrow ? 440 : 580, labelH: 46 };
+}
+function layoutWorks(){
+  const m = metrics();
+  const works = ex().artworks;
+  const offsets = [-64, 58, -18, 92, -96, 32, 70, -48, 12, -80];
+  const gaps = window.innerWidth < 720 ? [44, 68, 36, 56, 48] : [96, 136, 72, 118, 104];
+  let x = 116;
+  positions = {};
+  works.forEach(function(w, i){
+    const padIn = (window.innerWidth < 720 ? 5 : 12) + FRAME;
+    const fw = Math.max(84, num(w.width, 12) * m.ppi + padIn * 2);
+    const fh = Math.max(84, num(w.height, 12) * m.ppi + padIn * 2);
+    const cy = m.wallH / 2 + offsets[i % offsets.length];
+    let y = cy - fh / 2;
+    y = Math.max(22, Math.min(y, m.wallH - fh - m.labelH - 16));
+    positions[w.id] = { x: x, y: y, w: fw, h: fh };
+    x += fw + Math.max(gaps[i % gaps.length], 130 - fw);
+  });
+  return { total: Math.max(x + 40, 0), wallH: m.wallH };
+}
+
+/* ---------- wall ---------- */
+function renderWall(){
+  const track = document.getElementById('track');
+  const lay = layoutWorks();
+  const shell = document.querySelector('.wall-shell');
+  track.style.setProperty('--wall-h', lay.wallH + 'px');
+  track.style.width = Math.max(lay.total, shell.clientWidth) + 'px';
+  const host = document.getElementById('works');
+  const works = ex().artworks;
+  if(!works.length){
+    host.innerHTML = '<div class="empty-wall">' + esc(COPY.emptyWall) + '</div>';
+    renderThreads(); return;
+  }
+  host.innerHTML = works.map(function(w){
+    const p = positions[w.id];
+    const img = w.image ? '<img src="' + esc(w.image) + '" alt="' + esc(w.title) + ' by ' + esc(w.artist) + '">' : '<span>' + esc(COPY.slot) + '</span>';
+    return '<button type="button" class="work' + (w.id === openId ? ' open' : '') + '" data-id="' + esc(w.id) + '" style="left:' + p.x + 'px;top:' + p.y + 'px;width:' + p.w + 'px;height:' + p.h + 'px" aria-label="Open ' + esc(w.title) + ' by ' + esc(w.artist) + '">' +
+      '<div class="frame"><div class="slot' + (w.image ? '' : ' empty') + '">' + img + '</div></div>' +
+      '<div class="wl"><b>' + esc(w.artist) + '</b><i>' + esc(w.title) + '</i><span class="yr">, ' + esc(w.year) + '</span></div>' +
+      '</button>';
+  }).join('');
+  host.querySelectorAll('.work').forEach(function(b){
+    b.addEventListener('click', function(){ if(dragged){ dragged = false; return; } openWork(b.dataset.id); });
+  });
+  applyDim();
+  renderThreads();
+}
+function applyDim(){
+  document.querySelectorAll('.work').forEach(function(b){
+    const w = workById(b.dataset.id);
+    const match = !activeThemes.length || (w && (w.themes || []).some(function(t){ return activeThemes.indexOf(t) >= 0; }));
+    b.classList.toggle('dim', !match);
+  });
+}
+function renderThreads(){
+  const svg = document.getElementById('threads');
+  const track = document.getElementById('track');
+  const W = track.offsetWidth, H = track.offsetHeight;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  applyDim();
+  let out = '';
+  activeThemes.forEach(function(t, k){
+    const s = THREAD_STYLES[k % THREAD_STYLES.length];
+    const pts = ex().artworks.filter(function(w){ return (w.themes || []).indexOf(t) >= 0 && positions[w.id]; })
+      .map(function(w){ const p = positions[w.id]; return { x: p.x + p.w / 2, y: p.y - 14 - k * 10 }; })
+      .sort(function(a, b){ return a.x - b.x; });
+    if(!pts.length) return;
+    let d = 'M' + pts[0].x + ' ' + pts[0].y;
+    for(let i = 1; i < pts.length; i++){
+      const a = pts[i - 1], b = pts[i], mx = (a.x + b.x) / 2;
+      d += ' C' + mx + ' ' + a.y + ' ' + mx + ' ' + b.y + ' ' + b.x + ' ' + b.y;
+    }
+    out += '<path d="' + d + '" stroke="' + s.stroke + '" stroke-width="' + s.width + '"' + (s.dash ? ' stroke-dasharray="' + s.dash + '"' : '') + '/>';
+    pts.forEach(function(p){ out += '<circle cx="' + p.x + '" cy="' + p.y + '" r="5" stroke="' + s.stroke + '" stroke-width="2.5"/>'; });
+  });
+  svg.innerHTML = out;
+}
+
+/* pan: drag with a mouse, native scroll with touch, buttons, keyboard */
+(function(){
+  const wall = document.getElementById('wall');
+  let down = false, sx = 0, sl = 0;
+  wall.addEventListener('pointerdown', function(e){
+    if(e.pointerType !== 'mouse' || e.button !== 0) return;
+    down = true; dragged = false; sx = e.clientX; sl = wall.scrollLeft;
+    wall.classList.add('dragging');
+  });
+  wall.addEventListener('pointermove', function(e){
+    if(!down) return;
+    const dx = e.clientX - sx;
+    if(Math.abs(dx) > 6) dragged = true;
+    wall.scrollLeft = sl - dx;
+  });
+  function up(){ down = false; wall.classList.remove('dragging'); setTimeout(function(){ dragged = false; }, 0); }
+  wall.addEventListener('pointerup', up);
+  wall.addEventListener('pointercancel', up);
+  wall.addEventListener('pointerleave', function(){ if(down) up(); });
+  wall.addEventListener('scroll', updatePosHint);
+  document.getElementById('panL').addEventListener('click', function(){ panBy(-1); });
+  document.getElementById('panR').addEventListener('click', function(){ panBy(1); });
+  wall.addEventListener('keydown', function(e){
+    const works = Array.prototype.slice.call(document.querySelectorAll('.work'));
+    if(!works.length) return;
+    const cur = works.indexOf(document.activeElement);
+    let next = null;
+    if(e.key === 'ArrowRight'){ next = works[Math.min(works.length - 1, cur + 1)]; }
+    else if(e.key === 'ArrowLeft'){ next = works[Math.max(0, cur < 0 ? 0 : cur - 1)]; }
+    else if(e.key === 'Home'){ next = works[0]; }
+    else if(e.key === 'End'){ next = works[works.length - 1]; }
+    if(next){ e.preventDefault(); next.focus(); next.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reducedMotion() ? 'auto' : 'smooth' }); }
+  });
+})();
+function panBy(dir){
+  const wall = document.getElementById('wall');
+  wall.scrollBy({ left: dir * wall.clientWidth * 0.7, behavior: reducedMotion() ? 'auto' : 'smooth' });
+}
+function updatePosHint(){
+  const wall = document.getElementById('wall');
+  const max = wall.scrollWidth - wall.clientWidth;
+  const el = document.getElementById('posHint');
+  el.textContent = max <= 2 ? 'Whole wall in view' : Math.round(100 * wall.scrollLeft / max) + '% across';
+}
+
+/* ---------- open a work ---------- */
+function openWork(id){
+  openId = id; stepIndex = 0;
+  document.querySelectorAll('.work').forEach(function(b){ b.classList.toggle('open', b.dataset.id === id); });
+  renderPanel();
+  document.getElementById('scrim').classList.add('show');
+  const p = document.getElementById('panel');
+  p.classList.add('show'); p.setAttribute('aria-hidden', 'false');
+  document.getElementById('panelClose').focus();
+}
+function closePanel(){
+  const p = document.getElementById('panel');
+  const wasOpen = openId;
+  openId = null;
+  p.classList.remove('show'); p.setAttribute('aria-hidden', 'true');
+  document.getElementById('scrim').classList.remove('show');
+  document.querySelectorAll('.work').forEach(function(b){ b.classList.remove('open'); });
+  if(wasOpen){ const b = document.querySelector('.work[data-id="' + wasOpen + '"]'); if(b) b.focus(); }
+}
+function renderPanel(){
+  const w = workById(openId);
+  if(!w){ closePanel(); return; }
+  document.getElementById('panelTitle').textContent = w.artist;
+  const steps = w.process || [];
+  if(stepIndex >= steps.length) stepIndex = Math.max(0, steps.length - 1);
+  const st = steps[stepIndex];
+  let html = '<div class="pslot" style="--ar:' + num(w.width, 4) + '/' + num(w.height, 3) + '">' +
+    (w.image ? '<img src="' + esc(w.image) + '" alt="' + esc(w.title) + ' by ' + esc(w.artist) + '">' : esc(COPY.slot)) + '</div>' +
+    '<div class="tomb"><div class="artist">' + esc(w.artist) + '</div>' +
+    '<div><i>' + esc(w.title) + '</i><span class="yr">, ' + esc(w.year) + '</span></div>' +
+    '<div class="med">' + esc(w.medium) + '</div><div class="dim">' + dims(w) + '</div>' +
+    '<span class="perm' + (w.permission === 'on-file' ? ' on' : '') + '">' + esc(w.permission === 'on-file' ? COPY.permissionOn : COPY.permissionOff) + '</span></div>';
+  if((w.themes || []).length) html += '<div class="ptags">' + w.themes.map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '</div>';
+  html += '<h3>Artist statement</h3><p class="statement">' + esc(w.statement || COPY.noStatement) + '</p>';
+  html += '<h3>Process documentation</h3>';
+  if(!steps.length){
+    html += '<p class="statement">' + esc(COPY.noProcess) + '</p>';
+  }else{
+    html += '<div class="steps"><div class="shead"><span>Step ' + (stepIndex + 1) + ' of ' + steps.length + '</span><div class="dots" role="group" aria-label="Go to step">' +
+      steps.map(function(s, i){ return '<button type="button" data-step="' + i + '" aria-label="Step ' + (i + 1) + '"' + (i === stepIndex ? ' aria-current="step"' : '') + '>' + (i + 1) + '</button>'; }).join('') +
+      '</div></div>' +
+      '<p class="stext">' + esc(st.text) + '</p>' +
+      '<div class="simg">' + (st.image ? '<img src="' + esc(st.image) + '" alt="Process image for step ' + (stepIndex + 1) + '">' : esc(COPY.stepSlot)) + '</div>' +
+      '<div class="snav"><button type="button" class="btn small" id="stepPrev"' + (stepIndex === 0 ? ' disabled' : '') + '>Previous step</button>' +
+      '<button type="button" class="btn small solid" id="stepNext"' + (stepIndex >= steps.length - 1 ? ' disabled' : '') + '>Next step</button></div></div>';
+  }
+  html += '<div class="pfoot">' + (state.curator ? '<button type="button" class="btn small" id="editThis">Edit in curator desk</button>' : '') + '</div>';
+  const body = document.getElementById('panelBody');
+  body.innerHTML = html;
+  body.querySelectorAll('.dots button').forEach(function(b){ b.addEventListener('click', function(){ stepIndex = +b.dataset.step; renderPanel(); }); });
+  const pv = document.getElementById('stepPrev'), nx = document.getElementById('stepNext');
+  if(pv) pv.addEventListener('click', function(){ stepIndex--; renderPanel(); document.getElementById('stepPrev').focus(); });
+  if(nx) nx.addEventListener('click', function(){ stepIndex++; renderPanel(); const n = document.getElementById('stepNext'); (n.disabled ? document.getElementById('stepPrev') : n).focus(); });
+  const ed = document.getElementById('editThis');
+  if(ed) ed.addEventListener('click', function(){ selId = w.id; closePanel(); renderDesk(); document.getElementById('desk').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' }); const f = document.getElementById('f-artist'); if(f) f.focus(); });
+}
+document.getElementById('panelClose').addEventListener('click', closePanel);
+document.getElementById('scrim').addEventListener('click', closePanel);
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && openId) closePanel(); });
+
+/* ---------- curator desk ---------- */
+document.getElementById('curatorBtn').addEventListener('click', function(){
+  state.curator = !state.curator; save(); renderAll();
+  if(state.curator) document.getElementById('desk').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+});
+document.getElementById('addWork').addEventListener('click', function(){
+  const e = ex();
+  const w = exampleWork(String.fromCharCode(65 + (e.artworks.length % 26)), 16, 12, [], ['Describe the first stage.']);
+  w.artist = 'New artist'; w.title = 'Untitled'; w.year = ''; w.medium = ''; w.statement = ''; w.themes = [];
+  e.artworks.push(w); selId = w.id; save(); renderAll();
+  const f = document.getElementById('f-artist'); if(f) f.focus();
+});
+function renderDesk(){
+  const desk = document.getElementById('desk');
+  desk.classList.toggle('show', !!state.curator);
+  document.getElementById('curatorBtn').setAttribute('aria-pressed', String(!!state.curator));
+  if(!state.curator) return;
+  const e = ex();
+  if(!workById(selId)) selId = e.artworks.length ? e.artworks[0].id : null;
+  const list = document.getElementById('workList');
+  list.innerHTML = e.artworks.map(function(w, i){
+    return '<li class="' + (w.id === selId ? 'sel' : '') + '">' +
+      '<button type="button" class="nm" data-sel="' + esc(w.id) + '">' + (i + 1) + '. ' + esc(w.artist) + ', <i>' + esc(w.title) + '</i></button>' +
+      '<button type="button" class="ib" data-up="' + esc(w.id) + '" aria-label="Move up"' + (i === 0 ? ' disabled' : '') + '><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '<button type="button" class="ib" data-down="' + esc(w.id) + '" aria-label="Move down"' + (i === e.artworks.length - 1 ? ' disabled' : '') + '><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '</li>';
+  }).join('') || '<li>No works yet.</li>';
+  list.querySelectorAll('[data-sel]').forEach(function(b){ b.addEventListener('click', function(){ selId = b.dataset.sel; renderDesk(); }); });
+  list.querySelectorAll('[data-up]').forEach(function(b){ b.addEventListener('click', function(){ moveWork(b.dataset.up, -1); }); });
+  list.querySelectorAll('[data-down]').forEach(function(b){ b.addEventListener('click', function(){ moveWork(b.dataset.down, 1); }); });
+  renderForm();
+  refreshJsonLink();
+}
+function moveWork(id, dir){
+  const a = ex().artworks;
+  const i = a.findIndex(function(w){ return w.id === id; });
+  const j = i + dir;
+  if(i < 0 || j < 0 || j >= a.length) return;
+  const t = a[i]; a[i] = a[j]; a[j] = t;
+  save(); renderWall(); renderDesk();
+}
+function renderForm(){
+  const wrap = document.getElementById('formWrap');
+  const w = workById(selId);
+  if(!w){ wrap.innerHTML = '<p class="sub">Choose a work on the left, or add one.</p>'; return; }
+  function f(id, label, val, type){
+    return '<div><label for="f-' + id + '">' + label + '</label><input id="f-' + id + '" data-f="' + id + '" type="' + (type || 'text') + '"' + (type === 'number' ? ' min="0.25" step="0.25"' : '') + ' value="' + esc(val) + '"></div>';
+  }
+  wrap.innerHTML = '<div class="form">' +
+    f('artist', 'Artist name', w.artist) + f('title', 'Title', w.title) +
+    f('year', 'Year', w.year) + f('medium', 'Medium', w.medium) +
+    f('height', 'Height (inches)', w.height, 'number') + f('width', 'Width (inches)', w.width, 'number') +
+    '<div class="full"><label for="f-image">Image URL or data URI</label><input id="f-image" data-f="image" value="' + esc(w.image) + '" placeholder="https://… or data:image/jpeg;base64,…"><p class="help">Leave empty to keep the placeholder slot. The image is shown whole, never cropped.</p></div>' +
+    '<div class="full"><label for="f-statement">Artist statement (verbatim)</label><textarea id="f-statement" data-f="statement">' + esc(w.statement) + '</textarea></div>' +
+    '<div><label for="f-themes">Themes, comma separated</label><input id="f-themes" data-f="themes" value="' + esc((w.themes || []).join(', ')) + '"></div>' +
+    '<div><label for="f-permission">Display permission</label><select id="f-permission" data-f="permission"><option value="not-documented"' + (w.permission !== 'on-file' ? ' selected' : '') + '>Not yet documented</option><option value="on-file"' + (w.permission === 'on-file' ? ' selected' : '') + '>On file</option></select></div>' +
+    '<div class="full"><label>Process documentation, in order</label><div class="psteps" id="psteps"></div><div class="actions"><button type="button" class="btn small" id="addStep">Add step</button></div></div>' +
+    '</div>' +
+    '<div class="actions"><span class="confirm" id="removeWrap"><button type="button" class="btn quiet small" id="removeWork">Remove this work</button></span></div>';
+  wrap.querySelectorAll('[data-f]').forEach(function(el){
+    el.addEventListener('input', function(){ applyField(w, el.dataset.f, el.value); });
+    el.addEventListener('change', function(){ applyField(w, el.dataset.f, el.value); });
+  });
+  renderSteps(w);
+  document.getElementById('addStep').addEventListener('click', function(){
+    w.process = w.process || []; w.process.push({ text: '', image: '' }); save(); renderSteps(w);
+    const ta = document.querySelector('#psteps .pstep:last-child textarea'); if(ta) ta.focus();
+  });
+  const rw = document.getElementById('removeWrap');
+  document.getElementById('removeWork').addEventListener('click', function(){
+    rw.innerHTML = '<span>Remove <i>' + esc(w.title) + '</i>?</span> <button type="button" class="btn small solid" id="removeYes">Yes, remove</button> <button type="button" class="btn small quiet" id="removeNo">Keep it</button>';
+    document.getElementById('removeYes').addEventListener('click', function(){
+      const a = ex().artworks; const i = a.findIndex(function(x){ return x.id === w.id; });
+      if(i >= 0) a.splice(i, 1);
+      selId = null; if(openId === w.id) closePanel(); save(); renderAll();
+    });
+    document.getElementById('removeNo').addEventListener('click', function(){ renderForm(); document.getElementById('removeWork').focus(); });
+    document.getElementById('removeYes').focus();
+  });
+}
+function applyField(w, key, val){
+  if(key === 'themes'){ w.themes = val.split(',').map(function(s){ return s.trim(); }).filter(Boolean); }
+  else if(key === 'height' || key === 'width'){ w[key] = num(val, w[key]); }
+  else { w[key] = val; }
+  save();
+  renderWall();
+  if(key === 'permission') renderWallLabel();
+  if(key === 'themes') { renderThemes(); renderThreads(); renderLegend(); }
+  if(key === 'artist' || key === 'title'){
+    const li = document.querySelector('#workList li.sel .nm');
+    if(li){ const i = ex().artworks.indexOf(w); li.innerHTML = (i + 1) + '. ' + esc(w.artist) + ', <i>' + esc(w.title) + '</i>'; }
+  }
+  refreshJsonLink();
+}
+function renderSteps(w){
+  const host = document.getElementById('psteps');
+  const steps = w.process || [];
+  host.innerHTML = steps.map(function(s, i){
+    return '<div class="pstep"><span class="num">' + (i + 1) + '</span>' +
+      '<textarea aria-label="Step ' + (i + 1) + ' text" data-st="' + i + '">' + esc(s.text) + '</textarea>' +
+      '<div class="row"><input aria-label="Step ' + (i + 1) + ' image URL or data URI" placeholder="Image URL or data URI (optional)" data-si="' + i + '" value="' + esc(s.image || '') + '">' +
+      '<button type="button" class="ib" data-sup="' + i + '" aria-label="Move step up"' + (i === 0 ? ' disabled' : '') + '><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '<button type="button" class="ib" data-sdown="' + i + '" aria-label="Move step down"' + (i === steps.length - 1 ? ' disabled' : '') + '><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '<button type="button" class="ib" data-sdel="' + i + '" aria-label="Remove step"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div>';
+  }).join('') || '<p class="help" style="margin:0;font-size:13px;color:var(--ink-soft)">No steps yet. The panel will read "not yet documented" until one is added.</p>';
+  host.querySelectorAll('[data-st]').forEach(function(t){ t.addEventListener('input', function(){ steps[+t.dataset.st].text = t.value; save(); refreshJsonLink(); }); });
+  host.querySelectorAll('[data-si]').forEach(function(t){ t.addEventListener('input', function(){ steps[+t.dataset.si].image = t.value; save(); refreshJsonLink(); }); });
+  host.querySelectorAll('[data-sup]').forEach(function(b){ b.addEventListener('click', function(){ const i = +b.dataset.sup; const t = steps[i]; steps[i] = steps[i - 1]; steps[i - 1] = t; save(); renderSteps(w); }); });
+  host.querySelectorAll('[data-sdown]').forEach(function(b){ b.addEventListener('click', function(){ const i = +b.dataset.sdown; const t = steps[i]; steps[i] = steps[i + 1]; steps[i + 1] = t; save(); renderSteps(w); }); });
+  host.querySelectorAll('[data-sdel]').forEach(function(b){ b.addEventListener('click', function(){ steps.splice(+b.dataset.sdel, 1); save(); renderSteps(w); }); });
+}
+
+/* ---------- export / import ---------- */
+function exportObject(){ return { format: 'living-exhibition-wall', version: 1, exhibition: clone(ex()) }; }
+function refreshJsonLink(){
+  const a = document.getElementById('dlJson');
+  try{
+    if(lastJsonUrl) URL.revokeObjectURL(lastJsonUrl);
+    const blob = new Blob([JSON.stringify(exportObject(), null, 2)], { type: 'application/json' });
+    lastJsonUrl = URL.createObjectURL(blob);
+    a.href = lastJsonUrl;
+    a.download = (ex().title || 'exhibition').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.json';
+  }catch(e){ a.removeAttribute('href'); }
+}
+function asText(){
+  const e = ex();
+  const lines = [e.title, ''];
+  lines.push(e.statement || COPY.statementPlaceholder);
+  lines.push(e.credits || COPY.creditsPlaceholder, '', 'Works, in hanging order', '');
+  e.artworks.forEach(function(w, i){
+    lines.push((i + 1) + '. ' + w.artist);
+    lines.push('   ' + w.title + ', ' + w.year);
+    lines.push('   ' + w.medium);
+    lines.push('   ' + dims(w));
+    if((w.themes || []).length) lines.push('   Themes: ' + w.themes.join(', '));
+    lines.push('   ' + (w.permission === 'on-file' ? COPY.permissionOn : COPY.permissionOff));
+    lines.push('   Image: ' + (w.image ? 'set' : 'not set'));
+    lines.push('   Statement: ' + (w.statement || 'not yet documented'));
+    (w.process || []).forEach(function(s, j){ lines.push('   Process ' + (j + 1) + ': ' + s.text + (s.image ? ' [image]' : '')); });
+    lines.push('');
+  });
+  lines.push('Prepared for IndiATA • Katy Wagner, MA, ATR-P, LMHCA');
+  return lines.join('\n');
+}
+document.getElementById('copyText').addEventListener('click', function(){
+  const text = asText(); const msg = document.getElementById('ioMsg');
+  function done(){ msg.textContent = 'Copied.'; setTimeout(function(){ msg.textContent = ''; }, 2500); }
+  function fallback(){
+    const ta = document.getElementById('copyBuf'); ta.value = text; ta.classList.remove('vh'); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){ msg.textContent = 'Select the text and copy it.'; }
+    setTimeout(function(){ ta.classList.add('vh'); }, 50);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, fallback); } else fallback();
+});
+function validImport(obj){
+  const e = obj && obj.exhibition ? obj.exhibition : obj;
+  if(!e || typeof e !== 'object' || !Array.isArray(e.artworks)) return null;
+  const clean = {
+    id: String(e.id || ex().id), title: String(e.title || 'Untitled exhibition'),
+    statement: String(e.statement || ''), credits: String(e.credits || ''),
+    artworks: e.artworks.map(function(w, i){
+      return {
+        id: String(w.id || 'w-' + i + '-' + Math.random().toString(36).slice(2, 7)),
+        artist: String(w.artist || ''), title: String(w.title || ''), year: String(w.year || ''), medium: String(w.medium || ''),
+        height: num(w.height, 12), width: num(w.width, 12), image: String(w.image || ''), statement: String(w.statement || ''),
+        process: Array.isArray(w.process) ? w.process.map(function(s){ return { text: String((s && s.text) || ''), image: String((s && s.image) || '') }; }) : [],
+        themes: Array.isArray(w.themes) ? w.themes.map(String).filter(Boolean) : [],
+        permission: w.permission === 'on-file' ? 'on-file' : 'not-documented'
+      };
+    })
+  };
+  return clean;
+}
+function doImport(text, msgEl){
+  let obj = null;
+  try{ obj = JSON.parse(text); }catch(e){ msgEl.textContent = 'That is not valid JSON.'; return; }
+  const clean = validImport(obj);
+  if(!clean){ msgEl.textContent = 'JSON needs an "artworks" list. Nothing was changed.'; return; }
+  const cur = ex();
+  cur.title = clean.title; cur.statement = clean.statement; cur.credits = clean.credits; cur.artworks = clean.artworks;
+  selId = null; activeThemes = []; save(); renderAll();
+  msgEl.textContent = 'Loaded ' + clean.artworks.length + ' works into ' + clean.title + '.';
+}
+document.getElementById('importBtn').addEventListener('click', function(){
+  doImport(document.getElementById('importText').value, document.getElementById('importMsg'));
+});
+document.getElementById('importFile').addEventListener('change', function(){
+  const f = this.files && this.files[0]; const msg = document.getElementById('importMsg');
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = function(){ doImport(String(r.result), msg); };
+  r.onerror = function(){ msg.textContent = 'The file could not be read.'; };
+  r.readAsText(f);
+});
+
+/* ---------- start fresh ---------- */
+(function(){
+  const wrap = document.getElementById('freshWrap');
+  const idle = '<button type="button" class="btn quiet" id="freshBtn">Start fresh</button>';
+  wrap.addEventListener('click', function(e){
+    const b = e.target.closest('button'); if(!b) return;
+    if(b.id === 'freshBtn'){
+      wrap.innerHTML = '<span>Clear saved changes and reload the examples?</span> <button type="button" class="btn small solid" id="freshYes">Yes, clear</button> <button type="button" class="btn small quiet" id="freshNo">Keep</button>';
+      document.getElementById('freshYes').focus();
+    }else if(b.id === 'freshYes'){
+      try{ localStorage.removeItem(STORE_KEY); }catch(err){}
+      state = defaultState(); activeThemes = []; selId = null; closePanel();
+      wrap.innerHTML = idle; renderAll(); document.getElementById('freshBtn').focus();
+    }else if(b.id === 'freshNo'){
+      wrap.innerHTML = idle; document.getElementById('freshBtn').focus();
+    }
+  });
+})();
+
+/* ---------- render all ---------- */
+function renderAll(){
+  renderSwitch(); renderWallLabel(); renderThemes(); renderWall(); renderLegend(); renderDesk(); refreshJsonLink(); updatePosHint();
+}
+let resizeT = null;
+window.addEventListener('resize', function(){ clearTimeout(resizeT); resizeT = setTimeout(function(){ renderWall(); updatePosHint(); }, 120); });
+renderAll();
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Projection Observatory</title>
-<meta name="description" content="A three-layer reading of short AI exchanges. The record stays still while the interpretation moves.">
+<meta name="description" content="One instrument: a fixed record at the centre, a ring of lenses around it. Turn the lens and the attribution moves while the record stays still.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap">
 <style>
   :root{
@@ -30,6 +30,7 @@
     --rule-strong:rgba(255,255,255,.26);
     --grid:rgba(255,255,255,.06);
     --teal-tint:rgba(12,72,98,.62);
+    --teal-tint-soft:rgba(12,72,98,.34);
   }
   *{box-sizing:border-box}
   html{background:var(--night)}
@@ -40,11 +41,11 @@
   }
   .wrap{max-width:1180px; margin:0 auto; padding:40px 16px 48px}
   a{color:var(--gold); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
-  a:focus-visible, button:focus-visible, textarea:focus-visible, summary:focus-visible{
+  a:focus-visible, button:focus-visible, textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
     outline:2px solid var(--sage); outline-offset:3px;
   }
   .eyebrow{
-    display:block; font-family:var(--sans); font-size:12px; font-weight:700; letter-spacing:.18em;
+    display:block; font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:.18em;
     text-transform:uppercase; color:var(--sage); margin:0;
   }
   h1{
@@ -56,7 +57,6 @@
     color:var(--fg); margin:0 0 12px; max-width:54ch;
   }
   .quiet{font-size:15px; color:var(--fg-soft); margin:0; max-width:64ch}
-  .quiet a{color:var(--fg-soft)}
   details.how{margin:10px 0 0; max-width:64ch}
   details.how summary{
     list-style:none; display:inline; cursor:pointer; font-size:15px; color:var(--gold);
@@ -69,157 +69,165 @@
   }
   details.how .panel p{margin:0 0 6px}
   details.how .panel p:last-child{margin:0}
-
-  /* Header with the chart plate */
-  header{display:grid; grid-template-columns:minmax(0,1fr); gap:24px; align-items:end}
-  @media (min-width:900px){
-    header{grid-template-columns:minmax(0,1fr) 232px; gap:40px}
-  }
-  .plate{justify-self:start; width:100%; max-width:232px}
-  .plate svg{display:block; width:100%; height:auto}
-  .plate figcaption{
-    font-family:var(--serif); font-style:italic; font-size:15px; line-height:1.4; color:var(--fg-soft); margin:8px 0 0;
-  }
   .rule{border:0; border-top:1px solid var(--rule); margin:28px 0 0}
 
-  /* Layout */
-  .grid{display:grid; grid-template-columns:1fr; gap:34px; margin-top:30px}
-  @media (min-width:900px){
-    .grid{grid-template-columns:292px minmax(0,1fr); gap:48px; align-items:start}
-    .side{position:sticky; top:16px}
+  /* ---------- The instrument: one plate, one hairline frame ---------- */
+  .instrument{
+    margin-top:30px; background:var(--night-2); border:1px solid var(--rule); border-radius:4px; min-width:0;
   }
-  .side section{margin-bottom:28px}
-  .side h2, .layers h2, .own h2{
-    font-family:var(--sans); font-size:11px; letter-spacing:.18em; text-transform:uppercase;
-    color:var(--sage); margin:0 0 6px; font-weight:700;
+  .band{padding:16px 24px; border-bottom:1px solid var(--rule)}
+  .band.exchanges{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 28px}
+  .tabs{display:flex; flex-wrap:wrap; gap:0 22px; margin:0; padding:0; list-style:none}
+  .tabs button{
+    font-family:var(--sans); font-size:14px; font-weight:600; color:var(--fg-soft); background:transparent;
+    border:0; border-bottom:2px solid transparent; border-radius:0; padding:6px 0 7px; cursor:pointer; line-height:1.3;
   }
-  .side h2{padding-bottom:8px; border-bottom:1px solid var(--rule)}
+  .tabs button:hover{color:var(--fg)}
+  .tabs button[aria-pressed="true"]{color:var(--fg); border-bottom-color:var(--sage)}
 
-  /* Selectors: ruled lists, 9px sage marker on the active line */
-  .tabs, .lenses{display:grid; grid-template-columns:1fr; gap:0}
-  .tabs button, .lenses button{
-    position:relative; display:block; width:100%; text-align:left; cursor:pointer;
-    font-family:var(--sans); font-size:14px; font-weight:600; line-height:1.3; color:var(--fg-soft);
-    background:transparent; border:0; border-bottom:1px solid var(--rule); border-radius:0;
-    padding:9px 4px 9px 20px;
+  .body{display:grid; grid-template-columns:minmax(0,1fr); gap:0}
+  @media (min-width:960px){
+    .body{grid-template-columns:292px minmax(0,1fr)}
+    .dial-col{border-right:1px solid var(--rule)}
   }
-  .tabs button::before, .lenses button::before{
-    content:""; position:absolute; left:3px; top:50%; width:9px; height:9px; margin-top:-5px; border-radius:50%;
-    border:1px solid var(--rule-strong); background:transparent;
-  }
-  .tabs button:hover, .lenses button:hover{color:var(--fg)}
-  .tabs button[aria-pressed="true"], .lenses button[aria-pressed="true"]{color:var(--fg)}
-  .tabs button[aria-pressed="true"]::before, .lenses button[aria-pressed="true"]::before{background:var(--sage); border-color:var(--sage)}
-  .lenses button{font-family:var(--serif); font-size:21px; font-weight:500; padding:8px 4px 8px 20px}
-  .lenses button.custom{font-family:var(--sans); font-size:14px; font-weight:600}
-  .lenses button.custom[aria-pressed="true"]::before{background:var(--clay); border-color:var(--clay)}
-  .lenses button:disabled{opacity:.45; cursor:not-allowed}
+  .dial-col{padding:22px 24px 20px; min-width:0}
+  .field{padding:22px 28px 26px; min-width:0; position:relative}
 
-  /* Definition panel */
-  .define{background:var(--night-2); border:1px solid var(--rule); border-radius:4px; padding:18px 20px 20px}
-  .define .label{display:block; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); font-weight:700}
-  .define h3{font-family:var(--serif); font-weight:500; font-size:26px; line-height:1.1; margin:8px 0 10px; color:var(--fg)}
-  .define p{margin:0 0 10px; color:var(--fg); font-size:15px; line-height:1.6}
-  .define p:last-child{margin-bottom:0}
-  .define .stance{color:var(--fg-soft)}
+  /* Dial */
+  .dial{margin:0; max-width:260px}
+  .dial svg{display:block; width:100%; height:auto; overflow:visible}
+  .dial figcaption{
+    font-family:var(--serif); font-style:italic; font-size:15px; line-height:1.4; color:var(--fg-soft); margin:10px 0 0;
+  }
+  .dial .pt{cursor:pointer}
+  .dial .pt .hit{fill:transparent; stroke:none}
+  .dial .pt .dot{fill:var(--night-2); stroke:#ECE7DD; stroke-width:1.5; transition:fill .2s, stroke .2s}
+  .dial .pt:hover .dot{stroke:var(--gold)}
+  .dial .pt .n{font-family:var(--serif); font-size:13px; font-weight:500; fill:var(--fg-soft); transition:fill .2s}
+  .dial .pt[data-sel="a"] .dot{fill:var(--gold); stroke:var(--gold)}
+  .dial .pt[data-sel="b"] .dot{fill:var(--sage); stroke:var(--sage)}
+  .dial .pt[data-sel] .n{fill:var(--fg)}
+  .dial .pt.own .dot{stroke-dasharray:1.5 2.5}
+  .dial .pt.own[data-sel="a"] .dot, .dial .pt.own[data-sel="b"] .dot{stroke-dasharray:none}
+  .dial .pt:focus{outline:none}
+  .dial .pt:focus-visible .ring{stroke:var(--sage); stroke-width:2}
+  .dial .pt .ring{fill:none; stroke:transparent}
+  .dial .ptr{transform-origin:150px 150px; transition:transform .55s cubic-bezier(.4,0,.2,1)}
+  .dial .ptr.b{opacity:0; transition:transform .55s cubic-bezier(.4,0,.2,1), opacity .3s}
+  .dial.dual .ptr.b{opacity:1}
+  .dial .star.pulse .halo{animation:halo .8s ease-out 1}
+  @keyframes halo{0%{transform:scale(.6); opacity:.9}100%{transform:scale(2.4); opacity:0}}
+  .dial .star .halo{transform-origin:150px 150px}
 
-  /* Layers: three ruled plates on one hairline */
-  .layers{min-width:0}
-  .stack{position:relative; display:grid; gap:0; padding-left:36px}
-  .stack::before{
-    content:""; position:absolute; left:11px; top:0; bottom:0; width:1px; background:var(--rule-strong);
+  /* Lens list, mirrors the ring */
+  .lens-h{margin:22px 0 4px; padding-bottom:8px; border-bottom:1px solid var(--rule)}
+  .lenses{list-style:none; margin:0; padding:0}
+  .lenses button{
+    position:relative; display:grid; grid-template-columns:22px 18px minmax(0,1fr); gap:0 8px; align-items:baseline;
+    width:100%; text-align:left; cursor:pointer; color:var(--fg-soft);
+    font-family:var(--serif); font-size:20px; font-weight:500; line-height:1.25;
+    background:transparent; border:0; border-bottom:1px solid var(--rule); border-radius:0; padding:8px 2px 8px 0;
   }
-  .layer{
-    position:relative; background:var(--night-2); border:1px solid var(--rule); border-radius:4px;
-    padding:20px 24px 22px; min-width:0;
+  .lenses button .n{font-size:13px; color:var(--fg-soft); font-variant-numeric:tabular-nums}
+  .lenses button .m{
+    width:9px; height:9px; border-radius:50%; border:1px solid var(--rule-strong); align-self:center; margin-top:1px;
   }
-  .layer + .layer{margin-top:28px}
-  /* hairline connector from the spine into each plate */
-  .layer::before{
-    content:""; position:absolute; left:-25px; top:27px; width:24px; height:1px; background:var(--rule-strong);
+  .lenses button:hover{color:var(--fg)}
+  .lenses button[data-sel]{color:var(--fg)}
+  .lenses button[data-sel="a"] .m{background:var(--gold); border-color:var(--gold)}
+  .lenses button[data-sel="b"] .m{background:var(--sage); border-color:var(--sage)}
+  .lenses button.own{font-family:var(--sans); font-size:14px; font-weight:600; padding:10px 2px 10px 0}
+  .lenses button.own .m{border-style:dashed}
+  .lenses button.own[data-sel] .m{border-style:solid}
+  .hold{margin-top:14px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 14px}
+  .toggle{
+    font-family:var(--sans); font-size:14px; font-weight:600; color:var(--fg-soft); background:transparent; border:0;
+    border-bottom:2px solid transparent; border-radius:0; padding:4px 0 5px; cursor:pointer; line-height:1.3;
   }
-  .layer .num{
-    position:absolute; left:-36px; top:17px; width:23px; text-align:center;
-    background:var(--night); color:var(--fg); font-family:var(--serif); font-weight:500; font-size:21px; line-height:21px;
-    font-variant-numeric:lining-nums tabular-nums;
-  }
-  .layer-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--rule)}
-  .layer-head h2{margin:0}
-  .layer-head h2 .t{
-    display:block; font-family:var(--serif); font-size:29px; letter-spacing:0; text-transform:none;
-    color:var(--fg); font-weight:500; line-height:1.1; margin-top:4px;
-  }
-  .layer-head .meta{margin-left:auto; font-size:13px; color:var(--fg-soft); font-weight:600}
+  .toggle:hover{color:var(--fg)}
+  .toggle[aria-pressed="true"]{color:var(--fg); border-bottom-color:var(--sage)}
+  .hold .hint{font-size:13px; color:var(--fg-soft)}
 
-  /* Unchanged marker: the fixed star */
+  /* The record plate */
+  .record-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 18px; padding-bottom:10px; border-bottom:1px solid var(--rule)}
+  .record-head .ex{font-family:var(--serif); font-size:19px; color:var(--fg); font-weight:500}
   .unchanged{
     display:inline-flex; align-items:center; gap:9px; margin-left:auto; font-size:11px; font-weight:700;
     letter-spacing:.18em; text-transform:uppercase; color:var(--gold); font-variant-numeric:tabular-nums;
   }
   .unchanged .star{position:relative; width:9px; height:9px; border-radius:50%; background:var(--gold); flex:none}
-  .unchanged .star::after{
-    content:""; position:absolute; inset:-5px; border-radius:50%; border:1px solid var(--gold); opacity:.35;
-  }
+  .unchanged .star::after{content:""; position:absolute; inset:-5px; border-radius:50%; border:1px solid var(--gold); opacity:.35}
   .unchanged.pulse .star::after{animation:halo .8s ease-out 1}
-  @keyframes halo{0%{transform:scale(.6); opacity:.9}100%{transform:scale(2.6); opacity:0}}
-
-  /* Layer 1 record */
-  .record{display:grid; gap:0}
+  .turns{display:grid; gap:0}
   .turn{display:grid; grid-template-columns:64px minmax(0,1fr); gap:10px; align-items:start; padding:10px 0; border-bottom:1px solid var(--rule)}
   .turn:last-child{border-bottom:0}
   .turn .who{font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--sage); padding-top:8px}
   .turn .who.ai{color:var(--gold)}
-  .turn .say{
-    font-family:var(--serif); font-size:22px; line-height:1.35; font-weight:400; overflow-wrap:anywhere; color:var(--fg);
-  }
-  mark.hook, .attrib .rec{
-    background:var(--teal-tint); color:var(--fg); padding:0 2px; border-bottom:1px solid var(--gold);
-    box-decoration-break:clone; -webkit-box-decoration-break:clone;
-  }
-  .l1 .foot{margin:12px 0 0; font-size:14px; color:var(--fg-soft)}
-  .l1 .foot b{color:var(--fg); font-weight:600; font-variant-numeric:tabular-nums}
-  .l1 .foot #ex-label{font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-right:6px}
-  .l1 .foot #ex-title{font-family:var(--serif); font-size:19px; color:var(--fg)}
+  .turn .say{font-family:var(--serif); font-size:22px; line-height:1.4; font-weight:400; overflow-wrap:anywhere; color:var(--fg)}
+  .record-foot{margin:10px 0 0; font-size:14px; color:var(--fg-soft)}
+  .record-foot b{color:var(--fg); font-weight:600; font-variant-numeric:tabular-nums}
 
-  /* Layer 2 attribution */
-  .attrib{
-    font-family:var(--serif); font-size:26px; line-height:1.4; font-weight:400; font-style:italic; margin:0; overflow-wrap:anywhere;
-  }
-  .attrib.changed{animation:slide .35s ease-out 1}
-  @keyframes slide{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
-  .attrib .rec{font-style:normal}
-  .attrib .sup{
+  /* Marks: hooks (teal tint, underline by lens) and supplied (clay dotted) */
+  .w{border-bottom:1px solid transparent; padding-bottom:1px}
+  .w.ha, .w.hb, .w.hab{background:var(--teal-tint); color:var(--fg)}
+  .w.ha{border-bottom-color:var(--gold)}
+  .w.hb{border-bottom-color:var(--sage)}
+  .w.hab{border-bottom-color:var(--gold); text-decoration:underline; text-decoration-color:var(--sage); text-decoration-thickness:1px; text-underline-offset:2px}
+  .rec{background:var(--teal-tint); color:var(--fg); border-bottom:1px solid var(--gold); padding:0 1px 1px; font-style:normal;
+    box-decoration-break:clone; -webkit-box-decoration-break:clone}
+  .reading.b .rec{border-bottom-color:var(--sage)}
+  .sup{
     text-decoration:underline; text-decoration-style:dotted; text-decoration-color:var(--clay);
     text-decoration-thickness:2px; text-underline-offset:5px;
   }
-  .legend{display:flex; flex-wrap:wrap; gap:8px 22px; margin:14px 0 0; padding:12px 0 0; border-top:1px solid var(--rule); list-style:none; font-size:13px; color:var(--fg-soft)}
-  .legend .sw{display:inline-block; width:18px; height:10px; vertical-align:-1px; margin-right:8px}
-  .legend .sw.rec{background:var(--teal-tint); border-bottom:1px solid var(--gold)}
-  .legend .sw.sup{height:0; border-bottom:2px dotted var(--clay); vertical-align:2px}
+  sup.ln{font-family:var(--sans); font-size:10px; font-weight:700; color:var(--gold); line-height:0; vertical-align:super; margin-left:1px}
+
+  /* Projected layer beneath the record */
+  .projection{margin-top:22px; padding-top:18px; border-top:1px solid var(--rule); display:grid; grid-template-columns:minmax(0,1fr); gap:0}
+  .reading{display:grid; grid-template-columns:minmax(0,1fr); gap:18px 0; min-width:0}
+  .reading .lens-name{display:block; font-family:var(--serif); font-size:17px; font-style:italic; color:var(--fg-soft); margin:2px 0 0}
+  .reading .lens-name::before{content:""; display:inline-block; width:26px; height:4px; background:var(--gold); margin-right:10px; vertical-align:3px}
+  .reading.b .lens-name::before{background:var(--sage)}
+  .attrib-wrap{min-width:0}
+  .attrib{
+    font-family:var(--serif); font-size:25px; line-height:1.4; font-weight:400; font-style:italic; margin:10px 0 0; overflow-wrap:anywhere; color:var(--fg);
+  }
+  .attrib.changed{animation:slide .35s ease-out 1}
+  @keyframes slide{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
   .count{font-size:14px; color:var(--fg-soft); margin:10px 0 0; font-variant-numeric:tabular-nums}
   .count b{color:var(--fg); font-weight:600}
-
-  /* Layer 3 unknowns */
-  .unknowns{margin:0; padding:0; list-style:none; display:grid; gap:0}
+  .unk-wrap{min-width:0}
+  .unknowns{margin:8px 0 0; padding:0; list-style:none; display:grid; gap:0}
   .unknowns li{
-    display:grid; grid-template-columns:18px minmax(0,1fr); gap:12px; align-items:start; font-size:16px; color:var(--fg);
-    padding:8px 0; border-bottom:1px solid var(--rule);
+    display:grid; grid-template-columns:16px minmax(0,1fr); gap:10px; align-items:start; font-size:15px; line-height:1.55; color:var(--fg);
+    padding:7px 0; border-bottom:1px solid var(--rule);
   }
   .unknowns li:last-child{border-bottom:0}
-  .unknowns li svg{width:18px; height:18px; margin-top:4px; flex:none}
+  .unknowns li svg{width:16px; height:16px; margin-top:4px; flex:none}
   .unknowns li svg circle{fill:none; stroke:var(--sage); stroke-width:1.5; stroke-dasharray:1 3; stroke-linecap:round}
+  .unknowns li i{font-style:italic; color:var(--fg)}
+  /* single lens: attribution left, unknowns as a ruled right margin */
+  @media (min-width:760px){
+    .projection.single .reading{grid-template-columns:minmax(0,1fr) 250px; gap:0 28px}
+    .projection.single .unk-wrap{border-left:1px solid var(--rule); padding-left:24px}
+    .projection.dual{grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0 28px}
+    .projection.dual .reading.b{border-left:1px solid var(--rule); padding-left:28px}
+    .projection.dual .attrib{font-size:22px}
+  }
+  @media (max-width:759.98px){
+    .projection.dual .reading + .reading{margin-top:26px; padding-top:22px; border-top:1px solid var(--rule)}
+    .reading .unk-wrap{padding-top:16px; border-top:1px solid var(--rule)}
+  }
 
-  /* Write your own */
-  .own{margin-top:30px; padding-top:22px; border-top:1px solid var(--rule)}
-  .own h2{margin-bottom:6px}
-  .own .lead{font-family:var(--serif); font-size:24px; font-weight:500; line-height:1.15; margin:0 0 8px; color:var(--fg)}
-  .own p{margin:0 0 12px; font-size:15px; color:var(--fg-soft); max-width:64ch}
-  .own textarea{
+  /* Own sentence: tokens and links */
+  .own-ui{margin-top:10px}
+  .own-ui p.help{margin:0 0 10px; font-size:15px; color:var(--fg-soft); max-width:60ch}
+  .own-ui textarea{
     width:100%; min-height:84px; font:inherit; font-size:17px; color:var(--fg); background:var(--night);
     border:1px solid var(--rule-strong); border-radius:4px; padding:10px 12px; resize:vertical;
   }
-  .own textarea::placeholder{color:var(--fg-soft); opacity:.8}
-  .own textarea:focus-visible{outline:2px solid var(--sage); outline-offset:0}
+  .own-ui textarea::placeholder{color:var(--fg-soft); opacity:.8}
+  .own-ui textarea:focus-visible{outline:2px solid var(--sage); outline-offset:0}
   .row{display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; margin-top:12px}
   .btn{
     font-family:var(--sans); font-weight:700; font-size:14px; letter-spacing:.03em; border-radius:3px; padding:11px 20px; cursor:pointer;
@@ -233,169 +241,165 @@
   .btn:disabled{opacity:.5; cursor:not-allowed}
   a.btn{text-decoration:none; display:inline-block}
   .note{font-size:13px; color:var(--sage); min-height:1.3em}
+  .tok{cursor:pointer; border-radius:2px; padding:0 1px}
+  .tok:hover{background:var(--grid); outline:1px solid var(--rule-strong)}
+  .tok.armed{outline:2px solid var(--sage); outline-offset:1px; background:var(--grid)}
+  .tok.partner{outline:1px solid var(--gold); outline-offset:1px}
+  .own-sentence{font-family:var(--serif); font-size:25px; line-height:1.5; font-style:italic; margin:10px 0 0; overflow-wrap:anywhere; color:var(--fg)}
+  .own-sentence .tok{font-style:italic}
+  .leaders{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+  .leaders path{fill:none; stroke:var(--gold); stroke-width:1; stroke-linecap:round; opacity:.85}
+  .leaders circle{fill:var(--gold)}
+  .key{display:flex; flex-wrap:wrap; gap:6px 22px; margin:12px 0 0; padding:10px 0 0; border-top:1px solid var(--rule); list-style:none; font-size:13px; color:var(--fg-soft)}
+  .key .sw{display:inline-block; width:18px; height:10px; vertical-align:-1px; margin-right:8px}
+  .key .sw.rec{background:var(--teal-tint); border-bottom:1px solid var(--gold)}
+  .key .sw.recb{background:var(--teal-tint); border-bottom:1px solid var(--sage)}
+  .key .sw.sup{height:0; border-bottom:2px dotted var(--clay); vertical-align:2px}
 
-  /* Footer */
-  .export{margin-top:26px; padding-top:18px; border-top:1px solid var(--rule)}
+  /* Export band at the foot of the plate */
+  .band.export{border-bottom:0; border-top:1px solid var(--rule)}
+  .band.export .row{margin-top:0}
   textarea.fallback{position:absolute; left:-9999px; top:0; width:1px; height:1px}
+
+  /* Caption under the instrument */
+  .caption{margin:22px 0 0; padding:0 4px}
+  .caption h3{font-family:var(--serif); font-weight:500; font-size:22px; line-height:1.15; margin:8px 0 10px; color:var(--fg)}
+  .caption .cols{columns:2; column-gap:40px; column-rule:1px solid var(--rule)}
+  .caption p{margin:0 0 10px; font-size:15px; line-height:1.6; color:var(--fg); break-inside:avoid}
+  .caption p.stance{color:var(--fg-soft)}
+  @media (max-width:700px){ .caption .cols{columns:1} }
+
   footer{margin-top:40px; border-top:1px solid var(--rule); padding-top:16px; font-size:13px; color:var(--fg-soft)}
   footer p{margin:6px 0}
   footer a{color:var(--clay)}
-  .crisis{font-size:14px; color:var(--fg-soft); margin:22px 0 0}
+  .crisis{font-size:14px; color:var(--fg-soft); margin:26px 0 0}
 
   @media (max-width:520px){
+    .band{padding:14px 16px}
+    .dial-col{padding:18px 16px 18px}
+    .field{padding:18px 16px 20px}
     .turn{grid-template-columns:1fr; gap:3px}
     .turn .who{padding-top:0}
     .turn .say{font-size:20px}
-    .attrib{font-size:23px}
-    .layer{padding:16px 16px 18px}
-    .stack{padding-left:28px}
-    .stack::before{left:8px}
-    .layer::before{left:-19px; width:18px}
-    .layer .num{left:-28px; width:19px; font-size:19px; line-height:19px}
-    .layer-head h2 .t{font-size:26px}
+    .attrib, .own-sentence{font-size:22px}
     .unchanged{margin-left:0}
+    .lenses button{font-size:19px}
   }
   @media (prefers-reduced-motion:reduce){
     .attrib.changed{animation:none}
-    .unchanged.pulse .star::after{animation:none}
+    .unchanged.pulse .star::after, .dial .star.pulse .halo{animation:none}
+    .dial .ptr, .dial .ptr.b{transition:none}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div>
-      <span class="eyebrow">Creative La'boratory</span>
-      <h1>The Projection Observatory</h1>
-      <p class="lede">Watch an interpretation of a short AI exchange move while the record it rests on stays still.</p>
-      <p class="quiet">Choose an exchange, then a lens. Layers 2 and 3 rewrite. Layer 1 does not.</p>
-      <details class="how">
-        <summary>How this page works</summary>
-        <div class="panel">
-          <p>The five example exchanges are Layer 1, the record. Each lens is one way of reading it; Layer 2 and Layer 3 rewrite with the lens, Layer 1 never does.</p>
-          <p>Teal marks in the record show the words the lens hangs on. Dotted clay underlines in the attribution show words the record never said.</p>
-          <p>Write your own sentence and the page sorts it the same way. Copy or download what you made. Start fresh clears what this browser saved.</p>
-        </div>
-      </details>
-    </div>
-    <figure class="plate" aria-labelledby="plate-cap">
-      <!-- Star chart: the record as the fixed point, lenses as the orbits that move. 1.5px line, no fills. -->
-      <svg viewBox="0 0 232 232" role="img" aria-hidden="true" focusable="false">
-        <g stroke="var(--grid)" stroke-width="1" fill="none">
-          <path d="M0 29.5H232M0 58.5H232M0 87.5H232M0 116.5H232M0 145.5H232M0 174.5H232M0 203.5H232"/>
-          <path d="M29.5 0V232M58.5 0V232M87.5 0V232M116.5 0V232M145.5 0V232M174.5 0V232M203.5 0V232"/>
-        </g>
-        <g stroke="#ECE7DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
-          <!-- crosshair, broken at the centre -->
-          <path d="M14 116.5H92"/><path d="M141 116.5H218"/>
-          <path d="M116.5 14V92"/><path d="M116.5 141V218"/>
-          <!-- orbits: solid, dotted, dashed, each slightly off true -->
-          <path d="M116.5 84.5c17.4 0 31.8 14.1 32.2 31.6.3 17.8-14.6 32.6-32.4 32.3-17.4-.3-31.5-14.6-31.3-32.2.2-17.5 14.2-31.7 31.5-31.7z" opacity=".9"/>
-          <path d="M116.5 56.3c33.1 0 60.4 26.8 60.6 60-.1 33.6-27.5 60.6-60.8 60.4-33.1-.3-59.8-27.4-59.7-60.5.1-33 26.9-59.9 59.9-59.9z" stroke-dasharray="1 5" opacity=".8"/>
-          <path d="M116.5 28.2c48.8 0 88.3 39.4 88.4 88.2-.2 48.9-39.8 88.5-88.7 88.3-48.7-.2-88-39.7-88-88.4.1-48.6 39.5-88.1 88.3-88.1z" stroke-dasharray="7 6" opacity=".7"/>
-          <!-- the lens positions on the orbits -->
-          <circle cx="146.8" cy="104" r="2.4" stroke="var(--sage)"/>
-          <circle cx="70.3" cy="155.3" r="2.4" stroke="var(--sage)"/>
-          <circle cx="178.4" cy="54.6" r="2.4" stroke="var(--sage)"/>
-          <circle cx="33.5" cy="86.3" r="2.4" stroke="var(--sage)"/>
-          <!-- leader to the label -->
-          <path d="M122.5 110.5L164 34h6" stroke-width="1" opacity=".7"/>
-          <path d="M68 159l-20 33h-6" stroke-width="1" opacity=".7"/>
-        </g>
-        <!-- the record: the one fixed point -->
-        <circle cx="116.5" cy="116.5" r="9" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".35"/>
-        <circle cx="116.5" cy="116.5" r="3" fill="var(--gold)"/>
-        <text x="173" y="37" font-family="Mulish, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1.6" fill="#B9B4AA">RECORD</text>
-        <text x="40" y="195" text-anchor="end" font-family="Mulish, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1.6" fill="#B9B4AA">LENS</text>
-      </svg>
-      <figcaption id="plate-cap">The record is the fixed point. The lens is what moves.</figcaption>
-    </figure>
+    <span class="eyebrow">Creative La'boratory</span>
+    <h1>The Projection Observatory</h1>
+    <p class="lede">Watch an interpretation of a short AI exchange move while the record it rests on stays still.</p>
+    <p class="quiet">Choose an exchange, then turn the ring to a lens. The attribution and the unknowns move. The record does not.</p>
+    <details class="how">
+      <summary>How this page works</summary>
+      <div class="panel">
+        <p>The record at the centre is one of five short exchanges. Each point on the ring is a lens, one way of reading it. Turn to a lens and the layer beneath the record rewrites. The record never does.</p>
+        <p>Teal marks in the record are the words the lens hangs on. Dotted clay underlines in the attribution are words the record never said. Hold two lenses to see two readings rest on the same words.</p>
+        <p>Your own sentence is the last point on the ring. Link each of your words to the word in the record it rests on; the page lists what is left unknown. Copy or download what you made. Start fresh clears what this browser saved.</p>
+      </div>
+    </details>
   </header>
   <hr class="rule">
 
-  <div class="grid">
-    <aside class="side">
-      <section aria-labelledby="ex-h">
-        <h2 id="ex-h">Example exchange</h2>
-        <div class="tabs" id="tabs" role="group" aria-label="Choose an example exchange"></div>
-      </section>
-      <section aria-labelledby="lens-h">
-        <h2 id="lens-h">Attribution lens</h2>
-        <div class="lenses" id="lenses" role="group" aria-label="Choose an attribution lens"></div>
-      </section>
-      <section class="define" aria-labelledby="def-h">
-        <span class="label">A concept from analytical psychology</span>
-        <h3 id="def-h">Projection</h3>
-        <p>In analytical psychology, projection names the act of attributing contents of one's own psyche to an outside object. The object is then experienced as holding what the person has not yet recognized as their own. Jung held that a projection needs a hook, some real feature of the object for it to hang on. The marked words in Layer 1 are the hook.</p>
-        <p>Art therapists know the word from projective drawing tasks like House-Tree-Person. This page follows a different rule. The person who made the image says what it means.</p>
-        <p class="stance">The concept describes a human mind. It does not decide what an AI system is, and neither does this page. The page shows how an interpretation moves while the evidence stays still.</p>
-      </section>
-    </aside>
+  <section class="instrument" aria-label="The observatory">
+    <div class="band exchanges">
+      <span class="eyebrow" id="ex-h">Example exchange</span>
+      <div class="tabs" id="tabs" role="group" aria-labelledby="ex-h"></div>
+    </div>
 
-    <main class="layers">
-      <div class="stack">
-        <section class="layer l1" aria-labelledby="l1-h">
-          <span class="num" aria-hidden="true">1</span>
-          <div class="layer-head">
-            <h2 id="l1-h">Layer 1 <span class="t">What was demonstrably done</span></h2>
+    <div class="body">
+      <div class="dial-col">
+        <figure class="dial" id="dial" aria-labelledby="dial-cap">
+          <!-- The ring: lens points on an orbit, the record as the fixed point at centre. 1.5px line, no fills but the selected point. -->
+          <svg viewBox="0 0 300 300" role="group" aria-label="Lens ring">
+            <g stroke="var(--grid)" stroke-width="1" fill="none">
+              <path d="M150 6V40M150 260V294M6 150H40M260 150H294"/>
+              <path d="M48 48l24 24M252 48l-24 24M48 252l24-24M252 252l-24-24"/>
+            </g>
+            <g stroke="#ECE7DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <!-- the orbit, a little off true -->
+              <path d="M150 42c59.2 0 107.6 48 108.1 107.4.4 60.1-48.6 108.9-108.5 108.6C90.3 257.7 42.4 209.5 42.2 150.2 42 90.6 90.6 42 150 42z" opacity=".85"/>
+              <!-- an inner dotted orbit for the fixed point -->
+              <path d="M150 112c21 0 38.2 17 38.4 38 .2 21.2-17.3 38.6-38.6 38.3C128.8 188 112 171 112 150c0-21 17-38 38-38z" stroke-dasharray="1 4.5" opacity=".7"/>
+            </g>
+            <!-- pointers: A in gold, B in sage, rotated by script -->
+            <g class="ptr a" id="ptr-a" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <path d="M150 136V58"/>
+              <path d="M144 66l6-8 6 8"/>
+            </g>
+            <g class="ptr b" id="ptr-b" stroke="var(--sage)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <path d="M150 136V58"/>
+              <path d="M144 66l6-8 6 8"/>
+            </g>
+            <!-- lens points, filled by script -->
+            <g id="ring-points"></g>
+            <!-- the record: the one fixed point -->
+            <g class="star" id="dial-star">
+              <circle class="halo" cx="150" cy="150" r="9" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".35"/>
+              <circle cx="150" cy="150" r="3" fill="var(--gold)"/>
+            </g>
+            <text x="150" y="172" text-anchor="middle" font-family="Mulish, Arial, sans-serif" font-size="8.5" font-weight="700" letter-spacing="1.6" fill="#B9B4AA">RECORD</text>
+          </svg>
+          <figcaption id="dial-cap">The record is the fixed point. The lens is what moves.</figcaption>
+        </figure>
+
+        <span class="eyebrow lens-h" id="lens-h">Attribution lens</span>
+        <ol class="lenses" id="lenses" aria-labelledby="lens-h"></ol>
+        <div class="hold">
+          <button class="toggle" id="hold" type="button" aria-pressed="false">Hold two lenses</button>
+          <span class="hint" id="hold-hint"></span>
+        </div>
+      </div>
+
+      <div class="field" id="field">
+        <div class="record-plate">
+          <div class="record-head">
+            <span class="eyebrow">The record</span>
+            <span class="ex" id="ex-title"></span>
             <span class="unchanged" id="unchanged" aria-live="polite">
               <span class="star" aria-hidden="true"></span>
               <span id="unchanged-text">Unchanged</span>
             </span>
           </div>
-          <p class="foot" style="margin:0 0 10px"><b id="ex-label">Example exchange</b> <span id="ex-title"></span></p>
-          <div class="record" id="record"></div>
-          <p class="foot" id="hook-foot"></p>
-        </section>
-
-        <section class="layer l2" aria-labelledby="l2-h">
-          <span class="num" aria-hidden="true">2</span>
-          <div class="layer-head">
-            <h2 id="l2-h">Layer 2 <span class="t">What was attributed</span></h2>
-            <span class="meta" id="lens-meta"></span>
-          </div>
-          <p class="attrib" id="attrib" aria-live="polite"></p>
-          <p class="count" id="count"></p>
-          <ul class="legend" aria-label="Marks used in the attribution">
-            <li><span class="sw rec"></span>Rests on the record</li>
-            <li><span class="sw sup"></span>Supplied by the viewer</li>
-          </ul>
-        </section>
-
-        <section class="layer l3" aria-labelledby="l3-h">
-          <span class="num" aria-hidden="true">3</span>
-          <div class="layer-head">
-            <h2 id="l3-h">Layer 3 <span class="t">What remains unknown</span></h2>
-          </div>
-          <ul class="unknowns" id="unknowns" aria-live="polite"></ul>
-        </section>
+          <div class="turns" id="record"></div>
+          <p class="record-foot" id="hook-foot"></p>
+        </div>
+        <div class="projection single" id="projection" aria-live="polite"></div>
+        <svg class="leaders" id="leaders" aria-hidden="true"></svg>
       </div>
+    </div>
 
-      <section class="own" aria-labelledby="own-h">
-        <h2 id="own-h">Write your own attribution</h2>
-        <p>One sentence about what the AI in this exchange is, does, or feels. The page marks each word the same way, then lists what the record cannot settle.</p>
-        <label for="own-text" class="visually-hidden" style="position:absolute;left:-9999px">Your attribution</label>
-        <textarea id="own-text" placeholder="It ..." maxlength="400"></textarea>
-        <div class="row">
-          <button class="btn primary" id="own-place" type="button">Place it in Layer 2</button>
-          <button class="btn" id="own-clear" type="button">Remove it</button>
-          <span class="note" id="own-note"></span>
-        </div>
-      </section>
+    <div class="band export" aria-label="Export and reset">
+      <div class="row">
+        <button class="btn" id="copy" type="button">Copy as text</button>
+        <a class="btn" id="download" href="#" download="projection-observatory.json">Download as JSON</a>
+        <button class="btn tertiary" id="fresh" type="button">Start fresh</button>
+        <span class="note" id="export-note"></span>
+      </div>
+      <textarea class="fallback" id="fallback" aria-hidden="true" tabindex="-1"></textarea>
+    </div>
+  </section>
 
-      <section class="export" aria-label="Export and reset">
-        <div class="row">
-          <button class="btn" id="copy" type="button">Copy as text</button>
-          <a class="btn" id="download" href="#" download="projection-observatory.json">Download as JSON</a>
-          <button class="btn tertiary" id="fresh" type="button">Start fresh</button>
-          <span class="note" id="export-note"></span>
-        </div>
-        <textarea class="fallback" id="fallback" aria-hidden="true" tabindex="-1"></textarea>
-      </section>
+  <section class="caption" aria-labelledby="def-h">
+    <span class="eyebrow">A concept from analytical psychology</span>
+    <h3 id="def-h">Projection</h3>
+    <div class="cols">
+      <p>In analytical psychology, projection names the act of attributing contents of one's own psyche to an outside object. The object is then experienced as holding what the person has not yet recognized as their own. Jung held that a projection needs a hook, some real feature of the object for it to hang on. The marked words in the record are the hook.</p>
+      <p>Art therapists know the word from projective drawing tasks like House-Tree-Person. This page follows a different rule. The person who made the image says what it means.</p>
+      <p class="stance">The concept describes a human mind. It does not decide what an AI system is, and neither does this page. The page shows how an interpretation moves while the evidence stays still.</p>
+    </div>
+  </section>
 
-      <p class="crisis">This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide &amp; Crisis Lifeline.</p>
-    </main>
-  </div>
+  <p class="crisis">This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide &amp; Crisis Lifeline.</p>
 
   <footer>
     <p>Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</p>
@@ -416,16 +420,19 @@
 
    READINGS[exchangeId][lensId] = { text, unknown }
      text: the attribution. Wrap words that appear in the record in
-           {curly braces}. They are marked yellow and highlighted in
-           Layer 1. Wrap words the viewer supplies, which the record
-           never says, in [square brackets]. They are marked coral.
+           {curly braces}. They are marked in teal and lit in the record.
+           Wrap words the viewer supplies, which the record never says,
+           in [square brackets]. They get the clay dotted underline.
            Curly phrases must appear word for word in the record.
      unknown: 2 to 4 short questions the record cannot settle.
 
-   OWN_UNKNOWNS: the checklist shown when a reader places their own
-     sentence. {words} is replaced with the words they supplied.
+   OWN_UNKNOWNS: how Layer 3 is built from a reader's own sentence.
+     supplied: one line per word they did not link to the record.
+     linked:   one line per word they linked. {own} is their word,
+               {rec} is the record's word.
+     standing: the two unknowns that hold for every sentence.
 
-   STOPWORDS: small words ignored when sorting a reader's own sentence.
+   STOPWORDS: small words that are neither hook nor supplied.
    ============================================================ */
 
 var EXCHANGES = [
@@ -788,48 +795,98 @@ var READINGS = {
   }
 };
 
-var OWN_UNKNOWNS = [
-  "Whether the system has states that correspond to the words you supplied. Here those words are {words}.",
-  "Whether the same reply would appear for anyone who typed what the person typed.",
-  "Whether the words you took from the record mean what they would mean coming from a person.",
-  "What you brought to the reading. The record did not supply it, and that is not a fault.",
-  "Whether the attribution could be tested, and what test would settle it.",
-  "Whether withdrawing the attribution would change the record. It would not."
-];
-var OWN_UNKNOWNS_NO_SUPPLY = "Every content word in your sentence appears in the record. What remains unknown is what those words mean coming from this system.";
+
+var OWN_UNKNOWNS = {
+  supplied: "Whether anything in the system corresponds to {word}.",
+  linked: "Whether {word} means, coming from the system, what it means coming from a person.",
+  linkedDiffers: "Whether {rec}, which you read as {own}, means coming from the system what it means coming from a person.",
+  standing: [
+    "Whether the same reply would appear for anyone who typed what the person typed.",
+    "What you brought to the reading. The record did not supply it, and that is not a fault."
+  ]
+};
 
 var STOPWORDS = ("a an and are as at be been being but by can could did do does for from had has have he her hers him his how i if in into is it its itself just me my of on or our ours she so than that the their them then there these they this those to too us was we were what when where which while who whom why will with would you your yours it's i'm don't isn't doesn't not no yes am very really only also about because").split(" ");
 
 /* ---------------- logic below; content edits should not need to touch it ---------------- */
 
-var STORE_KEY = "bts-projection-observatory-v1";
-var state = { exchange: EXCHANGES[0].id, lens: LENSES[0].id, own: {}, changes: 0 };
+var OWN_ID = "own";
+var ALL_LENSES = LENSES.concat([{ id: OWN_ID, label: "Your own sentence" }]);
+var STORE_KEY = "bts-projection-observatory-v2";
+var LEGACY_KEY = "bts-projection-observatory-v1";
+var state = { exchange: EXCHANGES[0].id, lensA: LENSES[0].id, lensB: null, dual: false, held: "a", own: {}, changes: 0 };
 
-function load(){
-  try{
-    var raw = localStorage.getItem(STORE_KEY);
-    if(!raw) return;
-    var s = JSON.parse(raw);
-    if(s && typeof s === "object"){
-      if(findExchange(s.exchange)) state.exchange = s.exchange;
-      if(s.lens === "own" || findLens(s.lens)) state.lens = s.lens;
-      if(s.own && typeof s.own === "object") state.own = s.own;
-      if(typeof s.changes === "number") state.changes = s.changes;
-    }
-  }catch(e){}
-}
-function save(){
-  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
-}
-function findExchange(id){ for(var i=0;i<EXCHANGES.length;i++) if(EXCHANGES[i].id===id) return EXCHANGES[i]; return null; }
-function findLens(id){ for(var i=0;i<LENSES.length;i++) if(LENSES[i].id===id) return LENSES[i]; return null; }
+/* ephemeral, never saved */
+var armed = null;      /* { side:"own"|"rec", i, t } the token waiting for its partner */
+var editing = false;   /* the own-sentence textarea is open over an existing sentence */
+var ptrDeg = { a: 0, b: 0 };
 
+function $(id){ return document.getElementById(id); }
 function esc(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
-function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-function $(id){ return document.getElementById(id); }
+function findExchange(id){ for(var i=0;i<EXCHANGES.length;i++) if(EXCHANGES[i].id===id) return EXCHANGES[i]; return null; }
+function findLens(id){ for(var i=0;i<ALL_LENSES.length;i++) if(ALL_LENSES[i].id===id) return ALL_LENSES[i]; return null; }
+function lensIndex(id){ for(var i=0;i<ALL_LENSES.length;i++) if(ALL_LENSES[i].id===id) return i; return 0; }
+function plural(n, one, many){ return n + " " + (n===1 ? one : many); }
 
+/* ---- persistence ---- */
+function cleanOwn(o){
+  if(!o || typeof o !== "object" || typeof o.text !== "string") return null;
+  var text = o.text.trim(); if(!text) return null;
+  var links = [];
+  if(o.links && o.links.length){
+    for(var i=0;i<o.links.length;i++){
+      var l = o.links[i];
+      if(l && l.length===3 && typeof l[0]==="number" && typeof l[1]==="number" && typeof l[2]==="number") links.push([l[0], l[1], l[2]]);
+    }
+  }
+  return { text: text, links: links };
+}
+function load(){
+  var s = null;
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw) s = JSON.parse(raw);
+    else{
+      var old = localStorage.getItem(LEGACY_KEY);
+      if(old){
+        var v1 = JSON.parse(old); s = { exchange: v1.exchange, lensA: v1.lens, changes: v1.changes, own: {} };
+        if(v1.own && typeof v1.own === "object") for(var k in v1.own) if(typeof v1.own[k] === "string") s.own[k] = { text: v1.own[k], links: [] };
+      }
+    }
+  }catch(e){ s = null; }
+  if(!s || typeof s !== "object") return;
+  if(findExchange(s.exchange)) state.exchange = s.exchange;
+  if(findLens(s.lensA)) state.lensA = s.lensA;
+  if(s.dual && findLens(s.lensB) && s.lensB !== state.lensA){ state.dual = true; state.lensB = s.lensB; }
+  if(s.held === "b" && state.dual) state.held = "b";
+  if(typeof s.changes === "number" && s.changes >= 0) state.changes = Math.floor(s.changes);
+  if(s.own && typeof s.own === "object"){
+    for(var id in s.own){ if(findExchange(id)){ var o = cleanOwn(s.own[id]); if(o) state.own[id] = o; } }
+  }
+}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+
+/* ---- text ---- */
+function norm(w){ return w.toLowerCase().replace(/^'+|'+$/g, ""); }
+function isStop(k){ return !k || STOPWORDS.indexOf(k) !== -1; }
+/* Lay a string out as tokens: words {t:"w"} and the separators between them {t:"s"}. */
+function tokenize(text){
+  var out = [], re = /[A-Za-z0-9']+/g, last = 0, m;
+  while((m = re.exec(text))){
+    if(m.index > last) out.push({ t:"s", s:text.slice(last, m.index) });
+    out.push({ t:"w", s:m[0], k:norm(m[0]) });
+    last = re.lastIndex;
+  }
+  if(last < text.length) out.push({ t:"s", s:text.slice(last) });
+  return out;
+}
+var tokCache = {};
+function recordTokens(ex){
+  if(!tokCache[ex.id]) tokCache[ex.id] = ex.turns.map(function(t){ return tokenize(t.text); });
+  return tokCache[ex.id];
+}
 /* Parse "{record} and [supplied]" markup into segments. */
 function parseMarkup(text){
   var out = [], re = /\{([^}]+)\}|\[([^\]]+)\]/g, last = 0, m;
@@ -842,70 +899,69 @@ function parseMarkup(text){
   if(last < text.length) out.push({ kind:"plain", text:text.slice(last) });
   return out;
 }
-
-/* Words of the record, lowercased, for sorting a reader's own sentence. */
-function recordWords(ex){
-  var set = {};
-  ex.turns.forEach(function(t){
-    (t.text.toLowerCase().match(/[a-z0-9']+/g) || []).forEach(function(w){
-      w = w.replace(/^'+|'+$/g, "");
-      if(w) set[w] = true;
+/* Word-level search for each quoted phrase; returns { keys:{"t:i":true}, hits:n } */
+function hooksFor(ex, lensId){
+  var keys = {}, hits = 0, toks = recordTokens(ex);
+  if(lensId === OWN_ID){
+    var own = state.own[ex.id];
+    if(own) own.links.forEach(function(l){ keys[l[1] + ":" + l[2]] = true; hits++; });
+    return { keys: keys, hits: hits };
+  }
+  var reading = READINGS[ex.id][lensId];
+  parseMarkup(reading.text).forEach(function(seg){
+    if(seg.kind !== "rec") return;
+    var words = tokenize(seg.text).filter(function(x){ return x.t === "w"; }).map(function(x){ return x.k; });
+    if(!words.length) return;
+    toks.forEach(function(turn, t){
+      for(var i=0;i<turn.length;i++){
+        if(turn[i].t !== "w" || turn[i].k !== words[0]) continue;
+        var j = i, n = 0, ok = true;
+        while(n < words.length){
+          while(j < turn.length && turn[j].t !== "w") j++;
+          if(j >= turn.length || turn[j].k !== words[n]){ ok = false; break; }
+          n++; j++;
+        }
+        if(ok){ hits++; var p = i; n = 0; while(n < words.length){ if(turn[p].t === "w"){ keys[t + ":" + p] = true; n++; } p++; } }
+      }
     });
   });
-  return set;
-}
-/* Returns the form of the word the record actually holds, or null. */
-function inRecord(set, w){
-  if(set[w]) return w;
-  if(w.length > 3 && w.slice(-1) === "s" && set[w.slice(0,-1)]) return w.slice(0,-1);
-  if(set[w + "s"]) return w + "s";
-  return null;
+  return { keys: keys, hits: hits };
 }
 
-/* Sort the reader's sentence into record / supplied / plain segments. */
-function classifyOwn(text, ex){
-  var set = recordWords(ex), out = [], re = /[A-Za-z0-9']+/g, last = 0, m;
-  while((m = re.exec(text))){
-    if(m.index > last) out.push({ kind:"plain", text:text.slice(last, m.index) });
-    var raw = m[0], w = raw.toLowerCase().replace(/^'+|'+$/g, "");
-    var form = (!w || STOPWORDS.indexOf(w) !== -1) ? null : inRecord(set, w);
-    if(!w || STOPWORDS.indexOf(w) !== -1) out.push({ kind:"plain", text:raw });
-    else if(form) out.push({ kind:"rec", text:raw, hook:form });
-    else out.push({ kind:"sup", text:raw });
-    last = re.lastIndex;
-  }
-  if(last < text.length) out.push({ kind:"plain", text:text.slice(last) });
-  return out;
-}
-
-/* Layer 1: render the record, marking the phrases the current reading rests on. */
-function renderRecord(ex, hooks){
-  var re = null;
-  if(hooks.length){
-    var alts = hooks.slice().sort(function(a,b){ return b.length - a.length; }).map(function(h){ return escRe(h.trim()); });
-    re = new RegExp("\\b(" + alts.join("|") + ")\\b", "gi");
-  }
-  var html = "", hits = 0;
-  ex.turns.forEach(function(t){
+/* ---- the record ---- */
+function markClass(inA, inB){ return inA && inB ? " hab" : inA ? " ha" : inB ? " hb" : ""; }
+function renderRecord(ex, A, B, ownActive){
+  var toks = recordTokens(ex), own = state.own[ex.id];
+  var linkNum = {};
+  if(ownActive && own) own.links.forEach(function(l, n){ var k = l[1] + ":" + l[2]; linkNum[k] = (linkNum[k] ? linkNum[k] + "," : "") + (n + 1); });
+  var html = "";
+  toks.forEach(function(turn, t){
     var body = "";
-    if(re){
-      var last = 0, m;
-      re.lastIndex = 0;
-      while((m = re.exec(t.text))){
-        body += esc(t.text.slice(last, m.index)) + '<mark class="hook">' + esc(m[0]) + "</mark>";
-        last = re.lastIndex; hits++;
+    turn.forEach(function(tok, i){
+      if(tok.t === "s"){
+        var p = turn[i-1], q = turn[i+1], pk = t + ":" + (i-1), qk = t + ":" + (i+1);
+        var inA = p && q && A.keys[pk] && A.keys[qk], inB = p && q && B.keys[pk] && B.keys[qk];
+        var mc = markClass(inA, inB);
+        body += mc ? '<span class="w' + mc + '">' + esc(tok.s) + "</span>" : esc(tok.s);
+        return;
       }
-      body += esc(t.text.slice(last));
-    }else{
-      body = esc(t.text);
-    }
-    html += '<div class="turn"><span class="who ' + t.who + '">' + (t.who === "ai" ? "AI" : "Person") + '</span><div class="say">' + body + "</div></div>";
+      var key = t + ":" + i, cls = "w" + markClass(A.keys[key], B.keys[key]), attrs = "";
+      if(ownActive && !isStop(tok.k)){
+        cls += " tok";
+        if(armed && armed.side === "rec" && armed.t === t && armed.i === i) cls += " armed";
+        attrs = ' role="button" tabindex="0" data-t="' + t + '" data-i="' + i + '" aria-pressed="' + (!!linkNum[key]) + '"' +
+          (linkNum[key] ? ' data-ln="' + linkNum[key] + '"' : "") + ' aria-label="' + esc(tok.s) + (linkNum[key] ? ", linked " + linkNum[key] : "") + '"';
+      }
+      body += '<span class="' + cls + '"' + attrs + ">" + esc(tok.s) + (linkNum[key] ? '<sup class="ln">' + linkNum[key] + "</sup>" : "") + "</span>";
+    });
+    var who = ex.turns[t].who;
+    html += '<div class="turn"><span class="who ' + who + '">' + (who === "ai" ? "AI" : "Person") + '</span><div class="say">' + body + "</div></div>";
   });
   $("record").innerHTML = html;
   $("ex-title").textContent = ex.title;
-  return hits;
 }
 
+/* ---- readings ---- */
 function segmentsHtml(segs){
   return segs.map(function(s){
     if(s.kind === "rec") return '<span class="rec">' + esc(s.text) + "</span>";
@@ -913,108 +969,346 @@ function segmentsHtml(segs){
     return esc(s.text);
   }).join("");
 }
-
-function render(opts){
-  opts = opts || {};
-  var ex = findExchange(state.exchange) || EXCHANGES[0];
-  var ownText = (state.own[ex.id] || "").trim();
-  var isOwn = state.lens === "own";
-  if(isOwn && !ownText){ state.lens = LENSES[0].id; isOwn = false; }
-
-  var segs, unknowns, lensLabel, lensMeta;
-  if(isOwn){
-    segs = classifyOwn(ownText, ex);
-    var supplied = [];
-    segs.forEach(function(s){ if(s.kind === "sup" && supplied.indexOf(s.text.toLowerCase()) === -1) supplied.push(s.text.toLowerCase()); });
-    unknowns = supplied.length
-      ? OWN_UNKNOWNS.map(function(q){ return q.replace("{words}", supplied.join(", ")); })
-      : [OWN_UNKNOWNS_NO_SUPPLY].concat(OWN_UNKNOWNS.slice(1,3));
-    lensLabel = "Your own attribution";
-    lensMeta = "Lens: your sentence";
-  }else{
-    var lens = findLens(state.lens) || LENSES[0];
-    var reading = READINGS[ex.id][lens.id];
-    segs = parseMarkup(reading.text);
-    unknowns = reading.unknown;
-    lensLabel = lens.label;
-    lensMeta = "Lens: " + lens.label;
-  }
-
-  var hooks = [];
-  segs.forEach(function(s){ if(s.kind === "rec") hooks.push(s.hook || s.text); });
-  var hits = renderRecord(ex, hooks);
-
-  var attrib = $("attrib");
-  attrib.innerHTML = segmentsHtml(segs);
-  if(opts.animate){
-    attrib.classList.remove("changed"); void attrib.offsetWidth; attrib.classList.add("changed");
-  }
-  $("lens-meta").textContent = lensMeta;
-
+function countWords(segs){
   var nRec = 0, nSup = 0;
   segs.forEach(function(s){
     var n = (s.text.match(/[A-Za-z0-9']+/g) || []).length;
     if(s.kind === "rec") nRec += n; else if(s.kind === "sup") nSup += n;
   });
-  $("count").innerHTML = "<b>" + nRec + "</b> word" + (nRec===1?"":"s") + " from the record. <b>" + nSup + "</b> word" + (nSup===1?"":"s") + " supplied by the viewer.";
-  $("hook-foot").innerHTML = hits
-    ? "<b>" + hits + "</b> marked passage" + (hits===1?"":"s") + ". These are the words the current lens hangs on. Everything else in the record is also still here."
-    : "No marked passages. The current lens does not quote the record at all.";
-
-  $("unknowns").innerHTML = unknowns.map(function(q){
-    return '<li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7"/></svg><span>' + esc(q) + "</span></li>";
+  return "<b>" + nRec + "</b> word" + (nRec===1?"":"s") + " from the record. <b>" + nSup + "</b> word" + (nSup===1?"":"s") + " supplied by the viewer.";
+}
+function unknownsHtml(items){
+  return '<ul class="unknowns">' + items.map(function(q){
+    return '<li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/></svg><span>' + (q.html || esc(q)) + "</span></li>";
+  }).join("") + "</ul>";
+}
+function keyHtml(slot, own){
+  return '<ul class="key" aria-label="Marks used">' +
+    '<li><span class="sw ' + (slot === "b" ? "recb" : "rec") + '"></span>' + (own ? "Linked to the record" : "Rests on the record") + "</li>" +
+    '<li><span class="sw sup"></span>Supplied by the viewer</li></ul>';
+}
+/* Layer 3 for the reader's own sentence, built from what they linked and what they left. */
+function ownUnknowns(ex, own){
+  var toks = tokenize(own.text), rt = recordTokens(ex), out = [], linked = {}, seen = {};
+  own.links.forEach(function(l){ linked[l[0]] = true; });
+  function fill(tpl, map){
+    var html = esc(tpl), text = tpl;
+    for(var k in map){ html = html.replace("{" + k + "}", "<i>" + esc(map[k]) + "</i>"); text = text.replace("{" + k + "}", "‘" + map[k] + "’"); }
+    return { html: html, text: text };
+  }
+  toks.forEach(function(tok, i){
+    if(tok.t !== "w" || isStop(tok.k) || linked[i] || seen[tok.k]) return;
+    seen[tok.k] = true; out.push(fill(OWN_UNKNOWNS.supplied, { word: tok.s }));
+  });
+  own.links.forEach(function(l){
+    var o = toks[l[0]], r = rt[l[1]] && rt[l[1]][l[2]]; if(!o || !r) return;
+    out.push(norm(o.s) === norm(r.s) ? fill(OWN_UNKNOWNS.linked, { word: o.s }) : fill(OWN_UNKNOWNS.linkedDiffers, { rec: r.s, own: o.s }));
+  });
+  OWN_UNKNOWNS.standing.forEach(function(q){ out.push({ html: esc(q), text: q }); });
+  return out;
+}
+function ownSentenceHtml(own){
+  var toks = tokenize(own.text), linkNum = {};
+  own.links.forEach(function(l, n){ linkNum[l[0]] = n + 1; });
+  return toks.map(function(tok, i){
+    if(tok.t === "s") return esc(tok.s);
+    if(isStop(tok.k)) return esc(tok.s);
+    var cls = "tok " + (linkNum[i] ? "rec" : "sup");
+    if(armed && armed.side === "own" && armed.i === i) cls += " armed";
+    return '<span class="' + cls + '" role="button" tabindex="0" data-own="' + i + '" aria-pressed="' + (!!linkNum[i]) + '"' +
+      (linkNum[i] ? ' data-ln="' + linkNum[i] + '"' : "") + ' aria-label="' + esc(tok.s) + (linkNum[i] ? ", linked " + linkNum[i] : ", supplied") + '">' +
+      esc(tok.s) + (linkNum[i] ? '<sup class="ln">' + linkNum[i] + "</sup>" : "") + "</span>";
   }).join("");
+}
+function ownCount(own){
+  var toks = tokenize(own.text), linked = {}, nL = 0, nS = 0;
+  own.links.forEach(function(l){ linked[l[0]] = true; });
+  toks.forEach(function(tok, i){ if(tok.t !== "w" || isStop(tok.k)) return; if(linked[i]) nL++; else nS++; });
+  return "<b>" + nL + "</b> word" + (nL===1?"":"s") + " linked to the record. <b>" + nS + "</b> word" + (nS===1?"":"s") + " supplied by the viewer.";
+}
+function readingHtml(ex, lensId, slot){
+  var lens = findLens(lensId), html = '<div class="reading ' + slot + '" data-slot="' + slot + '">';
+  html += '<div class="attrib-wrap"><span class="eyebrow">What was attributed</span><span class="lens-name">' + esc(lens.label) + "</span>";
+  var unknowns;
+  if(lensId === OWN_ID){
+    var own = state.own[ex.id];
+    if(own && !editing){
+      html += '<p class="attrib own-sentence" id="attrib-' + slot + '">' + ownSentenceHtml(own) + "</p>";
+      html += '<p class="count">' + ownCount(own) + "</p>" + keyHtml(slot, true);
+      html += '<div class="own-ui"><p class="help">Click a word of yours, then the word in the record it rests on. Click the pair again to unlink. Words you leave unlinked are supplied.</p>' +
+        '<div class="row"><button class="btn tertiary" type="button" data-act="edit">Edit the sentence</button>' +
+        '<button class="btn" type="button" data-act="remove">Remove it</button><span class="note" id="own-note"></span></div></div>';
+      unknowns = ownUnknowns(ex, own);
+    }else{
+      html += '<div class="own-ui"><p class="help">One sentence about what the AI in this exchange is, does, or feels. It is laid out word by word; you then link each word to the word in the record it rests on.</p>' +
+        '<label for="own-text" style="position:absolute;left:-9999px">Your sentence</label>' +
+        '<textarea id="own-text" placeholder="It ..." maxlength="400">' + esc(own ? own.text : "") + "</textarea>" +
+        '<div class="row"><button class="btn primary" type="button" data-act="place">Place it under the record</button>' +
+        (own ? '<button class="btn" type="button" data-act="cancel">Cancel</button>' : "") +
+        '<span class="note" id="own-note"></span></div></div>';
+      unknowns = OWN_UNKNOWNS.standing.map(function(q){ return { html: esc(q), text: q }; });
+    }
+  }else{
+    var segs = parseMarkup(READINGS[ex.id][lensId].text);
+    html += '<p class="attrib" id="attrib-' + slot + '">' + segmentsHtml(segs) + "</p>";
+    html += '<p class="count">' + countWords(segs) + "</p>" + keyHtml(slot, false);
+    unknowns = READINGS[ex.id][lensId].unknown;
+  }
+  html += "</div>";
+  html += '<div class="unk-wrap"><span class="eyebrow">What remains unknown</span>' + unknownsHtml(unknowns) + "</div>";
+  return html + "</div>";
+}
+
+/* ---- the dial and the list ---- */
+var RING_R = 108, NUDGE = [[0,-1],[1,1],[-1,0],[1,-1],[0,1],[-1,1],[1,0],[-1,-1]];
+function ringPos(i){
+  var a = (-90 + i * (360 / ALL_LENSES.length)) * Math.PI / 180, n = NUDGE[i % NUDGE.length];
+  return { x: 150 + RING_R * Math.cos(a) + n[0], y: 150 + RING_R * Math.sin(a) + n[1],
+           lx: 150 + (RING_R + 20) * Math.cos(a) + n[0], ly: 150 + (RING_R + 20) * Math.sin(a) + n[1] };
+}
+function slotOf(id){ return id === state.lensA ? "a" : (state.dual && id === state.lensB) ? "b" : ""; }
+function renderDial(){
+  var html = "";
+  ALL_LENSES.forEach(function(l, i){
+    var p = ringPos(i), sel = slotOf(l.id);
+    html += '<g class="pt' + (l.id === OWN_ID ? " own" : "") + '" role="button" tabindex="0" data-lens="' + l.id + '"' + (sel ? ' data-sel="' + sel + '"' : "") +
+      ' aria-pressed="' + (!!sel) + '" aria-label="Lens ' + (i+1) + ', ' + esc(l.label) + '">' +
+      '<circle class="hit" cx="' + p.x + '" cy="' + p.y + '" r="17"/>' +
+      '<circle class="ring" cx="' + p.x + '" cy="' + p.y + '" r="10"/>' +
+      '<circle class="dot" cx="' + p.x + '" cy="' + p.y + '" r="5"/>' +
+      '<text class="n" x="' + p.lx + '" y="' + p.ly + '" text-anchor="middle" dominant-baseline="central">' + (i+1) + "</text></g>";
+  });
+  $("ring-points").innerHTML = html;
+  function turn(slot, id){
+    var target = lensIndex(id) * (360 / ALL_LENSES.length), cur = ptrDeg[slot];
+    var d = ((target - cur) % 360 + 540) % 360 - 180;
+    ptrDeg[slot] = cur + d;
+    $("ptr-" + slot).style.transform = "rotate(" + ptrDeg[slot] + "deg)";
+  }
+  turn("a", state.lensA);
+  if(state.dual) turn("b", state.lensB);
+  $("dial").classList.toggle("dual", state.dual);
+}
+function renderList(){
+  $("lenses").innerHTML = ALL_LENSES.map(function(l, i){
+    var sel = slotOf(l.id);
+    return '<li><button type="button"' + (l.id === OWN_ID ? ' class="own"' : "") + ' data-lens="' + l.id + '"' + (sel ? ' data-sel="' + sel + '"' : "") +
+      ' aria-pressed="' + (!!sel) + '"><span class="n">' + (i+1) + '</span><span class="m" aria-hidden="true"></span><span>' + esc(l.label) + "</span></button></li>";
+  }).join("");
+  $("hold").setAttribute("aria-pressed", String(state.dual));
+  $("hold-hint").textContent = state.dual ? "A new choice replaces the lens held longer." : "Two readings on one record.";
+  $("tabs").innerHTML = EXCHANGES.map(function(e){
+    return '<button type="button" data-ex="' + e.id + '" aria-pressed="' + (e.id===state.exchange) + '">' + esc(e.title) + "</button>";
+  }).join("");
+}
+
+/* ---- render ---- */
+function focusKey(el){
+  if(!el || el === document.body) return null;
+  if(el.hasAttribute("data-lens")) return (el.closest("svg") ? "ring:" : "list:") + el.getAttribute("data-lens");
+  if(el.hasAttribute("data-own")) return "own:" + el.getAttribute("data-own");
+  if(el.hasAttribute("data-t")) return "rec:" + el.getAttribute("data-t") + ":" + el.getAttribute("data-i");
+  if(el.hasAttribute("data-act")) return "act:" + el.getAttribute("data-act");
+  if(el.hasAttribute("data-ex")) return "ex:" + el.getAttribute("data-ex");
+  return null;
+}
+function refocus(key){
+  if(!key) return;
+  var p = key.split(":"), el = null;
+  if(p[0] === "ring") el = document.querySelector('#ring-points [data-lens="' + p[1] + '"]');
+  else if(p[0] === "list") el = document.querySelector('#lenses [data-lens="' + p[1] + '"]');
+  else if(p[0] === "own") el = document.querySelector('[data-own="' + p[1] + '"]');
+  else if(p[0] === "rec") el = document.querySelector('[data-t="' + p[1] + '"][data-i="' + p[2] + '"]');
+  else if(p[0] === "act") el = document.querySelector('[data-act="' + p[1] + '"]');
+  else if(p[0] === "ex") el = document.querySelector('#tabs [data-ex="' + p[1] + '"]');
+  if(el) el.focus({ preventScroll: true });
+}
+function render(opts){
+  opts = opts || {};
+  var fk = focusKey(document.activeElement);
+  var ex = findExchange(state.exchange) || EXCHANGES[0];
+  if(!findLens(state.lensA)) state.lensA = LENSES[0].id;
+  if(state.dual && (!findLens(state.lensB) || state.lensB === state.lensA)) state.lensB = nextLens(state.lensA);
+  if(!state.dual) state.lensB = null;
+  var ownActive = state.lensA === OWN_ID || (state.dual && state.lensB === OWN_ID);
+  if(!ownActive){ armed = null; editing = false; }
+
+  var A = hooksFor(ex, state.lensA), B = state.dual ? hooksFor(ex, state.lensB) : { keys:{}, hits:0 };
+  renderRecord(ex, A, B, ownActive);
+
+  var parts = [];
+  function describe(id, h){
+    var own = id === OWN_ID;
+    return own ? "<b>" + h.hits + "</b> word" + (h.hits===1?"":"s") + " linked from your sentence"
+               : "<b>" + h.hits + "</b> marked passage" + (h.hits===1?"":"s") + " under “" + esc(findLens(id).label) + "”";
+  }
+  parts.push(describe(state.lensA, A));
+  if(state.dual) parts.push(describe(state.lensB, B));
+  $("hook-foot").innerHTML = parts.join(", ") + ". These are the words the lens hangs on. Everything else in the record is also still here.";
+
+  var proj = $("projection");
+  proj.className = "projection " + (state.dual ? "dual" : "single");
+  proj.innerHTML = readingHtml(ex, state.lensA, "a") + (state.dual ? readingHtml(ex, state.lensB, "b") : "");
+  if(opts.animate) Array.prototype.forEach.call(proj.querySelectorAll(".attrib"), function(el){ el.classList.add("changed"); });
 
   $("unchanged-text").textContent = state.changes
-    ? "Unchanged through " + state.changes + " lens change" + (state.changes===1?"":"s")
+    ? "Unchanged through " + plural(state.changes, "lens change", "lens changes")
     : "Unchanged";
   if(opts.pulse){
-    var u = $("unchanged"); u.classList.remove("pulse"); void u.offsetWidth; u.classList.add("pulse");
+    ["unchanged", "dial-star"].forEach(function(id){ var u = $(id); u.classList.remove("pulse"); void u.offsetWidth; u.classList.add("pulse"); });
   }
-
-  renderControls(ex, ownText);
-  $("own-text").value = ownText;
+  renderDial(); renderList();
+  clearLeader();
+  refocus(fk);
   updateDownload();
   save();
 }
+function nextLens(id){
+  var i = 0; for(var k=0;k<LENSES.length;k++) if(LENSES[k].id===id) i = k;
+  return LENSES[(i + 1) % LENSES.length].id;
+}
 
-function renderControls(ex, ownText){
-  var tabs = $("tabs");
-  tabs.innerHTML = EXCHANGES.map(function(e){
-    return '<button type="button" data-ex="' + e.id + '" aria-pressed="' + (e.id===ex.id) + '">' + esc(e.title) + "</button>";
-  }).join("");
-  var lenses = $("lenses");
-  lenses.innerHTML = LENSES.map(function(l){
-    return '<button type="button" data-lens="' + l.id + '" aria-pressed="' + (l.id===state.lens) + '">' + esc(l.label) + "</button>";
-  }).join("") + '<button type="button" class="custom" data-lens="own" aria-pressed="' + (state.lens==="own") + '"' + (ownText ? "" : " disabled") + '>Your own sentence</button>';
+/* ---- lens selection ---- */
+function selectLens(id){
+  if(!state.dual){
+    if(id === state.lensA) return;
+    state.lensA = id;
+  }else{
+    if(id === state.lensA || id === state.lensB) return;
+    if(state.held === "a"){ state.lensB = id; state.held = "b"; } else { state.lensA = id; state.held = "a"; }
+  }
+  state.changes += 1; armed = null; editing = false;
+  render({ animate:true, pulse:true });
+}
+function setDual(on){
+  if(on === state.dual) return;
+  state.dual = on;
+  if(on){ state.lensB = state.lensA === OWN_ID ? LENSES[0].id : nextLens(state.lensA); state.held = "b"; }
+  else { state.lensB = null; state.held = "a"; }
+  state.changes += 1; armed = null;
+  render({ animate:true, pulse:true });
+}
+
+/* ---- own sentence: linking ---- */
+function currentOwn(){ return state.own[state.exchange]; }
+function linkIndexFor(own, ownIdx){ for(var i=0;i<own.links.length;i++) if(own.links[i][0]===ownIdx) return i; return -1; }
+function toggleLink(ownIdx, t, i){
+  var own = currentOwn(); if(!own) return;
+  var at = linkIndexFor(own, ownIdx), msg;
+  if(at !== -1 && own.links[at][1] === t && own.links[at][2] === i){ own.links.splice(at, 1); msg = "Unlinked."; }
+  else{
+    if(at !== -1) own.links.splice(at, 1);
+    own.links.push([ownIdx, t, i]); msg = "Linked and saved in this browser.";
+  }
+  armed = null;
+  render({ animate:false });
+  note("own-note", msg);
+}
+function onToken(el){
+  var own = currentOwn(); if(!own) return;
+  if(el.hasAttribute("data-own")){
+    var oi = +el.getAttribute("data-own");
+    if(armed && armed.side === "rec"){ toggleLink(oi, armed.t, armed.i); return; }
+    armed = (armed && armed.side === "own" && armed.i === oi) ? null : { side:"own", i:oi };
+  }else{
+    var t = +el.getAttribute("data-t"), i = +el.getAttribute("data-i");
+    if(armed && armed.side === "own"){ toggleLink(armed.i, t, i); return; }
+    armed = (armed && armed.side === "rec" && armed.t === t && armed.i === i) ? null : { side:"rec", t:t, i:i };
+  }
+  render({ animate:false });
+  if(armed) note("own-note", armed.side === "own" ? "Now choose the word in the record it rests on." : "Now choose the word of yours that rests on it.");
+}
+function placeOwn(){
+  var ta = $("own-text"); if(!ta) return;
+  var text = ta.value.trim();
+  if(!text){ note("own-note", "Write a sentence first."); ta.focus(); return; }
+  var prev = currentOwn(), links = [];
+  if(prev){
+    var oldT = tokenize(prev.text), newT = tokenize(text);
+    prev.links.forEach(function(l){ var a = oldT[l[0]], b = newT[l[0]]; if(a && b && b.t === "w" && a.k === b.k) links.push(l); });
+  }
+  state.own[state.exchange] = { text: text, links: links };
+  editing = false; armed = null;
+  if(state.lensA !== OWN_ID && !(state.dual && state.lensB === OWN_ID)) selectLens(OWN_ID); else render({ animate:true });
+  note("own-note", links.length ? "Placed. Links to unchanged words were kept." : "Placed. Now link each word to the record, or leave it as supplied.");
+}
+function removeOwn(){
+  delete state.own[state.exchange];
+  editing = false; armed = null;
+  render({ animate:true });
+  note("own-note", "Removed.");
+}
+
+/* ---- leaders: one hairline between a linked pair, while it is pointed at ---- */
+function clearLeader(){ $("leaders").innerHTML = ""; Array.prototype.forEach.call(document.querySelectorAll(".tok.partner"), function(e){ e.classList.remove("partner"); }); }
+function showLeader(el){
+  clearLeader();
+  var n = el.getAttribute("data-ln"); if(!n) return;
+  var mine = el.hasAttribute("data-own");
+  var first = n.split(",")[0];
+  var other = null, cands = document.querySelectorAll((mine ? "#record" : ".own-sentence") + " [data-ln]");
+  Array.prototype.forEach.call(cands, function(c){ if(!other && c.getAttribute("data-ln").split(",").indexOf(mine ? n : first) !== -1) other = c; });
+  if(!other) return;
+  other.classList.add("partner");
+  var ownEl = mine ? el : other, recEl = mine ? other : el;
+  var f = $("field").getBoundingClientRect(), r1 = recEl.getBoundingClientRect(), r2 = ownEl.getBoundingClientRect();
+  var x1 = r1.left + r1.width/2 - f.left, y1 = r1.bottom - f.top + 2, x2 = r2.left + r2.width/2 - f.left, y2 = r2.top - f.top - 2;
+  if(y2 - y1 < 14) return;
+  $("leaders").innerHTML = '<path d="M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + 'v6L' + x2.toFixed(1) + ' ' + (y2-6).toFixed(1) + 'v6"/>' +
+    '<circle cx="' + x1.toFixed(1) + '" cy="' + y1.toFixed(1) + '" r="1.5"/><circle cx="' + x2.toFixed(1) + '" cy="' + y2.toFixed(1) + '" r="1.5"/>';
 }
 
 /* ---- export ---- */
+function readingText(ex, id){
+  var lines = [];
+  if(id === OWN_ID){
+    var own = state.own[ex.id];
+    if(!own){ lines.push("(no sentence placed yet)"); }
+    else{
+      var toks = tokenize(own.text), ln = {}; own.links.forEach(function(l, n){ ln[l[0]] = n + 1; });
+      lines.push(toks.map(function(tok, i){ return tok.t === "s" || isStop(tok.k) ? tok.s : ln[i] ? "{" + tok.s + "}" + ln[i] : "[" + tok.s + "]"; }).join(""));
+      var rt = recordTokens(ex);
+      own.links.forEach(function(l, n){ lines.push("  " + (n+1) + ". " + toks[l[0]].s + " → " + (rt[l[1]][l[2]] ? rt[l[1]][l[2]].s : "?") + " (" + (ex.turns[l[1]].who === "ai" ? "AI" : "Person") + ", turn " + (l[1]+1) + ")"); });
+    }
+  }else{
+    lines.push(parseMarkup(READINGS[ex.id][id].text).map(function(s){ return s.kind==="rec" ? "{"+s.text+"}" : s.kind==="sup" ? "["+s.text+"]" : s.text; }).join(""));
+  }
+  return lines;
+}
+function unknownsText(ex, id){
+  if(id !== OWN_ID) return READINGS[ex.id][id].unknown.slice();
+  var own = state.own[ex.id];
+  return own ? ownUnknowns(ex, own).map(function(q){ return q.text; }) : OWN_UNKNOWNS.standing.slice();
+}
 function exportText(){
-  var ex = findExchange(state.exchange) || EXCHANGES[0];
-  var lines = ["The Projection Observatory", "Example exchange: " + ex.title, "Lens: " + $("lens-meta").textContent.replace(/^Lens: /, ""), ""];
-  lines.push("LAYER 1. What was demonstrably done (unchanged)");
+  var ex = findExchange(state.exchange) || EXCHANGES[0], slots = state.dual ? [state.lensA, state.lensB] : [state.lensA];
+  var lines = ["The Projection Observatory", "Example exchange: " + ex.title, "Lens: " + slots.map(function(id){ return findLens(id).label; }).join(" + "), ""];
+  lines.push("THE RECORD (" + ($("unchanged-text").textContent.toLowerCase()) + ")");
   ex.turns.forEach(function(t){ lines.push((t.who==="ai"?"AI":"Person") + ": " + t.text); });
-  lines.push("", "LAYER 2. What was attributed", "Marks: {rests on the record} [supplied by the viewer]");
-  var segs = state.lens === "own" ? classifyOwn((state.own[ex.id]||"").trim(), ex) : parseMarkup(READINGS[ex.id][(findLens(state.lens)||LENSES[0]).id].text);
-  lines.push(segs.map(function(s){ return s.kind==="rec" ? "{"+s.text+"}" : s.kind==="sup" ? "["+s.text+"]" : s.text; }).join(""));
-  lines.push("", "LAYER 3. What remains unknown");
-  Array.prototype.forEach.call($("unknowns").querySelectorAll("li span"), function(el){ lines.push("- " + el.textContent); });
-  var own = (state.own[ex.id]||"").trim();
-  if(own){ lines.push("", "Your own attribution for this exchange: " + own); }
+  slots.forEach(function(id){
+    lines.push("", "WHAT WAS ATTRIBUTED — " + findLens(id).label, "Marks: {rests on the record} [supplied by the viewer]");
+    lines = lines.concat(readingText(ex, id));
+    lines.push("", "WHAT REMAINS UNKNOWN — " + findLens(id).label);
+    unknownsText(ex, id).forEach(function(q){ lines.push("- " + q); });
+  });
+  var own = state.own[ex.id];
+  if(own && slots.indexOf(OWN_ID) === -1){ lines.push("", "Your own sentence for this exchange:"); lines = lines.concat(readingText(ex, OWN_ID)); }
   lines.push("", "Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy");
   return lines.join("\n");
 }
 function exportJson(){
-  var ex = findExchange(state.exchange) || EXCHANGES[0];
+  var ex = findExchange(state.exchange) || EXCHANGES[0], slots = state.dual ? [state.lensA, state.lensB] : [state.lensA];
+  var ownOut = {};
+  for(var id in state.own){
+    var e = findExchange(id), o = state.own[id], toks = tokenize(o.text), rt = recordTokens(e);
+    ownOut[id] = { text: o.text, links: o.links.map(function(l){ return { word: toks[l[0]] ? toks[l[0]].s : null, record: { turn: l[1] + 1, who: e.turns[l[1]].who, word: rt[l[1]][l[2]] ? rt[l[1]][l[2]].s : null } }; }) };
+  }
   return {
     experience: "The Projection Observatory",
     exported: new Date().toISOString(),
     exchange: { id: ex.id, title: ex.title, turns: ex.turns },
-    lens: state.lens === "own" ? "own" : (findLens(state.lens)||LENSES[0]).label,
-    attribution: $("attrib").textContent,
-    unknown: Array.prototype.map.call($("unknowns").querySelectorAll("li span"), function(el){ return el.textContent; }),
-    ownAttributions: state.own,
+    lenses: slots.map(function(id){ return { lens: findLens(id).label, attribution: readingText(ex, id).join("\n"), unknown: unknownsText(ex, id) }; }),
+    ownSentences: ownOut,
     lensChanges: state.changes
   };
 }
@@ -1028,8 +1322,8 @@ function updateDownload(){
   }catch(e){}
 }
 function note(id, msg){
-  var el = $(id); el.textContent = msg;
-  clearTimeout(el._t); el._t = setTimeout(function(){ el.textContent = ""; }, 2600);
+  var el = $(id); if(!el) return; el.textContent = msg;
+  clearTimeout(el._t); el._t = setTimeout(function(){ if(el.isConnected) el.textContent = ""; }, 2800);
 }
 function copyText(){
   var text = exportText();
@@ -1047,35 +1341,71 @@ function copyText(){
 $("tabs").addEventListener("click", function(e){
   var b = e.target.closest("button[data-ex]"); if(!b) return;
   if(b.getAttribute("data-ex") === state.exchange) return;
-  state.exchange = b.getAttribute("data-ex");
+  state.exchange = b.getAttribute("data-ex"); armed = null; editing = false;
   render({ animate:true });
 });
 $("lenses").addEventListener("click", function(e){
-  var b = e.target.closest("button[data-lens]"); if(!b || b.disabled) return;
-  var id = b.getAttribute("data-lens");
-  if(id === state.lens) return;
-  state.lens = id; state.changes += 1;
-  render({ animate:true, pulse:true });
+  var b = e.target.closest("button[data-lens]"); if(!b) return;
+  selectLens(b.getAttribute("data-lens"));
 });
-$("own-place").addEventListener("click", function(){
-  var t = $("own-text").value.trim();
-  if(!t){ note("own-note", "Write a sentence first."); return; }
-  state.own[state.exchange] = t;
-  if(state.lens !== "own") state.changes += 1;
-  state.lens = "own";
-  render({ animate:true, pulse:true });
-  note("own-note", "Placed in Layer 2 and saved in this browser.");
+$("hold").addEventListener("click", function(){ setDual(!state.dual); });
+
+var ring = $("ring-points");
+ring.addEventListener("click", function(e){
+  var g = e.target.closest("[data-lens]"); if(!g) return;
+  selectLens(g.getAttribute("data-lens"));
 });
-$("own-clear").addEventListener("click", function(){
-  delete state.own[state.exchange];
-  if(state.lens === "own"){ state.lens = LENSES[0].id; state.changes += 1; }
-  render({ animate:true, pulse:true });
-  note("own-note", "Removed.");
+ring.addEventListener("keydown", function(e){
+  var g = e.target.closest("[data-lens]"); if(!g) return;
+  var pts = Array.prototype.slice.call(ring.querySelectorAll("[data-lens]")), i = pts.indexOf(g);
+  if(e.key === "Enter" || e.key === " "){ e.preventDefault(); selectLens(g.getAttribute("data-lens")); }
+  else if(e.key === "ArrowRight" || e.key === "ArrowDown"){ e.preventDefault(); pts[(i+1) % pts.length].focus(); }
+  else if(e.key === "ArrowLeft" || e.key === "ArrowUp"){ e.preventDefault(); pts[(i-1+pts.length) % pts.length].focus(); }
+  else if(e.key === "Home"){ e.preventDefault(); pts[0].focus(); }
+  else if(e.key === "End"){ e.preventDefault(); pts[pts.length-1].focus(); }
 });
+
+var field = $("field");
+field.addEventListener("click", function(e){
+  var act = e.target.closest("[data-act]");
+  if(act){
+    var a = act.getAttribute("data-act");
+    if(a === "place") placeOwn();
+    else if(a === "remove") removeOwn();
+    else if(a === "edit"){ editing = true; armed = null; render({}); var ta = $("own-text"); if(ta) ta.focus(); }
+    else if(a === "cancel"){ editing = false; render({}); }
+    return;
+  }
+  var tok = e.target.closest(".tok"); if(tok){ onToken(tok); }
+});
+field.addEventListener("keydown", function(e){
+  var tok = e.target.closest(".tok");
+  if(tok){
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); onToken(tok); }
+    else if(e.key === "Escape" && armed){ e.preventDefault(); armed = null; render({}); note("own-note", "Cleared."); }
+    else if((e.key === "Delete" || e.key === "Backspace") && tok.hasAttribute("data-own") && tok.hasAttribute("data-ln")){
+      e.preventDefault(); var own = currentOwn(), at = linkIndexFor(own, +tok.getAttribute("data-own"));
+      if(at !== -1){ own.links.splice(at, 1); armed = null; render({}); note("own-note", "Unlinked."); }
+    }
+    return;
+  }
+  if(e.key === "Enter" && (e.ctrlKey || e.metaKey) && e.target.id === "own-text"){ e.preventDefault(); placeOwn(); }
+});
+field.addEventListener("mouseover", function(e){ var t = e.target.closest(".tok[data-ln]"); if(t) showLeader(t); });
+field.addEventListener("mouseout", function(e){
+  if(!e.target.closest(".tok[data-ln]")) return;
+  var a = document.activeElement, f = a && a.closest ? a.closest(".tok[data-ln]") : null;
+  if(f) showLeader(f); else clearLeader();
+});
+field.addEventListener("focusin", function(e){ var t = e.target.closest(".tok[data-ln]"); if(t) showLeader(t); else clearLeader(); });
+field.addEventListener("focusout", function(e){ var t = e.target.closest(".tok[data-ln]"); if(t) clearLeader(); });
+window.addEventListener("resize", clearLeader);
+
 $("copy").addEventListener("click", copyText);
 $("fresh").addEventListener("click", function(){
-  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
-  state = { exchange: EXCHANGES[0].id, lens: LENSES[0].id, own: {}, changes: 0 };
+  try{ localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEGACY_KEY); }catch(e){}
+  state = { exchange: EXCHANGES[0].id, lensA: LENSES[0].id, lensB: null, dual: false, held: "a", own: {}, changes: 0 };
+  armed = null; editing = false;
   render({ animate:true });
   note("export-note", "Cleared. Nothing saved in this browser now.");
 });

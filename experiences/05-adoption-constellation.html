@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Adoption Constellation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+  /* night-ground derivations */
+  --fg:var(--paper);
+  --fg-soft:#C3CCD1;
+  --line:rgba(251,247,239,.14);
+  --line-strong:rgba(251,247,239,.28);
+  --field:#16212A;
+  --focus:var(--sunny);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--night);
+  color:var(--fg);
+  font-family:"Nunito",system-ui,sans-serif;
+  font-weight:600;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 40px}
+.chip{
+  display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:800;color:var(--sky-100);background:rgba(79,163,209,.18);
+  border:1px solid rgba(79,163,209,.45);border-radius:999px;padding:4px 10px;
+}
+h1{font-size:clamp(28px,4.2vw,44px);font-weight:900;line-height:1.1;margin:14px 0 8px;letter-spacing:-.01em}
+.lede{font-size:17px;max-width:62ch;margin:0 0 14px;color:var(--fg)}
+details.howto{
+  max-width:62ch;border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:0 0 18px;
+  background:rgba(36,51,62,.6)
+}
+details.howto summary{cursor:pointer;font-weight:800;color:var(--sunny-100);padding:4px 0}
+details.howto summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+details.howto ol{margin:8px 0 6px;padding-left:20px}
+details.howto li{margin:4px 0;color:var(--fg)}
+.intro{max-width:62ch;margin:0 0 22px;color:var(--fg-soft);font-size:15px}
+.intro p{margin:0 0 8px}
+.intro strong{color:var(--fg)}
+
+/* toolbar */
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-start;
+  padding:12px 0 14px;border-top:1px solid var(--line)
+}
+.group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.group-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--fg-soft);margin-right:4px}
+button,.btn{
+  font:inherit;font-weight:800;font-size:14px;color:var(--fg);
+  background:var(--night-2);border:1px solid var(--line-strong);border-radius:999px;
+  padding:7px 14px;cursor:pointer;line-height:1.2;
+  display:inline-flex;align-items:center;gap:7px;text-decoration:none
+}
+button:hover,.btn:hover{border-color:var(--sky)}
+button:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{
+  outline:3px solid var(--focus);outline-offset:2px
+}
+button[aria-pressed="true"]{background:var(--sky-d);border-color:var(--sky);color:#fff}
+button.quiet-on[aria-pressed="true"]{background:var(--night);border-color:var(--sunny);color:var(--sunny-100)}
+button.danger{border-color:rgba(240,138,120,.55);color:var(--coral-100)}
+button.danger:hover{border-color:var(--coral)}
+button.small{font-size:13px;padding:5px 11px}
+button.icon{padding:7px 9px}
+button svg,.btn svg{width:16px;height:16px;flex:none}
+.typepick{display:flex;flex-wrap:wrap;gap:6px}
+.typepick label{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;
+  border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px 5px 8px;cursor:pointer;background:var(--night-2)
+}
+.typepick label:has(input:checked){border-color:var(--sky);background:rgba(79,163,209,.18)}
+.typepick label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.typepick input{position:absolute;opacity:0;width:1px;height:1px}
+.typepick svg{width:44px;height:12px;flex:none}
+.hint{font-size:13px;color:var(--fg-soft);margin:2px 0 0;min-height:1.2em}
+
+/* layout */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+@media (max-width:880px){.stage{grid-template-columns:minmax(0,1fr)}}
+.fieldwrap{
+  background:var(--field);border:1px solid var(--line);border-radius:var(--round);
+  overflow:hidden;position:relative
+}
+svg.field{display:block;width:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+svg.field text{font-family:"Nunito",system-ui,sans-serif;font-weight:700;font-size:13px;fill:var(--fg);
+  paint-order:stroke;stroke:var(--field);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+svg.field.quiet text{display:none}
+.star{cursor:grab;outline:none}
+.star.dragging{cursor:grabbing}
+.star .glow{fill:var(--sunny);opacity:.16}
+.star .core{fill:var(--sunny)}
+.star .ring{fill:none;stroke:var(--sky);stroke-width:2;opacity:0}
+.star.selected .ring{opacity:1}
+.star:focus-visible .ring{opacity:1;stroke:var(--sunny-100);stroke-dasharray:3 3}
+.star.linkfirst .ring{opacity:1;stroke:var(--sunny);stroke-width:2.5}
+.star.dim .glow{opacity:.06}
+.star.dim .core{opacity:.35}
+.star.dim text{opacity:.4}
+.star.blank .core{fill:var(--sunny-100);opacity:.75}
+.link .hit{stroke:transparent;stroke-width:16;fill:none;cursor:pointer;pointer-events:stroke}
+.link .vis{fill:none;stroke:var(--sky);stroke-linecap:round}
+.link .vis.two{stroke:var(--sunny)}
+.link.dimmed .vis{opacity:.3}
+.link.selected .vis{filter:drop-shadow(0 0 3px rgba(79,163,209,.9))}
+.link:focus-visible{outline:none}
+.link:focus-visible .vis{stroke:var(--sunny-100)}
+.area{cursor:grab;outline:none}
+.area .body{fill:rgba(251,247,239,.04);stroke:rgba(251,247,239,.35);stroke-width:1.5;stroke-dasharray:2 7;stroke-linecap:round}
+.area.selected .body,.area:focus-visible .body{stroke:var(--sky);stroke-dasharray:2 5}
+.area .handle{fill:var(--night-2);stroke:var(--sky);stroke-width:1.5;cursor:nwse-resize}
+.area .handle:focus-visible{stroke:var(--sunny)}
+.fieldnote{font-size:13px;color:var(--fg-soft);margin:10px 0 0}
+.fieldnote p{margin:0 0 6px}
+
+/* panel */
+.panel{
+  background:var(--night-2);border-radius:var(--round);padding:18px;box-shadow:var(--sh);
+  border:1px solid var(--line)
+}
+.panel h2{font-size:16px;margin:0 0 10px;color:var(--sunny-100);font-weight:900}
+.panel h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-soft);margin:16px 0 6px;font-weight:800}
+.panel p{margin:0 0 10px;font-size:14px;color:var(--fg-soft)}
+.panel .muted{font-size:13px}
+label.f{display:block;font-size:13px;font-weight:800;color:var(--fg-soft);margin:10px 0 4px}
+input[type=text],textarea,select{
+  width:100%;font:inherit;font-weight:600;font-size:15px;color:var(--fg);
+  background:var(--night);border:1px solid var(--line-strong);border-radius:10px;padding:8px 10px
+}
+textarea{min-height:88px;resize:vertical}
+select{appearance:auto}
+.check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:14px}
+.check input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--sky);flex:none}
+.nudge{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,36px);gap:4px;margin:6px 0 2px}
+.nudge button{padding:0;justify-content:center;border-radius:10px}
+.nudge .u{grid-column:2;grid-row:1}.nudge .l{grid-column:1;grid-row:2}.nudge .d{grid-column:2;grid-row:2}.nudge .r{grid-column:3;grid-row:2}
+.linkrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:center;margin:6px 0}
+.linkrow .who{font-size:13px;font-weight:800;grid-column:1/-1;overflow-wrap:anywhere}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.confirm{
+  border:1px solid rgba(240,138,120,.5);border-radius:12px;padding:12px;margin-top:12px;
+  background:rgba(240,138,120,.08)
+}
+.confirm p{margin:0 0 10px;color:var(--fg)}
+.status{font-size:13px;color:var(--sunny-100);min-height:1.3em;margin-top:8px}
+
+/* tonight + keep */
+.below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:22px}
+@media (max-width:880px){.below{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--night-2);border-radius:var(--round);padding:18px;box-shadow:var(--sh);border:1px solid var(--line)}
+.card h2{font-size:18px;margin:0 0 6px;font-weight:900;color:var(--sunny-100)}
+.card p{margin:0 0 10px;font-size:14px;color:var(--fg-soft)}
+.skyform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+.skylist{list-style:none;margin:14px 0 0;padding:0}
+.skylist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.skylist .d{font-size:12px;color:var(--fg-soft);font-weight:800;white-space:nowrap;padding-top:2px}
+.skylist .t{overflow-wrap:anywhere}
+.skylist .empty{display:block;color:var(--fg-soft);font-size:13px;border:0}
+textarea.export{font-size:12px;min-height:60px;margin-top:8px}
+input[type=file]{font:inherit;font-size:13px;color:var(--fg-soft);max-width:100%}
+.imp{margin-top:10px}
+
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--fg-soft)}
+footer .crisis{color:var(--fg);margin:0 0 12px;max-width:62ch}
+footer a{color:var(--sky-100)}
+.sig{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (prefers-reduced-motion:no-preference){
+  .star .ring,.star .glow,.link .vis{transition:opacity .18s ease}
+  button{transition:border-color .15s ease,background-color .15s ease}
+}
+@media (max-width:480px){
+  .wrap{padding-top:20px}
+  .panel,.card{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="chip">Beyond The Sun Therapy</span>
+    <h1>The Adoption Constellation</h1>
+    <p class="lede">Place the parts of your adoption story as stars, and set them as near or far from each other as they are for you.</p>
+    <details class="howto">
+      <summary>How to use this</summary>
+      <ol>
+        <li>Drag a star to move it. Or tab to a star and press the arrow keys.</li>
+        <li>To draw a line, choose a line type, switch to Link, then click two stars. The same two stars can hold more than one line.</li>
+        <li>Click a star in Move mode to rename it, write a private note, dim it, or remove it.</li>
+        <li>Add an undefined area for anything you are choosing not to name yet.</li>
+        <li>The starting places mean nothing. Nothing here is scored, sorted, or read back to you.</li>
+      </ol>
+    </details>
+    <div class="intro">
+      <p><strong>Nothing here needs to resolve.</strong> Two stars can be close and in tension at the same time. A star can stay blank. Space can stay undefined.</p>
+      <p>This page does not suggest an arrangement, and it never comments on where you put things. What you make stays in this browser on this device. No one else sees it unless you export it and choose to share it. This page is not therapy.</p>
+    </div>
+  </header>
+
+  <div class="toolbar" role="toolbar" aria-label="Field tools">
+    <div class="group" role="group" aria-label="Mode">
+      <span class="group-label">Mode</span>
+      <button type="button" id="modeMove" aria-pressed="true">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14M8 1l-2.5 2.5M8 1l2.5 2.5M8 15l-2.5-2.5M8 15l2.5-2.5M1 8l2.5-2.5M1 8l2.5 2.5M15 8l-2.5-2.5M15 8l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Move
+      </button>
+      <button type="button" id="modeLink" aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="13" r="2" fill="currentColor"/><circle cx="13" cy="3" r="2" fill="currentColor"/><path d="M4.5 11.5l7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Link
+      </button>
+    </div>
+    <div class="group" id="linkTypes" role="radiogroup" aria-label="Line type to draw next">
+      <span class="group-label">Line</span>
+      <div class="typepick" id="typePick"></div>
+    </div>
+    <div class="group" role="group" aria-label="Add">
+      <span class="group-label">Add</span>
+      <button type="button" id="addStar">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Star
+      </button>
+      <button type="button" id="addBlank">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Blank star
+      </button>
+      <button type="button" id="addArea">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="8" rx="6" ry="4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.5 3" stroke-linecap="round"/></svg>
+        Undefined area
+      </button>
+    </div>
+    <div class="group" role="group" aria-label="View">
+      <span class="group-label">View</span>
+      <button type="button" id="quietBtn" class="quiet-on" aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><circle cx="2.5" cy="3" r="1.2" fill="currentColor"/><circle cx="13.5" cy="12.5" r="1.2" fill="currentColor"/><circle cx="13" cy="3.5" r=".9" fill="currentColor"/></svg>
+        Quiet mode
+      </button>
+    </div>
+  </div>
+  <p class="hint" id="modeHint" aria-live="polite"></p>
+
+  <div class="stage">
+    <div>
+      <div class="fieldwrap">
+        <svg class="field" id="field" role="group" aria-label="Your constellation field" xmlns="http://www.w3.org/2000/svg">
+          <g id="gAreas"></g>
+          <g id="gLinks"></g>
+          <g id="gStars"></g>
+        </svg>
+      </div>
+      <div class="fieldnote">
+        <p>Some stars name real things. In many US states an adoptee's original birth certificate is sealed after adoption and an amended one takes its place. That is one reason "Records and papers" has its own star.</p>
+        <p>"Not knowing" has a name in the field, ambiguous loss. You do not have to use that name, or any name.</p>
+      </div>
+    </div>
+
+    <aside class="panel" id="panel" aria-live="polite">
+      <!-- filled by script -->
+    </aside>
+  </div>
+
+  <div class="below">
+    <section class="card" aria-labelledby="skyH">
+      <h2 id="skyH">Tonight's sky</h2>
+      <p>One dated line. Whatever is true tonight. It does not have to match the field.</p>
+      <form class="skyform" id="skyForm">
+        <div>
+          <label class="f" for="skyText">Tonight</label>
+          <input type="text" id="skyText" maxlength="240" autocomplete="off">
+        </div>
+        <button type="submit">Keep this line</button>
+      </form>
+      <ul class="skylist" id="skyList"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="keepH">
+      <h2 id="keepH">Keep, move, or clear</h2>
+      <p>Everything on this page is saved in this browser only. Export to keep a copy or to move it to another device.</p>
+      <div class="row">
+        <a class="btn" id="dlJson" href="#" download="constellation.json">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download as JSON
+        </a>
+        <button type="button" id="copyText">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="8" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Copy as text
+        </button>
+      </div>
+      <textarea class="export" id="exportBox" aria-label="Text version of your constellation" readonly hidden></textarea>
+      <div class="imp">
+        <label class="f" for="impFile">Import a JSON file you exported earlier</label>
+        <input type="file" id="impFile" accept="application/json,.json">
+      </div>
+      <div class="row">
+        <button type="button" class="danger" id="freshBtn">Start fresh</button>
+      </div>
+      <div class="confirm" id="freshConfirm" hidden>
+        <p>This clears every star, line, area, note, and dated line saved on this device. Export first if you want a copy.</p>
+        <div class="row" style="margin-top:0">
+          <button type="button" class="danger" id="freshYes">Yes, start fresh</button>
+          <button type="button" id="freshNo">Keep it</button>
+        </div>
+      </div>
+      <p class="status" id="keepStatus" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <footer>
+    <p class="crisis">If tonight feels unsafe, call or text 988 (Suicide &amp; Crisis Lifeline, US). This page is not therapy and does not replace a person.</p>
+    <div class="sig">
+      <span>Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</span>
+      <a href="index.html">All experiences</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   HOW TO EDIT THE CONTENT
+   Everything a person reads lives in the three objects below:
+     START_STARS  the starting stars and where they first appear
+                  (nx, ny are fractions of the field, 0 to 1).
+     LINK_TYPES   the four line types, their names and drawing style.
+     COPY         every status message and panel label.
+   Change words there. The logic below does not need to change.
+   Saved data lives in localStorage under STORAGE_KEY. Changing
+   that key makes every visitor start fresh.
+   ============================================================ */
+
+var START_STARS = [
+  { name: "Identity",                      nx: .18, ny: .22 },
+  { name: "Belonging",                     nx: .42, ny: .16 },
+  { name: "Loss",                          nx: .70, ny: .20 },
+  { name: "Not knowing",                   nx: .86, ny: .40 },
+  { name: "Anger",                         nx: .30, ny: .42 },
+  { name: "Joy",                           nx: .56, ny: .36 },
+  { name: "Birth family",                  nx: .14, ny: .62 },
+  { name: "The family I live with",        nx: .42, ny: .66 },
+  { name: "My name(s)",                    nx: .66, ny: .58 },
+  { name: "My body's story",               nx: .84, ny: .72 },
+  { name: "Records and papers",            nx: .24, ny: .86 },
+  { name: "Loyalty",                       nx: .50, ny: .78 },
+  { name: "Privacy",                       nx: .74, ny: .86 },
+  { name: "Questions no one has answered", nx: .70, ny: .06 },
+  { name: "",  blank: true,                nx: .08, ny: .42 }
+];
+
+var LINK_TYPES = [
+  { id: "connected", label: "connected",        desc: "one solid line" },
+  { id: "tension",   label: "in tension",       desc: "two taut lines" },
+  { id: "both",      label: "both true at once", desc: "two colors braided" },
+  { id: "unknown",   label: "unknown",          desc: "dotted" }
+];
+
+var COPY = {
+  hintMove: "Move mode. Drag a star, or focus it and use the arrow keys. Click a star to edit it.",
+  hintLinkFirst: "Link mode. Click the first star.",
+  hintLinkSecond: "Now click the second star. Press Escape to cancel.",
+  nothingSelected: "Nothing selected",
+  nothingSelectedBody: "Click a star, a line, or an undefined area to edit it here.",
+  starTitle: "Star",
+  blankStarTitle: "Blank star",
+  nameLabel: "Name",
+  namePlaceholder: "Leave empty to keep this star blank",
+  noteLabel: "Private note",
+  notePlaceholder: "Only you read this.",
+  dimLabel: "Dim this star. It stays in the sky, less visible.",
+  nudgeLabel: "Move with buttons",
+  linesFrom: "Lines from this star",
+  noLines: "No lines yet.",
+  removeStar: "Remove star",
+  removeStarSure: "Remove it and its lines",
+  cancel: "Cancel",
+  linkTitle: "Line",
+  linkBetween: "Between",
+  linkTypeLabel: "This line is",
+  removeLink: "Remove line",
+  areaTitle: "Undefined area",
+  areaBody: "A soft boundary with no label. Drag it to move it. Drag the small handle to resize it.",
+  areaSize: "Resize with buttons",
+  removeArea: "Remove area",
+  wider: "Wider", narrower: "Narrower", taller: "Taller", shorter: "Shorter",
+  up: "Up", down: "Down", left: "Left", right: "Right",
+  newStar: "New star",
+  linked: function (a, b, t) { return "Line drawn. " + a + " and " + b + ", " + t + "."; },
+  sameStar: "Pick a different second star.",
+  skyEmpty: "No dated lines yet.",
+  removeEntry: "Remove",
+  copied: "Copied as text.",
+  copyFallback: "Select the text below and copy it.",
+  imported: "Imported. Your field now shows that file.",
+  importBad: "That file could not be read as a constellation export.",
+  freshDone: "Cleared. The starting stars are back in their starting places.",
+  starDefault: "Star",
+  blankName: "Blank star",
+  quietOn: "Quiet mode on. Labels hidden.",
+  quietOff: "Quiet mode off."
+};
+
+var STORAGE_KEY = "bts-constellation-v1";
+
+/* ---------------- state ---------------- */
+function uid() { return Math.random().toString(36).slice(2, 9); }
+function freshState() {
+  return {
+    v: 1,
+    stars: START_STARS.map(function (s) {
+      return { id: uid(), name: s.blank ? "" : s.name, blank: !!s.blank, nx: s.nx, ny: s.ny, note: "", dim: false };
+    }),
+    links: [],
+    areas: [],
+    sky: [],
+    quiet: false
+  };
+}
+function load() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    var d = JSON.parse(raw);
+    return validState(d) ? d : null;
+  } catch (e) { return null; }
+}
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); } catch (e) {}
+  refreshExport();
+}
+function validState(d) {
+  if (!d || typeof d !== "object") return false;
+  if (!Array.isArray(d.stars) || !Array.isArray(d.links) || !Array.isArray(d.areas) || !Array.isArray(d.sky)) return false;
+  var ok = d.stars.every(function (s) { return s && typeof s.id === "string" && typeof s.nx === "number" && typeof s.ny === "number"; });
+  var ids = {};
+  d.stars.forEach(function (s) { ids[s.id] = true; });
+  ok = ok && d.links.every(function (l) { return l && ids[l.a] && ids[l.b] && LINK_TYPES.some(function (t) { return t.id === l.type; }); });
+  ok = ok && d.areas.every(function (a) { return a && typeof a.nx === "number" && typeof a.ny === "number" && typeof a.nw === "number" && typeof a.nh === "number"; });
+  return ok;
+}
+function normalize(d) {
+  d.stars.forEach(function (s) {
+    s.name = typeof s.name === "string" ? s.name : "";
+    s.note = typeof s.note === "string" ? s.note : "";
+    s.dim = !!s.dim; s.blank = !!s.blank;
+    s.nx = clamp(s.nx, 0, 1); s.ny = clamp(s.ny, 0, 1);
+  });
+  d.links.forEach(function (l) { if (!l.id) l.id = uid(); });
+  d.areas.forEach(function (a) { if (!a.id) a.id = uid(); });
+  d.sky = d.sky.filter(function (e) { return e && typeof e.text === "string"; });
+  d.quiet = !!d.quiet;
+  return d;
+}
+
+var S = normalize(load() || freshState());
+var UI = { mode: "move", type: "connected", sel: null, linkFirst: null, removeArmed: false };
+
+/* ---------------- helpers ---------------- */
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function star(id) { for (var i = 0; i < S.stars.length; i++) if (S.stars[i].id === id) return S.stars[i]; return null; }
+function link(id) { for (var i = 0; i < S.links.length; i++) if (S.links[i].id === id) return S.links[i]; return null; }
+function area(id) { for (var i = 0; i < S.areas.length; i++) if (S.areas[i].id === id) return S.areas[i]; return null; }
+function typeInfo(t) { for (var i = 0; i < LINK_TYPES.length; i++) if (LINK_TYPES[i].id === t) return LINK_TYPES[i]; return LINK_TYPES[3]; }
+function displayName(s) { return s.name.trim() ? s.name.trim() : COPY.blankName; }
+function el(tag, attrs, children) {
+  var n = document.createElement(tag);
+  if (attrs) Object.keys(attrs).forEach(function (k) {
+    if (k === "text") n.textContent = attrs[k];
+    else if (k === "html") n.innerHTML = attrs[k];
+    else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), attrs[k]);
+    else n.setAttribute(k, attrs[k]);
+  });
+  (children || []).forEach(function (c) { if (c) n.appendChild(c); });
+  return n;
+}
+var SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs) {
+  var n = document.createElementNS(SVGNS, tag);
+  if (attrs) Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+  return n;
+}
+function iconSvg(path) {
+  return '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="' + path + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+var ARROWS = { u: "M8 13V3M4 7l4-4 4 4", d: "M8 3v10M4 9l4 4 4-4", l: "M13 8H3M7 4L3 8l4 4", r: "M3 8h10M9 4l4 4-4 4" };
+
+/* ---------------- field geometry ---------------- */
+var field = document.getElementById("field");
+var gAreas = document.getElementById("gAreas"), gLinks = document.getElementById("gLinks"), gStars = document.getElementById("gStars");
+var W = 800, H = 560;
+function measure() {
+  var wrap = field.parentNode;
+  W = Math.max(280, wrap.clientWidth);
+  H = Math.round(Math.max(480, Math.min(720, W * 0.68)));
+  field.setAttribute("viewBox", "0 0 " + W + " " + H);
+  field.setAttribute("width", W);
+  field.setAttribute("height", H);
+}
+function toField(e) {
+  var r = field.getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+/* ---------------- build (structure) ---------------- */
+var starEls = {}, linkEls = {}, areaEls = {};
+function build() {
+  gAreas.innerHTML = ""; gLinks.innerHTML = ""; gStars.innerHTML = "";
+  starEls = {}; linkEls = {}; areaEls = {};
+  S.areas.forEach(buildArea);
+  S.links.forEach(buildLink);
+  S.stars.forEach(buildStar);
+  field.classList.toggle("quiet", S.quiet);
+  layout();
+}
+function buildStar(s) {
+  var g = svgEl("g", { "class": "star", tabindex: "0", role: "button", "data-id": s.id });
+  var glow = svgEl("circle", { "class": "glow", r: 15 });
+  var ring = svgEl("circle", { "class": "ring", r: 11 });
+  var core = svgEl("circle", { "class": "core", r: s.blank && !s.name.trim() ? 4 : 5 });
+  var label = svgEl("text", { y: 24, "text-anchor": "middle" });
+  g.appendChild(glow); g.appendChild(ring); g.appendChild(core); g.appendChild(label);
+  g.addEventListener("pointerdown", onStarDown);
+  g.addEventListener("pointermove", onStarMove);
+  g.addEventListener("pointerup", onStarUp);
+  g.addEventListener("pointercancel", onStarUp);
+  g.addEventListener("keydown", onStarKey);
+  gStars.appendChild(g);
+  starEls[s.id] = g;
+  refreshStar(s);
+}
+function refreshStar(s) {
+  var g = starEls[s.id]; if (!g) return;
+  var nm = s.name.trim();
+  g.querySelector("text").textContent = nm;
+  g.classList.toggle("dim", !!s.dim);
+  g.classList.toggle("blank", !nm);
+  g.classList.toggle("selected", !!(UI.sel && UI.sel.kind === "star" && UI.sel.id === s.id));
+  g.classList.toggle("linkfirst", UI.linkFirst === s.id);
+  var hint = UI.mode === "link" ? "Enter picks it for a line." : "Enter edits it. Arrow keys move it.";
+  g.setAttribute("aria-label", (nm ? nm : COPY.blankName) + (s.dim ? ", dimmed" : "") + ". " + hint);
+}
+function buildLink(l) {
+  var g = svgEl("g", { "class": "link", tabindex: "0", role: "button", "data-id": l.id });
+  var hit = svgEl("path", { "class": "hit" });
+  g.appendChild(hit);
+  var t = l.type;
+  if (t === "connected") {
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2 }));
+  } else if (t === "tension") {
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": -2.4 }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": 2.4 }));
+  } else if (t === "both") {
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2.6, "stroke-dasharray": "9 9" }));
+    g.appendChild(svgEl("path", { "class": "vis two", "stroke-width": 2.6, "stroke-dasharray": "9 9", "stroke-dashoffset": 9 }));
+  } else {
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2.2, "stroke-dasharray": "0.5 6" }));
+  }
+  g.addEventListener("click", function () { select({ kind: "link", id: l.id }); });
+  g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select({ kind: "link", id: l.id }); } });
+  gLinks.appendChild(g);
+  linkEls[l.id] = g;
+  refreshLink(l);
+}
+function refreshLink(l) {
+  var g = linkEls[l.id]; if (!g) return;
+  var a = star(l.a), b = star(l.b);
+  g.classList.toggle("dimmed", !!(a && b && (a.dim || b.dim)));
+  g.classList.toggle("selected", !!(UI.sel && UI.sel.kind === "link" && UI.sel.id === l.id));
+  g.setAttribute("aria-label", "Line. " + (a ? displayName(a) : "?") + " and " + (b ? displayName(b) : "?") + ", " + typeInfo(l.type).label + ". Enter edits it.");
+}
+function buildArea(a) {
+  var g = svgEl("g", { "class": "area", tabindex: "0", role: "button", "data-id": a.id, "aria-label": "Undefined area. Enter edits it. Arrow keys move it." });
+  var body = svgEl("ellipse", { "class": "body" });
+  var handle = svgEl("circle", { "class": "handle", r: 6, tabindex: "-1" });
+  g.appendChild(body); g.appendChild(handle);
+  body.addEventListener("pointerdown", function (e) { onAreaDown(e, a.id, "move"); });
+  handle.addEventListener("pointerdown", function (e) { onAreaDown(e, a.id, "size"); });
+  g.addEventListener("pointermove", onAreaMove);
+  g.addEventListener("pointerup", onAreaUp);
+  g.addEventListener("pointercancel", onAreaUp);
+  g.addEventListener("keydown", function (e) { onAreaKey(e, a.id); });
+  gAreas.appendChild(g);
+  areaEls[a.id] = g;
+  refreshArea(a);
+}
+function refreshArea(a) {
+  var g = areaEls[a.id]; if (!g) return;
+  g.classList.toggle("selected", !!(UI.sel && UI.sel.kind === "area" && UI.sel.id === a.id));
+}
+
+/* ---------------- layout (positions only) ---------------- */
+function layout() {
+  S.areas.forEach(function (a) {
+    var g = areaEls[a.id]; if (!g) return;
+    var cx = a.nx * W, cy = a.ny * H, rx = Math.max(24, a.nw * W / 2), ry = Math.max(24, a.nh * H / 2);
+    var body = g.querySelector(".body"), h = g.querySelector(".handle");
+    body.setAttribute("cx", cx); body.setAttribute("cy", cy); body.setAttribute("rx", rx); body.setAttribute("ry", ry);
+    h.setAttribute("cx", cx + rx * 0.707); h.setAttribute("cy", cy + ry * 0.707);
+  });
+  S.stars.forEach(function (s) {
+    var g = starEls[s.id]; if (!g) return;
+    var x = s.nx * W, y = s.ny * H;
+    g.setAttribute("transform", "translate(" + x.toFixed(1) + " " + y.toFixed(1) + ")");
+    var t = g.querySelector("text");
+    if (x < 110) { t.setAttribute("text-anchor", "start"); t.setAttribute("x", -10); }
+    else if (x > W - 110) { t.setAttribute("text-anchor", "end"); t.setAttribute("x", 10); }
+    else { t.setAttribute("text-anchor", "middle"); t.setAttribute("x", 0); }
+    if (y > H - 30) { t.setAttribute("y", -16); } else { t.setAttribute("y", 24); }
+  });
+  /* lines, with offsets so several lines between the same two stars sit side by side */
+  var pairs = {};
+  S.links.forEach(function (l) {
+    var key = l.a < l.b ? l.a + "|" + l.b : l.b + "|" + l.a;
+    (pairs[key] = pairs[key] || []).push(l);
+  });
+  Object.keys(pairs).forEach(function (key) {
+    var list = pairs[key], n = list.length;
+    list.forEach(function (l, i) {
+      var g = linkEls[l.id]; if (!g) return;
+      var a = star(l.a), b = star(l.b); if (!a || !b) return;
+      var ax = a.nx * W, ay = a.ny * H, bx = b.nx * W, by = b.ny * H;
+      var dx = bx - ax, dy = by - ay, len = Math.max(1, Math.hypot(dx, dy));
+      var ux = dx / len, uy = dy / len, px = -uy, py = ux;
+      var off = (i - (n - 1) / 2) * 9;
+      var pad = 11;
+      var x1 = ax + ux * pad + px * off, y1 = ay + uy * pad + py * off;
+      var x2 = bx - ux * pad + px * off, y2 = by - uy * pad + py * off;
+      var paths = g.querySelectorAll("path");
+      for (var k = 0; k < paths.length; k++) {
+        var o = parseFloat(paths[k].getAttribute("data-off") || "0");
+        paths[k].setAttribute("d", "M" + (x1 + px * o).toFixed(1) + " " + (y1 + py * o).toFixed(1) + " L" + (x2 + px * o).toFixed(1) + " " + (y2 + py * o).toFixed(1));
+      }
+    });
+  });
+}
+
+/* ---------------- star interaction ---------------- */
+var drag = null;
+function onStarDown(e) {
+  if (e.button !== undefined && e.button !== 0) return;
+  var id = e.currentTarget.getAttribute("data-id");
+  var s = star(id); if (!s) return;
+  var p = toField(e);
+  drag = { id: id, sx: p.x, sy: p.y, ox: s.nx, oy: s.ny, moved: false };
+  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+  e.preventDefault();
+}
+function onStarMove(e) {
+  if (!drag || drag.id !== e.currentTarget.getAttribute("data-id")) return;
+  if (UI.mode !== "move") return;
+  var p = toField(e);
+  var dx = p.x - drag.sx, dy = p.y - drag.sy;
+  if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+  drag.moved = true;
+  e.currentTarget.classList.add("dragging");
+  var s = star(drag.id);
+  s.nx = clamp(drag.ox + dx / W, 0.02, 0.98);
+  s.ny = clamp(drag.oy + dy / H, 0.03, 0.97);
+  layout();
+}
+function onStarUp(e) {
+  if (!drag) return;
+  var g = e.currentTarget, id = drag.id;
+  var moved = drag.moved;
+  drag = null;
+  g.classList.remove("dragging");
+  try { g.releasePointerCapture(e.pointerId); } catch (err) {}
+  if (moved) { save(); return; }
+  activateStar(id);
+}
+function activateStar(id) {
+  if (UI.mode === "link") {
+    if (!UI.linkFirst) { UI.linkFirst = id; refreshAll(); setHint(COPY.hintLinkSecond); return; }
+    if (UI.linkFirst === id) { setHint(COPY.sameStar); return; }
+    var l = { id: uid(), a: UI.linkFirst, b: id, type: UI.type };
+    S.links.push(l);
+    UI.linkFirst = null;
+    save(); build();
+    select({ kind: "link", id: l.id });
+    setHint(COPY.linked(displayName(star(l.a)), displayName(star(l.b)), typeInfo(l.type).label) + " " + COPY.hintLinkFirst);
+    return;
+  }
+  select({ kind: "star", id: id });
+}
+function onStarKey(e) {
+  var id = e.currentTarget.getAttribute("data-id");
+  var s = star(id); if (!s) return;
+  var step = e.shiftKey ? 0.06 : 0.015;
+  var map = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+  if (map[e.key]) {
+    e.preventDefault();
+    s.nx = clamp(s.nx + map[e.key][0] * step, 0.02, 0.98);
+    s.ny = clamp(s.ny + map[e.key][1] * step, 0.03, 0.97);
+    layout(); save();
+  } else if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault(); activateStar(id);
+  } else if (e.key === "Escape" && UI.linkFirst) {
+    UI.linkFirst = null; refreshAll(); setHint(COPY.hintLinkFirst);
+  }
+}
+function nudge(id, dx, dy) {
+  var s = star(id); if (!s) return;
+  s.nx = clamp(s.nx + dx * 0.03, 0.02, 0.98);
+  s.ny = clamp(s.ny + dy * 0.03, 0.03, 0.97);
+  layout(); save();
+}
+
+/* ---------------- area interaction ---------------- */
+var adrag = null;
+function onAreaDown(e, id, kind) {
+  if (e.button !== undefined && e.button !== 0) return;
+  var a = area(id); if (!a) return;
+  var p = toField(e);
+  adrag = { id: id, kind: kind, sx: p.x, sy: p.y, ox: a.nx, oy: a.ny, ow: a.nw, oh: a.nh, moved: false };
+  try { areaEls[id].setPointerCapture(e.pointerId); } catch (err) {}
+  e.preventDefault(); e.stopPropagation();
+}
+function onAreaMove(e) {
+  if (!adrag || adrag.id !== e.currentTarget.getAttribute("data-id")) return;
+  var p = toField(e), dx = p.x - adrag.sx, dy = p.y - adrag.sy;
+  if (!adrag.moved && Math.hypot(dx, dy) < 4) return;
+  adrag.moved = true;
+  var a = area(adrag.id);
+  if (adrag.kind === "move") {
+    a.nx = clamp(adrag.ox + dx / W, 0.03, 0.97);
+    a.ny = clamp(adrag.oy + dy / H, 0.03, 0.97);
+  } else {
+    a.nw = clamp(adrag.ow + (dx / 0.707) * 2 / W, 0.06, 1.2);
+    a.nh = clamp(adrag.oh + (dy / 0.707) * 2 / H, 0.08, 1.2);
+  }
+  layout();
+}
+function onAreaUp(e) {
+  if (!adrag) return;
+  var id = adrag.id, moved = adrag.moved;
+  adrag = null;
+  try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (err) {}
+  if (moved) { save(); return; }
+  select({ kind: "area", id: id });
+}
+function onAreaKey(e, id) {
+  var a = area(id); if (!a) return;
+  var step = e.shiftKey ? 0.06 : 0.015;
+  var map = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+  if (map[e.key]) {
+    e.preventDefault();
+    a.nx = clamp(a.nx + map[e.key][0] * step, 0.03, 0.97);
+    a.ny = clamp(a.ny + map[e.key][1] * step, 0.03, 0.97);
+    layout(); save();
+  } else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select({ kind: "area", id: id }); }
+}
+function resizeArea(id, dw, dh) {
+  var a = area(id); if (!a) return;
+  a.nw = clamp(a.nw + dw * 0.05, 0.06, 1.2);
+  a.nh = clamp(a.nh + dh * 0.05, 0.08, 1.2);
+  layout(); save();
+}
+
+/* ---------------- selection + panel ---------------- */
+function select(sel) {
+  UI.sel = sel; UI.removeArmed = false;
+  refreshAll(); renderPanel();
+}
+function refreshAll() {
+  S.stars.forEach(refreshStar); S.links.forEach(refreshLink); S.areas.forEach(refreshArea);
+}
+var panel = document.getElementById("panel");
+function renderPanel() {
+  panel.innerHTML = "";
+  var sel = UI.sel;
+  if (sel && sel.kind === "star" && star(sel.id)) return renderStarPanel(star(sel.id));
+  if (sel && sel.kind === "link" && link(sel.id)) return renderLinkPanel(link(sel.id));
+  if (sel && sel.kind === "area" && area(sel.id)) return renderAreaPanel(area(sel.id));
+  UI.sel = null;
+  panel.appendChild(el("h2", { text: COPY.nothingSelected }));
+  panel.appendChild(el("p", { text: COPY.nothingSelectedBody }));
+}
+function renderStarPanel(s) {
+  panel.appendChild(el("h2", { text: s.name.trim() ? s.name.trim() : COPY.blankStarTitle }));
+  var nameId = "nm-" + s.id, noteId = "nt-" + s.id, dimId = "dm-" + s.id;
+  panel.appendChild(el("label", { "class": "f", "for": nameId, text: COPY.nameLabel }));
+  var name = el("input", { type: "text", id: nameId, maxlength: "60", placeholder: COPY.namePlaceholder, autocomplete: "off" });
+  name.value = s.name;
+  name.addEventListener("input", function () {
+    s.name = name.value;
+    refreshStar(s); S.links.forEach(refreshLink); save();
+    panel.querySelector("h2").textContent = s.name.trim() ? s.name.trim() : COPY.blankStarTitle;
+  });
+  panel.appendChild(name);
+
+  panel.appendChild(el("label", { "class": "f", "for": noteId, text: COPY.noteLabel }));
+  var note = el("textarea", { id: noteId, placeholder: COPY.notePlaceholder, maxlength: "2000" });
+  note.value = s.note;
+  note.addEventListener("input", function () { s.note = note.value; save(); });
+  panel.appendChild(note);
+
+  var dim = el("input", { type: "checkbox", id: dimId });
+  dim.checked = !!s.dim;
+  dim.addEventListener("change", function () { s.dim = dim.checked; refreshStar(s); S.links.forEach(refreshLink); save(); });
+  panel.appendChild(el("div", { "class": "check" }, [dim, el("label", { "for": dimId, text: COPY.dimLabel })]));
+
+  panel.appendChild(el("h3", { text: COPY.nudgeLabel }));
+  var nd = el("div", { "class": "nudge" });
+  [["u", 0, -1], ["l", -1, 0], ["d", 0, 1], ["r", 1, 0]].forEach(function (k) {
+    nd.appendChild(el("button", { type: "button", "class": k[0], "aria-label": COPY[{ u: "up", d: "down", l: "left", r: "right" }[k[0]]], html: iconSvg(ARROWS[k[0]]), onclick: function () { nudge(s.id, k[1], k[2]); } }));
+  });
+  panel.appendChild(nd);
+
+  panel.appendChild(el("h3", { text: COPY.linesFrom }));
+  var mine = S.links.filter(function (l) { return l.a === s.id || l.b === s.id; });
+  if (!mine.length) panel.appendChild(el("p", { "class": "muted", text: COPY.noLines }));
+  mine.forEach(function (l) {
+    var other = star(l.a === s.id ? l.b : l.a);
+    var row = el("div", { "class": "linkrow" });
+    row.appendChild(el("span", { "class": "who", text: "with " + (other ? displayName(other) : "?") }));
+    row.appendChild(typeSelect(l));
+    row.appendChild(el("button", { type: "button", "class": "small danger", text: COPY.removeLink, onclick: function () { removeLink(l.id); renderPanel(); } }));
+    panel.appendChild(row);
+  });
+
+  var rowb = el("div", { "class": "row" });
+  var rm = el("button", { type: "button", "class": "danger", text: UI.removeArmed ? COPY.removeStarSure : COPY.removeStar });
+  rm.addEventListener("click", function () {
+    if (!UI.removeArmed) { UI.removeArmed = true; rm.textContent = COPY.removeStarSure; rowb.appendChild(cancelBtn); return; }
+    S.links = S.links.filter(function (l) { return l.a !== s.id && l.b !== s.id; });
+    S.stars = S.stars.filter(function (x) { return x.id !== s.id; });
+    UI.sel = null; save(); build(); renderPanel();
+  });
+  var cancelBtn = el("button", { type: "button", text: COPY.cancel, onclick: function () { UI.removeArmed = false; renderPanel(); } });
+  rowb.appendChild(rm);
+  panel.appendChild(rowb);
+}
+function typeSelect(l) {
+  var sel = el("select", { "aria-label": COPY.linkTypeLabel });
+  LINK_TYPES.forEach(function (t) {
+    var o = el("option", { value: t.id, text: t.label });
+    if (t.id === l.type) o.selected = true;
+    sel.appendChild(o);
+  });
+  sel.addEventListener("change", function () {
+    l.type = sel.value; save(); build();
+    if (UI.sel && UI.sel.kind === "link") renderPanel();
+  });
+  return sel;
+}
+function removeLink(id) {
+  S.links = S.links.filter(function (l) { return l.id !== id; });
+  if (UI.sel && UI.sel.kind === "link" && UI.sel.id === id) UI.sel = null;
+  save(); build();
+}
+function renderLinkPanel(l) {
+  var a = star(l.a), b = star(l.b);
+  panel.appendChild(el("h2", { text: COPY.linkTitle }));
+  panel.appendChild(el("p", { text: COPY.linkBetween + " " + displayName(a) + " and " + displayName(b) + "." }));
+  panel.appendChild(el("h3", { text: COPY.linkTypeLabel }));
+  var tp = el("div", { "class": "typepick", role: "radiogroup", "aria-label": COPY.linkTypeLabel });
+  LINK_TYPES.forEach(function (t) {
+    var r = el("input", { type: "radio", name: "lt-" + l.id, value: t.id });
+    r.checked = (t.id === l.type);
+    r.addEventListener("change", function () { l.type = t.id; save(); build(); renderPanel(); });
+    tp.appendChild(el("label", {}, [r, sampleSvg(t.id), el("span", { text: t.label })]));
+  });
+  panel.appendChild(tp);
+  panel.appendChild(el("div", { "class": "row" }, [
+    el("button", { type: "button", "class": "danger", text: COPY.removeLink, onclick: function () { removeLink(l.id); renderPanel(); } })
+  ]));
+}
+function renderAreaPanel(a) {
+  panel.appendChild(el("h2", { text: COPY.areaTitle }));
+  panel.appendChild(el("p", { text: COPY.areaBody }));
+  panel.appendChild(el("h3", { text: COPY.nudgeLabel }));
+  var nd = el("div", { "class": "nudge" });
+  [["u", 0, -1], ["l", -1, 0], ["d", 0, 1], ["r", 1, 0]].forEach(function (k) {
+    nd.appendChild(el("button", { type: "button", "class": k[0], "aria-label": COPY[{ u: "up", d: "down", l: "left", r: "right" }[k[0]]], html: iconSvg(ARROWS[k[0]]), onclick: function () {
+      a.nx = clamp(a.nx + k[1] * 0.03, 0.03, 0.97); a.ny = clamp(a.ny + k[2] * 0.03, 0.03, 0.97); layout(); save();
+    } }));
+  });
+  panel.appendChild(nd);
+  panel.appendChild(el("h3", { text: COPY.areaSize }));
+  panel.appendChild(el("div", { "class": "row", style: "margin-top:0" }, [
+    el("button", { type: "button", "class": "small", text: COPY.wider, onclick: function () { resizeArea(a.id, 1, 0); } }),
+    el("button", { type: "button", "class": "small", text: COPY.narrower, onclick: function () { resizeArea(a.id, -1, 0); } }),
+    el("button", { type: "button", "class": "small", text: COPY.taller, onclick: function () { resizeArea(a.id, 0, 1); } }),
+    el("button", { type: "button", "class": "small", text: COPY.shorter, onclick: function () { resizeArea(a.id, 0, -1); } })
+  ]));
+  panel.appendChild(el("div", { "class": "row" }, [
+    el("button", { type: "button", "class": "danger", text: COPY.removeArea, onclick: function () {
+      S.areas = S.areas.filter(function (x) { return x.id !== a.id; });
+      UI.sel = null; save(); build(); renderPanel();
+    } })
+  ]));
+}
+
+/* line type samples (inline SVG) */
+function sampleSvg(t) {
+  var s = svgEl("svg", { viewBox: "0 0 44 12", "aria-hidden": "true" });
+  function p(attrs) { var q = svgEl("path", attrs); q.setAttribute("fill", "none"); q.setAttribute("stroke-linecap", "round"); s.appendChild(q); return q; }
+  if (t === "connected") p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2 });
+  else if (t === "tension") { p({ d: "M2 4H42", stroke: "#4FA3D1", "stroke-width": 1.2 }); p({ d: "M2 8H42", stroke: "#4FA3D1", "stroke-width": 1.2 }); }
+  else if (t === "both") { p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2.6, "stroke-dasharray": "6 6" }); p({ d: "M2 6H42", stroke: "#F4C542", "stroke-width": 2.6, "stroke-dasharray": "6 6", "stroke-dashoffset": 6 }); }
+  else p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2.2, "stroke-dasharray": "0.5 5" });
+  return s;
+}
+
+/* ---------------- toolbar ---------------- */
+var modeMove = document.getElementById("modeMove"), modeLink = document.getElementById("modeLink"), hintEl = document.getElementById("modeHint");
+function setHint(t) { hintEl.textContent = t; }
+function setMode(m) {
+  UI.mode = m; UI.linkFirst = null;
+  modeMove.setAttribute("aria-pressed", m === "move" ? "true" : "false");
+  modeLink.setAttribute("aria-pressed", m === "link" ? "true" : "false");
+  field.classList.toggle("linkmode", m === "link");
+  refreshAll();
+  setHint(m === "link" ? COPY.hintLinkFirst : COPY.hintMove);
+}
+modeMove.addEventListener("click", function () { setMode("move"); });
+modeLink.addEventListener("click", function () { setMode("link"); });
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && UI.linkFirst) { UI.linkFirst = null; refreshAll(); setHint(COPY.hintLinkFirst); }
+});
+
+var typePick = document.getElementById("typePick");
+LINK_TYPES.forEach(function (t) {
+  var r = el("input", { type: "radio", name: "nexttype", value: t.id });
+  r.checked = (t.id === UI.type);
+  r.addEventListener("change", function () { UI.type = t.id; });
+  typePick.appendChild(el("label", {}, [r, sampleSvg(t.id), el("span", { text: t.label })]));
+});
+
+function openSpot() {
+  /* a place with some room, found by sampling; no meaning attached */
+  var best = null, bestD = -1;
+  for (var i = 0; i < 40; i++) {
+    var nx = 0.1 + Math.random() * 0.8, ny = 0.1 + Math.random() * 0.8, d = 9;
+    S.stars.forEach(function (s) { d = Math.min(d, Math.hypot((s.nx - nx) * W, (s.ny - ny) * H)); });
+    if (d > bestD) { bestD = d; best = { nx: nx, ny: ny }; }
+  }
+  return best;
+}
+document.getElementById("addStar").addEventListener("click", function () {
+  var p = openSpot();
+  var s = { id: uid(), name: COPY.newStar, blank: false, nx: p.nx, ny: p.ny, note: "", dim: false };
+  S.stars.push(s); save(); build(); select({ kind: "star", id: s.id });
+  var inp = panel.querySelector("input[type=text]"); if (inp) { inp.focus(); inp.select(); }
+});
+document.getElementById("addBlank").addEventListener("click", function () {
+  var p = openSpot();
+  var s = { id: uid(), name: "", blank: true, nx: p.nx, ny: p.ny, note: "", dim: false };
+  S.stars.push(s); save(); build(); select({ kind: "star", id: s.id });
+});
+document.getElementById("addArea").addEventListener("click", function () {
+  var a = { id: uid(), nx: 0.5, ny: 0.5, nw: 0.28, nh: 0.3 };
+  if (S.areas.length) { a.nx = clamp(0.5 + (Math.random() - 0.5) * 0.5, 0.1, 0.9); a.ny = clamp(0.5 + (Math.random() - 0.5) * 0.5, 0.1, 0.9); }
+  S.areas.push(a); save(); build(); select({ kind: "area", id: a.id });
+  if (areaEls[a.id]) areaEls[a.id].focus();
+});
+var quietBtn = document.getElementById("quietBtn");
+function applyQuiet() {
+  quietBtn.setAttribute("aria-pressed", S.quiet ? "true" : "false");
+  field.classList.toggle("quiet", S.quiet);
+}
+quietBtn.addEventListener("click", function () { S.quiet = !S.quiet; applyQuiet(); save(); setHint((S.quiet ? COPY.quietOn : COPY.quietOff) + " " + (UI.mode === "link" ? COPY.hintLinkFirst : COPY.hintMove)); });
+
+/* ---------------- tonight's sky ---------------- */
+var skyForm = document.getElementById("skyForm"), skyText = document.getElementById("skyText"), skyList = document.getElementById("skyList");
+function fmtDate(iso) {
+  try { var d = new Date(iso); return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }); } catch (e) { return iso; }
+}
+function renderSky() {
+  skyList.innerHTML = "";
+  if (!S.sky.length) { skyList.appendChild(el("li", { "class": "empty", text: COPY.skyEmpty })); return; }
+  S.sky.slice().reverse().forEach(function (e) {
+    var li = el("li");
+    li.appendChild(el("span", { "class": "d", text: fmtDate(e.date) }));
+    li.appendChild(el("span", { "class": "t", text: e.text }));
+    li.appendChild(el("button", { type: "button", "class": "small", text: COPY.removeEntry, "aria-label": COPY.removeEntry + " line from " + fmtDate(e.date), onclick: function () {
+      S.sky = S.sky.filter(function (x) { return x !== e; }); save(); renderSky();
+    } }));
+    skyList.appendChild(li);
+  });
+}
+skyForm.addEventListener("submit", function (ev) {
+  ev.preventDefault();
+  var t = skyText.value.trim(); if (!t) return;
+  S.sky.push({ date: new Date().toISOString(), text: t });
+  skyText.value = ""; save(); renderSky();
+});
+
+/* ---------------- export / import / fresh ---------------- */
+var dl = document.getElementById("dlJson"), exportBox = document.getElementById("exportBox"), keepStatus = document.getElementById("keepStatus");
+var blobUrl = null;
+function refreshExport() {
+  try {
+    if (blobUrl) URL.revokeObjectURL(blobUrl);
+    blobUrl = URL.createObjectURL(new Blob([JSON.stringify(S, null, 2)], { type: "application/json" }));
+    dl.href = blobUrl;
+    dl.download = "constellation-" + new Date().toISOString().slice(0, 10) + ".json";
+  } catch (e) {}
+}
+function asText() {
+  var out = ["The Adoption Constellation", "Exported " + fmtDate(new Date().toISOString()), ""];
+  out.push("Stars");
+  S.stars.forEach(function (s) {
+    var line = "- " + displayName(s) + (s.dim ? " (dimmed)" : "") + "  [x " + Math.round(s.nx * 100) + ", y " + Math.round(s.ny * 100) + "]";
+    out.push(line);
+    if (s.note.trim()) out.push("    note: " + s.note.trim().replace(/\n/g, "\n    "));
+  });
+  out.push("", "Lines");
+  if (!S.links.length) out.push("- none");
+  S.links.forEach(function (l) { out.push("- " + displayName(star(l.a)) + " and " + displayName(star(l.b)) + ": " + typeInfo(l.type).label); });
+  out.push("", "Undefined areas: " + S.areas.length);
+  out.push("", "Tonight's sky");
+  if (!S.sky.length) out.push("- none");
+  S.sky.forEach(function (e) { out.push("- " + fmtDate(e.date) + ": " + e.text); });
+  return out.join("\n");
+}
+document.getElementById("copyText").addEventListener("click", function () {
+  var t = asText();
+  exportBox.value = t;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(function () { keepStatus.textContent = COPY.copied; }, showFallback);
+  } else showFallback();
+  function showFallback() { exportBox.hidden = false; exportBox.focus(); exportBox.select(); keepStatus.textContent = COPY.copyFallback; }
+});
+document.getElementById("impFile").addEventListener("change", function (ev) {
+  var f = ev.target.files && ev.target.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function () {
+    try {
+      var d = JSON.parse(r.result);
+      if (!validState(d)) throw new Error("shape");
+      S = normalize(d); UI.sel = null; UI.linkFirst = null;
+      save(); build(); applyQuiet(); renderPanel(); renderSky();
+      keepStatus.textContent = COPY.imported;
+    } catch (e) { keepStatus.textContent = COPY.importBad; }
+    ev.target.value = "";
+  };
+  r.onerror = function () { keepStatus.textContent = COPY.importBad; };
+  r.readAsText(f);
+});
+var freshConfirm = document.getElementById("freshConfirm");
+document.getElementById("freshBtn").addEventListener("click", function () { freshConfirm.hidden = false; document.getElementById("freshNo").focus(); });
+document.getElementById("freshNo").addEventListener("click", function () { freshConfirm.hidden = true; });
+document.getElementById("freshYes").addEventListener("click", function () {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  S = freshState(); UI.sel = null; UI.linkFirst = null;
+  save(); build(); applyQuiet(); renderPanel(); renderSky();
+  freshConfirm.hidden = true; exportBox.hidden = true;
+  keepStatus.textContent = COPY.freshDone;
+});
+
+/* ---------------- init ---------------- */
+measure(); build(); applyQuiet(); renderPanel(); renderSky(); refreshExport(); setMode("move");
+var rt = null;
+window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { measure(); layout(); }, 80); });
+</script>
+</body>
+</html>

@@ -5,206 +5,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Adoption Constellation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap">
 <style>
 :root{
-  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-  --night:#1B2730; --night-2:#24333E;
-  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-  --round:20px;
-  /* night-ground derivations */
-  --fg:var(--paper);
-  --fg-soft:#C3CCD1;
-  --line:rgba(251,247,239,.14);
-  --line-strong:rgba(251,247,239,.28);
-  --field:#16212A;
-  --focus:var(--sunny);
+  --ground:#FFFFFF;
+  --paper:#FBFAF7;
+  --line:#D9CFBF;
+  --line-soft:#F7F6F5;
+  --ink:#3E3F46;
+  --ink-soft:#6B6C73;
+  --sage:#8E9A82;
+  --olive:#666741;
+  --clay:#C07A57; --clay-deep:#9A5C3E;
+  --gold:#E0B14C;
+  --teal:#0C4862;
+  --night:#2E3036; --night-2:#3E3F46;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Mulish',Arial,sans-serif;
+  /* dark-ground derivations */
+  --fg:#ECE7DD;
+  --fg-soft:#B9B4AA;
+  --rule:rgba(255,255,255,.12);
+  --rule-strong:rgba(255,255,255,.24);
+  --grid:rgba(255,255,255,.06);
+  --field:var(--night);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
   background:var(--night);
   color:var(--fg);
-  font-family:"Nunito",system-ui,sans-serif;
-  font-weight:600;
-  line-height:1.5;
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 40px}
-.chip{
-  display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:800;color:var(--sky-100);background:rgba(79,163,209,.18);
-  border:1px solid rgba(79,163,209,.45);border-radius:999px;padding:4px 10px;
+.wrap{max-width:1180px;margin:0 auto;padding:44px 16px 48px}
+a{color:var(--gold);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--sage);outline-offset:3px}
+
+/* page frame */
+.eyebrow{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin:0 0 20px}
+h1{
+  font-family:var(--serif);font-weight:500;font-size:clamp(42px,4.6vw,52px);line-height:1.05;
+  letter-spacing:.005em;text-wrap:balance;max-width:18ch;margin:0 0 16px
 }
-h1{font-size:clamp(28px,4.2vw,44px);font-weight:900;line-height:1.1;margin:14px 0 8px;letter-spacing:-.01em}
-.lede{font-size:17px;max-width:62ch;margin:0 0 14px;color:var(--fg)}
-details.howto{
-  max-width:62ch;border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:0 0 18px;
-  background:rgba(36,51,62,.6)
+.lede{font-family:var(--serif);font-style:italic;font-weight:400;font-size:21px;line-height:1.4;max-width:64ch;margin:0 0 10px}
+.quiet-line{font-size:15px;color:var(--fg-soft);margin:0 0 8px;max-width:64ch}
+details.how{max-width:64ch;margin:0}
+details.how summary{
+  display:inline;cursor:pointer;list-style:none;font-size:15px;font-weight:600;color:var(--gold);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px
 }
-details.howto summary{cursor:pointer;font-weight:800;color:var(--sunny-100);padding:4px 0}
-details.howto summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
-details.howto ol{margin:8px 0 6px;padding-left:20px}
-details.howto li{margin:4px 0;color:var(--fg)}
-.intro{max-width:62ch;margin:0 0 22px;color:var(--fg-soft);font-size:15px}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary:focus-visible{outline:2px solid var(--sage);outline-offset:3px}
+details.how .howpanel{
+  background:var(--night-2);border:1px solid var(--rule);border-radius:4px;
+  padding:14px 18px;margin:12px 0 0;font-size:15px;color:var(--fg-soft)
+}
+details.how .howpanel p{margin:0 0 6px}
+details.how .howpanel p:last-child{margin:0}
+.intro{max-width:64ch;margin:22px 0 0;font-size:16px;color:var(--fg-soft)}
 .intro p{margin:0 0 8px}
-.intro strong{color:var(--fg)}
+.intro strong{color:var(--fg);font-weight:600}
+hr.rule{border:0;border-top:1px solid var(--rule);margin:30px 0 18px}
 
 /* toolbar */
-.toolbar{
-  display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-start;
-  padding:12px 0 14px;border-top:1px solid var(--line)
-}
-.group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.group-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--fg-soft);margin-right:4px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 32px;align-items:flex-start;padding:0 0 14px;border-bottom:1px solid var(--rule)}
+.group{display:flex;flex-wrap:wrap;gap:0 16px;align-items:baseline}
+.group-label{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-soft);margin-right:4px}
 button,.btn{
-  font:inherit;font-weight:800;font-size:14px;color:var(--fg);
-  background:var(--night-2);border:1px solid var(--line-strong);border-radius:999px;
-  padding:7px 14px;cursor:pointer;line-height:1.2;
-  display:inline-flex;align-items:center;gap:7px;text-decoration:none
+  font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.03em;line-height:1.2;color:var(--fg);
+  background:none;border:1px solid var(--rule-strong);border-radius:3px;
+  padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none
 }
-button:hover,.btn:hover{border-color:var(--sky)}
-button:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{
-  outline:3px solid var(--focus);outline-offset:2px
+button:hover,.btn:hover{border-color:var(--fg-soft)}
+button.tog{
+  border:0;border-bottom:2px solid transparent;border-radius:0;padding:6px 0 5px;
+  font-weight:600;letter-spacing:0;color:var(--fg-soft)
 }
-button[aria-pressed="true"]{background:var(--sky-d);border-color:var(--sky);color:#fff}
-button.quiet-on[aria-pressed="true"]{background:var(--night);border-color:var(--sunny);color:var(--sunny-100)}
-button.danger{border-color:rgba(240,138,120,.55);color:var(--coral-100)}
-button.danger:hover{border-color:var(--coral)}
-button.small{font-size:13px;padding:5px 11px}
-button.icon{padding:7px 9px}
+button.tog:hover{color:var(--fg);border-bottom-color:var(--rule-strong)}
+button.tog[aria-pressed="true"]{color:var(--fg);border-bottom-color:var(--sage)}
+button.danger{
+  border:0;border-radius:0;padding:4px 0;font-weight:600;letter-spacing:0;color:var(--fg);
+  text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:var(--clay);text-underline-offset:3px
+}
+button.danger:hover{color:var(--clay)}
+button.small{font-size:13px;padding:6px 11px}
+button.small.danger{padding:4px 0}
 button svg,.btn svg{width:16px;height:16px;flex:none}
-.typepick{display:flex;flex-wrap:wrap;gap:6px}
+.typepick{display:flex;flex-wrap:wrap;gap:0 16px;position:relative}
 .typepick label{
-  display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;
-  border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px 5px 8px;cursor:pointer;background:var(--night-2)
+  display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--fg-soft);
+  border-bottom:2px solid transparent;padding:6px 0 5px;cursor:pointer
 }
-.typepick label:has(input:checked){border-color:var(--sky);background:rgba(79,163,209,.18)}
-.typepick label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.typepick label:hover{color:var(--fg)}
+.typepick label:has(input:checked){color:var(--fg);border-bottom-color:var(--sage)}
+.typepick label:has(input:focus-visible){outline:2px solid var(--sage);outline-offset:3px}
 .typepick input{position:absolute;opacity:0;width:1px;height:1px}
-.typepick svg{width:44px;height:12px;flex:none}
-.hint{font-size:13px;color:var(--fg-soft);margin:2px 0 0;min-height:1.2em}
+.typepick svg{width:40px;height:12px;flex:none}
+.hint{font-size:13px;color:var(--fg-soft);margin:10px 0 0;min-height:1.3em}
 
 /* layout */
-.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:start;margin-top:14px}
 @media (max-width:880px){.stage{grid-template-columns:minmax(0,1fr)}}
-.fieldwrap{
-  background:var(--field);border:1px solid var(--line);border-radius:var(--round);
-  overflow:hidden;position:relative
-}
+.fieldwrap{background:var(--field);border:1px solid var(--rule);border-radius:4px;overflow:hidden;position:relative}
 svg.field{display:block;width:100%;touch-action:none;user-select:none;-webkit-user-select:none}
-svg.field text{font-family:"Nunito",system-ui,sans-serif;font-weight:700;font-size:13px;fill:var(--fg);
-  paint-order:stroke;stroke:var(--field);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+svg.field .grid{fill:url(#chartgrid);pointer-events:none}
+svg.field text{
+  font-family:var(--serif);font-style:italic;font-weight:500;font-size:16px;fill:var(--fg);
+  paint-order:stroke;stroke:var(--field);stroke-width:4px;stroke-linejoin:round;pointer-events:none
+}
 svg.field.quiet text{display:none}
 .star{cursor:grab;outline:none}
 .star.dragging{cursor:grabbing}
-.star .glow{fill:var(--sunny);opacity:.16}
-.star .core{fill:var(--sunny)}
-.star .ring{fill:none;stroke:var(--sky);stroke-width:2;opacity:0}
+.star .glow{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:0 3.1;opacity:.38}
+.star .core{fill:var(--gold)}
+.star .ring{fill:none;stroke:var(--fg);stroke-width:1;opacity:0}
 .star.selected .ring{opacity:1}
-.star:focus-visible .ring{opacity:1;stroke:var(--sunny-100);stroke-dasharray:3 3}
-.star.linkfirst .ring{opacity:1;stroke:var(--sunny);stroke-width:2.5}
-.star.dim .glow{opacity:.06}
+.star:focus-visible .ring{opacity:1;stroke-dasharray:2 3}
+.star.linkfirst .ring{opacity:1;stroke:var(--gold);stroke-width:1.5}
+.star.dim .glow{opacity:.12}
 .star.dim .core{opacity:.35}
-.star.dim text{opacity:.4}
-.star.blank .core{fill:var(--sunny-100);opacity:.75}
+.star.dim text{opacity:.45}
+.star.blank .core{fill:none;stroke:var(--gold);stroke-width:1.5}
 .link .hit{stroke:transparent;stroke-width:16;fill:none;cursor:pointer;pointer-events:stroke}
-.link .vis{fill:none;stroke:var(--sky);stroke-linecap:round}
-.link .vis.two{stroke:var(--sunny)}
+.link .vis{fill:none;stroke:var(--fg);stroke-linecap:round;opacity:.78}
+.link.t-both .vis{stroke:var(--sage);opacity:1}
+.link.t-both .vis.two{stroke:var(--gold)}
 .link.dimmed .vis{opacity:.3}
-.link.selected .vis{filter:drop-shadow(0 0 3px rgba(79,163,209,.9))}
+.link.selected .vis{opacity:1}
+.link.selected:not(.t-both) .vis{stroke:var(--gold)}
 .link:focus-visible{outline:none}
-.link:focus-visible .vis{stroke:var(--sunny-100)}
+.link:focus-visible .hit{stroke:rgba(224,177,76,.16)}
 .area{cursor:grab;outline:none}
-.area .body{fill:rgba(251,247,239,.04);stroke:rgba(251,247,239,.35);stroke-width:1.5;stroke-dasharray:2 7;stroke-linecap:round}
-.area.selected .body,.area:focus-visible .body{stroke:var(--sky);stroke-dasharray:2 5}
-.area .handle{fill:var(--night-2);stroke:var(--sky);stroke-width:1.5;cursor:nwse-resize}
-.area .handle:focus-visible{stroke:var(--sunny)}
-.fieldnote{font-size:13px;color:var(--fg-soft);margin:10px 0 0}
+.area .body{fill:none;pointer-events:all;stroke:var(--fg);stroke-width:1.5;stroke-dasharray:0 5;stroke-linecap:round;opacity:.6}
+.area.selected .body,.area:focus-visible .body{stroke:var(--gold);opacity:1}
+.area .handle{fill:var(--sage);stroke:none;cursor:nwse-resize}
+.area .handle:focus-visible{fill:var(--gold)}
+.fieldnote{font-size:14px;color:var(--fg-soft);margin:12px 0 0;max-width:64ch}
 .fieldnote p{margin:0 0 6px}
 
 /* panel */
-.panel{
-  background:var(--night-2);border-radius:var(--round);padding:18px;box-shadow:var(--sh);
-  border:1px solid var(--line)
-}
-.panel h2{font-size:16px;margin:0 0 10px;color:var(--sunny-100);font-weight:900}
-.panel h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-soft);margin:16px 0 6px;font-weight:800}
-.panel p{margin:0 0 10px;font-size:14px;color:var(--fg-soft)}
-.panel .muted{font-size:13px}
-label.f{display:block;font-size:13px;font-weight:800;color:var(--fg-soft);margin:10px 0 4px}
+.panel{background:var(--night-2);border:1px solid var(--rule);border-radius:4px;padding:20px 20px 22px}
+.panel h2{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.2;margin:0 0 12px;color:var(--fg);overflow-wrap:anywhere}
+.panel h3{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-soft);margin:22px 0 8px}
+.panel p{margin:0 0 10px;font-size:15px;color:var(--fg-soft)}
+.panel .muted{font-size:14px}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--fg-soft);margin:12px 0 5px}
 input[type=text],textarea,select{
-  width:100%;font:inherit;font-weight:600;font-size:15px;color:var(--fg);
-  background:var(--night);border:1px solid var(--line-strong);border-radius:10px;padding:8px 10px
+  width:100%;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--fg);
+  background:var(--night);border:1px solid var(--rule-strong);border-radius:4px;padding:8px 10px
 }
+input[type=text]:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
 textarea{min-height:88px;resize:vertical}
 select{appearance:auto}
-.check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:14px}
-.check input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--sky);flex:none}
-.nudge{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(2,36px);gap:4px;margin:6px 0 2px}
-.nudge button{padding:0;justify-content:center;border-radius:10px}
+.check{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:14px;color:var(--fg-soft)}
+.check input{width:16px;height:16px;margin:3px 0 0;accent-color:var(--sage);flex:none}
+.nudge{display:grid;grid-template-columns:repeat(3,34px);grid-template-rows:repeat(2,34px);gap:4px;margin:4px 0 2px}
+.nudge button{padding:0;justify-content:center}
 .nudge .u{grid-column:2;grid-row:1}.nudge .l{grid-column:1;grid-row:2}.nudge .d{grid-column:2;grid-row:2}.nudge .r{grid-column:3;grid-row:2}
-.linkrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:center;margin:6px 0}
-.linkrow .who{font-size:13px;font-weight:800;grid-column:1/-1;overflow-wrap:anywhere}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.confirm{
-  border:1px solid rgba(240,138,120,.5);border-radius:12px;padding:12px;margin-top:12px;
-  background:rgba(240,138,120,.08)
-}
-.confirm p{margin:0 0 10px;color:var(--fg)}
-.status{font-size:13px;color:var(--sunny-100);min-height:1.3em;margin-top:8px}
+.linkrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:8px 0;border-top:1px solid var(--rule)}
+.linkrow .who{font-size:13px;font-weight:600;grid-column:1/-1;overflow-wrap:anywhere}
+.row{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;align-items:center}
+.confirm{border-top:1px solid var(--rule);padding-top:12px;margin-top:14px}
+.confirm p{margin:0 0 10px;color:var(--fg);font-size:15px}
+.status{font-size:13px;color:var(--fg-soft);min-height:1.3em;margin-top:10px}
 
 /* tonight + keep */
-.below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:22px}
+.below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 40px;margin-top:34px;padding-top:26px;border-top:1px solid var(--rule)}
 @media (max-width:880px){.below{grid-template-columns:minmax(0,1fr)}}
-.card{background:var(--night-2);border-radius:var(--round);padding:18px;box-shadow:var(--sh);border:1px solid var(--line)}
-.card h2{font-size:18px;margin:0 0 6px;font-weight:900;color:var(--sunny-100)}
-.card p{margin:0 0 10px;font-size:14px;color:var(--fg-soft)}
-.skyform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
-.skylist{list-style:none;margin:14px 0 0;padding:0}
-.skylist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
-.skylist .d{font-size:12px;color:var(--fg-soft);font-weight:800;white-space:nowrap;padding-top:2px}
+.sect h2{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.15;margin:0 0 8px}
+.sect>p{margin:0 0 12px;font-size:15px;color:var(--fg-soft);max-width:64ch}
+.skyform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}
+.skylist{list-style:none;margin:16px 0 0;padding:0}
+.skylist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:9px 0;border-top:1px solid var(--rule);font-size:15px}
+.skylist .d{font-size:12px;color:var(--fg-soft);font-weight:600;white-space:nowrap;padding-top:3px;font-variant-numeric:tabular-nums}
 .skylist .t{overflow-wrap:anywhere}
-.skylist .empty{display:block;color:var(--fg-soft);font-size:13px;border:0}
-textarea.export{font-size:12px;min-height:60px;margin-top:8px}
-input[type=file]{font:inherit;font-size:13px;color:var(--fg-soft);max-width:100%}
-.imp{margin-top:10px}
+.skylist .empty{display:block;color:var(--fg-soft);font-size:14px;border:0;padding:0}
+textarea.export{font-size:12px;min-height:60px;margin-top:10px}
+input[type=file]{font-family:var(--sans);font-size:13px;color:var(--fg-soft);max-width:100%}
+.imp{margin-top:16px}
 
-footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--fg-soft)}
-footer .crisis{color:var(--fg);margin:0 0 12px;max-width:62ch}
-footer a{color:var(--sky-100)}
-.sig{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--rule);font-size:13px;color:var(--fg-soft)}
+footer .crisis{font-size:15px;color:var(--fg-soft);margin:0 0 14px;max-width:64ch}
+.sig{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (prefers-reduced-motion:no-preference){
   .star .ring,.star .glow,.link .vis{transition:opacity .18s ease}
-  button{transition:border-color .15s ease,background-color .15s ease}
+  button,.typepick label{transition:border-color .15s ease,color .15s ease}
 }
 @media (max-width:480px){
-  .wrap{padding-top:20px}
-  .panel,.card{padding:14px}
+  .wrap{padding-top:30px}
+  h1{font-size:34px}
+  .lede{font-size:20px}
+  .panel{padding:16px}
+  .toolbar{gap:6px 24px}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <span class="chip">Beyond The Sun Therapy</span>
+    <p class="eyebrow">Beyond The Sun Therapy</p>
     <h1>The Adoption Constellation</h1>
     <p class="lede">Place the parts of your adoption story as stars, and set them as near or far from each other as they are for you.</p>
-    <details class="howto">
-      <summary>How to use this</summary>
-      <ol>
-        <li>Drag a star to move it. Or tab to a star and press the arrow keys.</li>
-        <li>To draw a line, choose a line type, switch to Link, then click two stars. The same two stars can hold more than one line.</li>
-        <li>Click a star in Move mode to rename it, write a private note, dim it, or remove it.</li>
-        <li>Add an undefined area for anything you are choosing not to name yet.</li>
-        <li>The starting places mean nothing. Nothing here is scored, sorted, or read back to you.</li>
-      </ol>
+    <p class="quiet-line">Drag a star to place it. Click a star to name it.</p>
+    <details class="how">
+      <summary>How this page works</summary>
+      <div class="howpanel">
+        <p>Drag a star to move it, or tab to a star and press the arrow keys. In Move mode, clicking a star lets you rename it, write a private note, dim it, or remove it.</p>
+        <p>To draw a line, choose a line type, switch to Link, then click two stars. The same two stars can hold more than one line.</p>
+        <p>Add an undefined area for anything you are choosing not to name yet.</p>
+        <p>The starting places mean nothing. Nothing here is scored, sorted, or read back to you.</p>
+      </div>
     </details>
     <div class="intro">
       <p><strong>Nothing here needs to resolve.</strong> Two stars can be close and in tension at the same time. A star can stay blank. Space can stay undefined.</p>
@@ -212,17 +228,13 @@ footer a{color:var(--sky-100)}
     </div>
   </header>
 
+  <hr class="rule">
+
   <div class="toolbar" role="toolbar" aria-label="Field tools">
     <div class="group" role="group" aria-label="Mode">
       <span class="group-label">Mode</span>
-      <button type="button" id="modeMove" aria-pressed="true">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14M8 1l-2.5 2.5M8 1l2.5 2.5M8 15l-2.5-2.5M8 15l2.5-2.5M1 8l2.5-2.5M1 8l2.5 2.5M15 8l-2.5-2.5M15 8l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Move
-      </button>
-      <button type="button" id="modeLink" aria-pressed="false">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="13" r="2" fill="currentColor"/><circle cx="13" cy="3" r="2" fill="currentColor"/><path d="M4.5 11.5l7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Link
-      </button>
+      <button type="button" class="tog" id="modeMove" aria-pressed="true">Move</button>
+      <button type="button" class="tog" id="modeLink" aria-pressed="false">Link</button>
     </div>
     <div class="group" id="linkTypes" role="radiogroup" aria-label="Line type to draw next">
       <span class="group-label">Line</span>
@@ -230,25 +242,13 @@ footer a{color:var(--sky-100)}
     </div>
     <div class="group" role="group" aria-label="Add">
       <span class="group-label">Add</span>
-      <button type="button" id="addStar">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        Star
-      </button>
-      <button type="button" id="addBlank">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-        Blank star
-      </button>
-      <button type="button" id="addArea">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="8" rx="6" ry="4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.5 3" stroke-linecap="round"/></svg>
-        Undefined area
-      </button>
+      <button type="button" id="addStar">Star</button>
+      <button type="button" id="addBlank">Blank star</button>
+      <button type="button" id="addArea">Undefined area</button>
     </div>
     <div class="group" role="group" aria-label="View">
       <span class="group-label">View</span>
-      <button type="button" id="quietBtn" class="quiet-on" aria-pressed="false">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><circle cx="2.5" cy="3" r="1.2" fill="currentColor"/><circle cx="13.5" cy="12.5" r="1.2" fill="currentColor"/><circle cx="13" cy="3.5" r=".9" fill="currentColor"/></svg>
-        Quiet mode
-      </button>
+      <button type="button" class="tog" id="quietBtn" aria-pressed="false">Quiet mode</button>
     </div>
   </div>
   <p class="hint" id="modeHint" aria-live="polite"></p>
@@ -257,6 +257,12 @@ footer a{color:var(--sky-100)}
     <div>
       <div class="fieldwrap">
         <svg class="field" id="field" role="group" aria-label="Your constellation field" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="chartgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect class="grid" width="100%" height="100%"/>
           <g id="gAreas"></g>
           <g id="gLinks"></g>
           <g id="gStars"></g>
@@ -274,7 +280,7 @@ footer a{color:var(--sky-100)}
   </div>
 
   <div class="below">
-    <section class="card" aria-labelledby="skyH">
+    <section class="sect" aria-labelledby="skyH">
       <h2 id="skyH">Tonight's sky</h2>
       <p>One dated line. Whatever is true tonight. It does not have to match the field.</p>
       <form class="skyform" id="skyForm">
@@ -287,18 +293,12 @@ footer a{color:var(--sky-100)}
       <ul class="skylist" id="skyList"></ul>
     </section>
 
-    <section class="card" aria-labelledby="keepH">
+    <section class="sect" aria-labelledby="keepH">
       <h2 id="keepH">Keep, move, or clear</h2>
       <p>Everything on this page is saved in this browser only. Export to keep a copy or to move it to another device.</p>
-      <div class="row">
-        <a class="btn" id="dlJson" href="#" download="constellation.json">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download as JSON
-        </a>
-        <button type="button" id="copyText">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="8" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Copy as text
-        </button>
+      <div class="row" style="margin-top:0">
+        <a class="btn" id="dlJson" href="#" download="constellation.json">Download as JSON</a>
+        <button type="button" id="copyText">Copy as text</button>
       </div>
       <textarea class="export" id="exportBox" aria-label="Text version of your constellation" readonly hidden></textarea>
       <div class="imp">
@@ -491,7 +491,7 @@ function svgEl(tag, attrs) {
   return n;
 }
 function iconSvg(path) {
-  return '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="' + path + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="' + path + '" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 }
 var ARROWS = { u: "M8 13V3M4 7l4-4 4 4", d: "M8 3v10M4 9l4 4 4-4", l: "M13 8H3M7 4L3 8l4 4", r: "M3 8h10M9 4l4 4-4 4" };
 
@@ -525,9 +525,9 @@ function build() {
 }
 function buildStar(s) {
   var g = svgEl("g", { "class": "star", tabindex: "0", role: "button", "data-id": s.id });
-  var glow = svgEl("circle", { "class": "glow", r: 15 });
-  var ring = svgEl("circle", { "class": "ring", r: 11 });
-  var core = svgEl("circle", { "class": "core", r: s.blank && !s.name.trim() ? 4 : 5 });
+  var glow = svgEl("circle", { "class": "glow", r: 9 });
+  var ring = svgEl("circle", { "class": "ring", r: 13 });
+  var core = svgEl("circle", { "class": "core", r: 3.5 });
   var label = svgEl("text", { y: 24, "text-anchor": "middle" });
   g.appendChild(glow); g.appendChild(ring); g.appendChild(core); g.appendChild(label);
   g.addEventListener("pointerdown", onStarDown);
@@ -551,20 +551,20 @@ function refreshStar(s) {
   g.setAttribute("aria-label", (nm ? nm : COPY.blankName) + (s.dim ? ", dimmed" : "") + ". " + hint);
 }
 function buildLink(l) {
-  var g = svgEl("g", { "class": "link", tabindex: "0", role: "button", "data-id": l.id });
+  var g = svgEl("g", { "class": "link t-" + l.type, tabindex: "0", role: "button", "data-id": l.id });
   var hit = svgEl("path", { "class": "hit" });
   g.appendChild(hit);
   var t = l.type;
   if (t === "connected") {
-    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2 }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.5 }));
   } else if (t === "tension") {
-    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": -2.4 }));
-    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": 2.4 }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": -2.2 }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.2, "data-off": 2.2 }));
   } else if (t === "both") {
-    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2.6, "stroke-dasharray": "9 9" }));
-    g.appendChild(svgEl("path", { "class": "vis two", "stroke-width": 2.6, "stroke-dasharray": "9 9", "stroke-dashoffset": 9 }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.5, "stroke-dasharray": "8 8" }));
+    g.appendChild(svgEl("path", { "class": "vis two", "stroke-width": 1.5, "stroke-dasharray": "8 8", "stroke-dashoffset": 8 }));
   } else {
-    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 2.2, "stroke-dasharray": "0.5 6" }));
+    g.appendChild(svgEl("path", { "class": "vis", "stroke-width": 1.5, "stroke-dasharray": "0 5" }));
   }
   g.addEventListener("click", function () { select({ kind: "link", id: l.id }); });
   g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select({ kind: "link", id: l.id }); } });
@@ -582,7 +582,7 @@ function refreshLink(l) {
 function buildArea(a) {
   var g = svgEl("g", { "class": "area", tabindex: "0", role: "button", "data-id": a.id, "aria-label": "Undefined area. Enter edits it. Arrow keys move it." });
   var body = svgEl("ellipse", { "class": "body" });
-  var handle = svgEl("circle", { "class": "handle", r: 6, tabindex: "-1" });
+  var handle = svgEl("circle", { "class": "handle", r: 4.5, tabindex: "-1" });
   g.appendChild(body); g.appendChild(handle);
   body.addEventListener("pointerdown", function (e) { onAreaDown(e, a.id, "move"); });
   handle.addEventListener("pointerdown", function (e) { onAreaDown(e, a.id, "size"); });
@@ -906,10 +906,10 @@ function renderAreaPanel(a) {
 function sampleSvg(t) {
   var s = svgEl("svg", { viewBox: "0 0 44 12", "aria-hidden": "true" });
   function p(attrs) { var q = svgEl("path", attrs); q.setAttribute("fill", "none"); q.setAttribute("stroke-linecap", "round"); s.appendChild(q); return q; }
-  if (t === "connected") p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2 });
-  else if (t === "tension") { p({ d: "M2 4H42", stroke: "#4FA3D1", "stroke-width": 1.2 }); p({ d: "M2 8H42", stroke: "#4FA3D1", "stroke-width": 1.2 }); }
-  else if (t === "both") { p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2.6, "stroke-dasharray": "6 6" }); p({ d: "M2 6H42", stroke: "#F4C542", "stroke-width": 2.6, "stroke-dasharray": "6 6", "stroke-dashoffset": 6 }); }
-  else p({ d: "M2 6H42", stroke: "#4FA3D1", "stroke-width": 2.2, "stroke-dasharray": "0.5 5" });
+  if (t === "connected") p({ d: "M2 6H42", stroke: "#ECE7DD", "stroke-width": 1.5 });
+  else if (t === "tension") { p({ d: "M2 4H42", stroke: "#ECE7DD", "stroke-width": 1.2 }); p({ d: "M2 8H42", stroke: "#ECE7DD", "stroke-width": 1.2 }); }
+  else if (t === "both") { p({ d: "M2 6H42", stroke: "#8E9A82", "stroke-width": 1.5, "stroke-dasharray": "6 6" }); p({ d: "M2 6H42", stroke: "#E0B14C", "stroke-width": 1.5, "stroke-dasharray": "6 6", "stroke-dashoffset": 6 }); }
+  else p({ d: "M2 6H42", stroke: "#ECE7DD", "stroke-width": 1.5, "stroke-dasharray": "0 5" });
   return s;
 }
 

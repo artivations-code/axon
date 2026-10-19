@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Living Map</title>
+<meta name="description" content="A structure for documented information about art therapy across Indiana, maintained by IndiATA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730; --night-2:#24333E;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --round:20px;
+    --line:rgba(43,58,66,.14);
+    --hatch:repeating-linear-gradient(135deg, rgba(90,107,116,.0) 0 3px, rgba(90,107,116,.42) 3px 4px);
+    --hatch-soft:repeating-linear-gradient(135deg, rgba(78,158,96,0) 0 3px, rgba(78,158,96,.5) 3px 4px);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Nunito", system-ui, sans-serif; font-weight:600;
+    font-size:16px; line-height:1.5; overflow-x:hidden;
+  }
+  .frame{max-width:1120px; margin:0 auto; padding:28px 16px 40px}
+  @media (min-width:700px){ .frame{padding:40px 28px 56px} }
+
+  /* ---------- header ---------- */
+  .chip{
+    display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:800; color:var(--leaf-d); border:1.5px solid var(--leaf); border-radius:999px;
+    padding:4px 10px; background:var(--card);
+  }
+  h1{font-size:clamp(28px,4.6vw,44px); line-height:1.08; font-weight:900; margin:14px 0 10px; letter-spacing:-.01em}
+  .lede{font-size:18px; max-width:62ch; margin:0 0 14px; color:var(--ink)}
+  details.how{
+    max-width:62ch; border-left:3px solid var(--leaf); padding:4px 0 4px 14px; margin:0 0 22px;
+  }
+  details.how summary{cursor:pointer; font-weight:800; list-style:none; display:flex; align-items:center; gap:8px}
+  details.how summary::-webkit-details-marker{display:none}
+  details.how summary svg{width:14px; height:14px; transition:transform .2s}
+  details.how[open] summary svg{transform:rotate(90deg)}
+  details.how ol{margin:8px 0 0; padding-left:20px; color:var(--ink-soft)}
+  details.how li{margin:4px 0}
+  .about{
+    max-width:62ch; margin:0 0 28px; padding:14px 16px; background:var(--leaf-100);
+    border-radius:12px; font-size:15px;
+  }
+  .about p{margin:0}
+  .about p + p{margin-top:6px}
+
+  /* ---------- layout ---------- */
+  .board{display:grid; gap:22px; grid-template-columns:1fr; align-items:start}
+  @media (max-width:939px){
+    .col-main, .col-side{display:contents}
+    .layers-block{order:1} .mapcard{order:2} #detailCard{order:3} .status{order:4; margin-top:0}
+    #entryCard{order:5} #transferCard{order:6}
+  }
+  @media (min-width:940px){
+    .board{grid-template-columns:minmax(0,1fr) 380px; gap:28px}
+    .col-side{position:sticky; top:16px}
+    .card + .card{margin-top:18px}
+  }
+  h2{font-size:17px; font-weight:900; margin:0 0 10px; letter-spacing:.01em}
+  h3{font-size:15px; font-weight:800; margin:0 0 6px}
+  .muted{color:var(--ink-soft)}
+  .small{font-size:13px}
+
+  /* ---------- layer tabs ---------- */
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px}
+  .tab{
+    font:inherit; font-weight:800; font-size:14px; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); border-radius:999px;
+    padding:7px 13px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+  }
+  .tab .n{
+    display:inline-block; min-width:22px; height:22px; line-height:22px; text-align:center; border-radius:11px;
+    background:var(--paper); color:var(--ink-soft); font-size:12px; padding:0 6px;
+  }
+  .tab[aria-pressed="true"]{background:var(--leaf-d); border-color:var(--leaf-d); color:#fff}
+  .tab[aria-pressed="true"] .n{background:rgba(255,255,255,.22); color:#fff}
+  .layer-desc{margin:0 0 14px; min-height:1.5em; color:var(--ink-soft); font-size:15px; max-width:62ch}
+
+  /* ---------- map ---------- */
+  .mapcard{
+    background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:14px 14px 10px;
+  }
+  .mapwrap{max-width:470px; margin:0 auto}
+  .map{width:100%; height:auto; display:block}
+  .region{cursor:pointer; outline:none}
+  .region .fill{stroke:var(--card); stroke-width:1.6; transition:fill-opacity .2s}
+  .region.s-undoc .fill{fill:url(#hatch)}
+  .region.s-confirm .fill{fill:url(#hatchSoft)}
+  .region.s-doc .fill{fill:var(--leaf)}
+  .region.s-ready .fill{fill:var(--leaf-100)}
+  .region:hover .fill, .region.is-hover .fill{filter:brightness(.96)}
+  .region.is-selected .fill{stroke:var(--ink); stroke-width:2.2}
+  .region:focus-visible .fill{stroke:var(--sky-d); stroke-width:2.6}
+  .rlabel{font-family:"Nunito", system-ui, sans-serif; font-weight:800; font-size:9.5px; fill:var(--ink); pointer-events:none; text-anchor:middle}
+  .rsub{font-weight:700; font-size:6.4px; fill:var(--ink-soft)}
+  .s-doc .rsub{fill:var(--night)}
+  .outline{fill:none; stroke:var(--ink); stroke-width:1.8; stroke-linejoin:round; pointer-events:none}
+  .city{pointer-events:none}
+  .city circle{fill:var(--ink); stroke:#fff; stroke-width:1.2}
+  .city text{font-family:"Nunito", system-ui, sans-serif; font-weight:700; font-size:7.4px; fill:var(--ink); paint-order:stroke; stroke:#fff; stroke-width:2.4px; stroke-linejoin:round}
+  .mapnote{font-size:12px; color:var(--ink-soft); margin:8px 0 0; text-align:center}
+
+  .legend{display:flex; flex-wrap:wrap; gap:10px 18px; margin:14px 0 0; padding:0; list-style:none; font-size:13px}
+  .legend li{display:flex; align-items:center; gap:8px}
+  .sw{width:22px; height:16px; border-radius:4px; border:1px solid var(--line); flex:none}
+  .sw.doc{background:var(--leaf)}
+  .sw.undoc{background:var(--paper); background-image:var(--hatch)}
+  .sw.confirm{background:var(--leaf-100); background-image:var(--hatch-soft)}
+  .sw.ready{background:var(--leaf-100)}
+
+  /* ---------- status bar ---------- */
+  .status{margin-top:22px}
+  .status-row{
+    display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px; align-items:center;
+    width:100%; text-align:left; font:inherit; color:var(--ink); background:transparent; border:0;
+    border-top:1px solid var(--line); padding:10px 4px; cursor:pointer;
+  }
+  .status-row:last-child{border-bottom:1px solid var(--line)}
+  .status-row:focus-visible{outline:2px solid var(--sky-d); outline-offset:2px; border-radius:6px}
+  .status-row[aria-pressed="true"] .status-name{color:var(--leaf-d)}
+  .status-name{font-weight:800; font-size:14px}
+  .status-count{font-size:13px; color:var(--ink-soft)}
+  @media (max-width:600px){ .status-row{grid-template-columns:1fr} .status-count{margin-top:-2px} }
+  .cells{grid-column:1 / -1; display:grid; grid-template-columns:repeat(9,1fr); gap:3px; max-width:320px}
+  .cell{height:10px; border-radius:2px; border:1px solid var(--line); background:var(--paper); background-image:var(--hatch)}
+  .cell.doc{background:var(--leaf); background-image:none; border-color:var(--leaf-d)}
+  .cell.confirm{background:var(--leaf-100); background-image:var(--hatch-soft)}
+  .cell.ready{background:var(--leaf-100); background-image:none}
+
+  /* ---------- side cards ---------- */
+  .card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px 18px 16px}
+  .card-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap}
+  .state{
+    display:inline-block; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    border-radius:6px; padding:3px 8px; background:var(--paper); color:var(--ink-soft);
+  }
+  .state[hidden]{display:none}
+  .state.doc{background:var(--leaf-100); color:var(--leaf-d)}
+  .state.confirm{background:var(--sunny-100); color:#8a6410}
+  .entries{list-style:none; margin:12px 0 0; padding:0}
+  .entry{border-top:1px solid var(--line); padding:10px 0}
+  .entry:last-child{padding-bottom:2px}
+  .entry .val{font-weight:800; margin:0 0 2px}
+  .entry .meta{font-size:13px; color:var(--ink-soft); margin:0}
+  .entry .tag{display:inline-block; font-size:11px; font-weight:800; color:#8a6410; background:var(--sunny-100); border-radius:6px; padding:1px 7px; margin:4px 0 0}
+  .entry-actions{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; align-items:center}
+  .empty{margin:10px 0 0; padding:12px 14px; border-radius:12px; background:var(--paper); background-image:var(--hatch); background-size:100% 100%; font-size:14px}
+  .empty-inner{background:rgba(251,247,239,.92); padding:6px 8px; border-radius:8px}
+
+  /* ---------- buttons & forms ---------- */
+  .btn{
+    font:inherit; font-weight:800; font-size:14px; border-radius:999px; padding:8px 14px; cursor:pointer;
+    border:1.5px solid var(--leaf-d); background:var(--leaf-d); color:#fff;
+  }
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn.danger{background:transparent; color:var(--coral-d); border-color:var(--coral)}
+  .btn.sm{font-size:12px; padding:4px 10px}
+  .btn:focus-visible, .tab:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible, summary:focus-visible, .filebtn:focus-within{
+    outline:2px solid var(--sky-d); outline-offset:2px;
+  }
+  .btn:disabled{opacity:.5; cursor:not-allowed}
+  label{display:block; font-size:13px; font-weight:800; margin:10px 0 4px}
+  label .req{color:var(--coral-d)}
+  input[type="text"], input[type="date"], select, textarea{
+    width:100%; font:inherit; font-size:15px; color:var(--ink); background:var(--paper);
+    border:1.5px solid var(--line); border-radius:10px; padding:8px 10px;
+  }
+  textarea{min-height:68px; resize:vertical}
+  .hint{font-size:12px; color:var(--ink-soft); margin:3px 0 0}
+  .form-actions{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; align-items:center}
+  .msg{margin:10px 0 0; padding:9px 12px; border-radius:10px; font-size:14px; display:none}
+  .msg.show{display:block}
+  .msg.err{background:var(--coral-100); color:#7a2e21}
+  .msg.ok{background:var(--leaf-100); color:#2e6b3d}
+  .msg.note{background:var(--sunny-100); color:#6b4e0e}
+  .editing{background:var(--sunny-100); border-radius:10px; padding:8px 12px; font-size:13px; margin-top:8px; display:none}
+  .editing.show{display:block}
+  .confirm-inline{display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:13px}
+
+  /* ---------- transfer ---------- */
+  .transfer-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px}
+  .filebtn{position:relative; display:inline-block; overflow:hidden}
+  .filebtn input{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%}
+  .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+  .copybox{position:absolute; left:-9999px; top:0; width:10px; height:10px}
+
+  /* ---------- facts ---------- */
+  .facts{margin-top:34px; max-width:72ch}
+  .fact{border-top:1px solid var(--line); padding:14px 0}
+  .fact:last-child{border-bottom:1px solid var(--line)}
+  .fact p{margin:0 0 6px}
+  .fact .tagline{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800; color:#8a6410; background:var(--sunny-100); border-radius:6px; padding:2px 8px}
+  .fact .tagline svg{width:12px; height:12px}
+  .fact ul{margin:6px 0 0; padding-left:20px; color:var(--ink-soft); font-size:15px}
+
+  footer{margin-top:40px; padding-top:18px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between}
+  footer a{color:var(--leaf-d); font-weight:800}
+  a{color:var(--leaf-d)}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <header>
+    <span class="chip">IndiATA</span>
+    <h1>Indiana Art Therapy: The Living Map</h1>
+    <p class="lede">Switch layers, open a region, and record what IndiATA has documented about art therapy across Indiana.</p>
+    <details class="how">
+      <summary><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+      <ol id="howList"></ol>
+    </details>
+    <div class="about" id="about"></div>
+  </header>
+
+  <div class="board">
+    <div class="col-main">
+      <div class="layers-block">
+        <h2 id="layersHeading">Layers</h2>
+        <div class="tabs" role="group" aria-labelledby="layersHeading" id="tabs"></div>
+        <p class="layer-desc" id="layerDesc"></p>
+      </div>
+
+      <div class="mapcard">
+        <div class="mapwrap">
+          <svg class="map" id="map" viewBox="20 12 272 428" role="group" aria-label="Schematic map of Indiana in nine regions">
+            <defs>
+              <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="5" height="5" style="fill:var(--paper)"/>
+                <line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--ink-soft); stroke-width:1.1; opacity:.42"/>
+              </pattern>
+              <pattern id="hatchSoft" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="5" height="5" style="fill:var(--leaf-100)"/>
+                <line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--leaf-d); stroke-width:1.1; opacity:.5"/>
+              </pattern>
+              <clipPath id="stateClip"><path id="stateShape" d=""/></clipPath>
+            </defs>
+            <g id="regions" clip-path="url(#stateClip)"></g>
+            <path class="outline" id="outlinePath" d=""/>
+            <g id="cities" class="city"></g>
+          </svg>
+        </div>
+        <p class="mapnote">Schematic outline. Region borders are a working grid, not county lines.</p>
+        <ul class="legend" aria-label="Legend">
+          <li><span class="sw doc"></span>Documented, with source and date</li>
+          <li><span class="sw confirm"></span>Listed, needs source confirmation</li>
+          <li><span class="sw undoc"></span>Not yet documented</li>
+          <li id="legendReady" hidden><span class="sw ready"></span>Both inputs documented, no gap computed</li>
+        </ul>
+      </div>
+
+      <section class="status" aria-labelledby="statusHeading">
+        <h2 id="statusHeading">Documentation status</h2>
+        <p class="muted small" style="margin:0 0 8px">Regions documented per layer, out of 9. Select a row to show that layer.</p>
+        <div id="statusRows"></div>
+      </section>
+    </div>
+
+    <div class="col-side">
+      <section class="card" aria-live="polite" id="detailCard">
+        <div class="card-head">
+          <h2 id="detailTitle" style="margin:0">Region</h2>
+          <span class="state" id="detailState"></span>
+        </div>
+        <p class="muted small" id="detailLayer" style="margin:4px 0 0"></p>
+        <div id="detailBody"></div>
+      </section>
+
+      <section class="card" aria-labelledby="entryHeading" id="entryCard">
+        <h2 id="entryHeading">Add an entry</h2>
+        <p class="muted small" style="margin:0">For IndiATA officers. An entry needs a source and a date before it counts as documented.</p>
+        <div class="editing" id="editingNote"></div>
+        <form id="entryForm" novalidate>
+          <label for="fLayer">Layer</label>
+          <select id="fLayer"></select>
+          <label for="fRegion">Region</label>
+          <select id="fRegion"></select>
+          <div id="catWrap">
+            <label for="fCat" id="fCatLabel">Category</label>
+            <select id="fCat"></select>
+          </div>
+          <label for="fValue">Value or description <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="fValue" rows="3"></textarea>
+          <p class="hint" id="valueHint"></p>
+          <label for="fSource">Source <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="fSource" autocomplete="off" placeholder="Where this came from">
+          <p class="hint">A roster and its date, a member survey, a program page, a meeting record. Free text.</p>
+          <label for="fDate">Date documented <span class="req" aria-hidden="true">*</span></label>
+          <input type="date" id="fDate">
+          <div class="form-actions">
+            <button type="submit" class="btn" id="submitBtn">Add entry</button>
+            <button type="button" class="btn ghost" id="cancelEdit" hidden>Cancel</button>
+          </div>
+          <div class="msg" id="formMsg" role="status"></div>
+        </form>
+      </section>
+
+      <section class="card" aria-labelledby="transferHeading" id="transferCard">
+        <h2 id="transferHeading">Pass the file along</h2>
+        <p class="muted small" style="margin:0">Data stays in this browser until you export it. Export a JSON file to hand to another officer. Import theirs to load it here.</p>
+        <div class="transfer-row">
+          <a class="btn" id="downloadLink" href="#" download="indiata-living-map.json">Download as JSON</a>
+          <button type="button" class="btn ghost" id="copyBtn">Copy as text</button>
+          <span class="filebtn btn ghost">Import JSON<input type="file" id="importFile" accept=".json,application/json" aria-label="Import JSON file"></span>
+        </div>
+        <div class="msg" id="transferMsg" role="status"></div>
+        <div id="importConfirm" class="msg note" style="display:none"></div>
+        <div class="transfer-row" style="margin-top:14px">
+          <button type="button" class="btn danger sm" id="freshBtn">Start fresh</button>
+          <span class="small muted" id="freshNote">Clears everything saved in this browser.</span>
+        </div>
+        <div id="freshConfirm" class="msg note" style="display:none"></div>
+        <textarea class="copybox" id="copyBox" aria-hidden="true" tabindex="-1"></textarea>
+      </section>
+    </div>
+  </div>
+
+  <section class="facts" aria-labelledby="factsHeading">
+    <h2 id="factsHeading">Context IndiATA is checking</h2>
+    <p class="muted small" style="margin:0 0 10px">Each item below stays flagged until an officer confirms it against a source.</p>
+    <div id="factsList"></div>
+  </section>
+
+  <footer>
+    <span>Prepared for IndiATA • Katy Wagner, MA, ATR-P, LMHCA</span>
+    <a href="index.html">All experiences</a>
+  </footer>
+</div>
+
+<script>
+/* =====================================================================
+   HOW TO EDIT THE CONTENT
+   Everything written on the page lives in CONTENT below. Change words
+   there. SEED_ENTRIES holds the two program listings that start on the
+   Educational pathways layer. Region grid positions and city dots live
+   in CONTENT.regions and CONTENT.cities. Logic starts at "LOGIC".
+   ===================================================================== */
+
+const CONTENT = {
+  howTo: [
+    "Choose a layer. Each layer answers one question for all nine regions.",
+    "Hover or tap a region to read its entries. Hatched regions are not yet documented.",
+    "Use the entry panel to add, edit, or remove an entry. Every entry needs a source and a date.",
+    "Export JSON to pass the file to another officer. Import to load theirs.",
+    "Data stays in this browser until you export it. Start fresh clears it."
+  ],
+  about: [
+    "This map is a structure for information IndiATA has documented, kept by its officers. It is not a directory and lists no practitioner by name.",
+    "Nothing on this page is a referral. A region shows solid color only when an officer has entered a source and a date for it."
+  ],
+  layers: [
+    { id:"practitioners", name:"Credentialed practitioners", short:"Practitioners",
+      desc:"Count of ATR-P, ATR, and ATR-BC holders known to IndiATA in each region. Counts only, no names.",
+      cat:{ label:"Credential", options:["ATR-P","ATR","ATR-BC","All ATCB credentials combined"] },
+      valueHint:"A number, and how it was counted." },
+    { id:"access", name:"Service access", short:"Service access",
+      desc:"Settings where art therapy is offered. Hospital, school, community mental health, private practice, older adult care.",
+      cat:{ label:"Setting", options:["Hospital","School","Community mental health","Private practice","Older adult care","Other setting"] },
+      valueHint:"What is offered in this setting. No client details." },
+    { id:"telehealth", name:"Telehealth availability", short:"Telehealth",
+      desc:"Whether art therapy is offered by telehealth from or into this region, and under what conditions.",
+      cat:null,
+      valueHint:"Offered, not offered, or mixed. Add conditions such as age range or payer limits if known." },
+    { id:"education", name:"Educational pathways", short:"Education",
+      desc:"Graduate programs and other training routes located in the region.",
+      cat:{ label:"Pathway type", options:["Graduate program","Certificate","Supervision group","Continuing education","Other pathway"] },
+      valueHint:"Institution and program name as it appears on the program page." },
+    { id:"gaps", name:"Workforce gaps", short:"Gaps", derived:true,
+      desc:"Derived. A region qualifies only when both practitioners and service access are documented for it. Nothing here is estimated.",
+      cat:null, valueHint:"" }
+  ],
+  // col and row are 0-based grid positions. lx and ly place the label.
+  regions: [
+    { id:"nw", name:"Northwest",     col:0, row:0, lx:104, ly:88 },
+    { id:"nc", name:"North Central", col:1, row:0, lx:174, ly:88 },
+    { id:"ne", name:"Northeast",     col:2, row:0, lx:245, ly:122 },
+    { id:"wc", name:"West Central",  col:0, row:1, lx:104, ly:212 },
+    { id:"c",  name:"Central",       col:1, row:1, lx:174, ly:190 },
+    { id:"ec", name:"East Central",  col:2, row:1, lx:245, ly:212 },
+    { id:"sw", name:"Southwest",     col:0, row:2, lx:92,  ly:345 },
+    { id:"sc", name:"South Central", col:1, row:2, lx:174, ly:335 },
+    { id:"se", name:"Southeast",     col:2, row:2, lx:228, ly:292 }
+  ],
+  grid: { xs:[20, 139, 210, 290], ys:[12, 150, 275, 440] },
+  // A simplified outline. Approximate, for orientation only.
+  outline: "M69 34 Q95 42 118 29 L280 25 L280 292 L258 312 L235 328 L220 352 L207 374 L185 380 L165 388 L148 398 L128 407 L105 400 L85 408 L66 405 L45 425 L33 422 L38 389 L55 365 L69 334 Z",
+  cities: [
+    { name:"Indianapolis", x:175, y:224, side:"below" },
+    { name:"Fort Wayne",   x:254, y:93,  side:"left" },
+    { name:"Evansville",   x:66,  y:405, side:"right" },
+    { name:"South Bend",   x:168, y:36,  side:"below" },
+    { name:"Terre Haute",  x:78,  y:255, side:"right" },
+    { name:"Bloomington",  x:146, y:285, side:"right" },
+    { name:"Lafayette",    x:119, y:159, side:"right" },
+    { name:"Muncie",       x:234, y:182, side:"right" }
+  ],
+  states: {
+    undoc:   { label:"Not yet documented", cls:"undoc" },
+    confirm: { label:"Needs source confirmation", cls:"confirm" },
+    doc:     { label:"Documented", cls:"doc" },
+    ready:   { label:"Inputs documented", cls:"ready" },
+    blocked: { label:"Cannot compute", cls:"undoc" }
+  },
+  text: {
+    undocBody: "IndiATA has not recorded an entry for this region on this layer.",
+    gapsBlocked: "Cannot be computed until practitioners and service access are documented for this region.",
+    gapsReady: "Both inputs are documented for this region. IndiATA has not defined a method for computing a gap, so none is shown.",
+    gapsEntryNote: "Workforce gaps are derived from the other layers. Add entries to Credentialed practitioners and Service access instead.",
+    noSource: "No source recorded yet.",
+    errSource: "Source is required. Write where this came from, such as a roster date, a survey, or a program page.",
+    errDate: "Date documented is required.",
+    errValue: "Add a value or description.",
+    errDerived: "Workforce gaps cannot take entries. They are derived from practitioners and service access.",
+    importBad: "That file is not a Living Map export. Nothing was changed.",
+    importAsk: "Replace everything on this map with the contents of this file?",
+    freshAsk: "Clear all saved entries and return to the starting state?",
+    copied: "Text summary copied.",
+    copyFallback: "Copy did not complete. The summary is selected below; press Ctrl+C or Cmd+C."
+  },
+  facts: [
+    { body:"Indiana does not currently have a state-issued art therapy license. Art therapists in Indiana commonly hold ATCB credentials and may also hold Indiana counseling or related licenses.",
+      list:["ATCB credentials in use are ATR-P, ATR, and ATR-BC.", "Related Indiana licenses are LMHCA, LMHC, LCSW, and LMFT."] },
+    { body:"Graduate art therapy programs in Indiana.",
+      list:["Herron School of Art and Design at IU Indianapolis, MA in Art Therapy.", "Saint Mary-of-the-Woods College, Terre Haute, MA in Art Therapy."] }
+  ],
+  factTag: "Needs source confirmation before publishing"
+};
+
+// Entries that ship with the page. Each stays flagged until an officer
+// edits it and adds a source and a date.
+const SEED_ENTRIES = [
+  { id:"seed-herron", layer:"education", region:"c", category:"Graduate program",
+    value:"Herron School of Art and Design at IU Indianapolis, MA in Art Therapy", source:"", date:"", needsConfirmation:true },
+  { id:"seed-smwc", layer:"education", region:"wc", category:"Graduate program",
+    value:"Saint Mary-of-the-Woods College, Terre Haute, MA in Art Therapy", source:"", date:"", needsConfirmation:true }
+];
+
+/* ================================ LOGIC ================================ */
+const STORE_KEY = "indiata-living-map-v1";
+const APP_ID = "indiata-living-map";
+
+const $ = (s) => document.querySelector(s);
+const layerById = (id) => CONTENT.layers.find(l => l.id === id);
+const regionById = (id) => CONTENT.regions.find(r => r.id === id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+let state = { entries: [], layer: "practitioners", region: null };
+let hoverRegion = null;
+let editingId = null;
+
+function cloneSeeds(){ return SEED_ENTRIES.map(e => Object.assign({}, e)); }
+
+function load(){
+  let raw = null;
+  try { raw = localStorage.getItem(STORE_KEY); } catch(e) { raw = null; }
+  if (!raw) { state.entries = cloneSeeds(); return; }
+  try {
+    const parsed = JSON.parse(raw);
+    const clean = sanitizeEntries(parsed && parsed.entries);
+    state.entries = clean.entries;
+    if (parsed.layer && layerById(parsed.layer)) state.layer = parsed.layer;
+    if (parsed.region && regionById(parsed.region)) state.region = parsed.region;
+  } catch(e) { state.entries = cloneSeeds(); }
+}
+function save(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ entries: state.entries, layer: state.layer, region: state.region })); } catch(e) {}
+}
+
+function sanitizeEntries(list){
+  const out = []; let unsourced = 0; let dropped = 0;
+  if (!Array.isArray(list)) return { entries: out, unsourced, dropped };
+  list.forEach((e, i) => {
+    if (!e || typeof e !== "object") { dropped++; return; }
+    const layer = layerById(e.layer); const region = regionById(e.region);
+    if (!layer || !region || layer.derived) { dropped++; return; }
+    const value = String(e.value || "").trim();
+    if (!value) { dropped++; return; }
+    const source = String(e.source || "").trim();
+    const date = String(e.date || "").trim();
+    const flagged = !source || !date || !!e.needsConfirmation;
+    if (flagged && !e.needsConfirmation) unsourced++;
+    out.push({
+      id: String(e.id || ("e" + Date.now() + "-" + i)),
+      layer: layer.id, region: region.id,
+      category: String(e.category || "").trim(),
+      value, source, date, needsConfirmation: flagged
+    });
+  });
+  return { entries: out, unsourced, dropped };
+}
+
+/* ---------- derived state ---------- */
+function entriesFor(layerId, regionId){
+  return state.entries.filter(e => e.layer === layerId && e.region === regionId);
+}
+function regionState(layerId, regionId){
+  if (layerId === "gaps") {
+    const p = regionState("practitioners", regionId) === "doc";
+    const a = regionState("access", regionId) === "doc";
+    return (p && a) ? "ready" : "blocked";
+  }
+  const list = entriesFor(layerId, regionId);
+  if (!list.length) return "undoc";
+  if (list.some(e => !e.needsConfirmation)) return "doc";
+  return "confirm";
+}
+function layerCounts(layerId){
+  const c = { doc:0, confirm:0, ready:0 };
+  CONTENT.regions.forEach(r => { const s = regionState(layerId, r.id); if (c[s] != null) c[s]++; });
+  return c;
+}
+
+/* ---------- build static parts ---------- */
+function buildHeader(){
+  $("#howList").innerHTML = CONTENT.howTo.map(t => `<li>${esc(t)}</li>`).join("");
+  $("#about").innerHTML = CONTENT.about.map(t => `<p>${esc(t)}</p>`).join("");
+  $("#factsList").innerHTML = CONTENT.facts.map(f => `
+    <div class="fact">
+      <span class="tagline"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 3.2v3.4M6 8.6v.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(CONTENT.factTag)}</span>
+      <p style="margin-top:8px">${esc(f.body)}</p>
+      <ul>${f.list.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    </div>`).join("");
+}
+
+function buildTabs(){
+  $("#tabs").innerHTML = CONTENT.layers.map(l =>
+    `<button type="button" class="tab" data-layer="${l.id}" aria-pressed="false">${esc(l.short)}<span class="n" aria-label="regions documented"></span></button>`
+  ).join("");
+  $("#tabs").addEventListener("click", (ev) => {
+    const b = ev.target.closest(".tab"); if (!b) return;
+    setLayer(b.dataset.layer);
+  });
+}
+
+function buildMap(){
+  $("#stateShape").setAttribute("d", CONTENT.outline);
+  $("#outlinePath").setAttribute("d", CONTENT.outline);
+  const g = $("#regions"); const xs = CONTENT.grid.xs, ys = CONTENT.grid.ys;
+  g.innerHTML = CONTENT.regions.map(r => {
+    const x = xs[r.col], y = ys[r.row], w = xs[r.col+1]-x, h = ys[r.row+1]-y;
+    const words = r.name.split(" ");
+    const lines = words.length > 1
+      ? `<tspan x="${r.lx}" dy="-0.35em">${esc(words[0])}</tspan><tspan x="${r.lx}" dy="1.15em">${esc(words.slice(1).join(" "))}</tspan>`
+      : `<tspan x="${r.lx}" dy="0.2em">${esc(r.name)}</tspan>`;
+    return `<g class="region" data-region="${r.id}" tabindex="0" role="button" aria-label="${esc(r.name)}">
+      <rect class="fill" x="${x}" y="${y}" width="${w}" height="${h}"/>
+      <text class="rlabel" x="${r.lx}" y="${r.ly}">${lines}</text>
+      <text class="rlabel rsub" x="${r.lx}" y="${r.ly + 16}" text-anchor="middle"></text>
+    </g>`;
+  }).join("");
+  $("#cities").innerHTML = CONTENT.cities.map(c => {
+    let tx = c.x + 5, ty = c.y + 2.6, anchor = "start";
+    if (c.side === "left") { tx = c.x - 5; anchor = "end"; }
+    if (c.side === "below") { tx = c.x; ty = c.y + 10; anchor = "middle"; }
+    return `<circle cx="${c.x}" cy="${c.y}" r="2.6"/><text x="${tx}" y="${ty}" text-anchor="${anchor}">${esc(c.name)}</text>`;
+  }).join("");
+
+  g.addEventListener("click", (ev) => { const r = ev.target.closest(".region"); if (r) selectRegion(r.dataset.region); });
+  g.addEventListener("keydown", (ev) => {
+    const r = ev.target.closest(".region"); if (!r) return;
+    if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selectRegion(r.dataset.region); }
+  });
+  g.addEventListener("mouseover", (ev) => { const r = ev.target.closest(".region"); if (r && hoverRegion !== r.dataset.region) { hoverRegion = r.dataset.region; renderCard(); } });
+  g.addEventListener("mouseleave", () => { hoverRegion = null; renderCard(); });
+  g.addEventListener("focusin", (ev) => { const r = ev.target.closest(".region"); if (r) { hoverRegion = r.dataset.region; renderCard(); } });
+  g.addEventListener("focusout", () => { hoverRegion = null; renderCard(); });
+}
+
+function buildForm(){
+  $("#fLayer").innerHTML = CONTENT.layers.map(l => `<option value="${l.id}">${esc(l.name)}${l.derived ? " (derived)" : ""}</option>`).join("");
+  $("#fRegion").innerHTML = CONTENT.regions.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join("");
+  $("#fLayer").addEventListener("change", () => { syncCategory(); hideMsg("#formMsg"); });
+  $("#fDate").value = todayISO();
+  $("#entryForm").addEventListener("submit", onSubmit);
+  $("#cancelEdit").addEventListener("click", stopEditing);
+  syncCategory();
+}
+function syncCategory(){
+  const l = layerById($("#fLayer").value);
+  const wrap = $("#catWrap");
+  if (l && l.cat) {
+    wrap.hidden = false;
+    $("#fCatLabel").textContent = l.cat.label;
+    const prev = $("#fCat").value;
+    $("#fCat").innerHTML = l.cat.options.map(o => `<option>${esc(o)}</option>`).join("");
+    if (l.cat.options.includes(prev)) $("#fCat").value = prev;
+  } else { wrap.hidden = true; }
+  $("#valueHint").textContent = l && l.derived ? CONTENT.text.gapsEntryNote : (l ? l.valueHint : "");
+  $("#submitBtn").disabled = !!(l && l.derived && !editingId);
+}
+function todayISO(){
+  const d = new Date(); const p = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+
+/* ---------- actions ---------- */
+function setLayer(id){
+  if (!layerById(id)) return;
+  state.layer = id; save(); renderAll();
+}
+function selectRegion(id){
+  state.region = id; save();
+  $("#fRegion").value = id;
+  renderAll();
+}
+
+function showMsg(sel, text, kind){
+  const m = $(sel); m.textContent = text; m.className = "msg show " + kind;
+}
+function hideMsg(sel){ const m = $(sel); m.className = "msg"; m.textContent = ""; }
+
+function onSubmit(ev){
+  ev.preventDefault();
+  const layer = layerById($("#fLayer").value);
+  const region = regionById($("#fRegion").value);
+  const value = $("#fValue").value.trim();
+  const source = $("#fSource").value.trim();
+  const date = $("#fDate").value.trim();
+  if (!layer || layer.derived) { showMsg("#formMsg", CONTENT.text.errDerived, "err"); return; }
+  if (!value) { showMsg("#formMsg", CONTENT.text.errValue, "err"); $("#fValue").focus(); return; }
+  if (!source) { showMsg("#formMsg", CONTENT.text.errSource, "err"); $("#fSource").focus(); return; }
+  if (!date) { showMsg("#formMsg", CONTENT.text.errDate, "err"); $("#fDate").focus(); return; }
+  const category = (layer.cat && !$("#catWrap").hidden) ? $("#fCat").value : "";
+  if (editingId) {
+    const e = state.entries.find(x => x.id === editingId);
+    if (e) Object.assign(e, { layer: layer.id, region: region.id, category, value, source, date, needsConfirmation: false });
+    editingId = null;
+    showMsg("#formMsg", `Entry saved to ${region.name} on ${layer.name}.`, "ok");
+  } else {
+    state.entries.push({ id: "e" + Date.now().toString(36) + Math.random().toString(36).slice(2,6), layer: layer.id, region: region.id, category, value, source, date, needsConfirmation: false });
+    showMsg("#formMsg", `Entry added to ${region.name} on ${layer.name}.`, "ok");
+  }
+  state.layer = layer.id; state.region = region.id;
+  save();
+  resetForm(true);
+  renderAll();
+}
+function resetForm(keepLayerRegion){
+  const l = $("#fLayer").value, r = $("#fRegion").value;
+  $("#entryForm").reset();
+  if (keepLayerRegion) { $("#fLayer").value = l; $("#fRegion").value = r; }
+  $("#fDate").value = todayISO();
+  $("#editingNote").className = "editing"; $("#editingNote").textContent = "";
+  $("#cancelEdit").hidden = true; $("#submitBtn").textContent = "Add entry";
+  syncCategory();
+}
+function startEditing(id){
+  const e = state.entries.find(x => x.id === id); if (!e) return;
+  editingId = id;
+  $("#fLayer").value = e.layer; syncCategory();
+  $("#fRegion").value = e.region;
+  if (e.category && layerById(e.layer).cat) { $("#fCat").value = e.category; }
+  $("#fValue").value = e.value; $("#fSource").value = e.source; $("#fDate").value = e.date || todayISO();
+  const n = $("#editingNote");
+  n.textContent = `Editing an entry in ${regionById(e.region).name}. Saving with a source and a date marks it documented.`;
+  n.className = "editing show";
+  $("#cancelEdit").hidden = false; $("#submitBtn").textContent = "Save changes"; $("#submitBtn").disabled = false;
+  hideMsg("#formMsg");
+  $("#entryHeading").scrollIntoView({ block: "start", behavior: prefersReduced() ? "auto" : "smooth" });
+  $("#fValue").focus();
+}
+function stopEditing(){ editingId = null; resetForm(false); hideMsg("#formMsg"); }
+function removeEntry(id){
+  const e = state.entries.find(x => x.id === id); if (!e) return;
+  state.entries = state.entries.filter(x => x.id !== id);
+  if (editingId === id) stopEditing();
+  save(); renderAll();
+}
+function prefersReduced(){ return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+
+/* ---------- rendering ---------- */
+function renderAll(){ renderTabs(); renderMap(); renderStatus(); renderCard(); renderDownload(); }
+
+function renderTabs(){
+  const cur = layerById(state.layer);
+  document.querySelectorAll(".tab").forEach(b => {
+    const l = layerById(b.dataset.layer); const c = layerCounts(l.id);
+    b.setAttribute("aria-pressed", String(l.id === state.layer));
+    b.querySelector(".n").textContent = (l.derived ? c.ready : c.doc) + "/9";
+  });
+  $("#layerDesc").textContent = cur.desc;
+  $("#legendReady").hidden = !cur.derived;
+}
+
+function renderMap(){
+  document.querySelectorAll(".region").forEach(g => {
+    const rid = g.dataset.region; const s = regionState(state.layer, rid);
+    g.setAttribute("class", "region s-" + s + (state.region === rid ? " is-selected" : "") + (hoverRegion === rid ? " is-hover" : ""));
+    const sub = g.querySelector(".rsub");
+    let txt = "";
+    if (s === "doc") { const n = entriesFor(state.layer, rid).length; txt = n + (n === 1 ? " entry" : " entries"); }
+    else if (s === "confirm") txt = "needs source";
+    else if (s === "ready") txt = "inputs ready";
+    else if (s === "blocked") txt = "cannot compute";
+    else txt = "not yet documented";
+    sub.textContent = txt;
+    g.setAttribute("aria-label", regionById(rid).name + ", " + CONTENT.states[s].label);
+  });
+}
+
+function renderStatus(){
+  $("#statusRows").innerHTML = CONTENT.layers.map(l => {
+    const c = layerCounts(l.id);
+    const cells = CONTENT.regions.map(r => {
+      const s = regionState(l.id, r.id);
+      return `<span class="cell ${CONTENT.states[s].cls}" title="${esc(r.name)}: ${esc(CONTENT.states[s].label)}"></span>`;
+    }).join("");
+    let count;
+    if (l.derived) count = `${c.ready} of 9 regions have both inputs. No gap is computed.`;
+    else {
+      count = `${c.doc} of 9 regions documented`;
+      if (c.confirm) count += `, ${c.confirm} ${c.confirm === 1 ? "needs" : "need"} source confirmation`;
+    }
+    return `<button type="button" class="status-row" data-layer="${l.id}" aria-pressed="${l.id === state.layer}">
+      <span class="status-name">${esc(l.name)}</span>
+      <span class="status-count">${count}</span>
+      <span class="cells" aria-hidden="true">${cells}</span>
+    </button>`;
+  }).join("");
+}
+$("#statusRows").addEventListener("click", (ev) => { const b = ev.target.closest(".status-row"); if (b) setLayer(b.dataset.layer); });
+
+let lastCardKey = null;
+function renderCard(force){
+  const rid = hoverRegion || state.region;
+  const layer = layerById(state.layer);
+  const key = state.layer + "|" + rid + "|" + JSON.stringify(state.entries);
+  if (!force && key === lastCardKey) return;
+  lastCardKey = key;
+  $("#detailLayer").textContent = "Layer: " + layer.name;
+  const body = $("#detailBody");
+  const stateEl = $("#detailState");
+  if (!rid) {
+    $("#detailTitle").textContent = "Choose a region";
+    stateEl.textContent = ""; stateEl.className = "state"; stateEl.hidden = true;
+    body.innerHTML = `<p class="muted small" style="margin:10px 0 0">Hover, tap, or use the keyboard on the map. Each region shows its entries for the current layer.</p>`;
+    return;
+  }
+  stateEl.hidden = false;
+  const region = regionById(rid); const s = regionState(state.layer, rid);
+  $("#detailTitle").textContent = region.name;
+  stateEl.textContent = CONTENT.states[s].label; stateEl.className = "state " + CONTENT.states[s].cls;
+
+  if (layer.derived) {
+    const p = regionState("practitioners", rid), a = regionState("access", rid);
+    const lab = (x) => x === "doc" ? "documented" : (x === "confirm" ? "needs source confirmation" : "not yet documented");
+    body.innerHTML = `<p style="margin:10px 0 6px">${esc(s === "ready" ? CONTENT.text.gapsReady : CONTENT.text.gapsBlocked)}</p>
+      <ul class="small muted" style="margin:0; padding-left:18px"><li>Credentialed practitioners: ${lab(p)}</li><li>Service access: ${lab(a)}</li></ul>`;
+    return;
+  }
+  const list = entriesFor(state.layer, rid);
+  if (!list.length) {
+    body.innerHTML = `<div class="empty"><div class="empty-inner">${esc(CONTENT.text.undocBody)}</div></div>`;
+    return;
+  }
+  body.innerHTML = `<ul class="entries">` + list.map(e => `
+    <li class="entry" data-id="${esc(e.id)}">
+      <p class="val">${e.category ? `<span class="muted">${esc(e.category)} · </span>` : ""}${esc(e.value)}</p>
+      <p class="meta">${e.source ? "Source: " + esc(e.source) : esc(CONTENT.text.noSource)}${e.date ? " · Documented " + esc(e.date) : ""}</p>
+      ${e.needsConfirmation ? `<span class="tag">Needs source confirmation</span>` : ""}
+      <div class="entry-actions">
+        <button type="button" class="btn ghost sm" data-act="edit">Edit</button>
+        <button type="button" class="btn danger sm" data-act="remove">Remove</button>
+      </div>
+    </li>`).join("") + `</ul>`;
+}
+$("#detailBody").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button[data-act]"); if (!b) return;
+  const li = b.closest(".entry"); const id = li.dataset.id;
+  if (b.dataset.act === "edit") { hoverRegion = null; state.region = li.closest("#detailBody") ? (hoverRegion || state.region) : state.region; startEditing(id); }
+  if (b.dataset.act === "remove") {
+    const box = li.querySelector(".entry-actions");
+    box.innerHTML = `<span class="confirm-inline">Remove this entry? <button type="button" class="btn danger sm" data-act="confirm-remove">Remove</button><button type="button" class="btn ghost sm" data-act="keep">Keep</button></span>`;
+  }
+  if (b.dataset.act === "confirm-remove") removeEntry(id);
+  if (b.dataset.act === "keep") renderCard(true);
+});
+
+/* ---------- export, import, fresh ---------- */
+let blobUrl = null;
+function exportObject(){
+  return { app: APP_ID, version: 1, exportedAt: new Date().toISOString(), entries: state.entries };
+}
+function renderDownload(){
+  const a = $("#downloadLink");
+  try {
+    const blob = new Blob([JSON.stringify(exportObject(), null, 2)], { type: "application/json" });
+    if (blobUrl) URL.revokeObjectURL(blobUrl);
+    blobUrl = URL.createObjectURL(blob);
+    a.href = blobUrl;
+    a.download = "indiata-living-map-" + todayISO() + ".json";
+  } catch(e) { a.removeAttribute("href"); }
+}
+function textSummary(){
+  const lines = ["Indiana Art Therapy: The Living Map", "IndiATA documentation summary, " + todayISO(), ""];
+  CONTENT.layers.forEach(l => {
+    const c = layerCounts(l.id);
+    lines.push(l.name.toUpperCase());
+    lines.push(l.derived ? `${c.ready} of 9 regions have both inputs documented. No gap is computed.` : `${c.doc} of 9 regions documented.`);
+    CONTENT.regions.forEach(r => {
+      const s = regionState(l.id, r.id);
+      if (l.derived) { lines.push(`  ${r.name}: ${s === "ready" ? "inputs documented, no gap computed" : "cannot compute"}`); return; }
+      const list = entriesFor(l.id, r.id);
+      if (!list.length) { lines.push(`  ${r.name}: not yet documented`); return; }
+      lines.push(`  ${r.name}:`);
+      list.forEach(e => {
+        lines.push(`    - ${e.category ? e.category + ": " : ""}${e.value}`);
+        lines.push(`      ${e.source ? "Source: " + e.source : "No source recorded"}${e.date ? ", documented " + e.date : ""}${e.needsConfirmation ? " [needs source confirmation]" : ""}`);
+      });
+    });
+    lines.push("");
+  });
+  lines.push("Not a directory. Nothing here is a referral.");
+  return lines.join("\n");
+}
+$("#copyBtn").addEventListener("click", async () => {
+  const txt = textSummary();
+  try {
+    await navigator.clipboard.writeText(txt);
+    showMsg("#transferMsg", CONTENT.text.copied, "ok");
+  } catch(e) {
+    const box = $("#copyBox"); box.className = ""; box.style.cssText = "width:100%;min-height:120px;margin-top:10px"; box.value = txt; box.setAttribute("aria-hidden", "false"); box.tabIndex = 0;
+    box.focus(); box.select();
+    showMsg("#transferMsg", CONTENT.text.copyFallback, "note");
+  }
+});
+
+let pendingImport = null;
+$("#importFile").addEventListener("change", (ev) => {
+  const file = ev.target.files && ev.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed = null;
+    try { parsed = JSON.parse(reader.result); } catch(e) { parsed = null; }
+    if (!parsed || parsed.app !== APP_ID || !Array.isArray(parsed.entries)) {
+      showMsg("#transferMsg", CONTENT.text.importBad, "err"); ev.target.value = ""; return;
+    }
+    pendingImport = sanitizeEntries(parsed.entries);
+    hideMsg("#transferMsg");
+    const box = $("#importConfirm");
+    box.style.display = "block";
+    box.innerHTML = `<span class="confirm-inline">${esc(CONTENT.text.importAsk)} The file holds ${pendingImport.entries.length} ${pendingImport.entries.length === 1 ? "entry" : "entries"}.
+      <button type="button" class="btn sm" id="importYes">Replace</button><button type="button" class="btn ghost sm" id="importNo">Keep mine</button></span>`;
+    $("#importYes").addEventListener("click", () => {
+      state.entries = pendingImport.entries; editingId = null; resetForm(false);
+      save(); renderAll();
+      let note = `Imported ${state.entries.length} ${state.entries.length === 1 ? "entry" : "entries"}.`;
+      if (pendingImport.unsourced) note += ` ${pendingImport.unsourced} had no source or date and ${pendingImport.unsourced === 1 ? "is" : "are"} marked as needing source confirmation.`;
+      if (pendingImport.dropped) note += ` ${pendingImport.dropped} could not be read and ${pendingImport.dropped === 1 ? "was" : "were"} skipped.`;
+      showMsg("#transferMsg", note, "ok");
+      box.style.display = "none"; pendingImport = null; ev.target.value = "";
+    });
+    $("#importNo").addEventListener("click", () => { box.style.display = "none"; pendingImport = null; ev.target.value = ""; });
+  };
+  reader.readAsText(file);
+});
+
+$("#freshBtn").addEventListener("click", () => {
+  const box = $("#freshConfirm");
+  box.style.display = "block";
+  box.innerHTML = `<span class="confirm-inline">${esc(CONTENT.text.freshAsk)}
+    <button type="button" class="btn danger sm" id="freshYes">Clear</button><button type="button" class="btn ghost sm" id="freshNo">Keep</button></span>`;
+  $("#freshYes").addEventListener("click", () => {
+    try { localStorage.removeItem(STORE_KEY); } catch(e) {}
+    state = { entries: cloneSeeds(), layer: "practitioners", region: null };
+    editingId = null; hoverRegion = null; resetForm(false);
+    box.style.display = "none"; hideMsg("#transferMsg"); hideMsg("#formMsg");
+    renderAll();
+    showMsg("#transferMsg", "Cleared. The map is back to its starting state.", "ok");
+  });
+  $("#freshNo").addEventListener("click", () => { box.style.display = "none"; });
+});
+
+/* ---------- start ---------- */
+buildHeader(); buildTabs(); buildMap(); buildForm();
+load();
+$("#fLayer").value = state.layer === "gaps" ? "practitioners" : state.layer; syncCategory();
+if (state.region) $("#fRegion").value = state.region;
+renderAll();
+</script>
+</body>
+</html>

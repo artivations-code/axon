@@ -5,167 +5,215 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anatomy of a Sentence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap">
 <style>
 :root{
-  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-  --night:#1B2730; --night-2:#24333E;
-  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-  --round:20px;
-  --sans:"Nunito",system-ui,sans-serif;
-  --serif:"Libre Caslon Text",Georgia,"Times New Roman",serif;
-  --line:rgba(43,58,66,.14);
+  --ground:#FFFFFF;
+  --paper:#FBFAF7;
+  --line:#D9CFBF;
+  --line-soft:#F7F6F5;
+  --ink:#3E3F46;
+  --ink-soft:#6B6C73;
+  --sage:#8E9A82;
+  --olive:#666741;
+  --clay:#C07A57; --clay-deep:#9A5C3E;
+  --gold:#E0B14C;
+  --teal:#0C4862;
+  --night:#2E3036; --night-2:#3E3F46;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Mulish',Arial,sans-serif;
+  /* the four layer marks: one olive line, four line styles, drawn under the words */
+  --mk-solid:linear-gradient(var(--olive),var(--olive));
+  --mk-dotted:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='2'%3E%3Ccircle cx='1' cy='1' r='.8' fill='%23666741'/%3E%3C/svg%3E");
+  --mk-dashed:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='2'%3E%3Cpath d='M.6 1h5' stroke='%23666741' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
+  --mk-double:linear-gradient(var(--olive) 0 1px,transparent 1px 2px,var(--olive) 2px 3px);
+  --gold-tint:rgba(224,177,76,.26);
+  --sage-tint:rgba(142,154,130,.22);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:600;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 48px}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:44px 16px 56px}
 button{font:inherit;color:inherit;cursor:pointer}
-button:disabled{cursor:default;opacity:.45}
-:focus-visible{outline:3px solid var(--sky-d);outline-offset:2px}
+button:disabled{cursor:default;opacity:.4}
+:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
 textarea,input{font:inherit;color:inherit}
-a{color:var(--sky-d)}
+a{color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+p{max-width:64ch}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* frame */
-.chip{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--sky-d);border:1.5px solid var(--sky);border-radius:999px;padding:4px 11px;background:var(--card)}
-h1{font-size:clamp(30px,5vw,46px);font-weight:900;line-height:1.08;margin:16px 0 10px;letter-spacing:-.01em}
-.lede{font-size:17px;color:var(--ink-soft);margin:0 0 14px;max-width:64ch}
-details.how{max-width:64ch;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0}
-details.how summary{font-weight:800;cursor:pointer;padding:4px 0;color:var(--sky-d)}
-details.how ol{margin:6px 0 4px;padding-left:20px;color:var(--ink-soft)}
-details.how li{margin:3px 0}
-.holds{margin:18px 0 0;font-size:15px;color:var(--ink-soft);font-style:italic;font-family:var(--serif)}
+/* type */
+.eyebrow{display:block;font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive)}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.6vw,50px);line-height:1.05;letter-spacing:.005em;text-wrap:balance;max-width:18ch;margin:14px 0 18px}
+h2{font-family:var(--serif);font-weight:500;font-size:29px;line-height:1.15;margin:0 0 18px}
+h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;margin:0 0 8px}
+.lede{font-family:var(--serif);font-style:italic;font-weight:400;font-size:21px;line-height:1.4;margin:0 0 12px;max-width:52ch}
+.quiet{font-size:15px;color:var(--ink-soft);margin:0 0 6px}
+.holds{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink-soft);margin:12px 0 0}
+.status{font-size:13px;color:var(--ink-soft)}
+.hint{font-size:15px;color:var(--ink-soft);margin:0 0 14px}
+.empty{font-size:15px;color:var(--ink-soft);padding:6px 0;margin:0}
 
-section{margin-top:38px}
-h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--ink-soft);margin:0 0 12px}
-h3{font-size:15px;font-weight:800;margin:0 0 8px}
-.card{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:20px}
-.serif{font-family:var(--serif);font-weight:400}
-.muted{color:var(--ink-soft)}
-.small{font-size:14px}
+/* frame */
+.frame{padding-bottom:28px}
+details.how{margin:4px 0 0}
+details.how summary{display:inline;list-style:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+details.how summary::-webkit-details-marker{display:none}
+.how-panel{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px 18px;margin-top:12px;max-width:60ch;font-size:15px;color:var(--ink-soft)}
+.how-panel ol{margin:0;padding-left:18px}
+.how-panel li{margin:3px 0}
+.how-panel li::marker{color:var(--olive)}
+
+section{margin-top:40px;border-top:1px solid var(--line);padding-top:26px}
+
+/* line-style swatches used in the key, the note headings, and the tag row */
+.sw{display:inline-block;flex:none;width:26px;height:4px;vertical-align:middle;background-repeat:repeat-x;background-position:0 50%}
+.sw.solid{background-image:var(--mk-solid);background-size:100% 1px}
+.sw.dotted{background-image:var(--mk-dotted);background-size:4px 2px}
+.sw.dashed{background-image:var(--mk-dashed);background-size:9px 2px}
+.sw.double{background-image:var(--mk-double);background-size:100% 3px}
 
 /* shelf */
-.shelf{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.shelf button{background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;text-align:left}
-.shelf button[aria-pressed="true"]{border-color:var(--sky-d);background:var(--sky-100);color:var(--sky-d)}
-.shelf button .tag{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
-.shelf button[aria-pressed="true"] .tag{color:var(--sky-d)}
+.shelf{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 30px;counter-reset:shelf}
+.shelf li{counter-increment:shelf}
+.shelf button{background:none;border:0;border-bottom:2px solid transparent;padding:6px 0 4px;font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.3;color:var(--ink-soft);text-align:left}
+.shelf button::before{content:counter(shelf,lower-roman) ".";font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--olive);margin-right:9px;vertical-align:middle}
+.shelf button[aria-pressed="true"]{border-bottom-color:var(--sage);color:var(--ink)}
+.shelf button .tag{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* examination */
-.orig-card{padding:22px 24px}
-.orig-label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:8px}
-.orig-label .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
-.sentence{font-size:clamp(22px,2.7vw,31px);line-height:1.8;margin:0;word-wrap:break-word}
-.w{padding:0 1px 2px;border-radius:3px;transition:background .15s,color .15s}
-.w.swappable{text-decoration:underline dotted var(--sky);text-decoration-thickness:1.5px;text-underline-offset:5px}
-.w.hot{background:var(--ink);color:var(--card);box-shadow:none !important}
-.exam{display:grid;gap:22px;margin-top:22px}
+/* key of layers */
+.key{padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.layers{display:flex;flex-wrap:wrap;gap:2px 28px;margin:6px 0 0}
+.layer-btn{display:inline-flex;align-items:center;gap:10px;background:none;border:0;border-bottom:2px solid transparent;padding:6px 0 5px;font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink-soft)}
+.layer-btn[aria-pressed="true"]{border-bottom-color:var(--sage);color:var(--ink)}
+.layer-btn .n{font-weight:400;font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.defs{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 24px;font-size:14px;line-height:1.5;color:var(--ink-soft)}
+.defs b{color:var(--ink);font-weight:600}
+
+/* the plate: sentence at left, annotations in the margin */
+.plate{display:grid;gap:26px}
+.orig-col{isolation:isolate}
+.orig-label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.sentence{font-family:var(--serif);font-weight:500;font-size:clamp(27px,3vw,34px);line-height:2;letter-spacing:.005em;margin:0;max-width:none;overflow-wrap:anywhere}
+.w{position:relative;padding-bottom:15px;background-repeat:repeat-x}
+.w.swappable{color:var(--clay-deep)}
+.w.hot::before,.tok.hot::before{content:"";position:absolute;z-index:-1;left:-3px;right:-3px;top:0;height:1.18em;background:var(--gold-tint);border-radius:2px}
+.margin{border-top:1px solid var(--line);padding-top:18px}
+.ngroup{margin:0 0 24px}
+.ngroup h3{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0 0 8px}
+.nlist{list-style:none;margin:0;padding:0}
+.note{position:relative;margin:0 -10px;padding:8px 10px}
+.note:hover,.note:focus-within,.note.pin{background:var(--paper)}
+.note .words{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;line-height:1.3;display:block;margin-bottom:4px;color:var(--ink)}
+.note button.pinbtn{all:unset;cursor:pointer;display:block;width:100%}
+.note button.pinbtn:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.note p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.note ul{margin:6px 0 0;padding-left:16px;font-size:14px;line-height:1.5;color:var(--ink-soft);display:grid;gap:3px}
+.note ul li::marker{color:var(--sage)}
 @media (min-width:900px){
-  .exam{grid-template-columns:1.1fr .9fr;align-items:start}
-  .orig-card{position:sticky;top:10px;z-index:3}
+  .plate{grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:40px;align-items:start}
+  .orig-col{position:sticky;top:0;z-index:3;background:var(--ground);padding:10px 0 14px}
+  .margin{border-top:0;padding-top:0;border-left:1px solid var(--line);padding-left:22px}
+  .note::before{content:"";position:absolute;left:-22px;top:21px;width:12px;height:1px;background:var(--line)}
+  .note:hover::before,.note:focus-within::before,.note.pin::before{background:var(--olive);width:22px}
 }
 
-/* layers */
-.layers{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
-.layer-btn{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 13px 7px 9px;font-weight:800;font-size:14px}
-.layer-btn .sw{width:14px;height:14px;border-radius:4px;background:var(--c);opacity:.35}
-.layer-btn[aria-pressed="true"]{border-color:var(--c);background:var(--t)}
-.layer-btn[aria-pressed="true"] .sw{opacity:1}
-.layer-btn .n{font-weight:700;color:var(--ink-soft);font-size:13px}
-.defs{font-size:13px;color:var(--ink-soft);margin:0 0 14px;padding:0;list-style:none;display:grid;gap:3px}
-.defs li b{color:var(--ink)}
-.notes{display:grid;gap:14px}
-.ngroup{border-left:4px solid var(--c);padding-left:14px}
-.ngroup h3{display:flex;align-items:center;gap:8px}
-.ngroup h3 .sw{width:12px;height:12px;border-radius:3px;background:var(--c)}
-.nlist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.note{border-radius:12px;padding:8px 10px;margin:0 -10px;transition:background .15s}
-.note:hover,.note:focus-within,.note.pin{background:var(--t)}
-.note .words{font-family:var(--serif);font-size:17px;display:block;margin-bottom:2px}
-.note button.pinbtn{all:unset;cursor:pointer;display:block;width:100%;border-radius:12px}
-.note p{margin:0;font-size:15px;line-height:1.5}
-.note ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--ink);display:grid;gap:3px}
-.note ul li::marker{color:var(--sunny-d)}
-.empty{font-size:14px;color:var(--ink-soft);padding:8px 0}
-
-/* swaps */
-.swap{padding:12px 0;border-top:1px solid var(--line)}
+/* word toggles and the revision */
+.toggles{margin-top:30px;border-top:1px solid var(--line);padding-top:24px;display:grid;gap:28px}
+.swap{padding:14px 0;border-top:1px solid var(--line)}
 .swap:first-of-type{border-top:0;padding-top:0}
-.swap .lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin-bottom:6px}
-.alts{display:flex;flex-wrap:wrap;gap:6px}
-.alt{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-family:var(--serif);font-size:16px;font-weight:400}
-.alt[aria-pressed="true"]{border-color:var(--sky-d);background:var(--sky-100)}
-.alt .o{font-family:var(--sans);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin-left:6px}
-.revision-box{margin-top:16px;border-top:2px solid var(--ink);padding-top:14px}
-.revision{font-size:clamp(19px,2.2vw,25px);line-height:1.7;margin:4px 0 10px}
-.revision .chg{background:var(--sky-100);box-shadow:inset 0 -3px 0 var(--sky-d);padding:0 2px;border-radius:3px}
-.chglist{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
-.chglist li{font-size:15px;background:var(--paper);border-radius:12px;padding:10px 12px}
-.chglist .pair{font-family:var(--serif);font-size:17px;display:block;margin-bottom:2px}
-.chglist .pair .arrow{font-family:var(--sans);color:var(--sky-d);margin:0 6px}
-.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.btn{background:var(--card);border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:800;font-size:14px}
-.btn.primary{background:var(--ink);color:var(--card)}
-.btn.quiet{border-color:var(--line);color:var(--ink-soft)}
-.btn.danger{border-color:var(--coral-d);color:var(--coral-d)}
-.status{font-size:13px;color:var(--ink-soft)}
+.swap .lab{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
+.alts{display:flex;flex-wrap:wrap;gap:0 20px}
+.alt{background:none;border:0;border-bottom:2px solid transparent;padding:4px 0 3px;font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.3;color:var(--ink-soft)}
+.alt[aria-pressed="true"]{border-bottom-color:var(--sage);color:var(--ink)}
+.alt .o{font-family:var(--sans);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-left:7px;vertical-align:middle}
+.rev-col{border-top:1px solid var(--line);padding-top:18px}
+.revision-box{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}
+.toggles .revision-box{border-top:0;padding-top:0;margin-top:0}
+.revision{font-family:var(--serif);font-weight:500;font-size:clamp(21px,2.2vw,25px);line-height:1.65;margin:6px 0 10px;max-width:none}
+.revision .chg{background:none;color:var(--clay-deep);text-decoration:underline dotted var(--clay);text-decoration-thickness:1px;text-underline-offset:6px}
+.chglist{list-style:none;margin:0 0 14px;padding:0}
+.chglist li{border-top:1px solid var(--line);padding:9px 0;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.chglist li:only-child:not(:has(.pair)){border-top:0;padding-top:0}
+.chglist .pair{font-family:var(--serif);font-weight:500;font-size:18px;display:block;margin-bottom:2px;color:var(--ink)}
+.chglist .pair .arrow{font-family:var(--sans);color:var(--sage);margin:0 8px}
+@media (min-width:900px){
+  .toggles{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px}
+  .rev-col{border-top:0;padding-top:0;border-left:1px solid var(--line);padding-left:28px}
+}
+
+/* buttons */
+.actions{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.btn{display:inline-block;background:none;border:1px solid var(--line);border-radius:3px;padding:11px 20px;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.03em;line-height:1.2;color:var(--ink);text-decoration:none}
+.btn.primary{background:var(--clay);border-color:var(--clay);color:#fff}
+.btn.quiet{color:var(--ink-soft)}
+.btn.danger{border-color:var(--clay);color:var(--clay-deep)}
+a.btn{border:0;padding:0;border-radius:0;font-weight:600;color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.xbtn{all:unset;cursor:pointer;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--clay-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.xbtn:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:18px}
+.inline-confirm{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px 16px;font-size:15px;margin-top:12px;display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;max-width:64ch}
 
 /* kept */
-.kept-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.kept{border-left:4px solid var(--leaf);padding-left:14px}
-.kept .src{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
-.kept .from{font-size:14px;color:var(--ink-soft);margin:2px 0;text-decoration:line-through;text-decoration-color:rgba(43,58,66,.35)}
-.kept .to{font-size:20px;margin:2px 0 6px}
-.kept .chgs{font-size:14px;color:var(--ink-soft);margin:0 0 8px;padding-left:18px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.kept-list{list-style:none;margin:0;padding:0}
+.kept{border-top:1px solid var(--line);padding:16px 0}
+.kept:first-child{border-top:0;padding-top:0}
+.kept::before{content:"";display:block;width:26px;height:4px;background:var(--sage);margin-bottom:10px}
+.kept .src{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive)}
+.kept .from{font-family:var(--serif);font-size:18px;color:var(--ink-soft);margin:4px 0 0;text-decoration:line-through;text-decoration-color:var(--line);text-decoration-thickness:1px}
+.kept .to{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.4;margin:2px 0 8px}
+.kept .chgs{list-style:disc;font-size:14px;line-height:1.55;color:var(--ink-soft);margin:0 0 8px;padding-left:16px}
+.kept .chgs li::marker{color:var(--sage)}
 
 /* own sentence */
-.own-grid{display:grid;gap:22px}
-@media (min-width:900px){.own-grid{grid-template-columns:1.1fr .9fr;align-items:start}}
-textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card);resize:vertical;min-height:88px;line-height:1.5}
-input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--card)}
-label.fl{display:block;font-size:13px;font-weight:800;color:var(--ink-soft);margin:10px 0 4px}
-.plain{font-size:15px;margin:0 0 10px}
-.tokens{display:flex;flex-wrap:wrap;gap:4px 2px;margin:6px 0 10px}
-.tok{background:transparent;border:0;border-radius:6px;padding:2px 5px 4px;font-family:var(--serif);font-size:clamp(20px,2.4vw,26px);line-height:1.5;font-weight:400}
-.tok[aria-pressed="true"]{background:var(--ink);color:var(--card);box-shadow:none !important}
-.tok.swapped{text-decoration:underline dotted var(--sky-d)}
-.tagrow{display:flex;flex-wrap:wrap;gap:6px}
-.inline-confirm{background:var(--sunny-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.ann-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.ann{border-left:4px solid var(--c);padding:6px 0 6px 12px;border-radius:0 10px 10px 0}
-.ann:hover,.ann:focus-within{background:var(--t)}
-.ann .lt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
-.ann .words{font-family:var(--serif);font-size:17px;display:block}
-.ann p{margin:2px 0 4px;font-size:15px}
-.xbtn{all:unset;cursor:pointer;font-size:13px;font-weight:800;color:var(--coral-d);padding:2px 6px;border-radius:6px}
-.xbtn:focus-visible{outline:3px solid var(--sky-d)}
+.own-grid{display:grid;gap:28px}
+.own-side{border-top:1px solid var(--line);padding-top:18px}
+@media (min-width:900px){
+  .own-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:start}
+  .own-side{border-top:0;padding-top:0;border-left:1px solid var(--line);padding-left:28px}
+}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:4px;padding:10px 12px;background:#fff;color:var(--ink);font-size:16px;line-height:1.5}
+textarea{resize:vertical;min-height:84px}
+label.fl{display:block;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);margin:16px 0 6px}
+.plain{font-size:15px;color:var(--ink-soft);margin:0 0 6px}
+.tokens{display:flex;flex-wrap:wrap;gap:0 2px;margin:4px 0 8px;isolation:isolate}
+.tok{position:relative;background:none;border:0;padding:2px 5px 16px;font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.4vw,27px);line-height:1.3;color:var(--ink);background-repeat:repeat-x}
+.tok[aria-pressed="true"]::after{content:"";position:absolute;z-index:-1;left:1px;right:1px;top:0;height:1.2em;background:var(--sage-tint);border-radius:2px}
+.tok.swapped{color:var(--clay-deep)}
+.tagrow{display:flex;flex-wrap:wrap;gap:0 24px}
+.ann-list{list-style:none;margin:0;padding:0}
+.ann{border-top:1px solid var(--line);padding:12px 10px;margin:0 -10px}
+.ann:first-child{border-top:0;padding-top:0}
+.ann:hover,.ann:focus-within{background:var(--paper)}
+.ann .lt{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive)}
+.ann .words{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;line-height:1.3;display:block;margin-top:4px}
+.ann p{margin:2px 0 6px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
 
-footer{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--ink-soft);display:grid;gap:8px}
-footer .sig{font-weight:800;color:var(--ink)}
-@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--ink-soft);display:grid;gap:6px}
+footer p{margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="chip">Creative La'boratory</span>
-  <h1>The Anatomy of a Sentence</h1>
-  <p class="lede">Take one sentence apart to see what it assumes, leaves out, permits, and implies, then swap single words and watch the meaning move.</p>
-  <details class="how">
-    <summary>How to use this</summary>
-    <ol>
-      <li>Pick an example from the shelf. The original stays at the top the whole time.</li>
-      <li>Turn on a layer to see which words carry it. Hover or tap a note to find its words.</li>
-      <li>Try a word toggle. A revision line builds underneath. Keep it or discard it.</li>
-      <li>Paste your own sentence at the bottom and annotate it yourself. Your work saves in this browser.</li>
-    </ol>
-  </details>
-  <p class="holds" id="holds"></p>
+  <header class="frame">
+    <span class="eyebrow">Creative La'boratory</span>
+    <h1>The Anatomy of a Sentence</h1>
+    <p class="lede">Take one sentence apart to see what it assumes, leaves out, permits, and implies, then swap single words and watch the meaning move.</p>
+    <p class="quiet">Choose a sentence from the shelf, turn on a layer, and swap a word. The original is never changed.</p>
+    <details class="how">
+      <summary>How this page works</summary>
+      <div class="how-panel">
+        <ol>
+          <li>Pick an example from the shelf. The original stays at the top the whole time.</li>
+          <li>Turn on a layer to see which words carry it. Hover or tap a note to find its words.</li>
+          <li>Try a word toggle. A revision line builds underneath. Keep it or discard it.</li>
+          <li>Paste your own sentence at the bottom and annotate it yourself. Your work saves in this browser.</li>
+        </ol>
+      </div>
+    </details>
+    <p class="holds" id="holds"></p>
+  </header>
 
   <section aria-labelledby="h-shelf">
     <h2 id="h-shelf">Sentence shelf</h2>
@@ -174,24 +222,30 @@ footer .sig{font-weight:800;color:var(--ink)}
 
   <section aria-labelledby="h-exam" id="exam-section">
     <h2 id="h-exam">Examination</h2>
-    <div class="card orig-card">
-      <div class="orig-label"><span class="tag">Original</span><span class="small muted" id="orig-sub"></span></div>
-      <p class="sentence serif" id="orig" aria-live="polite"></p>
+    <div class="key">
+      <span class="eyebrow">Layers</span>
+      <div class="layers" id="layers" role="group" aria-label="Layers"></div>
+      <ul class="defs" id="defs"></ul>
     </div>
-    <div class="exam">
-      <div>
-        <h3>Layers</h3>
-        <div class="layers" id="layers" role="group" aria-label="Layers"></div>
-        <ul class="defs" id="defs"></ul>
-        <div class="notes" id="notes"></div>
+    <div class="plate">
+      <div class="orig-col">
+        <div class="orig-label"><span class="eyebrow">Original</span><span class="status" id="orig-sub"></span></div>
+        <p class="sentence" id="orig" aria-live="polite"></p>
       </div>
-      <div class="card">
+      <aside class="margin" aria-label="Notes in the margin">
+        <div class="notes" id="notes"></div>
+      </aside>
+    </div>
+    <div class="toggles">
+      <div>
         <h3>Word toggles</h3>
-        <p class="small muted" style="margin:0 0 12px">Dotted words in the original can be swapped. The original does not change. The revision builds below.</p>
+        <p class="hint">Words set in clay can be swapped. The original does not change. The revision builds beside it.</p>
         <div id="swaps"></div>
+      </div>
+      <div class="rev-col">
         <div class="revision-box">
-          <span class="tag" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)">Revision</span>
-          <p class="revision serif" id="revision"></p>
+          <span class="eyebrow">Revision</span>
+          <p class="revision" id="revision"></p>
           <ul class="chglist" id="chglist"></ul>
           <div class="actions">
             <button class="btn primary" id="accept">Accept revision</button>
@@ -205,24 +259,22 @@ footer .sig{font-weight:800;color:var(--ink)}
 
   <section aria-labelledby="h-kept">
     <h2 id="h-kept">Revisions kept</h2>
-    <div class="card">
-      <ul class="kept-list" id="kept"></ul>
-      <div class="toolbar">
-        <button class="btn" id="kept-copy">Copy as text</button>
-        <a class="btn" id="kept-dl" href="#" download="revisions-kept.json">Download as JSON</a>
-        <span class="status" id="kept-status"></span>
-      </div>
+    <ul class="kept-list" id="kept"></ul>
+    <div class="toolbar">
+      <button class="btn" id="kept-copy">Copy as text</button>
+      <a class="btn" id="kept-dl" href="#" download="revisions-kept.json">Download as JSON</a>
+      <span class="status" id="kept-status"></span>
     </div>
   </section>
 
   <section aria-labelledby="h-own">
     <h2 id="h-own">Bring your own sentence</h2>
     <div class="own-grid">
-      <div class="card">
+      <div>
         <p class="plain" id="own-plain"></p>
         <label class="fl" for="own-text">Your sentence</label>
         <textarea id="own-text" rows="3" placeholder="Paste or type one sentence."></textarea>
-        <div class="actions" style="margin-top:10px">
+        <div class="actions" style="margin-top:12px">
           <button class="btn" id="own-lay">Lay it out as words</button>
           <span class="status" id="own-status"></span>
         </div>
@@ -230,33 +282,33 @@ footer .sig{font-weight:800;color:var(--ink)}
         <div id="own-bench" hidden>
           <label class="fl">Tap words to select them</label>
           <div class="tokens" id="own-tokens"></div>
-          <p class="small muted" id="own-sel"></p>
+          <p class="status" id="own-sel"></p>
           <label class="fl">Tag the selection</label>
           <div class="tagrow" id="own-tags" role="group" aria-label="Tag"></div>
           <label class="fl" for="own-note">Your note</label>
           <textarea id="own-note" rows="2" placeholder="What does this word assume, leave out, permit, or imply?"></textarea>
-          <div class="actions" style="margin-top:10px">
+          <div class="actions" style="margin-top:12px">
             <button class="btn primary" id="own-add">Add annotation</button>
             <button class="btn quiet" id="own-clear-sel">Clear selection</button>
           </div>
-          <div id="own-swap-box" style="margin-top:16px" hidden>
+          <div id="own-swap-box" style="margin-top:22px" hidden>
             <h3>Swap the selected word</h3>
             <label class="fl" for="own-alt">Alternate word or phrase</label>
             <input type="text" id="own-alt" placeholder="A different word">
             <label class="fl" for="own-alt-note">What the swap changes</label>
             <textarea id="own-alt-note" rows="2" placeholder="Name what shifts. Who acts, when, how sure, who is absent."></textarea>
-            <div class="actions" style="margin-top:10px">
+            <div class="actions" style="margin-top:12px">
               <button class="btn" id="own-apply">Apply swap</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="own-side">
         <h3>Your annotations</h3>
         <ul class="ann-list" id="own-anns"></ul>
         <div class="revision-box" id="own-rev-box" hidden>
-          <span class="tag" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)">Revision</span>
-          <p class="revision serif" id="own-revision"></p>
+          <span class="eyebrow">Revision</span>
+          <p class="revision" id="own-revision"></p>
           <ul class="chglist" id="own-chglist"></ul>
           <div class="actions">
             <button class="btn primary" id="own-accept">Accept revision</button>
@@ -282,9 +334,9 @@ footer .sig{font-weight:800;color:var(--ink)}
   </section>
 
   <footer>
-    <div>This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide and Crisis Lifeline.</div>
-    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
-    <div><a href="index.html">All experiences</a></div>
+    <p>This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide and Crisis Lifeline.</p>
+    <p class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</p>
+    <p><a href="index.html">All experiences</a></p>
   </footer>
 </div>
 
@@ -333,10 +385,10 @@ const COPY = {
 };
 
 const LAYERS = [
-  { id: "assumption",  name: "Assumptions",  def: "What must be true for the sentence to make sense.", color: "var(--sky-d)",   tint: "var(--sky-100)" },
-  { id: "omission",    name: "Omissions",    def: "Who or what is absent.",                              color: "var(--coral-d)", tint: "var(--coral-100)" },
-  { id: "ambiguity",   name: "Ambiguities",  def: "Words or structures that permit more than one reading.", color: "var(--sunny-d)", tint: "var(--sunny-100)" },
-  { id: "implication", name: "Implications", def: "What a reader is led to conclude without it being stated.", color: "var(--leaf-d)", tint: "var(--leaf-100)" }
+  { id: "assumption",  name: "Assumptions",  def: "What must be true for the sentence to make sense.", mark: "solid" },
+  { id: "omission",    name: "Omissions",    def: "Who or what is absent.",                              mark: "dotted" },
+  { id: "ambiguity",   name: "Ambiguities",  def: "Words or structures that permit more than one reading.", mark: "dashed" },
+  { id: "implication", name: "Implications", def: "What a reader is led to conclude without it being stated.", mark: "double" }
 ];
 
 const SENTENCES = [
@@ -701,14 +753,26 @@ const SENTENCES = [
   const cur = () => SENTENCES.find(s => s.id === state.current);
   const curSwaps = () => { if (!state.swaps[state.current]) state.swaps[state.current] = {}; return state.swaps[state.current]; };
 
-  /* --- marks on tokens --- */
+  /* --- marks on tokens: one olive line per layer, in that layer's line style, stacked under the word --- */
+  const MARK = {
+    solid:  { size: "100% 1px", lift: 1 },
+    dotted: { size: "4px 2px",  lift: 0 },
+    dashed: { size: "9px 2px",  lift: 0 },
+    double: { size: "100% 3px", lift: 0 }
+  };
   function applyMarks(nodes, marksByIdx){
     nodes.forEach((n, i) => {
-      const marks = marksByIdx[i] || [];
-      if (!marks.length) { n.style.boxShadow = ""; n.style.background = ""; return; }
-      const shadows = marks.map((l, k) => "inset 0 -" + (3 * (k + 1)) + "px 0 " + l.color);
-      n.style.boxShadow = shadows.join(",");
-      n.style.background = marks[0].tint;
+      const seen = new Set();
+      const marks = (marksByIdx[i] || []).filter(l => { if (seen.has(l.mark)) return false; seen.add(l.mark); return true; });
+      if (!marks.length) { n.style.backgroundImage = ""; n.style.backgroundSize = ""; n.style.backgroundPosition = ""; return; }
+      const img = [], size = [], pos = [];
+      marks.forEach((l, k) => {
+        const m = MARK[l.mark] || MARK.solid;
+        img.push("var(--mk-" + (MARK[l.mark] ? l.mark : "solid") + ")");
+        size.push(m.size);
+        pos.push("0 calc(100% - " + (4 * k + m.lift) + "px)");
+      });
+      n.style.backgroundImage = img.join(","); n.style.backgroundSize = size.join(","); n.style.backgroundPosition = pos.join(",");
     });
   }
 
@@ -749,9 +813,8 @@ const SENTENCES = [
     const box = $("#layers"); box.innerHTML = "";
     LAYERS.forEach(l => {
       const b = el("button", "layer-btn"); b.type = "button";
-      b.style.setProperty("--c", l.color); b.style.setProperty("--t", l.tint);
       b.setAttribute("aria-pressed", String(!!state.layers[l.id]));
-      b.appendChild(el("span", "sw"));
+      b.appendChild(el("span", "sw " + l.mark));
       b.appendChild(document.createTextNode(l.name + " "));
       b.appendChild(el("span", "n", String((s.notes[l.id] || []).length)));
       b.addEventListener("click", () => { state.layers[l.id] = !state.layers[l.id]; save(); renderOriginal(); renderLayers(); renderNotes(); });
@@ -769,8 +832,8 @@ const SENTENCES = [
     const active = LAYERS.filter(l => state.layers[l.id]);
     if (!active.length) { box.appendChild(el("p", "empty", COPY.noLayers)); return; }
     active.forEach(l => {
-      const g = el("div", "ngroup"); g.style.setProperty("--c", l.color); g.style.setProperty("--t", l.tint);
-      const h = el("h3"); h.appendChild(el("span", "sw")); h.appendChild(document.createTextNode(l.name)); g.appendChild(h);
+      const g = el("div", "ngroup");
+      const h = el("h3"); h.appendChild(el("span", "sw " + l.mark)); h.appendChild(document.createTextNode(l.name)); g.appendChild(h);
       const list = (s.notes[l.id] || []);
       if (!list.length) { g.appendChild(el("p", "empty", COPY.noNotes)); box.appendChild(g); return; }
       const ul = el("ul", "nlist");
@@ -938,8 +1001,8 @@ const SENTENCES = [
   function renderOwnTags(){
     const row = $("#own-tags"); row.innerHTML = "";
     LAYERS.forEach(l => {
-      const b = el("button", "layer-btn"); b.type = "button"; b.style.setProperty("--c", l.color); b.style.setProperty("--t", l.tint);
-      b.setAttribute("aria-pressed", String(ownTag === l.id)); b.appendChild(el("span", "sw")); b.appendChild(document.createTextNode(l.name.replace(/s$/, "").replace(/ie$/, "y")));
+      const b = el("button", "layer-btn"); b.type = "button";
+      b.setAttribute("aria-pressed", String(ownTag === l.id)); b.appendChild(el("span", "sw " + l.mark)); b.appendChild(document.createTextNode(l.name.replace(/s$/, "").replace(/ie$/, "y")));
       b.addEventListener("click", () => { ownTag = ownTag === l.id ? null : l.id; renderOwnTags(); });
       row.appendChild(b);
     });
@@ -949,8 +1012,8 @@ const SENTENCES = [
     if (!state.own.annotations.length) { ul.appendChild(el("li", "empty", COPY.annEmpty)); return; }
     state.own.annotations.forEach(a => {
       const l = LAYER_BY_ID[a.layer]; if (!l) return;
-      const li = el("li", "ann"); li.style.setProperty("--c", l.color); li.style.setProperty("--t", l.tint);
-      li.appendChild(el("div", "lt", l.name));
+      const li = el("li", "ann");
+      const lt = el("div", "lt"); lt.appendChild(el("span", "sw " + l.mark)); lt.appendChild(document.createTextNode(l.name)); li.appendChild(lt);
       li.appendChild(el("span", "words", "“" + a.idx.map(i => toks[i]).join(" ") + "”"));
       li.appendChild(el("p", null, a.note || ""));
       const x = el("button", "xbtn", "Remove"); x.type = "button";

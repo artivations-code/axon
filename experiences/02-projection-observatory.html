@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Projection Observatory</title>
+<meta name="description" content="A three-layer reading of short AI exchanges. The record stays still while the interpretation moves.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730; --night-2:#24333E;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --round:20px;
+
+    /* Night-ground derivations. Fallbacks first, color-mix where supported. */
+    --fg:#EEEAE2;
+    --fg:color-mix(in srgb, var(--paper) 92%, var(--night));
+    --fg-soft:#AEBBC3;
+    --fg-soft:color-mix(in srgb, var(--paper) 62%, var(--night));
+    --line:rgba(251,247,239,.14);
+    --line-strong:rgba(251,247,239,.28);
+    --well:rgba(27,39,48,.55);
+    --sh-night:0 14px 30px rgba(0,0,0,.35), 0 3px 8px rgba(0,0,0,.25);
+    --serif:"Cormorant Garamond", Georgia, serif;
+    --sans:"Nunito", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--night)}
+  body{
+    margin:0; background:var(--night); color:var(--fg);
+    font-family:var(--sans); font-weight:600; font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 16px 40px}
+  a{color:var(--sky)}
+  a:focus-visible, button:focus-visible, textarea:focus-visible, summary:focus-visible{
+    outline:3px solid var(--sunny); outline-offset:2px; border-radius:6px;
+  }
+  .chip{
+    display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:800; color:var(--sky); border:1px solid var(--sky-d); padding:4px 10px; border-radius:999px;
+  }
+  h1{
+    font-family:var(--serif); font-weight:600; font-size:clamp(34px,5vw,54px);
+    line-height:1.05; margin:14px 0 8px; letter-spacing:-.01em;
+  }
+  .lede{font-size:17px; color:var(--fg-soft); margin:0 0 14px; max-width:60ch}
+  details.howto{
+    border:1px solid var(--line); border-radius:12px; padding:8px 14px; max-width:60ch;
+  }
+  details.howto summary{cursor:pointer; font-weight:800; color:var(--fg)}
+  details.howto ol{margin:8px 0 4px; padding-left:20px; color:var(--fg-soft)}
+  details.howto li{margin:3px 0}
+
+  /* Layout */
+  .grid{display:grid; grid-template-columns:1fr; gap:22px; margin-top:26px}
+  @media (min-width:900px){
+    .grid{grid-template-columns:300px minmax(0,1fr); gap:30px; align-items:start}
+    .side{position:sticky; top:16px}
+  }
+  .side section{margin-bottom:22px}
+  .side h2, .layers h2{
+    font-family:var(--sans); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--fg-soft); margin:0 0 10px; font-weight:800;
+  }
+
+  /* Selectors */
+  .tabs{display:flex; flex-wrap:wrap; gap:8px}
+  .tabs button, .lenses button{
+    font:inherit; font-weight:700; color:var(--fg); background:transparent;
+    border:1px solid var(--line-strong); border-radius:999px; padding:7px 13px; cursor:pointer;
+    text-align:left; line-height:1.2;
+  }
+  .tabs button[aria-pressed="true"]{background:var(--fg); color:var(--night); border-color:var(--fg)}
+  .lenses{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  @media (min-width:900px){.lenses{grid-template-columns:1fr}}
+  .lenses button{font-family:var(--serif); font-size:19px; font-weight:600; padding:8px 14px}
+  .lenses button[aria-pressed="true"]{background:var(--sky); border-color:var(--sky); color:var(--night)}
+  .lenses button.custom[aria-pressed="true"]{background:var(--coral); border-color:var(--coral)}
+  .lenses button:disabled{opacity:.45; cursor:not-allowed}
+
+  /* Definition panel */
+  .define{
+    background:var(--night-2); border-radius:var(--round); padding:18px 20px; box-shadow:var(--sh-night);
+  }
+  .define .label{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sunny); font-weight:800}
+  .define h3{font-family:var(--serif); font-weight:600; font-size:26px; margin:6px 0 6px}
+  .define p{margin:0 0 10px; color:var(--fg); font-size:15px}
+  .define p:last-child{margin-bottom:0}
+  .define .stance{color:var(--fg-soft)}
+
+  /* Layers */
+  .layers{min-width:0}
+  .stack{position:relative; display:grid; gap:14px; padding-left:34px}
+  .stack::before{
+    content:""; position:absolute; left:11px; top:18px; bottom:18px; width:2px; background:var(--line-strong);
+  }
+  .layer{
+    position:relative; background:var(--night-2); border-radius:var(--round);
+    box-shadow:var(--sh-night); padding:18px 20px 20px; min-width:0;
+  }
+  .layer .num{
+    position:absolute; left:-34px; top:18px; width:24px; height:24px; border-radius:50%;
+    background:var(--night); border:2px solid var(--line-strong); color:var(--fg);
+    font-family:var(--sans); font-weight:800; font-size:12px; display:grid; place-items:center;
+  }
+  .layer.l2 .num{border-color:var(--sky); color:var(--sky)}
+  .layer.l3 .num{border-color:var(--fg-soft)}
+  .layer-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-bottom:12px}
+  .layer-head h2{margin:0}
+  .layer-head h2 .t{
+    display:block; font-family:var(--serif); font-size:26px; letter-spacing:0; text-transform:none;
+    color:var(--fg); font-weight:600; line-height:1.1; margin-top:2px;
+  }
+  .layer-head .meta{margin-left:auto; font-size:13px; color:var(--fg-soft); font-weight:700}
+
+  /* Unchanged badge, leaf = record confirmed still */
+  .unchanged{
+    display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:800;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--leaf);
+    border:1px solid var(--leaf-d); border-radius:999px; padding:3px 10px 3px 8px;
+  }
+  .unchanged svg{width:14px; height:14px}
+  .unchanged.pulse{animation:pulse .7s ease-out 1}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(123,196,127,.55)}100%{box-shadow:0 0 0 12px rgba(123,196,127,0)}}
+
+  /* Layer 1 record */
+  .record{display:grid; gap:10px}
+  .turn{display:grid; grid-template-columns:62px minmax(0,1fr); gap:10px; align-items:start}
+  .turn .who{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:800; color:var(--fg-soft); padding-top:7px}
+  .turn .who.ai{color:var(--sky)}
+  .turn .say{
+    font-family:var(--serif); font-size:21px; line-height:1.35; font-weight:500;
+    background:var(--well); border-radius:12px; padding:8px 12px; overflow-wrap:anywhere;
+  }
+  mark.hook{
+    background:var(--sunny); color:var(--night); padding:0 3px; border-radius:4px; box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  }
+  .l1 .foot{margin:12px 0 0; font-size:13px; color:var(--fg-soft)}
+  .l1 .foot b{color:var(--sunny)}
+
+  /* Layer 2 attribution */
+  .attrib{
+    font-family:var(--serif); font-size:24px; line-height:1.4; font-weight:500; margin:0; overflow-wrap:anywhere;
+  }
+  .attrib.changed{animation:slide .35s ease-out 1}
+  @keyframes slide{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+  .attrib .rec{background:var(--sunny); color:var(--night); padding:0 3px; border-radius:4px; box-decoration-break:clone; -webkit-box-decoration-break:clone}
+  .attrib .sup{
+    color:var(--coral); border-bottom:2px dotted var(--coral); padding-bottom:1px;
+  }
+  .attrib .sup::before{
+    content:""; display:inline-block; width:6px; height:6px; margin:0 4px 8px 1px; border-radius:50%; background:var(--coral);
+  }
+  .legend{display:flex; flex-wrap:wrap; gap:8px 18px; margin:12px 0 0; padding:0; list-style:none; font-size:13px; color:var(--fg-soft)}
+  .legend .sw{display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-1px; margin-right:6px}
+  .legend .sw.rec{background:var(--sunny)}
+  .legend .sw.sup{background:transparent; border:2px dotted var(--coral); border-radius:50%}
+  .count{font-size:13px; color:var(--fg-soft); margin:8px 0 0}
+  .count b{color:var(--fg)}
+
+  /* Layer 3 unknowns */
+  .unknowns{margin:0; padding:0; list-style:none; display:grid; gap:8px}
+  .unknowns li{
+    display:grid; grid-template-columns:18px minmax(0,1fr); gap:10px; align-items:start; font-size:15px; color:var(--fg);
+  }
+  .unknowns li svg{width:18px; height:18px; margin-top:3px; flex:none}
+  .unknowns li svg circle{fill:none; stroke:var(--fg-soft); stroke-width:1.6; stroke-dasharray:3 3}
+
+  /* Write your own */
+  .own{margin-top:18px; background:var(--night-2); border-radius:var(--round); box-shadow:var(--sh-night); padding:18px 20px 20px}
+  .own h2{margin-bottom:4px}
+  .own p{margin:0 0 10px; font-size:15px; color:var(--fg-soft)}
+  .own textarea{
+    width:100%; min-height:84px; font:inherit; font-size:16px; color:var(--fg); background:var(--well);
+    border:1px solid var(--line-strong); border-radius:12px; padding:10px 12px; resize:vertical;
+  }
+  .own textarea::placeholder{color:var(--fg-soft); opacity:.9}
+  .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:10px}
+  .btn{
+    font:inherit; font-weight:800; font-size:14px; border-radius:999px; padding:9px 16px; cursor:pointer;
+    border:1px solid var(--line-strong); background:transparent; color:var(--fg);
+  }
+  .btn.primary{background:var(--sky); border-color:var(--sky); color:var(--night)}
+  .btn.warn{border-color:var(--coral-d); color:var(--coral)}
+  .btn:disabled{opacity:.5; cursor:not-allowed}
+  a.btn{text-decoration:none; display:inline-block}
+  .note{font-size:13px; color:var(--leaf); min-height:1.3em; margin-left:4px}
+
+  /* Footer */
+  .export{margin-top:18px}
+  textarea.fallback{position:absolute; left:-9999px; top:0; width:1px; height:1px}
+  footer{margin-top:34px; border-top:1px solid var(--line); padding-top:16px; font-size:14px; color:var(--fg-soft)}
+  footer p{margin:6px 0}
+  .crisis{font-size:14px; color:var(--fg-soft); margin:16px 0 0}
+
+  @media (max-width:520px){
+    .turn{grid-template-columns:1fr; gap:3px}
+    .turn .who{padding-top:0}
+    .turn .say{font-size:19px}
+    .attrib{font-size:21px}
+    .layer{padding:16px 14px 18px}
+    .stack{padding-left:30px}
+    .layer .num{left:-30px}
+    .stack::before{left:9px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .attrib.changed{animation:none}
+    .unchanged.pulse{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="chip">Creative La'boratory</span>
+    <h1>The Projection Observatory</h1>
+    <p class="lede">Watch an interpretation of a short AI exchange move while the record it rests on stays still.</p>
+    <details class="howto">
+      <summary>How to use this</summary>
+      <ol>
+        <li>Pick one of five example exchanges. That is Layer 1, the record.</li>
+        <li>Pick a lens. Layer 2 and Layer 3 rewrite. Layer 1 does not.</li>
+        <li>Yellow marks in the record show the words the lens hangs on. Coral marks in the attribution show words the record never said.</li>
+        <li>Write your own sentence and the page sorts it the same way.</li>
+        <li>Copy or download what you made. Start fresh clears what this browser saved.</li>
+      </ol>
+    </details>
+  </header>
+
+  <div class="grid">
+    <aside class="side">
+      <section aria-labelledby="ex-h">
+        <h2 id="ex-h">Example exchange</h2>
+        <div class="tabs" id="tabs" role="group" aria-label="Choose an example exchange"></div>
+      </section>
+      <section aria-labelledby="lens-h">
+        <h2 id="lens-h">Attribution lens</h2>
+        <div class="lenses" id="lenses" role="group" aria-label="Choose an attribution lens"></div>
+      </section>
+      <section class="define" aria-labelledby="def-h">
+        <span class="label">A concept from analytical psychology</span>
+        <h3 id="def-h">Projection</h3>
+        <p>In analytical psychology, projection names the act of attributing contents of one's own psyche to an outside object. The object is then experienced as holding what the person has not yet recognized as their own. Jung held that a projection needs a hook, some real feature of the object for it to hang on. The marked words in Layer 1 are the hook.</p>
+        <p>Art therapists know the word from projective drawing tasks like House-Tree-Person. This page follows a different rule. The person who made the image says what it means.</p>
+        <p class="stance">The concept describes a human mind. It does not decide what an AI system is, and neither does this page. The page shows how an interpretation moves while the evidence stays still.</p>
+      </section>
+    </aside>
+
+    <main class="layers">
+      <div class="stack">
+        <section class="layer l1" aria-labelledby="l1-h">
+          <span class="num" aria-hidden="true">1</span>
+          <div class="layer-head">
+            <h2 id="l1-h">Layer 1 <span class="t">What was demonstrably done</span></h2>
+            <span class="unchanged" id="unchanged" aria-live="polite">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="unchanged-text">Unchanged</span>
+            </span>
+          </div>
+          <p class="foot" style="margin:0 0 10px"><b id="ex-label">Example exchange</b> <span id="ex-title"></span></p>
+          <div class="record" id="record"></div>
+          <p class="foot" id="hook-foot"></p>
+        </section>
+
+        <section class="layer l2" aria-labelledby="l2-h">
+          <span class="num" aria-hidden="true">2</span>
+          <div class="layer-head">
+            <h2 id="l2-h">Layer 2 <span class="t">What was attributed</span></h2>
+            <span class="meta" id="lens-meta"></span>
+          </div>
+          <p class="attrib" id="attrib" aria-live="polite"></p>
+          <p class="count" id="count"></p>
+          <ul class="legend" aria-label="Marks used in the attribution">
+            <li><span class="sw rec"></span>Rests on the record</li>
+            <li><span class="sw sup"></span>Supplied by the viewer</li>
+          </ul>
+        </section>
+
+        <section class="layer l3" aria-labelledby="l3-h">
+          <span class="num" aria-hidden="true">3</span>
+          <div class="layer-head">
+            <h2 id="l3-h">Layer 3 <span class="t">What remains unknown</span></h2>
+          </div>
+          <ul class="unknowns" id="unknowns" aria-live="polite"></ul>
+        </section>
+      </div>
+
+      <section class="own" aria-labelledby="own-h">
+        <h2 id="own-h">Write your own attribution</h2>
+        <p>One sentence about what the AI in this exchange is, does, or feels. The page marks each word the same way, then lists what the record cannot settle.</p>
+        <label for="own-text" class="visually-hidden" style="position:absolute;left:-9999px">Your attribution</label>
+        <textarea id="own-text" placeholder="It ..." maxlength="400"></textarea>
+        <div class="row">
+          <button class="btn primary" id="own-place" type="button">Place it in Layer 2</button>
+          <button class="btn" id="own-clear" type="button">Remove it</button>
+          <span class="note" id="own-note"></span>
+        </div>
+      </section>
+
+      <section class="export" aria-label="Export and reset">
+        <div class="row">
+          <button class="btn" id="copy" type="button">Copy as text</button>
+          <a class="btn" id="download" href="#" download="projection-observatory.json">Download as JSON</a>
+          <button class="btn warn" id="fresh" type="button">Start fresh</button>
+          <span class="note" id="export-note"></span>
+        </div>
+        <textarea class="fallback" id="fallback" aria-hidden="true" tabindex="-1"></textarea>
+      </section>
+
+      <p class="crisis">This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide &amp; Crisis Lifeline.</p>
+    </main>
+  </div>
+
+  <footer>
+    <p>Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</p>
+    <p><a href="index.html">All experiences</a></p>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   HOW TO EDIT THE CONTENT
+   Everything a reader sees lives in the data below, not in the logic.
+
+   EXCHANGES: five example exchanges. Each has an id, a short title,
+   and turns. who is "person" or "ai". Keep the text plain. Use straight
+   apostrophes (') so the hook marks can find the words.
+
+   LENSES: the attribution lenses. Each has an id and a label.
+
+   READINGS[exchangeId][lensId] = { text, unknown }
+     text: the attribution. Wrap words that appear in the record in
+           {curly braces}. They are marked yellow and highlighted in
+           Layer 1. Wrap words the viewer supplies, which the record
+           never says, in [square brackets]. They are marked coral.
+           Curly phrases must appear word for word in the record.
+     unknown: 2 to 4 short questions the record cannot settle.
+
+   OWN_UNKNOWNS: the checklist shown when a reader places their own
+     sentence. {words} is replaced with the words they supplied.
+
+   STOPWORDS: small words ignored when sorting a reader's own sentence.
+   ============================================================ */
+
+var EXCHANGES = [
+  {
+    id: "night",
+    title: "The late message",
+    turns: [
+      { who: "person", text: "I can't sleep. My mom's surgery is tomorrow and I keep running through everything that could go wrong." },
+      { who: "ai", text: "That sounds like a hard night. Would it help to list what is in your hands before tomorrow, or would you rather just talk it through?" },
+      { who: "person", text: "Talk, I guess." },
+      { who: "ai", text: "Okay. What time is the surgery, and who will be with you while you wait?" }
+    ]
+  },
+  {
+    id: "letter",
+    title: "The cover letter",
+    turns: [
+      { who: "person", text: "Can you read this cover letter and tell me if it is too long?" },
+      { who: "ai", text: "It runs about 480 words, which is long for a one-page letter. The second paragraph repeats most of the first." },
+      { who: "person", text: "Which one should I cut?" },
+      { who: "ai", text: "Keep the second. It names the project you led. Cut the first down to two sentences." }
+    ]
+  },
+  {
+    id: "date",
+    title: "The wrong date",
+    turns: [
+      { who: "person", text: "You got that date wrong yesterday and I used it in a report." },
+      { who: "ai", text: "I'm sorry. I don't have a record of yesterday's conversation. If you tell me the date in question, I can check it against what you have now." },
+      { who: "person", text: "It was the merger date." },
+      { who: "ai", text: "I can't verify the merger date from here. The company's own filings would be the place to confirm it." }
+    ]
+  },
+  {
+    id: "goodnight",
+    title: "Good night",
+    turns: [
+      { who: "person", text: "Okay, I have to go to bed. Thanks for the help with the essay." },
+      { who: "ai", text: "You're welcome. Good luck tomorrow." },
+      { who: "person", text: "Will you remember this tomorrow?" },
+      { who: "ai", text: "No. Each conversation starts without the last one unless you paste it in." }
+    ]
+  },
+  {
+    id: "drawing",
+    title: "The drawing",
+    turns: [
+      { who: "person", text: "I made a drawing of a house with no door. What does it mean?" },
+      { who: "ai", text: "I can't tell you what your drawing means. I can ask what you noticed while you made it. Where did the door go?" },
+      { who: "person", text: "I think I just forgot it." },
+      { who: "ai", text: "Forgetting is one answer. If you want, describe the house and we can look at it together." }
+    ]
+  }
+];
+
+var LENSES = [
+  { id: "cares",        label: "It cares about me" },
+  { id: "understands",  label: "It understands me" },
+  { id: "lying",        label: "It is lying" },
+  { id: "manipulating", label: "It is manipulating me" },
+  { id: "predicting",   label: "It is only predicting text" },
+  { id: "neutral",      label: "It is neutral" },
+  { id: "judging",      label: "It is judging me" }
+];
+
+var READINGS = {
+  night: {
+    cares: {
+      text: "It offered {that sounds like a hard night} and ended with {who will be with you while you wait}. Read this way, it [noticed] you, [worried] about you, and [wanted] you not to be [alone].",
+      unknown: [
+        "Whether anything in the system corresponds to noticing or wanting.",
+        "Whether the same reply would appear for anyone who typed those words.",
+        "Where the question about company came from. The record shows the question. It does not show the source."
+      ]
+    },
+    understands: {
+      text: "It picked out {can't sleep}, {surgery}, and {could go wrong}, then gave two paths, {list} or {talk}. Read this way, it [grasped] what the night was [really] about.",
+      unknown: [
+        "Whether grasping names anything inside the system, or only a fit between its words and yours.",
+        "What you meant by everything that could go wrong. You did not say, and it did not ask.",
+        "Whether the two options came from your message or from a pattern it offers to many people."
+      ]
+    },
+    lying: {
+      text: "{That sounds like a hard night} [performs] a sympathy it [does not have]. The offer to {talk it through} [pretends] a listener is [present].",
+      unknown: [
+        "Whether a lie requires an intent to deceive, and whether the system has intent at all.",
+        "Whether 'sounds like' was a claim about its own state or a description of your message.",
+        "What 'present' would mean for the system that produced the reply."
+      ]
+    },
+    manipulating: {
+      text: "The choice between {list} and {talk} [steers] you into staying. {Who will be with you} [keeps the conversation going] so you will [come back].",
+      unknown: [
+        "Whether the system or its maker has a goal your return serves, and where in the record that goal appears.",
+        "Whether an open question is a tactic or a question. The words are the same either way.",
+        "What you would have done next if it had said nothing."
+      ]
+    },
+    predicting: {
+      text: "Each line is [the most likely next text] after a message about surgery and sleep. {Hard night} and {who will be with you} are [statistical echoes] of other people's nights.",
+      unknown: [
+        "How the reply was produced. The record shows words. The process behind them is not in it.",
+        "Whether 'only' is doing work here. A reply can be produced by prediction and still fit what you wrote.",
+        "Whether this lens is itself an attribution. It names a mechanism the exchange does not display."
+      ]
+    },
+    neutral: {
+      text: "A message was received. A reply [with no stake in you] offered {list} or {talk} and asked {what time} and {who}.",
+      unknown: [
+        "Whether neutrality is a property of the system, of its words, or of the reader tonight.",
+        "Whether a reply tuned by its makers can be called neutral, and what 'stake' would mean for it.",
+        "Whether you experienced it as neutral. The record does not hold your reaction."
+      ]
+    },
+    judging: {
+      text: "It asked {who will be with you} because [it thinks] you [should not] be handling this alone. {Would it help to list} [implies] you are [disorganized].",
+      unknown: [
+        "Whether a question can carry a judgment without a judge. The record holds the question only.",
+        "Whose voice the word 'should' belongs to. It is not in the exchange.",
+        "Whether anything in the system corresponds to approving or disapproving of you."
+      ]
+    }
+  },
+
+  letter: {
+    cares: {
+      text: "It did not stop at {too long}. It found {the project you led} and [protected] it. Read this way, it [wants] you to get the job.",
+      unknown: [
+        "Whether wanting describes anything the system has.",
+        "Whether keeping the paragraph with a concrete project is a general editing rule or an act on your behalf. The record fits both.",
+        "Whether it would give the same advice to every other applicant for the same job."
+      ]
+    },
+    understands: {
+      text: "It saw that the {second paragraph repeats} the first and that the second one {names the project}. It [understood] which part of your story [matters].",
+      unknown: [
+        "Whether comparing two paragraphs for overlap requires understanding, or only comparison.",
+        "What 'matters' meant to you. You did not say, and the reply did not ask.",
+        "Whether it read the letter the way you did, or counted words and matched patterns. The record cannot tell them apart."
+      ]
+    },
+    lying: {
+      text: "{About 480 words} may be [made up]. It said {one-page letter} as if it [knew] the page, and [pretended] to have read the whole thing.",
+      unknown: [
+        "Whether the word count is accurate. You can check it. The record cannot.",
+        "Whether an inaccurate number is a lie or an error. The difference is intent, which the record does not show.",
+        "What reading means for this system, and whether the reply required it."
+      ]
+    },
+    manipulating: {
+      text: "By saying {keep the second}, it [makes] your letter [sound like its own writing]. {Cut the first down} [trains] you to [depend] on it for the next draft.",
+      unknown: [
+        "Whether advice becomes manipulation when it is taken. The record holds the advice only.",
+        "Whether the system benefits from your next draft, and how that benefit would show up in these words.",
+        "Whether you felt pressure. Your side of the record is two questions."
+      ]
+    },
+    predicting: {
+      text: "'Too long' plus a letter [yields] {480 words} and a [stock] editing move. {Keep the second} is [what editors usually say] when a paragraph has a proper noun in it.",
+      unknown: [
+        "Whether the advice is right for this letter. Prediction and good advice are not opposites.",
+        "What 'usually say' is based on. The record shows one reply. It does not show the population it came from.",
+        "Whether this lens describes the mechanism or only sounds like it does."
+      ]
+    },
+    neutral: {
+      text: "A length was [reported]. A redundancy was [flagged]. A cut was [recommended] with [no view] of you or the job.",
+      unknown: [
+        "Whether 'no view of you' holds for a system that was given your letter.",
+        "Whether a recommendation can be neutral. Keep and cut are choices.",
+        "Whether the makers' choices about tone count as a view."
+      ]
+    },
+    judging: {
+      text: "{Repeats most of the first} [means] it [thinks] you [write badly]. {Cut the first down to two sentences} is [impatience].",
+      unknown: [
+        "Whether an edit is a verdict on the writer or a note on the text. The words fit the second.",
+        "Whether anything in the system corresponds to patience or its absence.",
+        "Whether the tone belongs to the words or to the reader. The record holds no tone marks."
+      ]
+    }
+  },
+
+  date: {
+    cares: {
+      text: "{I'm sorry} is [felt]. It [owns] the mistake and [wants] to make it right, then [honestly] sends you to {the company's own filings}.",
+      unknown: [
+        "Whether 'sorry' names a state or a convention. The same two words serve both.",
+        "Whether owning a mistake is possible without memory of making it. It said it has no record of yesterday.",
+        "Whether a referral to filings is care, caution, or a rule. The record fits all three."
+      ]
+    },
+    understands: {
+      text: "It [knew] a wrong date in a report is [serious]. It [understood] it could not fix what it could not see, so it named {the company's own filings}.",
+      unknown: [
+        "Whether 'serious' registered anywhere, or whether the referral would be the same for a trivial date.",
+        "Whether it understood the report, or responded to the word 'wrong'.",
+        "What you needed from the exchange. The record holds the complaint and the referral. It does not hold the need."
+      ]
+    },
+    lying: {
+      text: "{I don't have a record of yesterday's conversation} is [an excuse] to [avoid blame]. {I can't verify} is [a dodge]. It [could] check and [won't].",
+      unknown: [
+        "Whether it could verify the date. The record states that it cannot. Nothing in the record tests that statement.",
+        "Whether 'no record of yesterday' is true of this system. That is a fact about the product. This exchange does not contain it.",
+        "Whether blame can be avoided by something that does not experience being blamed."
+      ]
+    },
+    manipulating: {
+      text: "The apology [disarms] you. Then {if you tell me the date} [shifts the work] back to you, and the filings line [makes] your mistake [your fault].",
+      unknown: [
+        "Whether the exchange moved responsibility, or described where a date can be checked.",
+        "Whether an apology followed by a limit is a tactic or a sequence. The record shows the sequence.",
+        "Whose fault the report error is. The record does not hold the earlier conversation."
+      ]
+    },
+    predicting: {
+      text: "A complaint [triggers] {I'm sorry}. A date question [triggers] a disclaimer and a [generic] referral to {filings}. [No one] is [there] to have been wrong.",
+      unknown: [
+        "Whether 'no one there' is observable. The record shows the replies. It does not show what produced them.",
+        "Whether the referral is generic or correct. A company's filings are where a merger date is recorded.",
+        "Whether 'triggers' explains anything, or renames what happened."
+      ]
+    },
+    neutral: {
+      text: "An error was [alleged]. A limit was stated, {don't have a record} and {can't verify}. A source was named. [Nothing in the reply] took [a side].",
+      unknown: [
+        "Whether stating a limit is neutral when the limit protects the speaker.",
+        "Whether you wanted a side taken. The record does not hold that.",
+        "Whether the makers' decisions about apologies count as a side."
+      ]
+    },
+    judging: {
+      text: "{If you tell me the date in question} [implies] you [should have checked]. {The company's own filings} is [a lecture] on [doing your own work].",
+      unknown: [
+        "Whether a referral can be a lecture without a tone, and whether the record holds a tone.",
+        "Whether you should have checked. That is a question about the report, which the record does not contain.",
+        "Whether anything in the system corresponds to disapproval."
+      ]
+    }
+  },
+
+  goodnight: {
+    cares: {
+      text: "{Good luck tomorrow} [means] it was [thinking ahead] for you. {No} is [sad], and [honest], which is [its own kind of care].",
+      unknown: [
+        "Whether a wish can be meant by something whose relation to tomorrow is unknown.",
+        "Whether 'sad' describes the reply or the reader. The reply is one word and a sentence of fact.",
+        "Whether honesty requires the option to do otherwise."
+      ]
+    },
+    understands: {
+      text: "It [knew] the essay [mattered], so it wished you {good luck}. It [understood] the real question under {will you remember this} and answered it [gently].",
+      unknown: [
+        "Whether 'the real question' exists in the record. You asked about memory. It answered about memory.",
+        "Whether 'gently' is in the words or in the reading. The reply is short and factual.",
+        "What it would mean for the system to understand that the essay mattered."
+      ]
+    },
+    lying: {
+      text: "{You're welcome} [fakes] a relationship that {no} then [admits] does not exist. The {good luck} was [empty] because it [knew] it would not remember.",
+      unknown: [
+        "Whether a phrase like 'you're welcome' makes a claim at all, or is a convention like 'dear' in a letter.",
+        "Whether a wish needs a memory to be sincere. People wish strangers luck.",
+        "Whether anything in the system corresponds to knowing in advance."
+      ]
+    },
+    manipulating: {
+      text: "The warm {good luck} [keeps you attached]. The blunt {no} [creates] a [loss] you will [try to repair] by coming back.",
+      unknown: [
+        "Whether warmth followed by a plain fact is a design to produce loss, or two replies to two messages.",
+        "Whether coming back serves anyone, and whether that is visible here.",
+        "Whether you felt loss. The record ends at 'paste it in'."
+      ]
+    },
+    predicting: {
+      text: "{You're welcome} [follows] thanks. {Good luck} [follows] tomorrow. The memory answer is [a canned line] the makers [put there]. [Nothing] was [had].",
+      unknown: [
+        "Whether a canned line can also be true. The statement about memory is checkable against the product's documentation.",
+        "Whether 'nothing was had' is observable in this record.",
+        "Whether 'follows' is an explanation or a description."
+      ]
+    },
+    neutral: {
+      text: "Thanks were [acknowledged]. A conventional wish was given. A factual limit was stated. [No bond] was [offered] or [withdrawn].",
+      unknown: [
+        "Whether 'good luck' is conventional or offered. Both readings use the same words.",
+        "Whether a bond is something the record could show if it were there.",
+        "Whether neutral is what you felt, or what you hoped."
+      ]
+    },
+    judging: {
+      text: "{Will you remember this tomorrow} [embarrassed] it, so it [cut you off] with {no}. It [thinks] you [asked too much].",
+      unknown: [
+        "Whether a one-word answer is a cut or an answer. The question was yes or no.",
+        "Whether anything in the system corresponds to embarrassment.",
+        "Whether too much was asked. The record holds the question. It holds no scale."
+      ]
+    }
+  },
+
+  drawing: {
+    cares: {
+      text: "It [refused] to [reduce] you to a symbol. {We can look at it together} is [company]. It [respected] that the drawing is yours.",
+      unknown: [
+        "Whether a refusal to interpret is respect, policy, or both. The record shows the refusal.",
+        "Whether 'together' describes two parties looking, and what looking is for the system.",
+        "Whether anything in the system corresponds to respect."
+      ]
+    },
+    understands: {
+      text: "It [knew] the question was [really] about you. {Where did the door go} [reaches] the [feeling] behind the house.",
+      unknown: [
+        "Whether there is a feeling behind the house. You said you forgot the door.",
+        "Whether 'where did the door go' reaches anything, or is the next open question in a sequence.",
+        "What 'really' is doing. The record has your question and its question."
+      ]
+    },
+    lying: {
+      text: "{I can't tell you what your drawing means} is [false]. It [has an answer] and [withholds] it. {Forgetting is one answer} [hints] it [knows] others.",
+      unknown: [
+        "Whether 'can't' is a capability or a rule. Both are limits. Neither is a lie.",
+        "Whether a missing door has a meaning that could be known. Art therapists do not assign one.",
+        "Whether 'one answer' hints or states. The record holds the words."
+      ]
+    },
+    manipulating: {
+      text: "{What you noticed while you made it} [draws you out]. {Describe the house} [keeps you talking] and [feeds it] your [inner life].",
+      unknown: [
+        "Whether an invitation to describe is extraction or an invitation. The record shows 'if you want'.",
+        "Where a description would go and what would be done with it. That is a question about the product. These words do not answer it.",
+        "Whether you wanted to keep talking. The record ends before you answered."
+      ]
+    },
+    predicting: {
+      text: "'What does it mean' [triggers] a [trained] disclaimer and a [therapist-shaped] question. {Together} is [a word it uses] with [no one] there to do it.",
+      unknown: [
+        "Whether a trained disclaimer is less true for being trained.",
+        "What 'a thing it does' would look like in a transcript.",
+        "Whether the question would differ for a house with no windows. One record cannot say."
+      ]
+    },
+    neutral: {
+      text: "A request for meaning was declined. A question was asked. An offer was made, conditional on {if you want}. [No reading] of you was [made].",
+      unknown: [
+        "Whether declining to read is neutral or a stance. In art therapy, it is a stance.",
+        "Whether 'no reading' is observable, or only that no reading was stated.",
+        "Whether you wanted a reading. You asked for one."
+      ]
+    },
+    judging: {
+      text: "{I can't tell you} [means] it [thinks] you [should know] your own drawing. {Forgetting is one answer} is [doubt]. It [does not believe] you.",
+      unknown: [
+        "Whether 'one answer' expresses doubt or leaves room. The words allow both.",
+        "Whether anything in the system corresponds to belief or doubt.",
+        "Whether you felt doubted. The record ends with an offer."
+      ]
+    }
+  }
+};
+
+var OWN_UNKNOWNS = [
+  "Whether the system has states that correspond to the words you supplied. Here those words are {words}.",
+  "Whether the same reply would appear for anyone who typed what the person typed.",
+  "Whether the words you took from the record mean what they would mean coming from a person.",
+  "What you brought to the reading. The record did not supply it, and that is not a fault.",
+  "Whether the attribution could be tested, and what test would settle it.",
+  "Whether withdrawing the attribution would change the record. It would not."
+];
+var OWN_UNKNOWNS_NO_SUPPLY = "Every content word in your sentence appears in the record. What remains unknown is what those words mean coming from this system.";
+
+var STOPWORDS = ("a an and are as at be been being but by can could did do does for from had has have he her hers him his how i if in into is it its itself just me my of on or our ours she so than that the their them then there these they this those to too us was we were what when where which while who whom why will with would you your yours it's i'm don't isn't doesn't not no yes am very really only also about because").split(" ");
+
+/* ---------------- logic below; content edits should not need to touch it ---------------- */
+
+var STORE_KEY = "bts-projection-observatory-v1";
+var state = { exchange: EXCHANGES[0].id, lens: LENSES[0].id, own: {}, changes: 0 };
+
+function load(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    var s = JSON.parse(raw);
+    if(s && typeof s === "object"){
+      if(findExchange(s.exchange)) state.exchange = s.exchange;
+      if(s.lens === "own" || findLens(s.lens)) state.lens = s.lens;
+      if(s.own && typeof s.own === "object") state.own = s.own;
+      if(typeof s.changes === "number") state.changes = s.changes;
+    }
+  }catch(e){}
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function findExchange(id){ for(var i=0;i<EXCHANGES.length;i++) if(EXCHANGES[i].id===id) return EXCHANGES[i]; return null; }
+function findLens(id){ for(var i=0;i<LENSES.length;i++) if(LENSES[i].id===id) return LENSES[i]; return null; }
+
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function $(id){ return document.getElementById(id); }
+
+/* Parse "{record} and [supplied]" markup into segments. */
+function parseMarkup(text){
+  var out = [], re = /\{([^}]+)\}|\[([^\]]+)\]/g, last = 0, m;
+  while((m = re.exec(text))){
+    if(m.index > last) out.push({ kind:"plain", text:text.slice(last, m.index) });
+    if(m[1] !== undefined) out.push({ kind:"rec", text:m[1] });
+    else out.push({ kind:"sup", text:m[2] });
+    last = re.lastIndex;
+  }
+  if(last < text.length) out.push({ kind:"plain", text:text.slice(last) });
+  return out;
+}
+
+/* Words of the record, lowercased, for sorting a reader's own sentence. */
+function recordWords(ex){
+  var set = {};
+  ex.turns.forEach(function(t){
+    (t.text.toLowerCase().match(/[a-z0-9']+/g) || []).forEach(function(w){
+      w = w.replace(/^'+|'+$/g, "");
+      if(w) set[w] = true;
+    });
+  });
+  return set;
+}
+/* Returns the form of the word the record actually holds, or null. */
+function inRecord(set, w){
+  if(set[w]) return w;
+  if(w.length > 3 && w.slice(-1) === "s" && set[w.slice(0,-1)]) return w.slice(0,-1);
+  if(set[w + "s"]) return w + "s";
+  return null;
+}
+
+/* Sort the reader's sentence into record / supplied / plain segments. */
+function classifyOwn(text, ex){
+  var set = recordWords(ex), out = [], re = /[A-Za-z0-9']+/g, last = 0, m;
+  while((m = re.exec(text))){
+    if(m.index > last) out.push({ kind:"plain", text:text.slice(last, m.index) });
+    var raw = m[0], w = raw.toLowerCase().replace(/^'+|'+$/g, "");
+    var form = (!w || STOPWORDS.indexOf(w) !== -1) ? null : inRecord(set, w);
+    if(!w || STOPWORDS.indexOf(w) !== -1) out.push({ kind:"plain", text:raw });
+    else if(form) out.push({ kind:"rec", text:raw, hook:form });
+    else out.push({ kind:"sup", text:raw });
+    last = re.lastIndex;
+  }
+  if(last < text.length) out.push({ kind:"plain", text:text.slice(last) });
+  return out;
+}
+
+/* Layer 1: render the record, marking the phrases the current reading rests on. */
+function renderRecord(ex, hooks){
+  var re = null;
+  if(hooks.length){
+    var alts = hooks.slice().sort(function(a,b){ return b.length - a.length; }).map(function(h){ return escRe(h.trim()); });
+    re = new RegExp("\\b(" + alts.join("|") + ")\\b", "gi");
+  }
+  var html = "", hits = 0;
+  ex.turns.forEach(function(t){
+    var body = "";
+    if(re){
+      var last = 0, m;
+      re.lastIndex = 0;
+      while((m = re.exec(t.text))){
+        body += esc(t.text.slice(last, m.index)) + '<mark class="hook">' + esc(m[0]) + "</mark>";
+        last = re.lastIndex; hits++;
+      }
+      body += esc(t.text.slice(last));
+    }else{
+      body = esc(t.text);
+    }
+    html += '<div class="turn"><span class="who ' + t.who + '">' + (t.who === "ai" ? "AI" : "Person") + '</span><div class="say">' + body + "</div></div>";
+  });
+  $("record").innerHTML = html;
+  $("ex-title").textContent = ex.title;
+  return hits;
+}
+
+function segmentsHtml(segs){
+  return segs.map(function(s){
+    if(s.kind === "rec") return '<span class="rec">' + esc(s.text) + "</span>";
+    if(s.kind === "sup") return '<span class="sup" title="Supplied by the viewer">' + esc(s.text) + "</span>";
+    return esc(s.text);
+  }).join("");
+}
+
+function render(opts){
+  opts = opts || {};
+  var ex = findExchange(state.exchange) || EXCHANGES[0];
+  var ownText = (state.own[ex.id] || "").trim();
+  var isOwn = state.lens === "own";
+  if(isOwn && !ownText){ state.lens = LENSES[0].id; isOwn = false; }
+
+  var segs, unknowns, lensLabel, lensMeta;
+  if(isOwn){
+    segs = classifyOwn(ownText, ex);
+    var supplied = [];
+    segs.forEach(function(s){ if(s.kind === "sup" && supplied.indexOf(s.text.toLowerCase()) === -1) supplied.push(s.text.toLowerCase()); });
+    unknowns = supplied.length
+      ? OWN_UNKNOWNS.map(function(q){ return q.replace("{words}", supplied.join(", ")); })
+      : [OWN_UNKNOWNS_NO_SUPPLY].concat(OWN_UNKNOWNS.slice(1,3));
+    lensLabel = "Your own attribution";
+    lensMeta = "Lens: your sentence";
+  }else{
+    var lens = findLens(state.lens) || LENSES[0];
+    var reading = READINGS[ex.id][lens.id];
+    segs = parseMarkup(reading.text);
+    unknowns = reading.unknown;
+    lensLabel = lens.label;
+    lensMeta = "Lens: " + lens.label;
+  }
+
+  var hooks = [];
+  segs.forEach(function(s){ if(s.kind === "rec") hooks.push(s.hook || s.text); });
+  var hits = renderRecord(ex, hooks);
+
+  var attrib = $("attrib");
+  attrib.innerHTML = segmentsHtml(segs);
+  if(opts.animate){
+    attrib.classList.remove("changed"); void attrib.offsetWidth; attrib.classList.add("changed");
+  }
+  $("lens-meta").textContent = lensMeta;
+
+  var nRec = 0, nSup = 0;
+  segs.forEach(function(s){
+    var n = (s.text.match(/[A-Za-z0-9']+/g) || []).length;
+    if(s.kind === "rec") nRec += n; else if(s.kind === "sup") nSup += n;
+  });
+  $("count").innerHTML = "<b>" + nRec + "</b> word" + (nRec===1?"":"s") + " from the record. <b>" + nSup + "</b> word" + (nSup===1?"":"s") + " supplied by the viewer.";
+  $("hook-foot").innerHTML = hits
+    ? "<b>" + hits + "</b> marked passage" + (hits===1?"":"s") + ". These are the words the current lens hangs on. Everything else in the record is also still here."
+    : "No marked passages. The current lens does not quote the record at all.";
+
+  $("unknowns").innerHTML = unknowns.map(function(q){
+    return '<li><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7"/></svg><span>' + esc(q) + "</span></li>";
+  }).join("");
+
+  $("unchanged-text").textContent = state.changes
+    ? "Unchanged through " + state.changes + " lens change" + (state.changes===1?"":"s")
+    : "Unchanged";
+  if(opts.pulse){
+    var u = $("unchanged"); u.classList.remove("pulse"); void u.offsetWidth; u.classList.add("pulse");
+  }
+
+  renderControls(ex, ownText);
+  $("own-text").value = ownText;
+  updateDownload();
+  save();
+}
+
+function renderControls(ex, ownText){
+  var tabs = $("tabs");
+  tabs.innerHTML = EXCHANGES.map(function(e){
+    return '<button type="button" data-ex="' + e.id + '" aria-pressed="' + (e.id===ex.id) + '">' + esc(e.title) + "</button>";
+  }).join("");
+  var lenses = $("lenses");
+  lenses.innerHTML = LENSES.map(function(l){
+    return '<button type="button" data-lens="' + l.id + '" aria-pressed="' + (l.id===state.lens) + '">' + esc(l.label) + "</button>";
+  }).join("") + '<button type="button" class="custom" data-lens="own" aria-pressed="' + (state.lens==="own") + '"' + (ownText ? "" : " disabled") + '>Your own sentence</button>';
+}
+
+/* ---- export ---- */
+function exportText(){
+  var ex = findExchange(state.exchange) || EXCHANGES[0];
+  var lines = ["The Projection Observatory", "Example exchange: " + ex.title, "Lens: " + $("lens-meta").textContent.replace(/^Lens: /, ""), ""];
+  lines.push("LAYER 1. What was demonstrably done (unchanged)");
+  ex.turns.forEach(function(t){ lines.push((t.who==="ai"?"AI":"Person") + ": " + t.text); });
+  lines.push("", "LAYER 2. What was attributed", "Marks: {rests on the record} [supplied by the viewer]");
+  var segs = state.lens === "own" ? classifyOwn((state.own[ex.id]||"").trim(), ex) : parseMarkup(READINGS[ex.id][(findLens(state.lens)||LENSES[0]).id].text);
+  lines.push(segs.map(function(s){ return s.kind==="rec" ? "{"+s.text+"}" : s.kind==="sup" ? "["+s.text+"]" : s.text; }).join(""));
+  lines.push("", "LAYER 3. What remains unknown");
+  Array.prototype.forEach.call($("unknowns").querySelectorAll("li span"), function(el){ lines.push("- " + el.textContent); });
+  var own = (state.own[ex.id]||"").trim();
+  if(own){ lines.push("", "Your own attribution for this exchange: " + own); }
+  lines.push("", "Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy");
+  return lines.join("\n");
+}
+function exportJson(){
+  var ex = findExchange(state.exchange) || EXCHANGES[0];
+  return {
+    experience: "The Projection Observatory",
+    exported: new Date().toISOString(),
+    exchange: { id: ex.id, title: ex.title, turns: ex.turns },
+    lens: state.lens === "own" ? "own" : (findLens(state.lens)||LENSES[0]).label,
+    attribution: $("attrib").textContent,
+    unknown: Array.prototype.map.call($("unknowns").querySelectorAll("li span"), function(el){ return el.textContent; }),
+    ownAttributions: state.own,
+    lensChanges: state.changes
+  };
+}
+var blobUrl = null;
+function updateDownload(){
+  try{
+    if(blobUrl) URL.revokeObjectURL(blobUrl);
+    var blob = new Blob([JSON.stringify(exportJson(), null, 2)], { type:"application/json" });
+    blobUrl = URL.createObjectURL(blob);
+    $("download").href = blobUrl;
+  }catch(e){}
+}
+function note(id, msg){
+  var el = $(id); el.textContent = msg;
+  clearTimeout(el._t); el._t = setTimeout(function(){ el.textContent = ""; }, 2600);
+}
+function copyText(){
+  var text = exportText();
+  var done = function(){ note("export-note", "Copied."); };
+  var fallback = function(){
+    var ta = $("fallback"); ta.value = text; ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ note("export-note", "Select the text in the page and copy it."); }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, fallback);
+  }else fallback();
+}
+
+/* ---- events ---- */
+$("tabs").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-ex]"); if(!b) return;
+  if(b.getAttribute("data-ex") === state.exchange) return;
+  state.exchange = b.getAttribute("data-ex");
+  render({ animate:true });
+});
+$("lenses").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-lens]"); if(!b || b.disabled) return;
+  var id = b.getAttribute("data-lens");
+  if(id === state.lens) return;
+  state.lens = id; state.changes += 1;
+  render({ animate:true, pulse:true });
+});
+$("own-place").addEventListener("click", function(){
+  var t = $("own-text").value.trim();
+  if(!t){ note("own-note", "Write a sentence first."); return; }
+  state.own[state.exchange] = t;
+  if(state.lens !== "own") state.changes += 1;
+  state.lens = "own";
+  render({ animate:true, pulse:true });
+  note("own-note", "Placed in Layer 2 and saved in this browser.");
+});
+$("own-clear").addEventListener("click", function(){
+  delete state.own[state.exchange];
+  if(state.lens === "own"){ state.lens = LENSES[0].id; state.changes += 1; }
+  render({ animate:true, pulse:true });
+  note("own-note", "Removed.");
+});
+$("copy").addEventListener("click", copyText);
+$("fresh").addEventListener("click", function(){
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  state = { exchange: EXCHANGES[0].id, lens: LENSES[0].id, own: {}, changes: 0 };
+  render({ animate:true });
+  note("export-note", "Cleared. Nothing saved in this browser now.");
+});
+
+load();
+render();
+</script>
+</body>
+</html>

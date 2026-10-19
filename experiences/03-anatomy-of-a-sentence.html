@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anatomy of a Sentence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+  --sans:"Nunito",system-ui,sans-serif;
+  --serif:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --line:rgba(43,58,66,.14);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:600;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 48px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:default;opacity:.45}
+:focus-visible{outline:3px solid var(--sky-d);outline-offset:2px}
+textarea,input{font:inherit;color:inherit}
+a{color:var(--sky-d)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* frame */
+.chip{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--sky-d);border:1.5px solid var(--sky);border-radius:999px;padding:4px 11px;background:var(--card)}
+h1{font-size:clamp(30px,5vw,46px);font-weight:900;line-height:1.08;margin:16px 0 10px;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--ink-soft);margin:0 0 14px;max-width:64ch}
+details.how{max-width:64ch;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0}
+details.how summary{font-weight:800;cursor:pointer;padding:4px 0;color:var(--sky-d)}
+details.how ol{margin:6px 0 4px;padding-left:20px;color:var(--ink-soft)}
+details.how li{margin:3px 0}
+.holds{margin:18px 0 0;font-size:15px;color:var(--ink-soft);font-style:italic;font-family:var(--serif)}
+
+section{margin-top:38px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--ink-soft);margin:0 0 12px}
+h3{font-size:15px;font-weight:800;margin:0 0 8px}
+.card{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:20px}
+.serif{font-family:var(--serif);font-weight:400}
+.muted{color:var(--ink-soft)}
+.small{font-size:14px}
+
+/* shelf */
+.shelf{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.shelf button{background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;text-align:left}
+.shelf button[aria-pressed="true"]{border-color:var(--sky-d);background:var(--sky-100);color:var(--sky-d)}
+.shelf button .tag{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
+.shelf button[aria-pressed="true"] .tag{color:var(--sky-d)}
+
+/* examination */
+.orig-card{padding:22px 24px}
+.orig-label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:8px}
+.orig-label .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+.sentence{font-size:clamp(22px,2.7vw,31px);line-height:1.8;margin:0;word-wrap:break-word}
+.w{padding:0 1px 2px;border-radius:3px;transition:background .15s,color .15s}
+.w.swappable{text-decoration:underline dotted var(--sky);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.w.hot{background:var(--ink);color:var(--card);box-shadow:none !important}
+.exam{display:grid;gap:22px;margin-top:22px}
+@media (min-width:900px){
+  .exam{grid-template-columns:1.1fr .9fr;align-items:start}
+  .orig-card{position:sticky;top:10px;z-index:3}
+}
+
+/* layers */
+.layers{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.layer-btn{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 13px 7px 9px;font-weight:800;font-size:14px}
+.layer-btn .sw{width:14px;height:14px;border-radius:4px;background:var(--c);opacity:.35}
+.layer-btn[aria-pressed="true"]{border-color:var(--c);background:var(--t)}
+.layer-btn[aria-pressed="true"] .sw{opacity:1}
+.layer-btn .n{font-weight:700;color:var(--ink-soft);font-size:13px}
+.defs{font-size:13px;color:var(--ink-soft);margin:0 0 14px;padding:0;list-style:none;display:grid;gap:3px}
+.defs li b{color:var(--ink)}
+.notes{display:grid;gap:14px}
+.ngroup{border-left:4px solid var(--c);padding-left:14px}
+.ngroup h3{display:flex;align-items:center;gap:8px}
+.ngroup h3 .sw{width:12px;height:12px;border-radius:3px;background:var(--c)}
+.nlist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.note{border-radius:12px;padding:8px 10px;margin:0 -10px;transition:background .15s}
+.note:hover,.note:focus-within,.note.pin{background:var(--t)}
+.note .words{font-family:var(--serif);font-size:17px;display:block;margin-bottom:2px}
+.note button.pinbtn{all:unset;cursor:pointer;display:block;width:100%;border-radius:12px}
+.note p{margin:0;font-size:15px;line-height:1.5}
+.note ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--ink);display:grid;gap:3px}
+.note ul li::marker{color:var(--sunny-d)}
+.empty{font-size:14px;color:var(--ink-soft);padding:8px 0}
+
+/* swaps */
+.swap{padding:12px 0;border-top:1px solid var(--line)}
+.swap:first-of-type{border-top:0;padding-top:0}
+.swap .lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin-bottom:6px}
+.alts{display:flex;flex-wrap:wrap;gap:6px}
+.alt{background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-family:var(--serif);font-size:16px;font-weight:400}
+.alt[aria-pressed="true"]{border-color:var(--sky-d);background:var(--sky-100)}
+.alt .o{font-family:var(--sans);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin-left:6px}
+.revision-box{margin-top:16px;border-top:2px solid var(--ink);padding-top:14px}
+.revision{font-size:clamp(19px,2.2vw,25px);line-height:1.7;margin:4px 0 10px}
+.revision .chg{background:var(--sky-100);box-shadow:inset 0 -3px 0 var(--sky-d);padding:0 2px;border-radius:3px}
+.chglist{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
+.chglist li{font-size:15px;background:var(--paper);border-radius:12px;padding:10px 12px}
+.chglist .pair{font-family:var(--serif);font-size:17px;display:block;margin-bottom:2px}
+.chglist .pair .arrow{font-family:var(--sans);color:var(--sky-d);margin:0 6px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--card);border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:800;font-size:14px}
+.btn.primary{background:var(--ink);color:var(--card)}
+.btn.quiet{border-color:var(--line);color:var(--ink-soft)}
+.btn.danger{border-color:var(--coral-d);color:var(--coral-d)}
+.status{font-size:13px;color:var(--ink-soft)}
+
+/* kept */
+.kept-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.kept{border-left:4px solid var(--leaf);padding-left:14px}
+.kept .src{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+.kept .from{font-size:14px;color:var(--ink-soft);margin:2px 0;text-decoration:line-through;text-decoration-color:rgba(43,58,66,.35)}
+.kept .to{font-size:20px;margin:2px 0 6px}
+.kept .chgs{font-size:14px;color:var(--ink-soft);margin:0 0 8px;padding-left:18px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+
+/* own sentence */
+.own-grid{display:grid;gap:22px}
+@media (min-width:900px){.own-grid{grid-template-columns:1.1fr .9fr;align-items:start}}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card);resize:vertical;min-height:88px;line-height:1.5}
+input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--card)}
+label.fl{display:block;font-size:13px;font-weight:800;color:var(--ink-soft);margin:10px 0 4px}
+.plain{font-size:15px;margin:0 0 10px}
+.tokens{display:flex;flex-wrap:wrap;gap:4px 2px;margin:6px 0 10px}
+.tok{background:transparent;border:0;border-radius:6px;padding:2px 5px 4px;font-family:var(--serif);font-size:clamp(20px,2.4vw,26px);line-height:1.5;font-weight:400}
+.tok[aria-pressed="true"]{background:var(--ink);color:var(--card);box-shadow:none !important}
+.tok.swapped{text-decoration:underline dotted var(--sky-d)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.inline-confirm{background:var(--sunny-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ann-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ann{border-left:4px solid var(--c);padding:6px 0 6px 12px;border-radius:0 10px 10px 0}
+.ann:hover,.ann:focus-within{background:var(--t)}
+.ann .lt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+.ann .words{font-family:var(--serif);font-size:17px;display:block}
+.ann p{margin:2px 0 4px;font-size:15px}
+.xbtn{all:unset;cursor:pointer;font-size:13px;font-weight:800;color:var(--coral-d);padding:2px 6px;border-radius:6px}
+.xbtn:focus-visible{outline:3px solid var(--sky-d)}
+
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--ink-soft);display:grid;gap:8px}
+footer .sig{font-weight:800;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="chip">Creative La'boratory</span>
+  <h1>The Anatomy of a Sentence</h1>
+  <p class="lede">Take one sentence apart to see what it assumes, leaves out, permits, and implies, then swap single words and watch the meaning move.</p>
+  <details class="how">
+    <summary>How to use this</summary>
+    <ol>
+      <li>Pick an example from the shelf. The original stays at the top the whole time.</li>
+      <li>Turn on a layer to see which words carry it. Hover or tap a note to find its words.</li>
+      <li>Try a word toggle. A revision line builds underneath. Keep it or discard it.</li>
+      <li>Paste your own sentence at the bottom and annotate it yourself. Your work saves in this browser.</li>
+    </ol>
+  </details>
+  <p class="holds" id="holds"></p>
+
+  <section aria-labelledby="h-shelf">
+    <h2 id="h-shelf">Sentence shelf</h2>
+    <ul class="shelf" id="shelf"></ul>
+  </section>
+
+  <section aria-labelledby="h-exam" id="exam-section">
+    <h2 id="h-exam">Examination</h2>
+    <div class="card orig-card">
+      <div class="orig-label"><span class="tag">Original</span><span class="small muted" id="orig-sub"></span></div>
+      <p class="sentence serif" id="orig" aria-live="polite"></p>
+    </div>
+    <div class="exam">
+      <div>
+        <h3>Layers</h3>
+        <div class="layers" id="layers" role="group" aria-label="Layers"></div>
+        <ul class="defs" id="defs"></ul>
+        <div class="notes" id="notes"></div>
+      </div>
+      <div class="card">
+        <h3>Word toggles</h3>
+        <p class="small muted" style="margin:0 0 12px">Dotted words in the original can be swapped. The original does not change. The revision builds below.</p>
+        <div id="swaps"></div>
+        <div class="revision-box">
+          <span class="tag" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)">Revision</span>
+          <p class="revision serif" id="revision"></p>
+          <ul class="chglist" id="chglist"></ul>
+          <div class="actions">
+            <button class="btn primary" id="accept">Accept revision</button>
+            <button class="btn quiet" id="discard">Discard</button>
+            <span class="status" id="rev-status"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-kept">
+    <h2 id="h-kept">Revisions kept</h2>
+    <div class="card">
+      <ul class="kept-list" id="kept"></ul>
+      <div class="toolbar">
+        <button class="btn" id="kept-copy">Copy as text</button>
+        <a class="btn" id="kept-dl" href="#" download="revisions-kept.json">Download as JSON</a>
+        <span class="status" id="kept-status"></span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-own">
+    <h2 id="h-own">Bring your own sentence</h2>
+    <div class="own-grid">
+      <div class="card">
+        <p class="plain" id="own-plain"></p>
+        <label class="fl" for="own-text">Your sentence</label>
+        <textarea id="own-text" rows="3" placeholder="Paste or type one sentence."></textarea>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn" id="own-lay">Lay it out as words</button>
+          <span class="status" id="own-status"></span>
+        </div>
+        <div id="own-confirm"></div>
+        <div id="own-bench" hidden>
+          <label class="fl">Tap words to select them</label>
+          <div class="tokens" id="own-tokens"></div>
+          <p class="small muted" id="own-sel"></p>
+          <label class="fl">Tag the selection</label>
+          <div class="tagrow" id="own-tags" role="group" aria-label="Tag"></div>
+          <label class="fl" for="own-note">Your note</label>
+          <textarea id="own-note" rows="2" placeholder="What does this word assume, leave out, permit, or imply?"></textarea>
+          <div class="actions" style="margin-top:10px">
+            <button class="btn primary" id="own-add">Add annotation</button>
+            <button class="btn quiet" id="own-clear-sel">Clear selection</button>
+          </div>
+          <div id="own-swap-box" style="margin-top:16px" hidden>
+            <h3>Swap the selected word</h3>
+            <label class="fl" for="own-alt">Alternate word or phrase</label>
+            <input type="text" id="own-alt" placeholder="A different word">
+            <label class="fl" for="own-alt-note">What the swap changes</label>
+            <textarea id="own-alt-note" rows="2" placeholder="Name what shifts. Who acts, when, how sure, who is absent."></textarea>
+            <div class="actions" style="margin-top:10px">
+              <button class="btn" id="own-apply">Apply swap</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Your annotations</h3>
+        <ul class="ann-list" id="own-anns"></ul>
+        <div class="revision-box" id="own-rev-box" hidden>
+          <span class="tag" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)">Revision</span>
+          <p class="revision serif" id="own-revision"></p>
+          <ul class="chglist" id="own-chglist"></ul>
+          <div class="actions">
+            <button class="btn primary" id="own-accept">Accept revision</button>
+            <button class="btn quiet" id="own-discard">Discard swaps</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="own-copy">Copy as text</button>
+          <a class="btn" id="own-dl" href="#" download="my-sentence-annotations.json">Download as JSON</a>
+          <span class="status" id="own-exp-status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-reset">
+    <h2 id="h-reset">This browser</h2>
+    <div class="actions">
+      <button class="btn danger" id="fresh">Start fresh</button>
+      <span class="status" id="fresh-status">Your layers, swaps, kept revisions and your own sentence are saved on this device only.</span>
+    </div>
+    <div id="fresh-confirm"></div>
+  </section>
+
+  <footer>
+    <div>This page is not therapy. If you are in crisis in the US, call or text 988, the Suicide and Crisis Lifeline.</div>
+    <div class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</div>
+    <div><a href="index.html">All experiences</a></div>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   HOW TO EDIT THE CONTENT
+   Everything a reader sees lives in COPY, LAYERS and SENTENCES below.
+   - COPY holds the short lines of page text.
+   - LAYERS names the four layers and their one-line definitions.
+   - SENTENCES holds the six example sentences. Each has:
+       text      the sentence, written once, with its punctuation
+       notes     for each layer, a list of {words, note, readings}
+                 "words" is a list of phrases found in the sentence.
+                 Use "she#2" to mean the second "she". Punctuation and
+                 case are ignored when matching. A phrase can be more
+                 than one word, like "was placed".
+       swaps     a list of {target, alternates:[{text, note}]}
+                 "target" is the phrase in the original that can be
+                 swapped. The original is never changed by a swap.
+   Change words here. The logic further down does not need touching.
+   ============================================================ */
+
+const COPY = {
+  holds: "The instrument holds the examination. It does not judge the writing.",
+  exampleTag: "Example sentence",
+  ownPlain: "The instrument does not analyze a sentence you bring. You do. Lay the sentence out, select a word or a span, tag it, and write the note yourself.",
+  noLayers: "No layer is on. Turn one on above to see its notes.",
+  noNotes: "Nothing tagged in this layer.",
+  noChanges: "No word is swapped yet. Pick an alternate above.",
+  keptEmpty: "Nothing kept yet. Accept a revision and it will appear here.",
+  annEmpty: "No annotations yet. Select a word above, tag it, and add a note.",
+  kept: "Kept.",
+  discarded: "Discarded. The original was never changed.",
+  copied: "Copied.",
+  copyFail: "Copy did not work here. Select the text and copy it by hand.",
+  nothingToCopy: "Nothing to copy yet.",
+  selNone: "Nothing selected.",
+  selSome: "Selected: ",
+  needTag: "Pick a tag first.",
+  needSel: "Select a word first.",
+  needAlt: "Type an alternate first.",
+  laidOut: "Laid out. Tap any word.",
+  emptyText: "Type a sentence first.",
+  relayConfirm: "Laying out a new sentence clears the annotations and swaps on this one.",
+  freshConfirm: "Clear everything saved on this device? Kept revisions and your own sentence will be removed."
+};
+
+const LAYERS = [
+  { id: "assumption",  name: "Assumptions",  def: "What must be true for the sentence to make sense.", color: "var(--sky-d)",   tint: "var(--sky-100)" },
+  { id: "omission",    name: "Omissions",    def: "Who or what is absent.",                              color: "var(--coral-d)", tint: "var(--coral-100)" },
+  { id: "ambiguity",   name: "Ambiguities",  def: "Words or structures that permit more than one reading.", color: "var(--sunny-d)", tint: "var(--sunny-100)" },
+  { id: "implication", name: "Implications", def: "What a reader is led to conclude without it being stated.", color: "var(--leaf-d)", tint: "var(--leaf-100)" }
+];
+
+const SENTENCES = [
+  {
+    id: "placed",
+    short: "She was placed with us",
+    text: "She was placed with us when she was two, and she still asks about her first mother.",
+    notes: {
+      assumption: [
+        { words: ["placed"], note: "A placement needs a process. Someone decided, someone signed, someone carried her from one home to another. The word only makes sense if that machinery existed." },
+        { words: ["when she was two"], note: "The age is given as known. For many adoptions the date of a move is documented and the date of a separation is not. The sentence treats them as the same day." },
+        { words: ["first mother"], note: "The speaker accepts that there is a first mother and that the child may name her. Not every household grants that. This sentence does." }
+      ],
+      omission: [
+        { words: ["was placed"], note: "Nobody in the sentence does the placing. The agency, the court, the caseworker and the first mother's situation all sit outside the frame. Grammar calls this an agentless passive. It is the most common way a sentence loses an actor." },
+        { words: ["her first mother"], note: "The first mother is present only as the object of a question. What she did, wanted, or was told is not here. Neither is a first father." },
+        { words: ["she#1"], note: "The child is the subject of the sentence and has no sentence of her own. What she asks, in her words, is not quoted." }
+      ],
+      ambiguity: [
+        { words: ["still"], note: "Still is a presupposition trigger. It only works if the reader accepts that the asking began earlier and could have stopped.",
+          readings: ["She continues to ask. A plain report of time.", "She asks longer than expected. The asking was supposed to fade.", "She asks despite everything. The word carries a small protest."] },
+        { words: ["us"], note: "Us has no fixed size. Each reading changes who she was placed with and who hears her questions.",
+          readings: ["The two parents.", "The whole household, siblings included.", "The speaker and whoever is listening."] },
+        { words: ["first"], note: "First mother is a term many adoptees and first mothers choose. It still permits three readings, and the speaker may not mean the one the listener hears.",
+          readings: ["First in time. The mother who was there at birth.", "First in rank. The mother who counts most.", "First of a sequence that continues. The speaker is a later mother in the same line."] }
+      ],
+      implication: [
+        { words: ["still asks"], note: "A reader is led to expect that the asking should end at some point. Nothing in the sentence says so. The expectation comes from still." },
+        { words: ["and"], note: "And joins the placement to the asking as if one follows from the other. A reader fills in a causal link. The sentence never claims one." },
+        { words: ["asks about"], note: "Asks about places the parents as the people who hold answers. Whether they have any is not stated." }
+      ]
+    },
+    swaps: [
+      { target: "still", alternates: [
+        { text: "already", note: "Already moves the surprise from the end to the start. With still, the asking has gone on longer than expected. With already, it began sooner than expected. The time frame flips. The asking itself is unchanged." },
+        { text: "often", note: "Often counts. It reports how much she asks and drops any expectation that it should stop. Nothing in the sentence now hints at an end point." },
+        { text: "sometimes", note: "Sometimes lowers the frequency and the pressure. The asking becomes occasional. A reader may now hear it as manageable, which is a judgment the first word never allowed." }
+      ]},
+      { target: "was placed with", alternates: [
+        { text: "was given to", note: "Given names a giver. The first mother becomes the actor, and the agency and court vanish. Given also carries the shape of a gift, and a gift can be heard as something that calls for thanks." },
+        { text: "was relinquished to", note: "Relinquished is the legal word for a signed surrender of parental rights. It puts the act on the first mother alone and gives it a tone of letting go. Pressure, counsel, deadlines and money are all outside the word." },
+        { text: "came to live with", note: "The passive is gone. No one acts on her. The move reads as neutral, almost as if she arrived under her own power. Everyone who arranged it is still absent, and now their absence is harder to notice." }
+      ]},
+      { target: "first", alternates: [
+        { text: "birth", note: "Birth names her by one event. It is the term most agencies and courts use. It is accurate for that moment and can sound like her role ended there." },
+        { text: "biological", note: "Biological reduces her to genetics. It is precise about DNA and silent about the nine months, the birth, and any time after. It is often used to make distance." },
+        { text: "real", note: "Real sets up a contrast the sentence cannot hold. If the first mother is real, the speaker is implied to be not real. Many adoptees and parents reject the word for exactly this reason." },
+        { text: "other", note: "Other defines her by what she is not. She has no name, role or time of her own in the sentence. She is simply not the speaker." }
+      ]}
+    ]
+  },
+  {
+    id: "drew",
+    short: "He wasn't ready to talk",
+    text: "He wasn't ready to talk about it, so we drew instead.",
+    notes: {
+      assumption: [
+        { words: ["it,"], note: "There is an it. Both people in the room know what it is. The reader is assumed to know too, or to accept that they do not." },
+        { words: ["ready"], note: "Readiness is a state that can be read from the outside. The clinician is assumed to be able to see it, or its absence." },
+        { words: ["drew"], note: "Drawing is available. There is paper, something to mark with, and permission to use them. In an art therapy room this is true by design. Elsewhere it is a choice someone made." }
+      ],
+      omission: [
+        { words: ["wasn't ready"], note: "Who decided he was not ready. The sentence reads as the clinician's judgment, and he may have said so, or shown it, or said nothing." },
+        { words: ["it,"], note: "The subject itself. It could be a loss, an event, a diagnosis, a fear. The sentence protects it, which may be care or may be habit." },
+        { words: ["we"], note: "Whose hand held the material. We drew can mean side by side, or the clinician drawing while he watched, or him drawing with the clinician present. In art therapy, who touches the material is a clinical decision." }
+      ],
+      ambiguity: [
+        { words: ["wasn't ready"], note: "The phrase is kind, and it hides which of three things happened. Each one calls for a different next session.",
+          readings: ["He chose not to talk. A decision.", "He could not talk. A limit of capacity or safety.", "It was the wrong time. A matter of timing, with nothing said about him."] },
+        { words: ["instead"], note: "Instead usually marks a substitute. It can quietly rank one activity above the other.",
+          readings: ["Drawing replaced talking. Talking was the plan.", "Drawing was the other option. Both were equal."] },
+        { words: ["so"], note: "So works both ways. Only one of them makes drawing a response to him.",
+          readings: ["Because he was not ready, we drew. Cause.", "He was not ready, and then we drew. Sequence."] }
+      ],
+      implication: [
+        { words: ["talk"], note: "A reader is led to treat talking as the real work and drawing as the fallback. In art therapy the image is the work. The sentence does not say that." },
+        { words: ["instead"], note: "Instead implies the session lost something. Nothing in the sentence says what was made or what it held." },
+        { words: ["we"], note: "We implies agreement. The reader concludes the drawing was shared. Whether he wanted to draw is not stated." }
+      ]
+    },
+    swaps: [
+      { target: "wasn't ready to", alternates: [
+        { text: "chose not to", note: "Choice moves to him. He becomes the actor. The clinician's reading of him drops out, and so does any sense of capacity. This respects his agency more and is less true if he had no choice." },
+        { text: "couldn't", note: "Couldn't makes it a limit. The reader hears capacity, safety, or words that are not there yet. He is no longer choosing. The clinician's judgment is still implied and now sounds like a fact." },
+        { text: "didn't want to", note: "Want names a feeling the clinician cannot see. It assigns motive. It is the most common phrasing and the one that assumes the most." }
+      ]},
+      { target: "we drew", alternates: [
+        { text: "he drew", note: "The material moves to his hands alone. The clinician is still in the room and out of the sentence. What was made is his." },
+        { text: "I offered paper", note: "The clinician becomes the actor and the offer becomes visible. Whether he took it is now an open question, which is often the truer account." },
+        { text: "we made images", note: "Image making is the broader term of the field. It covers collage, paint, clay. It also drops the casual sound of drew and makes the activity sound like work." }
+      ]},
+      { target: "instead", alternates: [
+        { text: "first", note: "First keeps talking in view as something that may still come. Drawing becomes the opening. Time points forward." },
+        { text: "too", note: "Too makes drawing an addition. Nothing was replaced. The sentence now contradicts its own first half, which may be the honest version." },
+        { text: "for a while", note: "For a while bounds the drawing in time and implies the session returned to talk. That return is not in the sentence." }
+      ]}
+    ]
+  },
+  {
+    id: "paintings",
+    short: "Her paintings got darker",
+    text: "Her paintings got darker after the divorce.",
+    notes: {
+      assumption: [
+        { words: ["paintings"], note: "There is a body of work with a before and an after. One painting cannot get darker. The sentence assumes at least two and probably many." },
+        { words: ["darker"], note: "Darkness lives in the paintings and can be seen by anyone. The viewer's own state is assumed to play no part." },
+        { words: ["the divorce"], note: "One divorce, known to both speaker and reader. The definite article treats it as settled fact with a date." }
+      ],
+      omission: [
+        { words: ["her"], note: "The painter's own account. She is not quoted. Whether she sees her work as darker, or chose it, is absent." },
+        { words: ["the divorce"], note: "Whose divorce. Her own, her parents', a child's. The sentence names the event and no one in it." },
+        { words: ["darker"], note: "What darker measures. Value, hue, subject, mood, or the viewer's reading. The word covers all five and names none." }
+      ],
+      ambiguity: [
+        { words: ["darker"], note: "Painters use value to mean how light or dark a color is. A reader who does not paint hears mood. The same word points at paint and at feeling.",
+          readings: ["Lower in value. More black, Payne's grey, burnt umber. A fact about paint.", "Heavier in subject. Figures, scenes, or symbols a viewer reads as hard.", "Darker in mood. Something the viewer feels and places on the work."] },
+        { words: ["after"], note: "After is the quietest causal word in English. It claims only order and lets the reader supply the reason.",
+          readings: ["Later in time. A sequence.", "Because of. A cause."] },
+        { words: ["got"], note: "Got removes the hand. A reader cannot tell if the change was chosen.",
+          readings: ["The paintings changed on their own. The painter is passive.", "She made them darker. The painter is active and the word hides her."] }
+      ],
+      implication: [
+        { words: ["after the divorce"], note: "A reader concludes the divorce caused the change. The sentence never says so. This is the oldest trap in reading someone's art." },
+        { words: ["darker"], note: "A reader is led to treat the work as a symptom. Art therapy does not read an image as evidence of a state. The sentence invites exactly that reading." },
+        { words: ["got"], note: "The painter is led out of the picture. The work changes and she does not act. A reader may conclude the change happened to her." }
+      ]
+    },
+    swaps: [
+      { target: "after", alternates: [
+        { text: "because of", note: "The hidden cause becomes a stated one. The speaker now claims to know why. Nothing else in the sentence supports the claim." },
+        { text: "around the time of", note: "The link loosens to a season. Cause is no longer implied. The sentence becomes a dated observation and nothing more." },
+        { text: "since", note: "Since keeps time and adds continuation. The paintings are still darker now. The reader concludes the change has not reversed." }
+      ]},
+      { target: "darker", alternates: [
+        { text: "lower in value", note: "Value is the painter's word for lightness. This stays in the paint and says nothing about the painter. A field of Payne's grey is lower in value than one of Naples yellow. That is all it says." },
+        { text: "heavier", note: "Heavier moves from paint to subject. The images themselves carry more weight. It is still a viewer's reading, and it admits to being one." },
+        { text: "sadder", note: "Sadder assigns a feeling to the painter through the work. It is the reading most people make and the one with the least evidence in the sentence." }
+      ]},
+      { target: "got", alternates: [
+        { text: "went", note: "Went is more active than got and still has no hand in it. The paintings move on their own. Small shift, same absence." },
+        { text: "turned", note: "Turned suggests a single moment of change. A reader may now look for the painting where it happened." },
+        { text: "grew", note: "Grew makes the change gradual and almost organic. It softens any decision. The painter is further out of the sentence." }
+      ]}
+    ]
+  },
+  {
+    id: "ai",
+    short: "The AI understood what she meant",
+    text: "The AI understood what she meant and wrote the email for her.",
+    notes: {
+      assumption: [
+        { words: ["understood"], note: "Understanding is something the system can do. The sentence assumes a mind, or at least treats the output as if one were behind it." },
+        { words: ["what she meant"], note: "She had one meaning, and it was clear enough to be caught. People often discover what they meant while writing. The sentence assumes it was fixed before she typed." },
+        { words: ["the email"], note: "The email was the goal. Writing it was a task to complete, and completing it was good." }
+      ],
+      omission: [
+        { words: ["what she meant"], note: "What she typed. The prompt, the edits, the second try. Her work is absent and only her meaning remains." },
+        { words: ["wrote"], note: "The training data. Every sentence the system produced was shaped by text other people wrote. None of them are in the sentence." },
+        { words: ["The AI"], note: "Which system, which company, which version. The AI is a single actor with no maker." }
+      ],
+      ambiguity: [
+        { words: ["understood"], note: "The same verb is used for a friend, a dog and a model. Each reading makes a different claim and only the first is checkable.",
+          readings: ["Produced text that fit. A description of the output.", "Comprehended. A claim about an inner state.", "Predicted well. A statement about probability."] },
+        { words: ["for her"], note: "For is one of the most crowded words in the language. The first two readings differ on who the author is.",
+          readings: ["On her behalf. She asked, it served.", "In her place. It did what she would have done.", "Addressed to her. Rare, and the grammar allows it."] },
+        { words: ["wrote"], note: "Wrote covers everything from a first draft to a sent message. The sentence does not say where she came back in.",
+          readings: ["Drafted. She still edited and sent.", "Finished. The email went out as produced."] }
+      ],
+      implication: [
+        { words: ["understood"], note: "A reader concludes the output was right. Understood sounds like success. Whether the email said what she wanted is unstated." },
+        { words: ["for her"], note: "A reader concludes she did less. The sentence places her as the receiver of work. Her prompt, her judgment, and her send button are all implied away." },
+        { words: ["The AI"], note: "Naming the system as the subject leads a reader to credit it. The people who built it and the people whose writing trained it get none." }
+      ]
+    },
+    swaps: [
+      { target: "understood", alternates: [
+        { text: "predicted", note: "Predicted is closer to what the system does. It removes the mind and keeps the result. The sentence loses warmth and gains accuracy." },
+        { text: "matched", note: "Matched makes it a comparison between her words and a pattern. No comprehension is claimed. It also implies the pattern existed before she did." },
+        { text: "guessed", note: "Guessed admits uncertainty. The output may be wrong. It is the only alternate that gives the reader a reason to check." }
+      ]},
+      { target: "for her", alternates: [
+        { text: "with her", note: "With makes it a collaboration. She is back in the work. Who did more is now open, and the sentence is more honest about process." },
+        { text: "instead of her", note: "Instead of removes her from the authorship entirely. She is replaced. The sentence now carries a small loss." },
+        { text: "from her notes", note: "Her notes name her contribution. The system becomes a tool that works on her material. Authorship stays with her." }
+      ]},
+      { target: "wrote", alternates: [
+        { text: "drafted", note: "Drafted leaves room for her edits. The email is unfinished when the sentence ends. Her part is restored by implication." },
+        { text: "generated", note: "Generated is the industry's word. It describes output without claiming authorship. It also sounds mechanical, which may be the point." },
+        { text: "finished", note: "Finished closes the loop. She did nothing after. The reader concludes the message was sent as produced." }
+      ]}
+    ]
+  },
+  {
+    id: "secrets",
+    short: "We don't keep secrets",
+    text: "We don't keep secrets in this family.",
+    notes: {
+      assumption: [
+        { words: ["We"], note: "There is a we that agrees. Every member is assumed to hold the rule. The rule was most likely written by one of them." },
+        { words: ["secrets"], note: "A secret and a private thing are the same. The sentence does not separate them. Adoption-competent practice does. Privacy belongs to the person. Secrecy is kept from them." },
+        { words: ["this family"], note: "The family has an edge. Inside it, things are shared. Where the edge sits is assumed to be obvious." }
+      ],
+      omission: [
+        { words: ["don't"], note: "Who made the rule and who enforces it. Don't reads as a shared fact and may be one person's demand." },
+        { words: ["secrets"], note: "The person the sentence is said to. Someone is being told. Their reason for holding something back is absent." },
+        { words: ["this family"], note: "Any other family. For an adopted child, there is often another. The sentence does not say whether its rule covers a story that began somewhere else." }
+      ],
+      ambiguity: [
+        { words: ["secrets"], note: "The word carries all three. A child who hears it may not know which one they are being told about.",
+          readings: ["Facts hidden from someone who has a right to them.", "Private things a person has not chosen to share.", "Surprises, like gifts. The lightest reading."] },
+        { words: ["don't"], note: "Present tense can describe or instruct. Said to a child, it usually instructs.",
+          readings: ["We never do. A description.", "We must not. A command."] },
+        { words: ["this family"], note: "This points at something. What it points away from is not said.",
+          readings: ["The people in this house.", "The extended family, including those who are not here.", "This family as opposed to another one. For an adoptee, the contrast may be audible."] }
+      ],
+      implication: [
+        { words: ["secrets"], note: "A reader concludes that holding something back is a breach. Someone with a private thing now has a problem." },
+        { words: ["We don't"], note: "A reader is led to feel addressed. The sentence sounds like a value and lands as a warning." },
+        { words: ["this family"], note: "This family implies there are families that do keep secrets. If the child came from one of them, the sentence has just said something about it." }
+      ]
+    },
+    swaps: [
+      { target: "secrets", alternates: [
+        { text: "surprises", note: "Surprises are kept for someone's benefit and end on purpose. The rule becomes small and warm. It no longer covers a child's story." },
+        { text: "things from each other", note: "From each other names a direction. Something held by one and withheld from another. It is longer and more exact. Privacy, which belongs to the one holding it, falls outside the rule." },
+        { text: "lies", note: "Lies makes the rule about truth. A person can hold a private thing and still tell no lie. The two are separate acts, and this version keeps them apart." }
+      ]},
+      { target: "don't", alternates: [
+        { text: "try not to", note: "Try admits failure. The family has kept secrets and expects to again. The rule becomes an aim. Certainty drops and honesty rises." },
+        { text: "can't", note: "Can't turns a choice into a condition. Something outside the family forbids secrets. A reader looks for what that is." },
+        { text: "won't", note: "Won't is a promise. It points forward and comes from the speaker's will. It can be kept or broken by the one who said it." }
+      ]},
+      { target: "this family", alternates: [
+        { text: "our house", note: "Our house draws the edge at the door. Whatever is outside is free to be private. Birth family, school and friends are outside the rule." },
+        { text: "between us", note: "Between us is two people. The rule becomes a pact. It no longer speaks for everyone and no longer judges anyone else." },
+        { text: "with you", note: "With you turns the rule into a promise made to one person. The speaker is the one bound. The listener is the one protected." }
+      ]}
+    ]
+  },
+  {
+    id: "lucky",
+    short: "He's lucky to have ended up",
+    text: "He's lucky to have ended up with a family that loves him.",
+    notes: {
+      assumption: [
+        { words: ["lucky"], note: "Chance decided this. The outcome is better than it could have been. Both halves have to hold for lucky to make sense." },
+        { words: ["ended up"], note: "This is the end. His story is settled and nothing further is expected to move." },
+        { words: ["loves him"], note: "Love is enough, and it is settled. The sentence treats it as a fact he has received." }
+      ],
+      omission: [
+        { words: ["He's"], note: "His view. Whether he feels lucky is not in the sentence, and he is the only one who could say." },
+        { words: ["ended up"], note: "Where he started. A first family, a first name, a place. The sentence begins at the end." },
+        { words: ["lucky"], note: "What was lost. Luck counts only what arrived. Grief has no word here." }
+      ],
+      ambiguity: [
+        { words: ["lucky"], note: "Lucky sounds light. Said to or about an adoptee, it often lands as the second reading.",
+          readings: ["Fortunate. Things went well for him.", "Owed. He got something others do not, and a debt is implied.", "Spared. There was something worse."] },
+        { words: ["ended up"], note: "Ended up is casual in both readings and hides a sequence of decisions by adults.",
+          readings: ["Arrived by chance. Nobody chose it.", "Arrived at last. A long path reached its end."] },
+        { words: ["a family"], note: "The indefinite article is doing work. A family is a different claim from the family.",
+          readings: ["This family, the one he is in.", "Any family. He could have had none.", "A family as opposed to something else. An institution, or the street."] }
+      ],
+      implication: [
+        { words: ["lucky"], note: "A reader concludes gratitude is owed. The sentence never asks for it, and it is heard anyway." },
+        { words: ["ended up"], note: "A reader concludes the alternatives were bad. His first situation is judged without being described." },
+        { words: ["loves him"], note: "A reader concludes the story is finished. Love arrived, so nothing else needs to be said. For many adoptees, that is where the story begins." }
+      ]
+    },
+    swaps: [
+      { target: "lucky", alternates: [
+        { text: "safe", note: "Safe names a need in place of a fortune. It can be checked. It also admits that safety was once in question, which the sentence had hidden." },
+        { text: "here", note: "Here says only where he is. No luck, no debt, no comparison. It is the smallest word and claims the least." },
+        { text: "loved", note: "Loved moves the claim to the family's side. Fortune drops out. Someone gave him something, and that someone is accountable for it." }
+      ]},
+      { target: "ended up with", alternates: [
+        { text: "been adopted by", note: "The legal act is named. Adults made a decision and signed for it. Chance leaves the sentence. The family becomes the actor." },
+        { text: "joined", note: "Joined makes him the actor. He arrived under his own power, which he did not. It gives him agency the record does not support, and some adoptees prefer it anyway." },
+        { text: "come to live with", note: "A plain report of location. No one acted. No one chose. It is the most neutral version and the one that says the least about how." }
+      ]},
+      { target: "a family", alternates: [
+        { text: "a second family", note: "Second admits a first. The sentence now contains his origin by implication. Loyalty, grief and belonging all have room." },
+        { text: "parents", note: "Parents names a role and a count. The wider family drops out, and so does the sound of a safe harbor." },
+        { text: "people", note: "People removes the institution entirely. He is with people who love him. Family, with its legal and emotional weight, is gone." }
+      ]}
+    ]
+  }
+];
+
+/* ============================================================
+   LOGIC. Nothing below needs editing to change the words above.
+   ============================================================ */
+(function(){
+  "use strict";
+  const KEY = "bts-anatomy-v1";
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const LAYER_BY_ID = {}; LAYERS.forEach(l => LAYER_BY_ID[l.id] = l);
+
+  /* --- tokens and matching --- */
+  function tokenize(text){ return String(text).trim().split(/\s+/).filter(Boolean); }
+  function norm(t){ return t.toLowerCase().replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, ""); }
+  function findSpan(tokens, phrase){
+    let nth = 1, p = phrase;
+    const m = phrase.match(/^(.*)#(\d+)$/);
+    if (m) { p = m[1]; nth = +m[2]; }
+    const words = p.trim().split(/\s+/).map(norm);
+    let count = 0;
+    for (let i = 0; i + words.length <= tokens.length; i++) {
+      let ok = true;
+      for (let j = 0; j < words.length; j++) { if (norm(tokens[i + j]) !== words[j]) { ok = false; break; } }
+      if (ok) { count++; if (count === nth) { const out = []; for (let k = 0; k < words.length; k++) out.push(i + k); return out; } }
+    }
+    return [];
+  }
+  function leadPunct(t){ const m = t.match(/^[^a-zA-Z0-9']+/); return m ? m[0] : ""; }
+  function trailPunct(t){ const m = t.match(/[^a-zA-Z0-9']+$/); return m ? m[0] : ""; }
+
+  SENTENCES.forEach(s => {
+    s.tokens = tokenize(s.text);
+    LAYERS.forEach(l => {
+      (s.notes[l.id] || []).forEach(n => {
+        const set = new Set();
+        n.words.forEach(ph => findSpan(s.tokens, ph).forEach(i => set.add(i)));
+        n.idx = Array.from(set).sort((a, b) => a - b);
+      });
+    });
+    s.swaps.forEach(sw => { sw.idx = findSpan(s.tokens, sw.target); });
+  });
+
+  /* --- state --- */
+  function defaults(){
+    return {
+      current: SENTENCES[0].id,
+      layers: { assumption: true, omission: false, ambiguity: false, implication: false },
+      swaps: {},
+      kept: [],
+      own: { text: "", laid: "", annotations: [], swaps: {} }
+    };
+  }
+  function load(){
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      const base = defaults();
+      if (!d || typeof d !== "object") return null;
+      if (!SENTENCES.some(s => s.id === d.current)) d.current = base.current;
+      d.layers = Object.assign(base.layers, d.layers || {});
+      d.swaps = d.swaps && typeof d.swaps === "object" ? d.swaps : {};
+      d.kept = Array.isArray(d.kept) ? d.kept : [];
+      d.own = Object.assign(base.own, d.own || {});
+      if (!Array.isArray(d.own.annotations)) d.own.annotations = [];
+      if (!d.own.swaps || typeof d.own.swaps !== "object") d.own.swaps = {};
+      return d;
+    } catch (e) { return null; }
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  let state = load() || defaults();
+  let sel = [];           /* own-sentence selection, not persisted */
+  let pinned = null;      /* pinned note id for touch users */
+
+  const cur = () => SENTENCES.find(s => s.id === state.current);
+  const curSwaps = () => { if (!state.swaps[state.current]) state.swaps[state.current] = {}; return state.swaps[state.current]; };
+
+  /* --- marks on tokens --- */
+  function applyMarks(nodes, marksByIdx){
+    nodes.forEach((n, i) => {
+      const marks = marksByIdx[i] || [];
+      if (!marks.length) { n.style.boxShadow = ""; n.style.background = ""; return; }
+      const shadows = marks.map((l, k) => "inset 0 -" + (3 * (k + 1)) + "px 0 " + l.color);
+      n.style.boxShadow = shadows.join(",");
+      n.style.background = marks[0].tint;
+    });
+  }
+
+  /* --- shelf --- */
+  function renderShelf(){
+    const ul = $("#shelf"); ul.innerHTML = "";
+    SENTENCES.forEach(s => {
+      const li = el("li");
+      const b = el("button"); b.type = "button"; b.setAttribute("aria-pressed", String(s.id === state.current));
+      b.appendChild(el("span", "tag", COPY.exampleTag));
+      b.appendChild(document.createTextNode(s.short + "…"));
+      b.addEventListener("click", () => { state.current = s.id; pinned = null; save(); renderExam(); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+  }
+
+  /* --- examination --- */
+  function renderOriginal(){
+    const s = cur();
+    $("#orig-sub").textContent = COPY.exampleTag;
+    const p = $("#orig"); p.innerHTML = "";
+    const swapIdx = new Set(); s.swaps.forEach(sw => sw.idx.forEach(i => swapIdx.add(i)));
+    s.tokens.forEach((t, i) => {
+      const sp = el("span", "w" + (swapIdx.has(i) ? " swappable" : ""), t);
+      sp.dataset.i = i;
+      p.appendChild(sp);
+      if (i < s.tokens.length - 1) p.appendChild(document.createTextNode(" "));
+    });
+    const marks = {};
+    LAYERS.forEach(l => {
+      if (!state.layers[l.id]) return;
+      (s.notes[l.id] || []).forEach(n => n.idx.forEach(i => { (marks[i] = marks[i] || []).push(l); }));
+    });
+    applyMarks(Array.from(p.querySelectorAll(".w")), marks);
+  }
+  function renderLayers(){
+    const s = cur();
+    const box = $("#layers"); box.innerHTML = "";
+    LAYERS.forEach(l => {
+      const b = el("button", "layer-btn"); b.type = "button";
+      b.style.setProperty("--c", l.color); b.style.setProperty("--t", l.tint);
+      b.setAttribute("aria-pressed", String(!!state.layers[l.id]));
+      b.appendChild(el("span", "sw"));
+      b.appendChild(document.createTextNode(l.name + " "));
+      b.appendChild(el("span", "n", String((s.notes[l.id] || []).length)));
+      b.addEventListener("click", () => { state.layers[l.id] = !state.layers[l.id]; save(); renderOriginal(); renderLayers(); renderNotes(); });
+      box.appendChild(b);
+    });
+    const defs = $("#defs"); defs.innerHTML = "";
+    LAYERS.forEach(l => { const li = el("li"); li.appendChild(el("b", null, l.name + ". ")); li.appendChild(document.createTextNode(l.def)); defs.appendChild(li); });
+  }
+  function setHot(container, idx, on){
+    container.querySelectorAll(".w, .tok").forEach(n => { if (idx.indexOf(+n.dataset.i) >= 0) n.classList.toggle("hot", on); });
+  }
+  function renderNotes(){
+    const s = cur();
+    const box = $("#notes"); box.innerHTML = "";
+    const active = LAYERS.filter(l => state.layers[l.id]);
+    if (!active.length) { box.appendChild(el("p", "empty", COPY.noLayers)); return; }
+    active.forEach(l => {
+      const g = el("div", "ngroup"); g.style.setProperty("--c", l.color); g.style.setProperty("--t", l.tint);
+      const h = el("h3"); h.appendChild(el("span", "sw")); h.appendChild(document.createTextNode(l.name)); g.appendChild(h);
+      const list = (s.notes[l.id] || []);
+      if (!list.length) { g.appendChild(el("p", "empty", COPY.noNotes)); box.appendChild(g); return; }
+      const ul = el("ul", "nlist");
+      list.forEach((n, k) => {
+        const li = el("li", "note"); const id = l.id + ":" + k;
+        if (pinned === id) li.classList.add("pin");
+        const btn = el("button", "pinbtn"); btn.type = "button";
+        btn.setAttribute("aria-label", "Highlight the words " + n.idx.map(i => s.tokens[i]).join(" "));
+        btn.appendChild(el("span", "words", "“" + n.idx.map(i => s.tokens[i]).join(" ") + "”"));
+        btn.appendChild(el("p", null, n.note));
+        if (n.readings && n.readings.length) { const r = el("ul"); n.readings.forEach(x => r.appendChild(el("li", null, x))); btn.appendChild(r); }
+        li.appendChild(btn);
+        const orig = $("#orig");
+        li.addEventListener("mouseenter", () => setHot(orig, n.idx, true));
+        li.addEventListener("mouseleave", () => { if (pinned !== id) setHot(orig, n.idx, false); });
+        btn.addEventListener("focus", () => setHot(orig, n.idx, true));
+        btn.addEventListener("blur", () => { if (pinned !== id) setHot(orig, n.idx, false); });
+        btn.addEventListener("click", () => {
+          const was = pinned === id;
+          orig.querySelectorAll(".w.hot").forEach(x => x.classList.remove("hot"));
+          box.querySelectorAll(".note.pin").forEach(x => x.classList.remove("pin"));
+          pinned = was ? null : id;
+          if (!was) { setHot(orig, n.idx, true); li.classList.add("pin"); }
+        });
+        ul.appendChild(li);
+      });
+      g.appendChild(ul); box.appendChild(g);
+    });
+  }
+  function renderSwaps(){
+    const s = cur(); const chosen = curSwaps();
+    const box = $("#swaps"); box.innerHTML = "";
+    s.swaps.forEach((sw, si) => {
+      const d = el("div", "swap");
+      d.appendChild(el("div", "lab", "Toggle \u201C" + sw.target + "\u201D"));
+      const alts = el("div", "alts"); alts.setAttribute("role", "group"); alts.setAttribute("aria-label", "Alternates for " + sw.target);
+      const o = el("button", "alt"); o.type = "button"; o.setAttribute("aria-pressed", String(chosen[si] == null));
+      o.appendChild(document.createTextNode(sw.target)); o.appendChild(el("span", "o", "original"));
+      o.addEventListener("click", () => { delete chosen[si]; save(); renderSwaps(); renderRevision(); });
+      alts.appendChild(o);
+      sw.alternates.forEach((a, ai) => {
+        const b = el("button", "alt", a.text); b.type = "button"; b.setAttribute("aria-pressed", String(chosen[si] === ai));
+        b.addEventListener("click", () => { if (chosen[si] === ai) delete chosen[si]; else chosen[si] = ai; save(); renderSwaps(); renderRevision(); });
+        alts.appendChild(b);
+      });
+      d.appendChild(alts); box.appendChild(d);
+    });
+  }
+  function buildRevision(tokens, changes){
+    /* changes: [{idx:[...], to}] ; returns {text, parts:[{text, changed}]} */
+    const first = {}, skip = new Set();
+    changes.forEach(c => { if (!c.idx.length) return; first[c.idx[0]] = c; c.idx.forEach(i => skip.add(i)); });
+    const parts = [];
+    tokens.forEach((t, i) => {
+      if (first[i]) {
+        const c = first[i]; const last = tokens[c.idx[c.idx.length - 1]];
+        parts.push({ text: leadPunct(t) + c.to + trailPunct(last), changed: true });
+      } else if (!skip.has(i)) parts.push({ text: t, changed: false });
+    });
+    return { parts: parts, text: parts.map(p => p.text).join(" ") };
+  }
+  function activeChanges(){
+    const s = cur(); const chosen = curSwaps(); const out = [];
+    s.swaps.forEach((sw, si) => { if (chosen[si] != null && sw.alternates[chosen[si]]) out.push({ idx: sw.idx, from: sw.target, to: sw.alternates[chosen[si]].text, note: sw.alternates[chosen[si]].note }); });
+    return out;
+  }
+  function paintRevision(p, rev){
+    p.innerHTML = "";
+    rev.parts.forEach((part, i) => {
+      p.appendChild(part.changed ? el("mark", "chg", part.text) : document.createTextNode(part.text));
+      if (i < rev.parts.length - 1) p.appendChild(document.createTextNode(" "));
+    });
+  }
+  function paintChanges(ul, changes){
+    ul.innerHTML = "";
+    changes.forEach(c => {
+      const li = el("li"); const pair = el("span", "pair");
+      pair.appendChild(document.createTextNode(c.from)); pair.appendChild(el("span", "arrow", "→")); pair.appendChild(document.createTextNode(c.to));
+      li.appendChild(pair); li.appendChild(document.createTextNode(c.note)); ul.appendChild(li);
+    });
+  }
+  function renderRevision(){
+    const s = cur(); const ch = activeChanges();
+    paintRevision($("#revision"), buildRevision(s.tokens, ch));
+    const ul = $("#chglist");
+    if (!ch.length) { ul.innerHTML = ""; const li = el("li", null, COPY.noChanges); ul.appendChild(li); }
+    else paintChanges(ul, ch);
+    $("#accept").disabled = !ch.length; $("#discard").disabled = !ch.length;
+  }
+  function renderExam(){ renderShelf(); renderOriginal(); renderLayers(); renderNotes(); renderSwaps(); renderRevision(); $("#rev-status").textContent = ""; }
+
+  $("#accept").addEventListener("click", () => {
+    const s = cur(); const ch = activeChanges(); if (!ch.length) return;
+    state.kept.push({ id: Date.now(), source: COPY.exampleTag, original: s.text, revision: buildRevision(s.tokens, ch).text, changes: ch.map(c => ({ from: c.from, to: c.to, note: c.note })) });
+    state.swaps[state.current] = {}; save(); renderSwaps(); renderRevision(); renderKept();
+    $("#rev-status").textContent = COPY.kept;
+  });
+  $("#discard").addEventListener("click", () => { state.swaps[state.current] = {}; save(); renderSwaps(); renderRevision(); $("#rev-status").textContent = COPY.discarded; });
+
+  /* --- kept --- */
+  function renderKept(){
+    refreshKeptDownload();
+    const ul = $("#kept"); ul.innerHTML = "";
+    if (!state.kept.length) { ul.appendChild(el("li", "empty", COPY.keptEmpty)); return; }
+    state.kept.forEach(k => {
+      const li = el("li", "kept");
+      li.appendChild(el("div", "src", k.source));
+      li.appendChild(el("div", "from serif", k.original));
+      li.appendChild(el("div", "to serif", k.revision));
+      const c = el("ul", "chgs"); k.changes.forEach(ch => c.appendChild(el("li", null, ch.from + " → " + ch.to + ". " + ch.note))); li.appendChild(c);
+      const x = el("button", "xbtn", "Remove"); x.type = "button"; x.addEventListener("click", () => { state.kept = state.kept.filter(z => z.id !== k.id); save(); renderKept(); });
+      li.appendChild(x); ul.appendChild(li);
+    });
+  }
+  function keptText(){
+    if (!state.kept.length) return "";
+    return "Revisions kept\n\n" + state.kept.map(k => "Original: " + k.original + "\nRevision: " + k.revision + "\n" + k.changes.map(c => "  " + c.from + " → " + c.to + ". " + c.note).join("\n")).join("\n\n");
+  }
+
+  /* --- copy and download --- */
+  function copyText(text, statusEl){
+    if (!text) { statusEl.textContent = COPY.nothingToCopy; return; }
+    const done = () => { statusEl.textContent = COPY.copied; };
+    const fallback = () => {
+      try {
+        const ta = el("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); document.body.removeChild(ta);
+        statusEl.textContent = ok ? COPY.copied : COPY.copyFail;
+      } catch (e) { statusEl.textContent = COPY.copyFail; }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+  const urls = {};
+  function setDownload(a, key, data){
+    try {
+      if (urls[key]) URL.revokeObjectURL(urls[key]);
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      urls[key] = URL.createObjectURL(blob); a.href = urls[key];
+    } catch (e) { a.removeAttribute("href"); }
+  }
+  $("#kept-copy").addEventListener("click", () => copyText(keptText(), $("#kept-status")));
+  function refreshKeptDownload(){ setDownload($("#kept-dl"), "kept", { title: "Revisions kept", exported: new Date().toISOString(), revisions: state.kept }); }
+
+  /* --- own sentence --- */
+  const ownTokens = () => tokenize(state.own.laid);
+  function renderOwn(){
+    $("#own-text").value = state.own.text || "";
+    const bench = $("#own-bench"); const toks = ownTokens();
+    bench.hidden = !toks.length;
+    const box = $("#own-tokens"); box.innerHTML = "";
+    const marks = {};
+    state.own.annotations.forEach(a => { const l = LAYER_BY_ID[a.layer]; if (!l) return; a.idx.forEach(i => { (marks[i] = marks[i] || []).push(l); }); });
+    toks.forEach((t, i) => {
+      const b = el("button", "tok" + (state.own.swaps[i] ? " swapped" : ""), t); b.type = "button"; b.dataset.i = i;
+      b.setAttribute("aria-pressed", String(sel.indexOf(i) >= 0));
+      b.addEventListener("click", () => { const k = sel.indexOf(i); if (k >= 0) sel.splice(k, 1); else sel.push(i); sel.sort((a, c) => a - c); renderOwn(); });
+      box.appendChild(b);
+    });
+    applyMarks(Array.from(box.querySelectorAll(".tok")), marks);
+    $("#own-sel").textContent = sel.length ? COPY.selSome + "“" + sel.map(i => toks[i]).join(" ") + "”" : COPY.selNone;
+    $("#own-swap-box").hidden = sel.length !== 1;
+    renderOwnTags(); renderOwnAnns(); renderOwnRevision(); refreshOwnDownload();
+  }
+  let ownTag = null;
+  function renderOwnTags(){
+    const row = $("#own-tags"); row.innerHTML = "";
+    LAYERS.forEach(l => {
+      const b = el("button", "layer-btn"); b.type = "button"; b.style.setProperty("--c", l.color); b.style.setProperty("--t", l.tint);
+      b.setAttribute("aria-pressed", String(ownTag === l.id)); b.appendChild(el("span", "sw")); b.appendChild(document.createTextNode(l.name.replace(/s$/, "").replace(/ie$/, "y")));
+      b.addEventListener("click", () => { ownTag = ownTag === l.id ? null : l.id; renderOwnTags(); });
+      row.appendChild(b);
+    });
+  }
+  function renderOwnAnns(){
+    const ul = $("#own-anns"); ul.innerHTML = ""; const toks = ownTokens();
+    if (!state.own.annotations.length) { ul.appendChild(el("li", "empty", COPY.annEmpty)); return; }
+    state.own.annotations.forEach(a => {
+      const l = LAYER_BY_ID[a.layer]; if (!l) return;
+      const li = el("li", "ann"); li.style.setProperty("--c", l.color); li.style.setProperty("--t", l.tint);
+      li.appendChild(el("div", "lt", l.name));
+      li.appendChild(el("span", "words", "“" + a.idx.map(i => toks[i]).join(" ") + "”"));
+      li.appendChild(el("p", null, a.note || ""));
+      const x = el("button", "xbtn", "Remove"); x.type = "button";
+      x.addEventListener("click", () => { state.own.annotations = state.own.annotations.filter(z => z.id !== a.id); save(); renderOwn(); });
+      li.appendChild(x);
+      const box = $("#own-tokens");
+      li.addEventListener("mouseenter", () => setHot(box, a.idx, true));
+      li.addEventListener("mouseleave", () => setHot(box, a.idx, false));
+      x.addEventListener("focus", () => setHot(box, a.idx, true));
+      x.addEventListener("blur", () => setHot(box, a.idx, false));
+      ul.appendChild(li);
+    });
+  }
+  function ownChanges(){
+    return Object.keys(state.own.swaps).map(k => +k).sort((a, b) => a - b).map(i => ({ idx: [i], from: ownTokens()[i], to: state.own.swaps[i].to, note: state.own.swaps[i].note || "" })).filter(c => c.from != null);
+  }
+  function renderOwnRevision(){
+    const ch = ownChanges(); const box = $("#own-rev-box"); box.hidden = !ch.length;
+    if (!ch.length) return;
+    paintRevision($("#own-revision"), buildRevision(ownTokens(), ch)); paintChanges($("#own-chglist"), ch);
+  }
+  function layOut(){
+    const text = ($("#own-text").value || "").trim();
+    state.own.text = text; state.own.laid = text; state.own.annotations = []; state.own.swaps = {}; sel = []; ownTag = null;
+    $("#own-confirm").innerHTML = ""; save(); renderOwn();
+    $("#own-status").textContent = text ? COPY.laidOut : COPY.emptyText;
+  }
+  $("#own-lay").addEventListener("click", () => {
+    const text = ($("#own-text").value || "").trim();
+    const hasWork = state.own.annotations.length || Object.keys(state.own.swaps).length;
+    if (hasWork && text !== state.own.laid) {
+      const c = $("#own-confirm"); c.innerHTML = "";
+      const d = el("div", "inline-confirm"); d.appendChild(el("span", null, COPY.relayConfirm));
+      const yes = el("button", "btn", "Lay it out anyway"); yes.type = "button"; yes.addEventListener("click", layOut);
+      const no = el("button", "btn quiet", "Keep my work"); no.type = "button"; no.addEventListener("click", () => { c.innerHTML = ""; $("#own-text").value = state.own.laid; });
+      d.appendChild(yes); d.appendChild(no); c.appendChild(d); yes.focus();
+      return;
+    }
+    layOut();
+  });
+  $("#own-text").addEventListener("input", () => { state.own.text = $("#own-text").value; save(); });
+  $("#own-clear-sel").addEventListener("click", () => { sel = []; renderOwn(); });
+  $("#own-add").addEventListener("click", () => {
+    const st = $("#own-status");
+    if (!sel.length) { st.textContent = COPY.needSel; return; }
+    if (!ownTag) { st.textContent = COPY.needTag; return; }
+    state.own.annotations.push({ id: Date.now(), idx: sel.slice(), layer: ownTag, note: ($("#own-note").value || "").trim() });
+    $("#own-note").value = ""; sel = []; st.textContent = ""; save(); renderOwn();
+  });
+  $("#own-apply").addEventListener("click", () => {
+    const st = $("#own-status");
+    if (sel.length !== 1) { st.textContent = COPY.needSel; return; }
+    const to = ($("#own-alt").value || "").trim(); if (!to) { st.textContent = COPY.needAlt; return; }
+    state.own.swaps[sel[0]] = { to: to, note: ($("#own-alt-note").value || "").trim() };
+    $("#own-alt").value = ""; $("#own-alt-note").value = ""; sel = []; st.textContent = ""; save(); renderOwn();
+  });
+  $("#own-accept").addEventListener("click", () => {
+    const ch = ownChanges(); if (!ch.length) return;
+    state.kept.push({ id: Date.now(), source: "Your sentence", original: state.own.laid, revision: buildRevision(ownTokens(), ch).text, changes: ch.map(c => ({ from: c.from, to: c.to, note: c.note })) });
+    state.own.swaps = {}; save(); renderOwn(); renderKept(); $("#own-status").textContent = COPY.kept;
+  });
+  $("#own-discard").addEventListener("click", () => { state.own.swaps = {}; save(); renderOwn(); $("#own-status").textContent = COPY.discarded; });
+  function ownText(){
+    const toks = ownTokens(); if (!toks.length) return "";
+    let out = "Sentence: " + state.own.laid + "\n";
+    if (state.own.annotations.length) out += "\nAnnotations\n" + state.own.annotations.map(a => "  " + (LAYER_BY_ID[a.layer] || {}).name + " “" + a.idx.map(i => toks[i]).join(" ") + "”. " + a.note).join("\n");
+    const ch = ownChanges();
+    if (ch.length) out += "\n\nRevision: " + buildRevision(toks, ch).text + "\n" + ch.map(c => "  " + c.from + " → " + c.to + ". " + c.note).join("\n");
+    return out;
+  }
+  $("#own-copy").addEventListener("click", () => copyText(ownText(), $("#own-exp-status")));
+  function refreshOwnDownload(){
+    const toks = ownTokens();
+    setDownload($("#own-dl"), "own", { title: "My sentence", exported: new Date().toISOString(), sentence: state.own.laid,
+      annotations: state.own.annotations.map(a => ({ layer: a.layer, words: a.idx.map(i => toks[i]).join(" "), note: a.note })),
+      swaps: ownChanges().map(c => ({ from: c.from, to: c.to, note: c.note })) });
+  }
+
+  /* --- start fresh --- */
+  $("#fresh").addEventListener("click", () => {
+    const c = $("#fresh-confirm"); c.innerHTML = "";
+    const d = el("div", "inline-confirm"); d.appendChild(el("span", null, COPY.freshConfirm));
+    const yes = el("button", "btn danger", "Yes, clear it"); yes.type = "button";
+    yes.addEventListener("click", () => { try { localStorage.removeItem(KEY); } catch (e) {} state = defaults(); sel = []; ownTag = null; pinned = null; c.innerHTML = ""; renderAll(); $("#fresh-status").textContent = "Cleared. The page is back to its starting state."; });
+    const no = el("button", "btn quiet", "Keep it"); no.type = "button"; no.addEventListener("click", () => { c.innerHTML = ""; });
+    d.appendChild(yes); d.appendChild(no); c.appendChild(d); yes.focus();
+  });
+
+  function renderAll(){ $("#holds").textContent = COPY.holds; $("#own-plain").textContent = COPY.ownPlain; renderExam(); renderKept(); renderOwn(); }
+  renderAll();
+})();
+</script>
+</body>
+</html>

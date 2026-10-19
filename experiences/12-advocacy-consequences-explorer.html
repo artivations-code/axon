@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advocacy Consequences Explorer</title>
+<meta name="description" content="A branching model for tracing who and what an art therapy regulatory proposal would touch, with every item marked enacted, proposed, or hypothetical.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730; --night-2:#24333E;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --round:20px;
+    --line:rgba(43,58,66,.14);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Nunito",system-ui,sans-serif; font-weight:600;
+    font-size:16px; line-height:1.5; overflow-x:hidden;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 16px 40px}
+  a{color:var(--sky-d)}
+  a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+    outline:3px solid var(--sky); outline-offset:2px;
+  }
+  .chip{
+    display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:800; color:var(--sky-d); background:var(--sky-100);
+    padding:4px 10px; border-radius:999px;
+  }
+  h1{font-size:clamp(26px,4vw,38px);font-weight:900;line-height:1.15;margin:12px 0 8px}
+  .lede{font-size:17px;max-width:68ch;margin:0 0 12px}
+  details.howto{max-width:68ch;margin:0 0 18px}
+  details.howto summary{cursor:pointer;font-weight:800;color:var(--sky-d)}
+  details.howto ol{margin:8px 0 0;padding-left:22px}
+  details.howto li{margin:3px 0}
+  .frame{
+    border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; margin:0 0 18px;
+    font-size:14.5px; max-width:100%;
+  }
+  .frame p{margin:0 0 6px}
+  .frame p:last-child{margin:0}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:8px}
+  .legend .key{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+  .swatch{width:36px;height:0;border-top:3px solid;display:inline-block}
+  .sw-enacted{border-color:var(--leaf-d);border-style:solid}
+  .sw-proposed{border-color:var(--sunny-d);border-style:dashed}
+  .sw-hypo{border-color:var(--ink-soft);border-style:dotted}
+
+  h2{font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:0 0 8px}
+  .section{margin:0 0 18px}
+
+  .btn{
+    font:inherit; font-weight:800; font-size:14px; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); border-radius:999px;
+    padding:8px 14px; cursor:pointer; line-height:1.2;
+  }
+  .btn:hover{border-color:var(--sky)}
+  .btn[aria-pressed="true"],.btn.on{background:var(--sky-d);border-color:var(--sky-d);color:#fff}
+  .btn.small{font-size:13px;padding:6px 11px}
+  .btn.primary{background:var(--sky-d);border-color:var(--sky-d);color:#fff}
+  .btn.quiet{background:transparent}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+  .proposals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .proposal{
+    text-align:left; background:var(--card); border:1.5px dashed var(--sunny-d); border-radius:var(--round);
+    padding:14px 16px; cursor:pointer; font:inherit; color:var(--ink); box-shadow:var(--sh);
+  }
+  .proposal .num{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+  .proposal strong{display:block;font-size:16px;font-weight:900;margin:2px 0 4px}
+  .proposal span{font-size:13.5px;color:var(--ink-soft);font-weight:600}
+  .proposal[aria-pressed="true"]{border-style:solid;border-color:var(--sky-d);border-width:2.5px;background:var(--sky-100)}
+  .proposal[aria-pressed="true"] .num{color:var(--sky-d)}
+
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin:0 0 14px}
+  .ctl{min-width:0}
+  .ctl h3{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:0 0 6px}
+  .switch{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px 6px 6px;cursor:pointer;font:inherit;font-weight:800;font-size:14px;color:var(--ink)}
+  .switch .track{width:40px;height:22px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+  .switch .track::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
+  .switch[aria-checked="true"] .track{background:var(--sky-d)}
+  .switch[aria-checked="true"] .track::after{left:21px}
+
+  .stage{display:block}
+  .graph-card{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:10px;min-width:0}
+  .graph-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;padding:4px 6px 8px;font-size:13.5px;color:var(--ink-soft)}
+  .graph-head strong{color:var(--ink)}
+  .graph-scroll{overflow-x:auto;overflow-y:hidden;border-radius:12px}
+  .graph-scroll svg{display:block;width:100%;min-width:980px;height:auto;font-family:inherit}
+  .hint{font-size:12.5px;color:var(--ink-soft);padding:6px 6px 0}
+
+  /* SVG */
+  .node{cursor:pointer}
+  .node rect.box{fill:var(--card);stroke-width:2.5}
+  .node.s-enacted rect.box{stroke:var(--leaf-d);fill:var(--leaf-100)}
+  .node.s-proposed rect.box{stroke:var(--sunny-d);stroke-dasharray:7 4;fill:var(--sunny-100)}
+  .node.s-hypo rect.box{stroke:var(--ink-soft);stroke-dasharray:1.5 4.5;stroke-linecap:round}
+  .node text{fill:var(--ink);font-weight:800;font-size:12.5px;pointer-events:none}
+  .node text.tag{fill:var(--ink-soft);font-size:8.5px;letter-spacing:.12em;font-weight:800}
+  .node text.flag{fill:var(--coral-d);font-size:8.5px;font-weight:800;letter-spacing:.06em}
+  .node:hover rect.box,.node:focus rect.box{stroke-width:3.5}
+  .node.selected rect.box{stroke-width:4}
+  .node rect.halo{fill:var(--sky-100);stroke:var(--sky);stroke-width:2;opacity:0}
+  .node.role rect.halo{opacity:1}
+  .node.dim{opacity:.22}
+  .edge path{fill:none;stroke:var(--ink-soft);stroke-width:1.4;opacity:.55}
+  .edge.lit path{stroke:var(--sky-d);stroke-width:2.4;opacity:1}
+  .edge text{font-size:9.5px;font-weight:700;fill:var(--ink-soft);paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round;text-anchor:middle}
+  .edge.lit text{fill:var(--sky-d);font-size:10.5px}
+  .edge.dim{opacity:.12}
+  .edge.hyp path{stroke-dasharray:1.5 4;stroke-linecap:round}
+  .ring-label{font-size:10px;letter-spacing:.14em;font-weight:800;fill:var(--ink-soft)}
+  .ring-guide{fill:none;stroke:var(--line);stroke-width:1.2;stroke-dasharray:2 6}
+  @media (prefers-reduced-motion:no-preference){
+    .node,.edge{transition:opacity .25s}
+  }
+
+  /* card panel */
+  .panel{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:16px;min-width:0;margin-top:14px;position:relative}
+  @media (min-width:901px){
+    .panel{position:fixed;right:16px;bottom:16px;width:360px;max-height:72vh;overflow:auto;z-index:5;margin:0;border:1.5px solid var(--line)}
+    .panel.is-empty{display:none}
+  }
+  .panel .empty{color:var(--ink-soft);font-size:14.5px;margin:0}
+  .panel .tagline{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-soft)}
+  .panel h3{font-size:19px;font-weight:900;margin:2px 0 8px;line-height:1.2}
+  .panel h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--ink-soft);margin:12px 0 3px}
+  .panel p{margin:0;font-size:14.5px}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:2px solid;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:800;background:var(--card)}
+  .pill.s-enacted{border-color:var(--leaf-d);border-style:solid;color:var(--leaf-d)}
+  .pill.s-proposed{border-color:var(--sunny-d);border-style:dashed;color:var(--sunny-d)}
+  .pill.s-hypo{border-color:var(--ink-soft);border-style:dotted;color:var(--ink-soft)}
+  .note{font-size:12.5px;color:var(--coral-d);font-weight:800;margin-top:4px}
+  .ok{font-size:12.5px;color:var(--leaf-d);font-weight:800;margin-top:4px}
+  textarea,input[type="text"]{
+    width:100%;font:inherit;font-size:14px;font-weight:600;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);resize:vertical;
+  }
+  .panel .close{position:absolute;top:10px;right:10px}
+  .roles{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .roles span{font-size:12px;font-weight:800;background:var(--sky-100);color:var(--sky-d);border-radius:999px;padding:2px 9px}
+  .msg{font-size:13.5px;color:var(--ink-soft);min-height:1.4em;margin-top:6px}
+
+  /* node list */
+  .nodelist{margin-top:12px}
+  .nodelist summary{cursor:pointer;font-weight:800;color:var(--sky-d);font-size:14px}
+  .nodelist .grp{margin:8px 0}
+  .nodelist .grp h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 4px}
+  .nl{display:flex;flex-wrap:wrap;gap:6px}
+  .nl button{font:inherit;font-size:13px;font-weight:700;background:var(--card);border:2px solid;border-radius:10px;padding:5px 9px;cursor:pointer;color:var(--ink)}
+  .nl button.s-enacted{border-color:var(--leaf-d);border-style:solid}
+  .nl button.s-proposed{border-color:var(--sunny-d);border-style:dashed}
+  .nl button.s-hypo{border-color:var(--ink-soft);border-style:dotted}
+
+  /* example statute */
+  .example{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:16px;max-width:620px}
+  .example .label{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--coral-d);background:var(--coral-100);padding:3px 9px;border-radius:999px;margin-bottom:8px}
+  .example dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:8px 0 0;font-size:14px}
+  .example dt{font-weight:800;color:var(--ink-soft)}
+  .example dd{margin:0;border-bottom:1.5px dotted var(--ink-soft);min-height:1.3em;color:var(--ink-soft)}
+  .example p{font-size:13.5px;margin:0 0 4px}
+
+  /* export */
+  .io{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .io .box{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:14px}
+  .io h3{font-size:15px;font-weight:900;margin:0 0 8px}
+  .io textarea{min-height:110px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .confirm{display:none;background:var(--sky-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px}
+  .confirm.show{display:block}
+
+  footer{margin-top:28px;padding-top:14px;border-top:1.5px solid var(--line);font-size:14px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  @media (max-width:900px){
+    .controls{grid-template-columns:1fr}
+    .io{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="chip">IndiATA</span>
+  <h1>The Advocacy Consequences Explorer</h1>
+  <p class="lede">Choose a proposal about art therapy regulation in Indiana and trace who and what it would touch, with every item marked enacted, proposed, or hypothetical.</p>
+  <details class="howto">
+    <summary>How to use this</summary>
+    <ol>
+      <li>Choose one of the four proposals. The graph builds around it.</li>
+      <li>Click any node to read what it is and how the proposal touches it.</li>
+      <li>Turn on "If enacted" to add a second ring of hypothetical downstream effects.</li>
+      <li>Filter by group or status, or pick your role to see what touches you.</li>
+      <li>Add a source to any item to mark it documented. Export when you want to share.</li>
+    </ol>
+  </details>
+
+  <div class="frame">
+    <p><strong>This is a model for understanding consequences.</strong> It does not argue for or against any proposal. The statuses are the point. Hypothetical means unverified. Only one item on this page is marked as enacted, and it still needs source confirmation.</p>
+    <div class="legend" aria-label="Status key">
+      <span class="key"><span class="swatch sw-enacted"></span>Enacted law</span>
+      <span class="key"><span class="swatch sw-proposed"></span>Proposed change</span>
+      <span class="key"><span class="swatch sw-hypo"></span>Hypothetical outcome</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Proposal</h2>
+    <div class="proposals" id="proposals" role="group" aria-label="Choose a proposal"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <h3>Downstream</h3>
+      <button class="switch" id="enacted" role="switch" aria-checked="false"><span class="track"></span>If enacted: show a second ring of hypothetical effects</button>
+    </div>
+    <div class="ctl">
+      <h3>Affected by me</h3>
+      <div class="row" id="roles" role="group" aria-label="Pick your role"></div>
+    </div>
+    <div class="ctl">
+      <h3>Show groups</h3>
+      <div class="row" id="groupFilter" role="group" aria-label="Filter by node group"></div>
+    </div>
+    <div class="ctl">
+      <h3>Show statuses</h3>
+      <div class="row" id="statusFilter" role="group" aria-label="Filter by status"></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="graph-card">
+      <div class="graph-head">
+        <span id="graphTitle"></span>
+        <span id="graphCount"></span>
+      </div>
+      <div class="graph-scroll">
+        <svg id="graph" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="graphDesc"><title id="graphDesc">Consequence graph</title></svg>
+      </div>
+      <p class="hint" id="hint">Click a node to open its card. Arrows point from the thing that acts to the thing it touches. Narrow screens scroll the graph sideways.</p>
+      <details class="nodelist" id="nodelist">
+        <summary>Open any node from a list</summary>
+        <div id="nodelistBody"></div>
+      </details>
+    </div>
+    <aside class="panel is-empty" id="panel" aria-live="polite">
+      <p class="empty">Select a node in the graph to read its card.</p>
+    </aside>
+  </div>
+
+  <div class="section" style="margin-top:22px">
+    <h2>What a documented statute entry would look like</h2>
+    <div class="example">
+      <span class="label">Example, blank on purpose. Not a real entry.</span>
+      <p>Once a statute or rule is confirmed, an enacted item on this page would carry these fields. Every one is empty until someone fills it from the primary source.</p>
+      <dl>
+        <dt>Citation</dt><dd aria-label="blank"></dd>
+        <dt>Short title</dt><dd aria-label="blank"></dd>
+        <dt>Effective date</dt><dd aria-label="blank"></dd>
+        <dt>Primary source link</dt><dd aria-label="blank"></dd>
+        <dt>Confirmed by</dt><dd aria-label="blank"></dd>
+        <dt>Date confirmed</dt><dd aria-label="blank"></dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Share, save, and reset</h2>
+    <div class="io">
+      <div class="box">
+        <h3>Export the current graph</h3>
+        <p style="font-size:13.5px;margin:0 0 8px">Includes the proposal, every node and effect, their statuses, and any sources you recorded.</p>
+        <div class="row">
+          <button class="btn small" id="copyText">Copy as text</button>
+          <a class="btn small" id="dlJson" href="#" download="advocacy-consequences.json">Download as JSON</a>
+          <button class="btn small quiet" id="startFresh">Start fresh</button>
+        </div>
+        <div class="confirm" id="freshConfirm">This clears every saved status, source, and setting on this device. <button class="btn small primary" id="freshYes">Clear and reset</button> <button class="btn small" id="freshNo">Keep my work</button></div>
+        <textarea id="textOut" aria-label="Text export" style="margin-top:10px;min-height:90px"></textarea>
+        <p class="msg" id="ioMsg"></p>
+      </div>
+      <div class="box">
+        <h3>Import a saved graph</h3>
+        <p style="font-size:13.5px;margin:0 0 8px">Paste JSON exported from this page, or choose the file. Statuses and sources for matching items are applied.</p>
+        <textarea id="jsonIn" aria-label="Paste JSON here" placeholder="Paste JSON here"></textarea>
+        <div class="row" style="margin-top:8px">
+          <button class="btn small primary" id="importBtn">Import</button>
+          <label class="btn small" style="display:inline-block">Choose file<input type="file" id="fileIn" accept="application/json,.json" class="sr"></label>
+        </div>
+        <p class="msg" id="importMsg"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Prepared for IndiATA • Katy Wagner, MA, ATR-P, LMHCA</span>
+    <a href="index.html">All experiences</a>
+  </footer>
+</div>
+
+<script>
+/* HOW TO EDIT THE CONTENT
+   Everything a reader sees lives in the data objects right below this note.
+   ENTITIES: the shared people, institutions, and requirements (label, what it is, roles it touches).
+   PROPOSALS: one entry per proposal. Each has a title, a summary, "touches" text per entity,
+     its own decision points, its edges (from, to, label), and its "if enacted" effects.
+   BASELINE: the one enacted item. Keep its "needsSource" flag until a primary source is recorded.
+   STATUS and ROLES: names and order of the three statuses and six roles.
+   Change words freely. Keep ids stable, because saved statuses and sources are keyed by id.
+   Nothing below the line marked "LOGIC" needs to change for a copy edit. */
+
+const STATUS = {
+  enacted:  { label: "Enacted law",          cls: "s-enacted" },
+  proposed: { label: "Proposed change",      cls: "s-proposed" },
+  hypo:     { label: "Hypothetical outcome", cls: "s-hypo" }
+};
+const STATUS_ORDER = ["enacted", "proposed", "hypo"];
+
+const GROUPS = {
+  people:       "People",
+  institutions: "Institutions",
+  requirements: "Requirements",
+  decisions:    "Decisions"
+};
+
+const ROLES = [
+  { id: "client",     label: "Client" },
+  { id: "therapist",  label: "Art therapist" },
+  { id: "student",    label: "Student or new graduate" },
+  { id: "employer",   label: "Employer" },
+  { id: "otherpro",   label: "Other licensed professional" },
+  { id: "legislator", label: "Legislator or staff" }
+];
+
+/* The single enacted item. Status stays "enacted" and shows "Needs source confirmation"
+   until a source is recorded in its card. */
+const BASELINE = {
+  id: "baseline", label: "Indiana baseline today", status: "enacted", needsSource: true,
+  what: "Indiana currently has no state-issued art therapy license. Indiana art therapists practice under ATCB credentials and, where applicable, other Indiana licenses such as LMHC or LCSW.",
+  roles: ["therapist", "student", "employer", "otherpro", "legislator", "client"]
+};
+
+const ENTITIES = {
+  clients:      { group: "people", label: "Clients", roles: ["client"],
+    what: "People who receive art therapy services, including children, adults, and families." },
+  therapists:   { group: "people", label: "Art therapists", roles: ["therapist"],
+    what: "Practitioners who hold or are working toward ATCB credentials such as ATR-P, ATR, and ATR-BC." },
+  students:     { group: "people", label: "Students and new grads", roles: ["student"],
+    what: "People enrolled in art therapy graduate programs and those in their first years after graduating." },
+  employers:    { group: "people", label: "Employers", roles: ["employer"],
+    what: "The agencies, practices, and organizations that hire for art therapy roles." },
+  otherpros:    { group: "people", label: "Other licensed pros", roles: ["otherpro"],
+    what: "Counselors, social workers, psychologists, and others who hold Indiana licenses and may use art in sessions." },
+  public:       { group: "people", label: "The public", roles: ["client"],
+    what: "Anyone who looks for an art therapist, reads a job posting, or sees the title in use." },
+
+  legislature:  { group: "institutions", label: "State legislature", roles: ["legislator"],
+    what: "The Indiana General Assembly, which writes and passes state law." },
+  board:        { group: "institutions", label: "Licensing board", roles: ["legislator", "therapist"],
+    what: "A state board that would issue, renew, and discipline licenses. Which board, and whether a new one would be created, is undecided in this model." },
+  payers:       { group: "institutions", label: "Insurers and payers", roles: ["client", "therapist", "employer"],
+    what: "Medicaid, commercial insurers, and assistance programs that decide which providers and services they pay for." },
+  settings:     { group: "institutions", label: "Schools and hospitals", roles: ["employer", "therapist"],
+    what: "The settings where art therapists work and where job titles and credential checks are set in practice." },
+  universities: { group: "institutions", label: "Universities", roles: ["student"],
+    what: "Graduate programs that train art therapists and prepare students for credentialing." },
+  atcb:         { group: "institutions", label: "Credentialing board", roles: ["therapist", "student"],
+    what: "The Art Therapy Credentials Board (ATCB), the national body that grants art therapy credentials and administers the ATCBE exam." },
+
+  education:    { group: "requirements", label: "Education", roles: ["student"],
+    what: "The degree and coursework a person must complete." },
+  hours:        { group: "requirements", label: "Supervised hours", roles: ["student", "therapist"],
+    what: "Post-graduate clinical hours completed under an approved supervisor." },
+  exams:        { group: "requirements", label: "Exams", roles: ["student"],
+    what: "A written exam such as the ATCBE, or a state jurisprudence exam on local law and ethics." },
+  fees:         { group: "requirements", label: "Fees", roles: ["therapist", "student"],
+    what: "Application, exam, and renewal costs paid by the practitioner." },
+  renewals:     { group: "requirements", label: "Renewals", roles: ["therapist"],
+    what: "Periodic renewal and the continuing education tied to it." },
+  scope:        { group: "requirements", label: "Scope definitions", roles: ["therapist", "otherpro", "legislator"],
+    what: "The written definition of what art therapy is and who may practice it." }
+};
+
+const PROPOSALS = [
+  {
+    id: "licensure",
+    title: "State art therapy licensure",
+    summary: "A state-issued license for art therapists, with its own board, rules, requirements, and renewal cycle.",
+    touches: {
+      clients: "Clients could check a license on a public registry and file a complaint with a board.",
+      therapists: "Practitioners would apply, pay, and renew. Many would hold two credentials, ATCB and state.",
+      students: "Graduates would face a defined path to licensure, with the hours and exam the board sets.",
+      employers: "Employers could require a license in postings and verify it with the board.",
+      otherpros: "Other licensees would gain a neighboring scope. Where the two overlap would need defining.",
+      public: "The public would gain a registry to check and a place to report concerns.",
+      legislature: "Would need to pass a practice act and fund the board's work.",
+      board: "Would issue licenses, write rules, and handle discipline.",
+      payers: "Could add licensed art therapists as a reimbursable provider type, or decline to.",
+      settings: "Could list the license as a hiring requirement or accept ATCB credentials in its place.",
+      universities: "Would align coursework and practicum with whatever the board requires.",
+      atcb: "ATCB credentials might serve as the basis for the license or run alongside it.",
+      education: "A board would define the degree and coursework it accepts.",
+      hours: "A board would set the number of hours and who may supervise them.",
+      exams: "A board would choose an exam. The ATCBE is one option. A state jurisprudence exam is another.",
+      fees: "Application and renewal fees would be set in rule.",
+      renewals: "A renewal cycle and continuing education would be set in rule.",
+      scope: "A practice act would define art therapy and what the license permits."
+    },
+    decisions: [
+      { id: "d_act", label: "Practice act passes", roles: ["legislator"],
+        what: "The decision point where a bill creating the license becomes law.",
+        touches: "Nothing else in this model happens without this vote." },
+      { id: "d_rules", label: "Board writes rules", roles: ["legislator", "therapist", "student"],
+        what: "The decision point where a board turns the law into detailed requirements.",
+        touches: "Education, hours, exams, fees, and renewals would all be set here." },
+      { id: "d_payers", label: "Payers decide coverage", roles: ["client", "therapist", "employer"],
+        what: "The decision point where each payer decides whether to credential licensed art therapists.",
+        touches: "A license would create a basis for the decision. It would not force the outcome." },
+      { id: "d_postings", label: "Employers update postings", roles: ["employer", "therapist"],
+        what: "The decision point where employers decide whether to require the license.",
+        touches: "Each employer would decide this for itself." }
+    ],
+    edges: [
+      ["proposal", "d_act", "requires"], ["d_act", "legislature", "acted by"], ["d_act", "d_rules", "enables"],
+      ["d_rules", "board", "acted by"], ["d_rules", "education", "sets"], ["d_rules", "hours", "sets"],
+      ["d_rules", "exams", "sets"], ["d_rules", "fees", "sets"], ["d_rules", "renewals", "sets"],
+      ["d_act", "scope", "defines"], ["scope", "otherpros", "borders"], ["scope", "therapists", "binds"],
+      ["education", "universities", "shapes"], ["hours", "students", "applies to"], ["exams", "students", "applies to"],
+      ["fees", "therapists", "paid by"], ["renewals", "therapists", "applies to"], ["board", "d_payers", "informs"],
+      ["d_payers", "payers", "acted by"], ["payers", "clients", "cost of care"], ["d_postings", "employers", "acted by"],
+      ["employers", "settings", "sets titles"], ["d_postings", "therapists", "hiring"], ["board", "public", "registry"],
+      ["atcb", "board", "may inform"], ["board", "clients", "complaints"], ["baseline", "proposal", "would change"]
+    ],
+    effects: [
+      { id: "e_dual", label: "Dual credential costs", parent: "therapists", roles: ["therapist"],
+        chain: "Because a license requires its own fees and renewal, a practitioner who keeps ATCB credentials would pay for both." },
+      { id: "e_supervisors", label: "Supervisor availability", parent: "hours", roles: ["student", "therapist"],
+        chain: "Because supervised hours require approved supervisors, graduates in regions with few of them would wait longer to qualify." },
+      { id: "e_grandfather", label: "Grandfathering question", parent: "d_rules", roles: ["therapist", "legislator"],
+        chain: "Because current practitioners trained before the rules existed, a board would need to decide who qualifies without redoing requirements." },
+      { id: "e_reimb", label: "Reimbursement pathway", parent: "payers", roles: ["client", "therapist", "employer"],
+        chain: "Because many payers tie reimbursement to a state license, licensure would give payers a basis to consider coverage. It would not require them to." },
+      { id: "e_curriculum", label: "Curriculum updates", parent: "universities", roles: ["student"],
+        chain: "Because the board would name required coursework, programs would need to map their curriculum to it or add courses." },
+      { id: "e_scope", label: "Scope boundary questions", parent: "otherpros", roles: ["otherpro", "therapist"],
+        chain: "Because a scope definition draws a line, other licensees who use art in sessions would need clarity on what stays within their own scope." },
+      { id: "e_registry", label: "Public lookups", parent: "public", roles: ["client"],
+        chain: "Because a board would keep a registry, the public could verify a license before starting services." },
+      { id: "e_portability", label: "Portability limits", parent: "board", roles: ["therapist", "student"],
+        chain: "Because each state sets its own rules, a license issued here would transfer elsewhere only where that state agrees." }
+    ]
+  },
+  {
+    id: "hiring",
+    title: "Hiring qualifications",
+    summary: "Employers require ATCB credentials for any position titled \"art therapist.\" No state action is involved.",
+    touches: {
+      clients: "Clients in that setting would be seen by credentialed practitioners for any role titled art therapist. Other roles would not be covered.",
+      therapists: "Credentialed practitioners would meet the rule as written. Those between credentials would need to show current status.",
+      students: "New graduates would need the ATR-P, or whatever entry credential the employer names, before holding the title.",
+      employers: "Employers would write the credential into postings and verify it at hire.",
+      otherpros: "A counselor or social worker without ATCB credentials could still practice, but could not hold a position titled art therapist in that setting.",
+      public: "Job postings and staff directories would show the credential next to the title.",
+      legislature: "No state action is needed for an employer rule. This node shows where a later law could reference it.",
+      board: "No state board is involved in a hiring rule. The node stays to show what would change if licensure came later.",
+      payers: "Payers could ask for the credential in contracts, or ignore it. This model assumes neither.",
+      settings: "Each setting would decide whether to adopt the rule and how to treat current staff.",
+      universities: "Programs would face pressure to prepare graduates for the ATR-P at graduation.",
+      atcb: "ATCB would receive more verification requests. Its standards would become the hiring floor in that setting.",
+      education: "The degree and coursework ATCB accepts would become the employer's education requirement.",
+      hours: "Supervised hours would matter only where the employer names a credential above ATR-P.",
+      exams: "The ATCBE would matter where the employer names the ATR or ATR-BC.",
+      fees: "Credential fees would become a cost of holding the title in that setting.",
+      renewals: "Credential renewal would become a condition of keeping the title.",
+      scope: "The job description would act as a working scope for that position."
+    },
+    decisions: [
+      { id: "d_adopt", label: "Employer adopts the rule", roles: ["employer"],
+        what: "The decision point where an employer writes the credential into policy.",
+        touches: "Everything downstream depends on this choice and on how it is worded." },
+      { id: "d_verify", label: "HR verifies at hire", roles: ["employer", "therapist", "student"],
+        what: "The decision point where a setting checks credential status before an offer.",
+        touches: "Verification would run through ATCB's public lookup." },
+      { id: "d_staff", label: "Current staff reviewed", roles: ["employer", "therapist"],
+        what: "The decision point where a setting decides how to treat staff hired before the rule.",
+        touches: "Options would include a grace period, retitling, or support toward the credential." }
+    ],
+    edges: [
+      ["proposal", "d_adopt", "requires"], ["d_adopt", "employers", "acted by"], ["d_adopt", "d_verify", "leads to"],
+      ["d_verify", "settings", "acted by"], ["d_verify", "atcb", "checks with"], ["d_adopt", "d_staff", "raises"],
+      ["d_staff", "therapists", "affects"], ["d_adopt", "education", "adopts"], ["d_adopt", "renewals", "adopts"],
+      ["education", "universities", "shapes"], ["renewals", "fees", "adds"], ["fees", "therapists", "paid by"],
+      ["d_verify", "students", "applies to"], ["d_adopt", "scope", "narrows title"], ["scope", "otherpros", "excludes from title"],
+      ["settings", "public", "shows"], ["settings", "clients", "staffing"], ["payers", "settings", "may reference"],
+      ["legislature", "board", "no action yet"], ["atcb", "hours", "sets"], ["atcb", "exams", "sets"],
+      ["baseline", "proposal", "unchanged by"]
+    ],
+    effects: [
+      { id: "e_pool", label: "Smaller applicant pool", parent: "employers", roles: ["employer"],
+        chain: "Because the rule requires a credential, a posting could draw fewer applicants in areas with few credentialed practitioners." },
+      { id: "e_retitle", label: "Retitling current staff", parent: "therapists", roles: ["therapist", "employer"],
+        chain: "Because current staff may lack the credential, a setting would need to retitle, grandfather, or support them toward it." },
+      { id: "e_demand", label: "Credential demand rises", parent: "atcb", roles: ["student", "therapist"],
+        chain: "Because employers would ask for the credential, more graduates would apply for the ATR-P soon after graduating." },
+      { id: "e_expect", label: "Clearer client expectations", parent: "clients", roles: ["client"],
+        chain: "Because the title would be tied to a credential, clients could expect a defined training floor from anyone holding it." },
+      { id: "e_uneven", label: "Uneven adoption", parent: "settings", roles: ["employer", "therapist", "client"],
+        chain: "Because each setting decides for itself, the same title could mean different things across employers." },
+      { id: "e_align", label: "Program alignment", parent: "universities", roles: ["student"],
+        chain: "Because the ATR-P would become the hiring floor, programs would need to make the application steps part of the final year." },
+      { id: "e_otherroles", label: "Other professionals retitled", parent: "otherpros", roles: ["otherpro", "employer"],
+        chain: "Because the rule applies to the title, other licensees using art in sessions could keep their work but would need a different title." }
+    ]
+  },
+  {
+    id: "title",
+    title: "Title representation",
+    summary: "A rule about who may use the title \"art therapist.\" It would define the title. It would not define practice.",
+    touches: {
+      clients: "Clients could rely on the title meaning a defined training path.",
+      therapists: "Practitioners who meet the rule could use the title. Those who do not would need to describe their work another way.",
+      students: "Students would need to know when they may use the title, including during internships.",
+      employers: "Employers would need postings, badges, and directories to match the rule.",
+      otherpros: "Other licensees who use art in sessions could continue that work. They could not call themselves art therapists unless they meet the rule.",
+      public: "The public would have a stable meaning for the title when searching for services.",
+      legislature: "Would need to pass a title protection law for the rule to carry legal weight.",
+      board: "Would need authority to act on misuse of the title.",
+      payers: "Could use the title to sort providers in directories.",
+      settings: "Would review job titles and credential checks.",
+      universities: "Would advise students on when title use becomes allowed.",
+      atcb: "ATCB credentials could be the basis for who qualifies.",
+      education: "The rule would name the education a title holder must have.",
+      hours: "The rule would decide whether supervised hours are required before using the title.",
+      exams: "The rule would decide whether an exam is required before using the title.",
+      fees: "Any registration tied to the title would carry a fee.",
+      renewals: "The rule would decide whether title use lapses without renewal.",
+      scope: "Title protection defines the title only. It would leave practice undefined. This is the key difference from licensure."
+    },
+    decisions: [
+      { id: "d_title", label: "Title protection passes", roles: ["legislator"],
+        what: "The decision point where a title protection bill becomes law.",
+        touches: "Without this vote, title use stays a matter of professional norms." },
+      { id: "d_qualify", label: "Credentials named", roles: ["legislator", "therapist", "student"],
+        what: "The decision point where the law or rule names which credentials qualify a person for the title.",
+        touches: "Naming ATCB credentials is one option. Naming a degree alone is another." },
+      { id: "d_enforce", label: "Agency acts on misuse", roles: ["legislator", "otherpro"],
+        what: "The decision point where an agency decides how to handle a complaint about title use.",
+        touches: "A rule without a response path would change little." },
+      { id: "d_audit", label: "Settings audit titles", roles: ["employer", "therapist"],
+        what: "The decision point where employers review current job titles against the rule.",
+        touches: "Some positions would be renamed. Others would be left as they are." }
+    ],
+    edges: [
+      ["proposal", "d_title", "requires"], ["d_title", "legislature", "acted by"], ["d_title", "d_qualify", "leads to"],
+      ["d_qualify", "atcb", "may name"], ["d_qualify", "education", "names"], ["d_qualify", "hours", "may name"],
+      ["d_qualify", "exams", "may name"], ["d_title", "d_enforce", "enables"], ["d_enforce", "board", "acted by"],
+      ["board", "otherpros", "may contact"], ["d_title", "scope", "leaves undefined"], ["scope", "therapists", "title only"],
+      ["d_audit", "settings", "acted by"], ["d_audit", "employers", "acted by"], ["settings", "students", "intern titles"],
+      ["d_title", "public", "stable meaning"], ["public", "clients", "search"], ["payers", "public", "directories"],
+      ["universities", "students", "advises"], ["renewals", "fees", "adds"], ["fees", "therapists", "paid by"],
+      ["baseline", "proposal", "would change"]
+    ],
+    effects: [
+      { id: "e_rename", label: "Rename or qualify", parent: "otherpros", roles: ["otherpro", "therapist"],
+        chain: "Because the title would be restricted, anyone using it without a named credential would need to retitle or qualify." },
+      { id: "e_directory", label: "Directory review", parent: "public", roles: ["client", "employer"],
+        chain: "Because the title would carry a legal meaning, directories and websites would need review for title use." },
+      { id: "e_capacity", label: "Response capacity", parent: "board", roles: ["legislator"],
+        chain: "Because misuse needs a response, an agency would need staff time and a complaint process." },
+      { id: "e_search", label: "Clearer search results", parent: "clients", roles: ["client"],
+        chain: "Because the title would mean one thing, a person searching for services could trust what the title covers." },
+      { id: "e_intern", label: "Intern designation", parent: "students", roles: ["student", "employer"],
+        chain: "Because students use the title during training in some settings, the rule would need an intern or trainee designation." },
+      { id: "e_noscope", label: "Practice stays open", parent: "scope", roles: ["otherpro", "therapist"],
+        chain: "Because title protection names the title only, what other licensees may do in session would not change." },
+      { id: "e_posting", label: "Posting language", parent: "employers", roles: ["employer"],
+        chain: "Because job titles would need to match the rule, postings would need the credential spelled out." }
+    ]
+  },
+  {
+    id: "access",
+    title: "Workforce access",
+    summary: "Telehealth standards, reimbursement for art therapy as a service, and credential portability across states.",
+    touches: {
+      clients: "Clients could reach practitioners by video and could see lower out-of-pocket costs if reimbursement widens.",
+      therapists: "Practitioners could serve a wider area and bill payers directly, if payers agree.",
+      students: "Graduates could complete supervision remotely, depending on the rules.",
+      employers: "Employers could post remote roles and bill for art therapy as its own service.",
+      otherpros: "Other licensees already billing under their licenses would see little change to their own billing.",
+      public: "Access in rural counties would depend on broadband and on who is reimbursed.",
+      legislature: "Portability across state lines would need agreements between states or a compact.",
+      board: "A board, if one existed, would set telehealth standards and recognize out-of-state credentials.",
+      payers: "Payers would decide whether art therapy is a covered service and which credentials qualify.",
+      settings: "Settings would need telehealth platforms and consent processes fit for image-based sessions.",
+      universities: "Programs could offer remote practicum options if supervision rules allow.",
+      atcb: "ATCB credentials are national. Whether a state or payer recognizes them is a separate question.",
+      education: "Reimbursement rules could require a degree type that payers recognize.",
+      hours: "Remote supervision would need to count toward hours for portability to help new graduates.",
+      exams: "Portability would raise the question of which exams other states accept.",
+      fees: "Working in several states could mean several fee schedules.",
+      renewals: "Renewal cycles would need to stay aligned across credentials and states.",
+      scope: "Telehealth rules would need to address materials, privacy, and how artwork is shared and stored."
+    },
+    decisions: [
+      { id: "d_cover", label: "Payers add provider type", roles: ["client", "therapist", "employer"],
+        what: "The decision point where a payer adds art therapy, or art therapists, to what it covers.",
+        touches: "Each payer would decide separately. Medicaid and commercial plans would not move together." },
+      { id: "d_tele", label: "Telehealth standards set", roles: ["therapist", "client", "legislator"],
+        what: "The decision point where a board or association sets standards for sessions by video.",
+        touches: "Standards would need to cover materials at home, consent, and storage of client artwork." },
+      { id: "d_compact", label: "States recognize credentials", roles: ["legislator", "therapist"],
+        what: "The decision point where states agree to accept each other's credentials.",
+        touches: "This depends on other states as much as on Indiana." },
+      { id: "d_remote", label: "Remote supervision counted", roles: ["student", "therapist"],
+        what: "The decision point where supervision by video counts toward required hours.",
+        touches: "Graduates far from supervisors would be the first to feel this." }
+    ],
+    edges: [
+      ["proposal", "d_cover", "proposes"], ["d_cover", "payers", "acted by"], ["payers", "clients", "cost of care"],
+      ["payers", "employers", "billing"], ["payers", "education", "may require"], ["proposal", "d_tele", "proposes"],
+      ["d_tele", "board", "acted by"], ["d_tele", "scope", "extends"], ["scope", "settings", "platforms"],
+      ["settings", "clients", "sessions"], ["proposal", "d_compact", "proposes"], ["d_compact", "legislature", "acted by"],
+      ["d_compact", "exams", "raises"], ["d_compact", "fees", "multiplies"], ["d_compact", "renewals", "aligns"],
+      ["fees", "therapists", "paid by"], ["atcb", "d_compact", "informs"], ["proposal", "d_remote", "proposes"],
+      ["d_remote", "hours", "changes"], ["hours", "students", "applies to"], ["universities", "d_remote", "advocates"],
+      ["otherpros", "payers", "already billed"], ["public", "clients", "access"], ["baseline", "proposal", "would change"]
+    ],
+    effects: [
+      { id: "e_materials", label: "Materials at a distance", parent: "scope", roles: ["therapist", "client"],
+        chain: "Because art therapy relies on physical materials, telehealth standards would require plans for what clients have at home and how it is used safely." },
+      { id: "e_artwork", label: "Artwork as record", parent: "d_tele", roles: ["therapist", "client", "employer"],
+        chain: "Because client artwork is part of the clinical record, a telehealth session would need a plan for who holds the original and how images are stored." },
+      { id: "e_rural", label: "Rural reach", parent: "public", roles: ["client"],
+        chain: "Because sessions by video remove travel, clients in counties with no art therapist could be seen, where broadband allows." },
+      { id: "e_codes", label: "Billing codes", parent: "payers", roles: ["employer", "therapist"],
+        chain: "Because reimbursement runs on service codes, a covered service would need a code path that payers accept." },
+      { id: "e_multistate", label: "Multi-state costs", parent: "fees", roles: ["therapist"],
+        chain: "Because each state keeps its own fees, a practitioner serving several states would pay several schedules." },
+      { id: "e_pathway", label: "Supervision pathways", parent: "hours", roles: ["student"],
+        chain: "Because remote supervision would count, graduates far from supervisors could complete hours without relocating." },
+      { id: "e_complaint", label: "Cross-state complaints", parent: "clients", roles: ["client", "legislator"],
+        chain: "Because a client and practitioner could be in different states, which state handles a complaint would need an answer." }
+    ]
+  }
+];
+
+/* ============================ LOGIC ============================ */
+(function () {
+  "use strict";
+  const STORE_KEY = "bts-advocacy-explorer-v1";
+  const $ = (id) => document.getElementById(id);
+  const SVGNS = "http://www.w3.org/2000/svg";
+
+  /* ---------- state ---------- */
+  let state = {
+    proposal: PROPOSALS[0].id,
+    ifEnacted: false,
+    role: null,
+    groups: { people: true, institutions: true, requirements: true, decisions: true },
+    statuses: { enacted: true, proposed: true, hypo: true },
+    selected: null,
+    overrides: {}   // overrides[scopeKey][itemId] = { status, source, documentedAt }
+  };
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      if (s && typeof s === "object") {
+        if (PROPOSALS.some(p => p.id === s.proposal)) state.proposal = s.proposal;
+        state.ifEnacted = !!s.ifEnacted;
+        state.role = ROLES.some(r => r.id === s.role) ? s.role : null;
+        if (s.groups) Object.keys(state.groups).forEach(k => { if (k in s.groups) state.groups[k] = !!s.groups[k]; });
+        if (s.statuses) Object.keys(state.statuses).forEach(k => { if (k in s.statuses) state.statuses[k] = !!s.statuses[k]; });
+        state.selected = typeof s.selected === "string" ? s.selected : null;
+        if (s.overrides && typeof s.overrides === "object") state.overrides = s.overrides;
+      }
+    } catch (e) { /* storage unavailable; page still works */ }
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  }
+
+  /* ---------- model building ---------- */
+  function currentProposal() { return PROPOSALS.find(p => p.id === state.proposal) || PROPOSALS[0]; }
+  function scopeKey(id) { return id === "baseline" ? "_shared" : state.proposal; }
+  function getOverride(id) {
+    const sc = state.overrides[scopeKey(id)];
+    return sc && sc[id] ? sc[id] : null;
+  }
+  function setOverride(id, data) {
+    const k = scopeKey(id);
+    if (!state.overrides[k]) state.overrides[k] = {};
+    if (data) state.overrides[k][id] = data; else delete state.overrides[k][id];
+    save();
+  }
+
+  /* Build the list of items for the current proposal.
+     kind: proposal | baseline | entity | decision | effect */
+  function buildItems() {
+    const p = currentProposal();
+    const items = [];
+    items.push({ id: "proposal", kind: "proposal", group: null, label: p.title, baseStatus: "proposed",
+      what: p.summary, touches: "This is the proposal itself. Everything else on the graph is a modeled consequence of it.", roles: ROLES.map(r => r.id) });
+    items.push({ id: "baseline", kind: "baseline", group: null, label: BASELINE.label, baseStatus: BASELINE.status,
+      what: BASELINE.what, touches: "Every proposal here starts from this point.", roles: BASELINE.roles, needsSource: BASELINE.needsSource });
+    p.decisions.forEach(d => items.push({ id: d.id, kind: "decision", group: "decisions", label: d.label, baseStatus: "hypo",
+      what: d.what, touches: d.touches, roles: d.roles }));
+    ["requirements", "people", "institutions"].forEach(g => {
+      Object.keys(ENTITIES).forEach(id => {
+        const e = ENTITIES[id];
+        if (e.group !== g || !p.touches[id]) return;
+        items.push({ id, kind: "entity", group: g, label: e.label, baseStatus: "hypo", what: e.what, touches: p.touches[id], roles: e.roles });
+      });
+    });
+    p.effects.forEach(ef => items.push({ id: ef.id, kind: "effect", group: "effects", label: ef.label, baseStatus: "hypo",
+      what: "A modeled downstream effect. Nothing here is verified until a source is recorded.", touches: ef.chain, chain: ef.chain, parent: ef.parent, roles: ef.roles }));
+    items.forEach(it => {
+      const ov = getOverride(it.id);
+      it.status = ov && STATUS[ov.status] ? ov.status : it.baseStatus;
+      it.source = ov && ov.source ? ov.source : "";
+      it.documentedAt = ov && ov.documentedAt ? ov.documentedAt : null;
+    });
+    return items;
+  }
+
+  function visible(it) {
+    if (!state.statuses[it.status]) return false;
+    if (it.kind === "entity" || it.kind === "decision") return !!state.groups[it.group];
+    if (it.kind === "effect") return state.ifEnacted;
+    return true;
+  }
+
+  /* ---------- layout ----------
+     Ring 1 is a rounded rectangle: decisions along the top, requirements down the right,
+     people along the bottom, institutions up the left. Ring 2 (effects) sits on a larger
+     rectangle outside it, each effect placed near the node it hangs off. */
+  const NODE = { w: 138, h: 46 }, EFF = { w: 180, h: 50 }, CTR = { w: 210, h: 52 };
+  let W = 1240;
+
+  function rectPoint(R, t) {
+    // t runs clockwise from the top-left corner along the perimeter of rect R
+    const w = R.x1 - R.x0, h = R.y1 - R.y0, L = 2 * (w + h);
+    t = ((t % L) + L) % L;
+    if (t < w) return { x: R.x0 + t, y: R.y0 };
+    t -= w; if (t < h) return { x: R.x1, y: R.y0 + t };
+    t -= h; if (t < w) return { x: R.x1 - t, y: R.y1 };
+    t -= w; return { x: R.x0, y: R.y1 - t };
+  }
+  function spread(list, a, b, size) {
+    // evenly place n centers between a and b, keeping at least `size` apart when possible
+    const n = list.length;
+    if (!n) return [];
+    const span = b - a;
+    const step = n === 1 ? 0 : Math.min(span / (n - 1), Math.max(size, span / (n - 1)));
+    const total = step * (n - 1);
+    const s0 = a + (span - total) / 2;
+    return list.map((_, i) => s0 + i * step);
+  }
+
+  function layout(items) {
+    const two = state.ifEnacted;
+    W = two ? 1440 : 1240;
+    const H = two ? 760 : 620;
+    const CX = W / 2, CY = H / 2;
+    const R1 = two ? { x0: 330, x1: W - 330, y0: 160, y1: H - 160 } : { x0: 150, x1: W - 150, y0: 70, y1: H - 70 };
+    const R2 = { x0: 100, x1: W - 100, y0: 42, y1: H - 42 };
+    const pos = {};
+    pos.proposal = { x: CX, y: CY - 36, w: CTR.w, h: CTR.h };
+    pos.baseline = { x: CX, y: CY + 38, w: CTR.w, h: 46 };
+    const sideOf = { decisions: "top", requirements: "right", people: "bottom", institutions: "left" };
+    const bySide = { top: [], right: [], bottom: [], left: [] };
+    items.forEach(it => { if (it.kind === "decision" || it.kind === "entity") bySide[sideOf[it.group]].push(it); });
+    spread(bySide.top, R1.x0, R1.x1, NODE.w + 16).forEach((x, i) => { pos[bySide.top[i].id] = { x, y: R1.y0, w: NODE.w, h: NODE.h, side: "top" }; });
+    spread(bySide.bottom, R1.x0, R1.x1, NODE.w + 16).forEach((x, i) => { pos[bySide.bottom[i].id] = { x, y: R1.y1, w: NODE.w, h: NODE.h, side: "bottom" }; });
+    spread(bySide.right, R1.y0 + NODE.h + 20, R1.y1 - NODE.h - 20, NODE.h + 12).forEach((y, i) => { pos[bySide.right[i].id] = { x: R1.x1, y, w: NODE.w, h: NODE.h, side: "right" }; });
+    spread(bySide.left, R1.y0 + NODE.h + 20, R1.y1 - NODE.h - 20, NODE.h + 12).forEach((y, i) => { pos[bySide.left[i].id] = { x: R1.x0, y, w: NODE.w, h: NODE.h, side: "left" }; });
+
+    const effects = items.filter(it => it.kind === "effect");
+    if (two && effects.length) {
+      const w2 = R2.x1 - R2.x0, h2 = R2.y1 - R2.y0, L = 2 * (w2 + h2);
+      const tOf = (P) => {
+        if (!P) return 0;
+        const side = P.side || (P.y < CY ? "top" : "bottom");
+        if (side === "top") return Math.min(Math.max(P.x - R2.x0, 0), w2);
+        if (side === "right") return w2 + Math.min(Math.max(P.y - R2.y0, 0), h2);
+        if (side === "bottom") return w2 + h2 + Math.min(Math.max(R2.x1 - P.x, 0), w2);
+        return 2 * w2 + h2 + Math.min(Math.max(R2.y1 - P.y, 0), h2);
+      };
+      const arr = effects.map(ef => ({ ef, t: tOf(pos[ef.parent]) })).sort((a, b) => a.t - b.t);
+      const d = EFF.w + 24;
+      if (arr.length * d > L) {
+        arr.forEach((o, i) => { o.t = (i * L) / arr.length; });
+      } else {
+        for (let pass = 0; pass < 4; pass++) {
+          for (let i = 1; i < arr.length; i++) if (arr[i].t < arr[i - 1].t + d) arr[i].t = arr[i - 1].t + d;
+          const over = arr[arr.length - 1].t - (arr[0].t + L - d);
+          if (over > 0) { arr.forEach(o => { o.t -= over / 2; }); arr[0].t = Math.max(arr[0].t, arr[arr.length - 1].t - L + d); }
+        }
+      }
+      arr.forEach(o => {
+        const q = rectPoint(R2, o.t);
+        pos[o.ef.id] = { x: q.x, y: q.y, w: EFF.w, h: EFF.h };
+      });
+    }
+    return { pos, H, CX, CY, R1, R2 };
+  }
+
+  function borderPoint(from, toward) {
+    const dx = toward.x - from.x, dy = toward.y - from.y;
+    if (!dx && !dy) return { x: from.x, y: from.y };
+    const hw = from.w / 2 + 3, hh = from.h / 2 + 3;
+    const s = Math.min(hw / Math.abs(dx || 1e-6), hh / Math.abs(dy || 1e-6));
+    return { x: from.x + dx * s, y: from.y + dy * s };
+  }
+
+  function wrap(text, maxChars) {
+    const words = text.split(" ");
+    const lines = [];
+    let cur = "";
+    words.forEach(w => {
+      if ((cur + " " + w).trim().length > maxChars && cur) { lines.push(cur); cur = w; }
+      else cur = (cur + " " + w).trim();
+    });
+    if (cur) lines.push(cur);
+    return lines.slice(0, 2);
+  }
+
+  function el(name, attrs, parent) {
+    const node = document.createElementNS(SVGNS, name);
+    Object.keys(attrs || {}).forEach(k => node.setAttribute(k, attrs[k]));
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+
+  /* ---------- render graph ---------- */
+  function renderGraph() {
+    const items = buildItems();
+    const byId = {};
+    items.forEach(it => byId[it.id] = it);
+    const shown = items.filter(visible);
+    const shownIds = new Set(shown.map(it => it.id));
+    const { pos, H, CX, CY, R1, R2 } = layout(items);
+    const p = currentProposal();
+
+    const edges = p.edges.map(e => ({ from: e[0], to: e[1], label: e[2], hyp: false }))
+      .concat(p.effects.map(ef => ({ from: ef.parent, to: ef.id, label: "would lead to", hyp: true })))
+      .filter(e => shownIds.has(e.from) && shownIds.has(e.to) && pos[e.from] && pos[e.to]);
+
+    const neighbors = new Set();
+    if (state.selected && shownIds.has(state.selected)) {
+      edges.forEach(e => { if (e.from === state.selected) neighbors.add(e.to); if (e.to === state.selected) neighbors.add(e.from); });
+    }
+    const hasRole = (it) => state.role ? (it.roles || []).includes(state.role) : false;
+
+    const svg = $("graph");
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    const title = el("title", { id: "graphDesc" }, svg);
+    title.textContent = `Consequence graph for ${p.title}`;
+    const defs = el("defs", {}, svg);
+    const mk = el("marker", { id: "arrow", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0,1 L9,5 L0,9 z", fill: "#5A6B74" }, mk);
+    const mkLit = el("marker", { id: "arrowLit", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0,1 L9,5 L0,9 z", fill: "#2F7FB0" }, mkLit);
+
+    el("rect", { class: "ring-guide", x: R1.x0, y: R1.y0, width: R1.x1 - R1.x0, height: R1.y1 - R1.y0, rx: 40 }, svg);
+    const lbl1 = el("text", { class: "ring-label", x: R1.x0 - NODE.w / 2, y: R1.y0 - NODE.h / 2 - 10 }, svg);
+    lbl1.textContent = "RING 1 · DECISIONS (TOP), REQUIREMENTS (RIGHT), PEOPLE (BOTTOM), INSTITUTIONS (LEFT)";
+    if (state.ifEnacted) {
+      el("rect", { class: "ring-guide", x: R2.x0, y: R2.y0, width: R2.x1 - R2.x0, height: R2.y1 - R2.y0, rx: 48 }, svg);
+      const lbl2 = el("text", { class: "ring-label", x: R2.x0 - EFF.w / 2 + 4, y: 14 }, svg);
+      lbl2.textContent = "RING 2 · IF ENACTED: HYPOTHETICAL DOWNSTREAM EFFECTS";
+    }
+
+    const gEdges = el("g", {}, svg);
+    edges.forEach(e => {
+      const A = pos[e.from], B = pos[e.to];
+      const central = e.from === "proposal" || e.to === "proposal" || e.from === "baseline" || e.to === "baseline" || e.hyp;
+      let ctrl;
+      if (central) ctrl = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+      else {
+        const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+        ctrl = { x: mx + (CX - mx) * 0.4, y: my + (CY - my) * 0.4 };
+      }
+      const s = borderPoint(A, ctrl), t = borderPoint(B, ctrl);
+      const lit = state.selected && (e.from === state.selected || e.to === state.selected);
+      const dim = state.role ? !(hasRole(byId[e.from]) && hasRole(byId[e.to]))
+                             : (state.selected && shownIds.has(state.selected) && !lit);
+      const g = el("g", { class: "edge" + (lit ? " lit" : "") + (dim ? " dim" : "") + (e.hyp ? " hyp" : "") }, gEdges);
+      el("path", { d: `M${s.x.toFixed(1)},${s.y.toFixed(1)} Q${ctrl.x.toFixed(1)},${ctrl.y.toFixed(1)} ${t.x.toFixed(1)},${t.y.toFixed(1)}`, "marker-end": lit ? "url(#arrowLit)" : "url(#arrow)" }, g);
+      const lx = 0.25 * s.x + 0.5 * ctrl.x + 0.25 * t.x, ly = 0.25 * s.y + 0.5 * ctrl.y + 0.25 * t.y;
+      const tx = el("text", { x: lx.toFixed(1), y: (ly + 3).toFixed(1) }, g);
+      tx.textContent = e.label;
+    });
+
+    const gNodes = el("g", {}, svg);
+    shown.forEach(it => {
+      const P = pos[it.id];
+      if (!P) return;
+      const isSel = state.selected === it.id;
+      const dim = state.role ? !hasRole(it)
+                             : (state.selected && shownIds.has(state.selected) && !isSel && !neighbors.has(it.id));
+      const cls = ["node", STATUS[it.status].cls];
+      if (isSel) cls.push("selected");
+      if (state.role && hasRole(it)) cls.push("role");
+      if (dim) cls.push("dim");
+      const g = el("g", { class: cls.join(" "), tabindex: "0", role: "button", "data-id": it.id,
+        "aria-label": `${it.label}. ${STATUS[it.status].label}.${it.kind === "effect" ? " Hypothetical downstream effect." : ""}`,
+        transform: `translate(${P.x.toFixed(1)},${P.y.toFixed(1)})` }, gNodes);
+      el("rect", { class: "halo", x: -P.w / 2 - 6, y: -P.h / 2 - 6, width: P.w + 12, height: P.h + 12, rx: 16 }, g);
+      el("rect", { class: "box", x: -P.w / 2, y: -P.h / 2, width: P.w, height: P.h, rx: 12 }, g);
+      let tag = "";
+      if (it.kind === "proposal") tag = "PROPOSAL";
+      else if (it.kind === "baseline") tag = it.needsSource && !it.source ? "ENACTED · SOURCE NEEDED" : "ENACTED · BASELINE";
+      else if (it.kind === "effect") tag = "HYPOTHETICAL EFFECT";
+      else tag = GROUPS[it.group].toUpperCase();
+      const tagEl = el("text", { class: "tag", x: 0, y: -P.h / 2 + 13, "text-anchor": "middle" }, g);
+      tagEl.textContent = tag;
+      const maxChars = Math.floor(P.w / 8);
+      const lines = wrap(it.label, maxChars);
+      const t = el("text", { x: 0, y: lines.length > 1 ? 3 : 9, "text-anchor": "middle" }, g);
+      lines.forEach((ln, i) => {
+        const ts = el("tspan", { x: 0, dy: i === 0 ? 0 : 13 }, t);
+        ts.textContent = ln;
+      });
+      if (it.documentedAt) {
+        const f = el("text", { class: "flag", x: 0, y: P.h / 2 + 11, "text-anchor": "middle" }, g);
+        f.textContent = "DOCUMENTED " + it.documentedAt;
+      }
+      g.addEventListener("click", () => selectNode(it.id));
+      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selectNode(it.id); } });
+    });
+
+    $("graphTitle").innerHTML = `<strong>${esc(p.title)}</strong> · ${state.ifEnacted ? "two rings" : "one ring"}`;
+    const nEff = shown.filter(it => it.kind === "effect").length;
+    const nNodes = shown.length - nEff;
+    let count = `${nNodes} nodes${state.ifEnacted ? `, ${nEff} effects` : ""}`;
+    if (state.role) {
+      const r = ROLES.find(x => x.id === state.role);
+      const touched = shown.filter(hasRole).length;
+      count += ` · ${touched} touch "${r.label}"`;
+    }
+    $("graphCount").textContent = count;
+
+    renderNodeList(shown);
+    renderPanel(byId[state.selected] && shownIds.has(state.selected) ? byId[state.selected] : null, items);
+    renderExports(items, edges);
+  }
+
+  function renderNodeList(shown) {
+    const body = $("nodelistBody");
+    body.innerHTML = "";
+    const order = [["center", "Center"], ["decisions", "Decisions"], ["requirements", "Requirements"], ["people", "People"], ["institutions", "Institutions"], ["effects", "Hypothetical effects (if enacted)"]];
+    order.forEach(([g, label]) => {
+      const list = shown.filter(it => (g === "center" ? (it.kind === "proposal" || it.kind === "baseline") : it.group === g));
+      if (!list.length) return;
+      const grp = document.createElement("div"); grp.className = "grp";
+      const h = document.createElement("h4"); h.textContent = label; grp.appendChild(h);
+      const nl = document.createElement("div"); nl.className = "nl";
+      list.forEach(it => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = STATUS[it.status].cls; b.textContent = it.label;
+        b.setAttribute("aria-pressed", state.selected === it.id ? "true" : "false");
+        b.addEventListener("click", () => selectNode(it.id));
+        nl.appendChild(b);
+      });
+      grp.appendChild(nl); body.appendChild(grp);
+    });
+  }
+
+  function selectNode(id) {
+    state.selected = (state.selected === id) ? null : id;
+    save();
+    renderGraph();
+    if (state.selected && window.matchMedia("(max-width:900px)").matches) {
+      const panel = $("panel");
+      try { panel.scrollIntoView({ behavior: prefersReduced() ? "auto" : "smooth", block: "start" }); } catch (e) { /* ignore */ }
+    }
+  }
+  function prefersReduced() { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+
+  /* ---------- card panel ---------- */
+  function renderPanel(it, items) {
+    const panel = $("panel");
+    if (!it) { panel.classList.add("is-empty"); panel.innerHTML = '<p class="empty">Select a node in the graph to read its card.</p>'; return; }
+    panel.classList.remove("is-empty");
+    const p = currentProposal();
+    const st = STATUS[it.status];
+    let tag = it.kind === "proposal" ? "Proposal" : it.kind === "baseline" ? "Baseline" : it.kind === "effect" ? "Hypothetical downstream effect" : GROUPS[it.group];
+    const needsSource = (it.status === "enacted" || it.status === "proposed") && !it.source;
+    const parent = it.kind === "effect" ? items.find(x => x.id === it.parent) : null;
+    let html = `<button class="btn small quiet close" id="closeCard" aria-label="Close card">Close</button>`;
+    html += `<div class="tagline">${esc(tag)}</div><h3>${esc(it.label)}</h3>`;
+    html += `<span class="pill ${st.cls}">${esc(st.label)}</span>`;
+    if (it.documentedAt) html += `<div class="ok">Documented by ${esc(it.documentedAt)}</div>`;
+    else if (needsSource) html += `<div class="note">Needs source confirmation</div>`;
+    html += `<h4>What it is</h4><p>${esc(it.what)}</p>`;
+    if (it.kind === "effect") {
+      html += `<h4>Reasoning chain</h4><p>${esc(it.chain)}</p>`;
+      if (parent) html += `<p style="margin-top:4px;font-size:13px;color:var(--ink-soft)">Hangs off: ${esc(parent.label)}</p>`;
+    } else if (it.kind !== "proposal") {
+      html += `<h4>How "${esc(p.title)}" touches it</h4><p>${esc(it.touches)}</p>`;
+    } else {
+      html += `<h4>In this model</h4><p>${esc(it.touches)}</p>`;
+    }
+    html += `<h4>Roles it touches</h4><div class="roles">${(it.roles || []).map(r => `<span>${esc((ROLES.find(x => x.id === r) || {}).label || r)}</span>`).join("")}</div>`;
+    html += `<h4><label for="srcField">Source</label></h4>`;
+    html += `<textarea id="srcField" rows="3" placeholder="Citation, link, or document name. Blank means unverified.">${esc(it.source)}</textarea>`;
+    html += `<div class="row" style="margin-top:8px">`;
+    if (it.status === "hypo" || !it.documentedAt) {
+      if (it.status !== "enacted") html += `<button class="btn small" id="docEnacted" ${it.source ? "" : "disabled"}>Mark documented as enacted law</button>`;
+      if (it.status !== "proposed") html += `<button class="btn small" id="docProposed" ${it.source ? "" : "disabled"}>Mark documented as proposed change</button>`;
+      if (it.status !== "hypo") html += `<button class="btn small primary" id="docConfirm" ${it.source ? "" : "disabled"}>Confirm source for current status</button>`;
+    }
+    if (it.documentedAt || it.source) {
+      if (it.kind !== "baseline" && it.kind !== "proposal") html += `<button class="btn small quiet" id="docRevert">Return to hypothetical</button>`;
+      else html += `<button class="btn small quiet" id="docRevert">Clear source</button>`;
+    }
+    html += `</div><p class="msg" id="cardMsg">${it.source ? "" : "Add a source to enable the documented buttons."}</p>`;
+    panel.innerHTML = html;
+
+    $("closeCard").addEventListener("click", () => { state.selected = null; save(); renderGraph(); });
+    const src = $("srcField");
+    src.addEventListener("input", () => {
+      const ov = getOverride(it.id) || {};
+      ov.source = src.value;
+      if (!ov.status) ov.status = it.status;
+      setOverride(it.id, ov);
+      const has = !!src.value.trim();
+      ["docEnacted", "docProposed", "docConfirm"].forEach(id => { const b = $(id); if (b) b.disabled = !has; });
+      $("cardMsg").textContent = has ? "Source recorded. Choose a documented status when you are ready." : "Add a source to enable the documented buttons.";
+    });
+    const promote = (status) => {
+      const val = src.value.trim();
+      if (!val) return;
+      setOverride(it.id, { status, source: val, documentedAt: today() });
+      state.selected = it.id;
+      renderGraph();
+    };
+    if ($("docEnacted")) $("docEnacted").addEventListener("click", () => promote("enacted"));
+    if ($("docProposed")) $("docProposed").addEventListener("click", () => promote("proposed"));
+    if ($("docConfirm")) $("docConfirm").addEventListener("click", () => promote(it.status));
+    if ($("docRevert")) $("docRevert").addEventListener("click", () => { setOverride(it.id, null); renderGraph(); });
+  }
+
+  function today() {
+    const d = new Date();
+    const m = String(d.getMonth() + 1).padStart(2, "0"), day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${m}-${day}`;
+  }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  /* ---------- controls ---------- */
+  function renderControls() {
+    const pr = $("proposals");
+    pr.innerHTML = "";
+    PROPOSALS.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "proposal";
+      b.setAttribute("aria-pressed", state.proposal === p.id ? "true" : "false");
+      b.innerHTML = `<div class="num">Proposal ${i + 1} · proposed change</div><strong>${esc(p.title)}</strong><span>${esc(p.summary)}</span>`;
+      b.addEventListener("click", () => { state.proposal = p.id; state.selected = null; save(); renderControls(); renderGraph(); });
+      pr.appendChild(b);
+    });
+
+    const en = $("enacted");
+    en.setAttribute("aria-checked", state.ifEnacted ? "true" : "false");
+
+    const roles = $("roles");
+    roles.innerHTML = "";
+    const none = document.createElement("button");
+    none.type = "button"; none.className = "btn small"; none.textContent = "Everyone";
+    none.setAttribute("aria-pressed", state.role ? "false" : "true");
+    none.addEventListener("click", () => { state.role = null; save(); renderControls(); renderGraph(); });
+    roles.appendChild(none);
+    ROLES.forEach(r => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "btn small"; b.textContent = r.label;
+      b.setAttribute("aria-pressed", state.role === r.id ? "true" : "false");
+      b.addEventListener("click", () => { state.role = state.role === r.id ? null : r.id; save(); renderControls(); renderGraph(); });
+      roles.appendChild(b);
+    });
+
+    const gf = $("groupFilter");
+    gf.innerHTML = "";
+    Object.keys(GROUPS).forEach(g => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "btn small"; b.textContent = GROUPS[g];
+      b.setAttribute("aria-pressed", state.groups[g] ? "true" : "false");
+      b.addEventListener("click", () => { state.groups[g] = !state.groups[g]; save(); renderControls(); renderGraph(); });
+      gf.appendChild(b);
+    });
+
+    const sf = $("statusFilter");
+    sf.innerHTML = "";
+    STATUS_ORDER.forEach(s => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "btn small"; b.textContent = STATUS[s].label;
+      b.setAttribute("aria-pressed", state.statuses[s] ? "true" : "false");
+      b.addEventListener("click", () => { state.statuses[s] = !state.statuses[s]; save(); renderControls(); renderGraph(); });
+      sf.appendChild(b);
+    });
+  }
+
+  $("enacted").addEventListener("click", () => { state.ifEnacted = !state.ifEnacted; save(); renderControls(); renderGraph(); });
+
+  /* ---------- export / import ---------- */
+  let lastJsonUrl = null;
+  function renderExports(items, edges) {
+    const p = currentProposal();
+    const r = ROLES.find(x => x.id === state.role);
+    const data = {
+      format: "bts-advocacy-consequences", version: 1, exportedAt: new Date().toISOString(),
+      proposal: p.id, proposalTitle: p.title, ifEnacted: state.ifEnacted, role: state.role,
+      groups: state.groups, statuses: state.statuses,
+      items: items.map(it => ({ id: it.id, kind: it.kind, group: it.group, label: it.label, status: it.status, statusLabel: STATUS[it.status].label,
+        source: it.source || "", documentedAt: it.documentedAt || null, what: it.what, touches: it.touches, chain: it.chain || null, parent: it.parent || null, roles: it.roles })),
+      edges: edges.map(e => ({ from: e.from, to: e.to, label: e.label }))
+    };
+    const json = JSON.stringify(data, null, 2);
+    const a = $("dlJson");
+    try {
+      if (lastJsonUrl) URL.revokeObjectURL(lastJsonUrl);
+      lastJsonUrl = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+      a.href = lastJsonUrl;
+      a.download = `advocacy-consequences-${p.id}.json`;
+    } catch (e) { a.href = "#"; }
+
+    const lines = [];
+    lines.push(`Advocacy Consequences Explorer · ${p.title}`);
+    lines.push(`Model for understanding consequences. Hypothetical means unverified.`);
+    lines.push(`If enacted ring: ${state.ifEnacted ? "on" : "off"}${r ? ` · Role view: ${r.label}` : ""}`);
+    lines.push("");
+    const sect = [["proposal", "PROPOSAL"], ["baseline", "BASELINE"], ["decision", "DECISIONS"], ["entity", "PEOPLE, INSTITUTIONS, REQUIREMENTS"], ["effect", "IF ENACTED, HYPOTHETICAL EFFECTS"]];
+    sect.forEach(([kind, head]) => {
+      const list = items.filter(it => it.kind === kind);
+      if (!list.length) return;
+      lines.push(head);
+      list.forEach(it => {
+        let l = `- ${it.label} [${STATUS[it.status].label}`;
+        if (it.documentedAt) l += `, documented by ${it.documentedAt}`;
+        else if (it.status !== "hypo" && !it.source) l += `, needs source confirmation`;
+        l += "]";
+        lines.push(l);
+        lines.push(`  ${it.kind === "effect" ? it.chain : it.touches}`);
+        if (it.source) lines.push(`  Source: ${it.source}`);
+      });
+      lines.push("");
+    });
+    lines.push("EDGES");
+    edges.forEach(e => lines.push(`- ${labelOf(items, e.from)} → ${e.label} → ${labelOf(items, e.to)}`));
+    $("textOut").value = lines.join("\n");
+  }
+  function labelOf(items, id) { const it = items.find(x => x.id === id); return it ? it.label : id; }
+
+  $("copyText").addEventListener("click", async () => {
+    const ta = $("textOut");
+    const msg = $("ioMsg");
+    try {
+      await Promise.race([
+        navigator.clipboard.writeText(ta.value),
+        new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 1500))
+      ]);
+      msg.textContent = "Copied to the clipboard.";
+    } catch (e) {
+      ta.focus(); ta.select();
+      try { document.execCommand("copy"); msg.textContent = "Copied. The text is also selected below."; }
+      catch (e2) { msg.textContent = "Select the text below and copy it."; }
+    }
+  });
+
+  function importData(text) {
+    const msg = $("importMsg");
+    let d;
+    try { d = JSON.parse(text); } catch (e) { msg.textContent = "That is not valid JSON."; return; }
+    if (!d || d.format !== "bts-advocacy-consequences" || !Array.isArray(d.items)) { msg.textContent = "This JSON was not exported from this page."; return; }
+    if (!PROPOSALS.some(p => p.id === d.proposal)) { msg.textContent = "The proposal in this file does not match any on this page."; return; }
+    state.proposal = d.proposal;
+    state.ifEnacted = !!d.ifEnacted;
+    state.role = ROLES.some(r => r.id === d.role) ? d.role : null;
+    let applied = 0;
+    d.items.forEach(it => {
+      if (!it || typeof it.id !== "string") return;
+      const hasOverride = (it.status && STATUS[it.status] && it.status !== "hypo" && it.kind !== "proposal" && it.kind !== "baseline") || it.source || it.documentedAt;
+      if (it.kind === "baseline" || it.kind === "proposal") {
+        if (it.source || it.documentedAt) {
+          const k = it.kind === "baseline" ? "_shared" : d.proposal;
+          if (!state.overrides[k]) state.overrides[k] = {};
+          state.overrides[k][it.id] = { status: STATUS[it.status] ? it.status : (it.kind === "baseline" ? "enacted" : "proposed"), source: String(it.source || ""), documentedAt: it.documentedAt || null };
+          applied++;
+        }
+        return;
+      }
+      if (hasOverride) {
+        if (!state.overrides[d.proposal]) state.overrides[d.proposal] = {};
+        state.overrides[d.proposal][it.id] = { status: STATUS[it.status] ? it.status : "hypo", source: String(it.source || ""), documentedAt: it.documentedAt || null };
+        applied++;
+      }
+    });
+    state.selected = null;
+    save();
+    renderControls(); renderGraph();
+    msg.textContent = `Imported "${d.proposalTitle || d.proposal}". ${applied} item${applied === 1 ? "" : "s"} carried a status or source.`;
+  }
+  $("importBtn").addEventListener("click", () => importData($("jsonIn").value));
+  $("fileIn").addEventListener("change", (ev) => {
+    const f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => { $("jsonIn").value = String(rd.result || ""); importData(String(rd.result || "")); };
+    rd.readAsText(f);
+  });
+
+  $("startFresh").addEventListener("click", () => $("freshConfirm").classList.add("show"));
+  $("freshNo").addEventListener("click", () => $("freshConfirm").classList.remove("show"));
+  $("freshYes").addEventListener("click", () => {
+    try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
+    state = { proposal: PROPOSALS[0].id, ifEnacted: false, role: null,
+      groups: { people: true, institutions: true, requirements: true, decisions: true },
+      statuses: { enacted: true, proposed: true, hypo: true }, selected: null, overrides: {} };
+    $("freshConfirm").classList.remove("show");
+    $("jsonIn").value = "";
+    $("importMsg").textContent = "";
+    $("ioMsg").textContent = "Reset. Nothing is saved on this device now.";
+    renderControls(); renderGraph();
+  });
+
+  /* ---------- boot ---------- */
+  load();
+  renderControls();
+  renderGraph();
+})();
+</script>
+</body>
+</html>

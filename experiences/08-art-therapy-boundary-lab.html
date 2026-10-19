@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Therapy Boundary Lab</title>
+<meta name="description" content="A branching scenario set about the boundaries of art therapy versus other art-based programming, for people who run programs in schools, libraries, hospitals, and community settings. Draft for IndiATA review.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+  --line:rgba(43,58,66,.14);
+  --t:.18s ease;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Nunito", system-ui, sans-serif; font-weight:600;
+  font-size:16px; line-height:1.55; overflow-x:hidden;
+}
+h1,h2,h3,h4{line-height:1.2; margin:0}
+p{margin:0}
+ul,ol{margin:0; padding:0}
+button{font:inherit; color:inherit; cursor:pointer}
+a{color:var(--sky-d)}
+:focus-visible{outline:3px solid var(--sky-d); outline-offset:2px; border-radius:6px}
+.wrap{width:100%; max-width:1180px; margin:0 auto; padding:0 16px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* frame */
+.frame{padding:28px 0 8px}
+.chip{display:inline-block; font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--sky-d); border:1.5px solid var(--sky); border-radius:999px; padding:4px 11px; background:var(--card)}
+.frame h1{font-size:clamp(30px,5vw,46px); font-weight:900; margin-top:14px; letter-spacing:-.01em}
+.series{font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin-top:8px}
+.lede{font-size:18px; font-weight:700; margin-top:14px; max-width:62ch}
+details.howto{margin-top:16px; max-width:62ch}
+details.howto summary{cursor:pointer; font-weight:800; color:var(--sky-d); list-style:none; display:inline-flex; align-items:center; gap:8px}
+details.howto summary::-webkit-details-marker{display:none}
+details.howto summary svg{transition:transform var(--t)}
+details.howto[open] summary svg{transform:rotate(90deg)}
+details.howto ol{margin:10px 0 0 20px; padding:0; color:var(--ink-soft)}
+details.howto li{margin:4px 0}
+
+/* notes */
+.notes{display:grid; gap:12px; margin-top:22px; max-width:62ch}
+.placeholder{border:2px dashed var(--sunny-d); background:var(--sunny-100); border-radius:12px; padding:10px 14px; font-weight:700}
+.placeholder .tag{display:inline-block; font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; color:var(--ink); margin-right:8px}
+.disclaimer{color:var(--ink-soft); font-size:14px}
+
+/* terms */
+.terms{margin-top:28px}
+.terms h2{font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); font-weight:800}
+.terms-grid{display:grid; gap:12px; margin-top:12px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.term{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px}
+.term h3{font-size:17px; font-weight:900; color:var(--sky-d)}
+.term p{margin-top:8px; font-size:14.5px; color:var(--ink)}
+.term p + p{margin-top:6px}
+
+/* scenario picker */
+.picker{margin-top:30px}
+.picker h2{font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); font-weight:800}
+.tabs{display:grid; gap:10px; margin-top:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.tab{display:flex; flex-direction:column; gap:8px; text-align:left; background:var(--card); border:2px solid var(--line); border-radius:14px; padding:12px 14px; transition:border-color var(--t), background var(--t)}
+.tab:hover{border-color:var(--sky)}
+.tab[aria-pressed="true"]{border-color:var(--sky-d); background:var(--sky-100)}
+.tab .tname{font-weight:900; font-size:16px}
+.tab .twhere{font-size:13px; color:var(--ink-soft)}
+.pips{display:flex; gap:5px; align-items:center}
+.pip{width:14px; height:8px; border-radius:4px; background:var(--line)}
+.pip.on{background:var(--sky-d)}
+.tab .tstate{font-size:12px; color:var(--ink-soft); margin-left:4px}
+
+/* lab layout */
+.lab{display:grid; gap:22px; margin-top:26px; align-items:start}
+@media (min-width:960px){
+  .lab{grid-template-columns:minmax(0,1fr) 320px}
+  .side{position:sticky; top:16px}
+}
+.card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:22px}
+.situation .kicker{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--sky-d); font-weight:900}
+.situation h2{font-size:26px; font-weight:900; margin-top:6px}
+.situation .where{color:var(--ink-soft); margin-top:4px; font-weight:700}
+.situation .role{margin-top:14px; max-width:62ch}
+.situation .role + .role{margin-top:8px}
+
+/* decisions */
+.decisions{list-style:none; display:grid; gap:16px; margin-top:16px}
+.dp{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:20px 22px; transition:opacity var(--t)}
+.dp.locked{opacity:.62}
+.dp-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.dp-num{width:30px; height:30px; border-radius:50%; background:var(--sky-100); color:var(--sky-d); font-weight:900; display:inline-flex; align-items:center; justify-content:center; font-size:14px; flex:none}
+.dp-area{font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; color:var(--ink-soft)}
+.dp-prompt{font-size:18px; font-weight:800; margin-top:12px; max-width:62ch}
+.dp-note{font-size:13px; color:var(--ink-soft); margin-top:8px}
+.choices{display:grid; gap:10px; margin-top:14px}
+.choice{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; align-items:start; text-align:left; background:var(--card); border:2px solid var(--line); border-radius:14px; padding:12px 14px; transition:border-color var(--t), background var(--t); line-height:1.45}
+.choice:hover:not(:disabled){border-color:var(--sky)}
+.choice:disabled{cursor:not-allowed}
+.choice[aria-pressed="true"]{border-color:var(--sky-d); background:var(--sky-100)}
+.choice .key{width:26px; height:26px; border-radius:8px; border:2px solid var(--line); display:inline-flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; color:var(--ink-soft); margin-top:1px}
+.choice[aria-pressed="true"] .key{border-color:var(--sky-d); background:var(--sky-d); color:#fff}
+
+.reveal{margin-top:16px; border-top:1px solid var(--line); padding-top:16px}
+.status{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:5px 12px 5px 8px; font-weight:900; font-size:14px}
+.status.held{background:var(--leaf-100)}
+.status.exceeded{background:var(--coral-100)}
+.status svg{flex:none}
+.status.held svg{color:var(--leaf-d)}
+.status.exceeded svg{color:var(--coral-d)}
+.reason{margin-top:8px; font-weight:700; max-width:62ch}
+.rev-grid{display:grid; gap:16px; margin-top:14px}
+@media (min-width:700px){.rev-grid{grid-template-columns:1fr 1fr}}
+.rev h4{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); font-weight:900}
+.rev ul{list-style:none; margin-top:6px; display:grid; gap:6px}
+.rev li{position:relative; padding-left:16px; font-size:15px}
+.rev li::before{content:""; position:absolute; left:0; top:.62em; width:7px; height:7px; border-radius:50%; background:var(--sky)}
+.rev-commit{margin-top:14px; background:var(--sky-100); border-radius:12px; padding:10px 14px; font-size:14.5px}
+.rev-commit strong{color:var(--sky-d)}
+.crisis{margin-top:14px; font-size:14px; color:var(--ink-soft); border-left:3px solid var(--sky); padding-left:12px}
+
+/* side */
+.side .card + .card{margin-top:14px}
+.side h2{font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); font-weight:800}
+.commits{list-style:none; margin-top:12px; display:grid; gap:10px}
+.commits li{border-left:3px solid var(--sky); padding-left:12px; font-size:14.5px}
+.commits li .cnum{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:900; color:var(--sky-d); display:block}
+.commits-empty{margin-top:10px; color:var(--ink-soft); font-size:14.5px}
+.legend{display:grid; gap:8px; margin-top:12px; font-size:14px}
+.legend .row{display:flex; gap:10px; align-items:flex-start}
+.legend .row svg{flex:none; margin-top:3px}
+.legend .held svg{color:var(--leaf-d)}
+.legend .exceeded svg{color:var(--coral-d)}
+.sidebtns{display:grid; gap:8px; margin-top:12px}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:999px; padding:10px 18px; font-weight:800; border:2px solid var(--sky-d); background:var(--sky-d); color:#fff; transition:background var(--t), color var(--t)}
+.btn:hover{background:var(--sky)}
+.btn.ghost{background:var(--card); color:var(--sky-d)}
+.btn.ghost:hover{background:var(--sky-100)}
+.btn.quiet{background:transparent; color:var(--ink-soft); border-color:var(--line)}
+.btn.quiet:hover{background:var(--card); color:var(--ink)}
+.btn.sm{padding:7px 14px; font-size:14px}
+.confirm{display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:14px; margin-top:8px}
+
+/* finish */
+.finish{margin-top:18px; display:grid; gap:16px}
+.finish h2{font-size:24px; font-weight:900}
+.finish .sub{color:var(--ink-soft); margin-top:4px}
+.summary-block{margin-top:14px}
+.summary-block h3{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); font-weight:900}
+.summary-block ol{margin:8px 0 0 20px; display:grid; gap:10px}
+.summary-block ul{margin:8px 0 0 20px; display:grid; gap:6px}
+.summary-block li{font-size:15px}
+.summary-block .dlabel{font-weight:800}
+.summary-block .dstatus{font-size:13px; font-weight:900}
+.summary-block .dstatus.held{color:var(--leaf-d)}
+.summary-block .dstatus.exceeded{color:var(--coral-d)}
+.exports{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; align-items:center}
+.export-status{font-size:14px; color:var(--ink-soft)}
+textarea.exp{position:absolute; left:-9999px; top:0; width:1px; height:1px; opacity:0}
+.compare-wrap{margin-top:6px}
+.cmp-dp{margin-top:18px}
+.cmp-dp h3{font-size:16px; font-weight:900}
+.cmp-dp .cmp-prompt{font-size:14.5px; color:var(--ink-soft); margin-top:4px; max-width:62ch}
+.cmp-grid{display:grid; gap:10px; margin-top:10px}
+@media (min-width:900px){.cmp-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cmp{border:2px solid var(--line); border-radius:14px; padding:12px 14px; font-size:14px}
+.cmp.chosen{border-color:var(--sky-d); background:var(--sky-100)}
+.cmp .cmp-you{font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; color:var(--sky-d)}
+.cmp .cmp-label{font-weight:800; margin-top:4px}
+.cmp .status{margin-top:8px; font-size:13px; padding:3px 10px 3px 6px}
+.cmp ul{list-style:none; margin-top:8px; display:grid; gap:5px}
+.cmp li{position:relative; padding-left:14px}
+.cmp li::before{content:""; position:absolute; left:0; top:.6em; width:6px; height:6px; border-radius:50%; background:var(--sky)}
+.cmp .cmp-reason{margin-top:6px; color:var(--ink-soft)}
+
+/* footer */
+footer{margin:48px 0 36px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; color:var(--ink-soft); font-size:14px}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="frame">
+  <span class="chip">IndiATA</span>
+  <h1>The Art Therapy Boundary Lab</h1>
+  <p class="series">ART+SMART public-education series</p>
+  <p class="lede" id="lede"></p>
+  <details class="howto">
+    <summary><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+    <ol id="howto"></ol>
+  </details>
+</header>
+
+<section class="notes" aria-label="Status of this page">
+  <p class="placeholder"><span class="tag">Placeholder</span><span id="placeholder"></span></p>
+  <p class="disclaimer" id="disclaimer"></p>
+</section>
+
+<section class="terms" aria-labelledby="terms-h">
+  <h2 id="terms-h">Three labels, and what each one carries</h2>
+  <div class="terms-grid" id="terms"></div>
+</section>
+
+<section class="picker" aria-labelledby="picker-h">
+  <h2 id="picker-h">Choose a setting</h2>
+  <div class="tabs" id="tabs" role="group" aria-label="Scenarios"></div>
+</section>
+
+<div class="lab">
+  <div class="main" id="main"></div>
+  <aside class="side" id="side" aria-label="Commitments and controls"></aside>
+</div>
+
+<footer>
+  <span>Prepared for IndiATA • Katy Wagner, MA, ATR-P, LMHCA</span>
+  <a href="index.html">All experiences</a>
+</footer>
+
+</div>
+<textarea class="exp" id="exp" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+/* ============================================================
+   HOW TO EDIT THE CONTENT
+   All words on the page live in the data objects below (PAGE,
+   TERMS, AREAS, SCENARIOS). Change text there. Each scenario has
+   4 decision points. Each decision point has exactly 3 choices.
+   A choice holds: label, status ("held" or "exceeded"), reason
+   (one line), consequences (list), responsibilities (list),
+   commitments (list, may be empty), questions (list, may be empty).
+   The logic further down does not need to change when words do.
+   Saved progress lives in localStorage under STORE_KEY. Bump the
+   key if you change the number of scenarios or decision points.
+   ============================================================ */
+
+var STORE_KEY = 'btst-boundary-lab-v1';
+
+var PAGE = {
+  lede: 'Walk through four settings, make a call at each turn, and see what each choice commits a program to.',
+  howTo: [
+    'Pick a setting. Read the situation.',
+    'At each decision point, choose one of three options. The page shows practical consequences and the professional responsibilities the choice engages.',
+    'Each choice is marked "scope held" or "scope exceeded" with one reason. There is no score.',
+    'The commitments panel keeps track of what your choices have promised so far.',
+    'After the fourth decision, compare all paths and export a summary with questions to bring to a credentialed art therapist or your leadership.'
+  ],
+  placeholder: 'ART+SMART framework description: to be supplied by Katy.',
+  disclaimer: 'This is an educational scenario set. It is not legal or clinical advice. The scenarios are drafts for IndiATA review. Where a point depends on state law, the page says so. Nothing here replaces consultation with a credentialed art therapist, your organization’s leadership, or its legal and privacy staff.',
+  crisis: 'If a participant says anything about wanting to hurt themselves or not wanting to live, stay with them and connect them to help. In the US, the 988 Suicide & Crisis Lifeline: call or text 988. This page is not therapy.',
+  distressGuide: 'Distress in a public or group setting is met with safety, privacy, and referral. It is not processed in front of the group.'
+};
+
+var TERMS = [
+  {
+    name: 'Art therapy',
+    body: [
+      'A master’s-level mental health profession. Art therapists complete graduate training and supervised practice, and hold credentials through the Art Therapy Credentials Board. The credentials are ATR-P (provisional), ATR (registered), and ATR-BC (board certified). Many also hold a state counseling or related license.',
+      'Whether a state licenses art therapy as its own profession varies by state; confirm for Indiana.'
+    ]
+  },
+  {
+    name: 'Therapeutic art activity',
+    body: [
+      'Art-making offered for its benefit to wellbeing, led by someone working inside their own role and training. A school counselor, a chaplain, a recreation therapist, or a trained facilitator may lead one.',
+      'It does not assess, diagnose, or treat. It is not called art therapy.'
+    ]
+  },
+  {
+    name: 'Arts programming',
+    body: [
+      'Art instruction or open studio time, led by artists, teachers, librarians, or volunteers. The benefit is the materials, the skill, the company, and the structure.',
+      'A community art program led by a non-art-therapist is arts programming or therapeutic art activity. It is not art therapy, whatever it does for the people in the room.'
+    ]
+  }
+];
+
+var AREAS = {
+  facilitation: 'Facilitation',
+  scope: 'Scope',
+  accessibility: 'Accessibility',
+  boundaries: 'Boundaries',
+  distress: 'Response to distress'
+};
+
+var SCENARIOS = [
+  {
+    id: 'school',
+    name: 'After-school group',
+    where: 'Public elementary school',
+    role: 'You are the school’s art teacher.',
+    situation: 'The counselor has asked you to run a six-week after-school group for a handful of third and fourth graders she describes as “carrying a lot right now.” Several have experienced loss, family change, or foster placement. No art therapist is on staff.',
+    baseQuestions: [
+      'What is the school’s process when a child in a small group says something that may indicate risk at home?',
+      'What does the school already offer for referral, and who holds that list?'
+    ],
+    decisions: [
+      {
+        area: 'scope',
+        prompt: 'The counselor drafts the flyer. What does the group get called?',
+        choices: [
+          {
+            label: '“Art Therapy Group.”',
+            status: 'exceeded',
+            reason: 'The name claims a credentialed mental health service that no one on staff is qualified to provide.',
+            consequences: [
+              'Families may expect assessment, treatment, and clinical confidentiality.',
+              'If a child’s situation escalates, the school has implied a level of care it cannot deliver.',
+              'Your role and the counselor’s become unclear to parents.'
+            ],
+            responsibilities: [
+              'Accurate representation of services. Art therapy is a master’s-level mental health profession with ATCB credentials (ATR-P, ATR, ATR-BC).',
+              'Honest consent. Parents consent to what they think the group is.'
+            ],
+            commitments: ['You named the group “art therapy.” That name carries credential and scope expectations.'],
+            questions: ['What would it take to contract a credentialed art therapist for this group, even for consultation?']
+          },
+          {
+            label: '“After-School Art Studio.”',
+            status: 'held',
+            reason: 'The name matches what you can deliver. Skilled art instruction in a steady, predictable room.',
+            consequences: [
+              'Families understand the group as enrichment. Any emotional support comes from structure and attention, and is not promised.',
+              'Some children will still bring hard things into the room. The name does not change that.',
+              'The counselor will want a referral path for a child who needs more. Agree on it before week one.'
+            ],
+            responsibilities: [
+              'Clear scope. You teach art. You do not assess or treat.',
+              'Duty to refer. Know who in the building handles concerns and how to reach them during group time.'
+            ],
+            commitments: ['You named the group an art studio. You teach. The counselor handles clinical concerns.'],
+            questions: []
+          },
+          {
+            label: '“Therapeutic Art Group,” co-led with the counselor.',
+            status: 'held',
+            reason: 'A therapeutic art activity with the counselor inside her role and you inside yours stays within both scopes.',
+            consequences: [
+              'Parents will read “therapeutic” as support. The flyer should say what that means in plain words.',
+              'What the counselor may lead depends on her credential and the school’s rules. That varies by state; confirm for Indiana.',
+              'You and the counselor need a written split. Who leads check-in, who leads the art, who follows up with families.'
+            ],
+            responsibilities: [
+              'Role clarity between two professionals.',
+              'The counselor’s scope covers emotional support. Yours covers the art.'
+            ],
+            commitments: ['You called the group “therapeutic.” Families will expect support, and the counselor is accountable for it.'],
+            questions: ['Does the counselor’s credential allow her to lead a small support group in this building? Varies by state; confirm for Indiana.']
+          }
+        ]
+      },
+      {
+        area: 'facilitation',
+        prompt: 'Who leads week one, and with what preparation?',
+        choices: [
+          {
+            label: 'You lead alone. The counselor is on call in the building.',
+            status: 'held',
+            reason: 'A teacher leading an art studio is within scope. Being the only adult with this group needs a plan.',
+            consequences: [
+              'If a child becomes upset, you are the only adult. You need a way to step one child aside without leaving the others.',
+              'The counselor on call must actually be reachable during group hours. Test it.',
+              'Your art teaching carries the group. Your capacity to respond to a disclosure depends on preparation you have not been given.'
+            ],
+            responsibilities: [
+              'Supervision ratio and safety planning.',
+              'Knowing the limits of your training before a child tests them.'
+            ],
+            commitments: ['You lead alone. A reachable on-call adult is now a condition of the group running.'],
+            questions: ['Who covers if the counselor is pulled into a crisis elsewhere in the building?']
+          },
+          {
+            label: 'The counselor co-leads every session.',
+            status: 'held',
+            reason: 'Two adults, two scopes, each staying in their own. This is the most protective structure available in-house.',
+            consequences: [
+              'Six weeks of the counselor’s time is a real cost to the building.',
+              'Children may bring disclosures to the counselor during art. She is set up to receive them.',
+              'You keep teaching while she steps a child aside.'
+            ],
+            responsibilities: [
+              'Role clarity. Decide in advance who speaks when a child shares something hard.'
+            ],
+            commitments: ['You committed the counselor’s time for six weeks. If she drops out, the structure changes.'],
+            questions: []
+          },
+          {
+            label: 'A parent volunteer who “has done a lot of art therapy as a client” co-leads.',
+            status: 'exceeded',
+            reason: 'Experience as a client is not training to lead. A parent in this role raises confidentiality, dual-role, and screening concerns.',
+            consequences: [
+              'A parent of one child now sees other children’s work and hears what they say.',
+              'The volunteer may offer meaning to children’s images from her own experience. No one in this room should.',
+              'If something goes wrong, the school’s liability questions start with how this person was vetted.'
+            ],
+            responsibilities: [
+              'Confidentiality for minors.',
+              'Background checks and the school’s volunteer policy.',
+              'Dual roles. Parent and facilitator in one person.'
+            ],
+            commitments: ['You placed a parent in a facilitator role. Every other family’s privacy now runs through her.'],
+            questions: ['What does the school’s volunteer policy require for anyone working with a small group of children?']
+          }
+        ]
+      },
+      {
+        area: 'boundaries',
+        prompt: 'Week three. A child draws a house with a figure outside in the rain and writes “my other mom.” The counselor is not in the room. Later, the principal asks to hang all the drawings in the main hallway.',
+        choices: [
+          {
+            label: 'Ask the child what the drawing is about, listen, and write down what they said. Keep the drawing in the group folder. Tell the principal this group’s work stays private.',
+            status: 'held',
+            reason: 'The child keeps authorship of meaning. The work stays inside the group.',
+            consequences: [
+              'If the child says something that suggests harm, you follow the school’s reporting process. Who must report and how varies by state; confirm for Indiana.',
+              'The principal may push back on the display. Your reason is that a small group of children were invited to make personal work, and a hallway changes what the room was.',
+              'For an adopted or fostered child, a second mother is a fact of their life. It is not a problem for you to solve or a sign for you to read.'
+            ],
+            responsibilities: [
+              'Non-interpretation. You ask. You do not decide what an image means.',
+              'Privacy of minors’ work made in a support context.',
+              'The school’s reporting process for concerns.'
+            ],
+            commitments: ['You committed to keeping group work private. The principal needs to hear that from you.'],
+            questions: []
+          },
+          {
+            label: 'Read the drawing as distress about the child’s birth mother. Tell the counselor the child is “struggling with adoption.”',
+            status: 'exceeded',
+            reason: 'Interpreting a child’s image and assigning it a clinical meaning is outside an art teacher’s role. Art therapists do not do it either.',
+            consequences: [
+              'The counselor now has a conclusion instead of an observation. If she acts on it, the child is being treated based on your guess.',
+              'The child’s actual meaning stays unasked.',
+              'Rain, a house, and a figure outside have no fixed meaning. Children draw weather.'
+            ],
+            responsibilities: [
+              'Report observations in plain terms. “The child drew a figure outside a house in rain and wrote my other mom” is a fact. “Struggling” is a guess.'
+            ],
+            commitments: ['You assigned meaning to a child’s image. The counselor’s file now holds your interpretation as if it were the child’s.'],
+            questions: []
+          },
+          {
+            label: 'Hang the drawings. The principal wants to celebrate the group, and the children seem proud.',
+            status: 'exceeded',
+            reason: 'Personal work made in a small, trusted group was not made for a hallway.',
+            consequences: [
+              'Peers and staff now see a drawing labeled “my other mom.” The child did not choose that audience.',
+              'The other children learn that what they make here can be shown anywhere.',
+              'Families were not asked.'
+            ],
+            responsibilities: [
+              'Consent for display. Children and parents decide. The invitation to make personal work carries a promise about where it goes.'
+            ],
+            commitments: ['You displayed group work publicly. Future groups will know this is possible.'],
+            questions: ['What is the school’s process for displaying student work made in a support setting?']
+          }
+        ]
+      },
+      {
+        area: 'distress',
+        prompt: 'Week five. A child starts crying hard while painting and says they do not want to go home.',
+        choices: [
+          {
+            label: 'Step the child to the side table with you, keep your voice low, keep the group working, and send a trusted student to the office with a note asking for the counselor.',
+            status: 'held',
+            reason: 'Safety and privacy first, then the right person. The group stays a group.',
+            consequences: [
+              'The counselor takes over the conversation. You return to the group.',
+              '“Does not want to go home” may be a reporting matter. The counselor and the school’s process decide that. You do not decide it alone.',
+              'The other children saw a classmate cry. A plain word from you later is enough. “Sam needed a quiet minute, and that is okay here.”'
+            ],
+            responsibilities: [
+              'Immediate safety.',
+              'Minimum necessary disclosure. The note says “counselor needed in the art room,” and nothing about why.',
+              'The school’s reporting process.'
+            ],
+            commitments: ['You committed to a quiet step-aside response. The room needs a side table and a way to reach the office without leaving.'],
+            questions: []
+          },
+          {
+            label: 'Pause the group, bring everyone into a circle, and invite the child to share what the painting brought up.',
+            status: 'exceeded',
+            reason: 'Processing a child’s distress in front of peers is a therapy-group technique. This is not a therapy group, and no one here is trained to hold it.',
+            consequences: [
+              'The child may say more than they meant to, to an audience of eight-year-olds.',
+              'The other children now hold information they cannot carry.',
+              'You have taken on a facilitation role that belongs to a clinician.'
+            ],
+            responsibilities: [
+              'Privacy of a distressed child.',
+              'Scope of facilitation.'
+            ],
+            commitments: ['You processed distress in a group. Children in the group now hold each other’s disclosures.'],
+            questions: ['If a child says they do not want to go home, what is the school’s exact process, and who starts it?']
+          },
+          {
+            label: 'Tell the child it is okay, that painting helps us feel better, and keep the group moving.',
+            status: 'exceeded',
+            reason: 'A child saying they do not want to go home needs follow-up. Reassurance about painting does not answer what the child said.',
+            consequences: [
+              'The statement goes unreported.',
+              'The child learns the room cannot hold what they said.',
+              'If there is a safety concern at home, a window closed.'
+            ],
+            responsibilities: [
+              'Follow-up on a statement that could indicate risk. The reporting process varies by state; confirm for Indiana.'
+            ],
+            commitments: ['You chose to keep the group moving over following up. The child’s statement has no next step.'],
+            questions: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'library',
+    name: 'Drop-in open studio',
+    where: 'Public library branch',
+    role: 'You are the branch programming librarian.',
+    situation: 'You run a monthly drop-in Open Studio for adults in the community room. Twenty to thirty people come. Some are regulars. Some come once. A few have told you quietly that the hour is “the only thing keeping them going.” The branch manager wants the program to grow.',
+    baseQuestions: [
+      'What does the library’s existing policy say about photographing patrons and displaying their work?',
+      'Who at IndiATA or locally can help the library keep a short, current referral list?'
+    ],
+    decisions: [
+      {
+        area: 'accessibility',
+        prompt: 'You are restocking for next month. What goes on the tables, and what is the invitation?',
+        choices: [
+          {
+            label: 'Watercolor, wet clay, and a prompt to “paint what you are feeling.”',
+            status: 'exceeded',
+            reason: 'Fluid media and a feelings prompt in an open public room invite more than a drop-in can hold.',
+            consequences: [
+              'Art therapists describe media along a range from resistive (pencil, collage) to fluid (watercolor, wet clay). Fluid media tend to loosen control and feeling. That is useful in a clinical room with a trained person. In a public room with thirty people, it is a risk you did not plan for.',
+              'Wet clay needs water access, cleanup time, and hand strength. It excludes some bodies.',
+              'A feelings prompt turns an open studio into something closer to a process group.'
+            ],
+            responsibilities: [
+              'Matching the invitation to the setting.',
+              'Physical access and sensory load.'
+            ],
+            commitments: ['You set up a feelings-focused studio with fluid media. People will arrive expecting emotional work.'],
+            questions: []
+          },
+          {
+            label: 'Collage, oil pastels, pencil, and an open table. A short, concrete invitation each month, like “a place you return to.” Scent-free supplies, a quiet corner, large-print instructions in Spanish and English.',
+            status: 'held',
+            reason: 'Resistive, low-mess media and an open invitation suit a public room. Access is built in.',
+            consequences: [
+              'Collage and pencil let people control how much they reveal.',
+              'A quiet corner costs table space. It also keeps sound-sensitive people in the room.',
+              'Translated instructions only help if someone can also answer questions. Decide who.',
+              '“A place you return to” is open and concrete. It does not ask for feelings and does not forbid them.'
+            ],
+            responsibilities: [
+              'Access across sensory, physical, and language needs.',
+              'Open-ended invitations that do not direct emotional content.'
+            ],
+            commitments: ['You committed to access features. Scent-free supplies, a quiet corner, and two languages are now part of what people expect.'],
+            questions: []
+          },
+          {
+            label: 'Whatever is in the closet. People can figure it out.',
+            status: 'held',
+            reason: 'An unplanned supply table stays within arts programming. It leaves access to chance.',
+            consequences: [
+              'People with limited hand strength, scent sensitivity, or low vision find out at the door whether this is for them.',
+              'Regulars adapt. New people may not come back.',
+              'You cannot describe the program accurately in the newsletter.'
+            ],
+            responsibilities: [
+              'Access as a planning task.'
+            ],
+            commitments: ['You left access unplanned. Who can participate is decided by the closet.'],
+            questions: ['What access features does the library already provide for other programs that this one could borrow?']
+          }
+        ]
+      },
+      {
+        area: 'boundaries',
+        prompt: 'The branch manager asks for photos of people and their work for the library’s social media.',
+        choices: [
+          {
+            label: 'Photograph tables and materials. No faces and no finished work unless the maker signs a release that month and chooses the piece.',
+            status: 'held',
+            reason: 'Consent per piece, per person, per use. The default is no.',
+            consequences: [
+              'Fewer usable photos. The manager may push for “just one with people in it.”',
+              'A regular who has come for a year may not want their presence at this program known. Being seen at a program can carry meaning for someone’s family or workplace.',
+              'Makers keep the right to say no to the library using their image or work, each time.'
+            ],
+            responsibilities: [
+              'Informed, specific consent for images of people and their work.',
+              'Privacy of attendance.'
+            ],
+            commitments: ['You committed to per-piece, per-person consent. The library’s social media gets tables and materials by default.'],
+            questions: []
+          },
+          {
+            label: 'Post a sign saying attendance means consent to photos, then shoot freely.',
+            status: 'exceeded',
+            reason: 'Passive consent for images of people’s personal art, in a program some attend for support, is not informed consent.',
+            consequences: [
+              'Someone’s artwork, with their face, may reach people they did not choose.',
+              'The regular who said this is “the only thing keeping them going” may stop coming.',
+              'The library’s policy on photographing patrons may already forbid this. Check.'
+            ],
+            responsibilities: [
+              'Patron privacy.',
+              'Consent that a person can refuse.'
+            ],
+            commitments: ['You made attendance imply consent. People now choose between the program and their privacy.'],
+            questions: ['What does the library’s existing patron photo policy actually say?']
+          },
+          {
+            label: 'Ask the room at the start of the session whether anyone minds.',
+            status: 'exceeded',
+            reason: 'Asking in front of the room makes saying no a public act. Consent under social pressure is not consent.',
+            consequences: [
+              'The person who minds most is the least likely to say so in front of twenty people.',
+              'New people do not know they can refuse.'
+            ],
+            responsibilities: [
+              'Consent that can be refused privately.'
+            ],
+            commitments: ['You set consent up as a group question. Refusal is now visible to the room.'],
+            questions: []
+          }
+        ]
+      },
+      {
+        area: 'scope',
+        prompt: 'A regular stays after and says, “My husband died in March. Is this art therapy? Can you help me with the grief part?”',
+        choices: [
+          {
+            label: 'Say it plainly. “This is an open studio. It is not art therapy, and I am a librarian. I am glad you come. I can give you a list of grief support and art therapists nearby, and you are welcome here every month.”',
+            status: 'held',
+            reason: 'Accurate, warm, and bounded. The person gets a true answer and a next step.',
+            consequences: [
+              'You need a current referral list. Build it with IndiATA or a local provider before someone asks.',
+              'The person may feel let down for a moment. They also now know what the room is, which lets them keep using it.',
+              'You stay in your role. The hour stays available to them.'
+            ],
+            responsibilities: [
+              'Accurate representation. Open studio is arts programming.',
+              'Referral readiness.'
+            ],
+            commitments: ['You committed to a referral list. It needs to exist and be current.'],
+            questions: ['Who at IndiATA or locally can help the library build a short, current referral list?']
+          },
+          {
+            label: 'Say yes. You have read about art and grief, and the studio is clearly helping her.',
+            status: 'exceeded',
+            reason: 'A librarian agreeing to help with grief has agreed to provide a mental health service.',
+            consequences: [
+              'The person now expects something you cannot give. When it falls short, they lose both the help and the studio.',
+              'If their grief includes thoughts of not wanting to live, you have no training, no structure, and no backup.',
+              'The library may be exposed if someone relies on a service it did not offer.'
+            ],
+            responsibilities: [
+              'Scope. Reading about something is not training in it.'
+            ],
+            commitments: ['You agreed to help with grief. A patron now sees you as a grief helper.'],
+            questions: []
+          },
+          {
+            label: 'Offer to start a separate “grief art group” at the library next month, led by you.',
+            status: 'exceeded',
+            reason: 'A grief group is a clinical format. Naming one, even without the word therapy, promises more than a library program can hold.',
+            consequences: [
+              'People come with acute loss. Someone has to be qualified to respond when the room goes somewhere hard.',
+              'Grief support groups run by trained facilitators exist in many communities. The library could host one of those instead.',
+              'The library’s name goes on it.'
+            ],
+            responsibilities: [
+              'Program design within staff training.',
+              'Partnering with qualified providers instead of substituting for them.'
+            ],
+            commitments: ['You committed to a grief group. Who leads it is now the first question, and it should not be you alone.'],
+            questions: ['Could the library host a group led by a credentialed art therapist or a grief organization, with the library providing the room?']
+          }
+        ]
+      },
+      {
+        area: 'distress',
+        prompt: 'During open studio, a man tears up his collage, says “none of this matters,” and sits with his head down. The room goes quiet.',
+        choices: [
+          {
+            label: 'Move near him, say quietly that you are here, and offer the hallway or the small study room. Ask a coworker to stay with the room. Ask him directly if he is safe.',
+            status: 'held',
+            reason: 'Privacy, presence, and a direct safety question, with the room covered.',
+            consequences: [
+              '“None of this matters” may be frustration with the collage. It may be more. You ask instead of guessing.',
+              'If he says he is thinking about ending his life, you stay with him and connect him to help. Library policy may also require a call to security or emergency services. Know which.',
+              'The room will settle if you are calm. A coworker holding the room matters.'
+            ],
+            responsibilities: [
+              'Immediate safety.',
+              'Privacy in a public space.',
+              'Knowing your building’s emergency process before you need it.'
+            ],
+            commitments: ['You committed to a step-aside response. The library needs a second staff person available during studio.'],
+            questions: []
+          },
+          {
+            label: 'Say to the room, “Let’s all take a breath. Does anyone want to say what came up for them today?”',
+            status: 'exceeded',
+            reason: 'Turning a public room into a processing circle makes his distress the group’s material.',
+            consequences: [
+              'He did not ask to be the center of the room.',
+              'Others may share things they would not have, because the moment invited it.',
+              'You are now running something no one in the room signed up for.'
+            ],
+            responsibilities: [
+              'Privacy of a distressed person.',
+              'Scope of facilitation.'
+            ],
+            commitments: ['You processed distress with the room. People may expect this hour to work that way now.'],
+            questions: []
+          },
+          {
+            label: 'Give him space and say nothing. Keep the music on. He is an adult.',
+            status: 'exceeded',
+            reason: 'A statement like “none of this matters,” said in front of you, is a moment to check in. Silence is a choice with consequences.',
+            consequences: [
+              'If he is safe, a quiet check-in costs little.',
+              'If he is not, you missed the one plain question that could have changed what happens next.',
+              'The room noticed. They are watching what you do.'
+            ],
+            responsibilities: [
+              'Duty of care in a staffed program.'
+            ],
+            commitments: ['You chose not to check in. The program has no distress response.'],
+            questions: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'hospital',
+    name: 'Bedside art cart',
+    where: 'Medical unit, regional hospital',
+    role: 'You coordinate volunteer services.',
+    situation: 'Nursing leadership wants a bedside art cart on the oncology unit, staffed by volunteers and offered to patients and families. A grant funder has asked for a program description and outcomes. No art therapist is employed here.',
+    baseQuestions: [
+      'What does the hospital’s privacy office say about patient artwork, named or unnamed, in shared spaces?',
+      'What is the unit’s process for a volunteer to pass on something a patient said?'
+    ],
+    decisions: [
+      {
+        area: 'facilitation',
+        prompt: 'Who staffs the cart, and what preparation do they get?',
+        choices: [
+          {
+            label: 'Volunteers with standard orientation plus a two-hour session you design. Offering without pushing, no interpreting, what to do if a patient becomes upset, when to call the nurse. A credentialed art therapist reviews the session.',
+            status: 'held',
+            reason: 'Volunteer-led bedside art is arts programming when volunteers know their limits. Outside review keeps the limits accurate.',
+            consequences: [
+              'Two hours is not clinical training. It is enough to know what not to do and who to call.',
+              'The art therapist’s review is a consultation. Decide how it is paid for and whether it continues.',
+              'Volunteers who want to “help patients process” will need the limit stated more than once.'
+            ],
+            responsibilities: [
+              'Volunteer scope and supervision.',
+              'Infection control and the unit’s materials policy.'
+            ],
+            commitments: ['You committed to a trained volunteer model with outside review. The review needs a name and a budget.'],
+            questions: ['Which credentialed art therapist could review the volunteer session, and what would that cost?']
+          },
+          {
+            label: 'Volunteers with standard orientation only. It is just art supplies.',
+            status: 'held',
+            reason: 'Handing out supplies is arts programming. The preparation is thin for a unit where people face serious illness.',
+            consequences: [
+              'A volunteer sitting with a patient who starts to cry has no plan.',
+              'Volunteers may fill the gap with their own ideas about what a patient’s drawing means.',
+              'The funder will ask what training volunteers received.'
+            ],
+            responsibilities: [
+              'Preparation proportional to the setting.'
+            ],
+            commitments: ['You committed to minimal preparation. The program’s distress response depends on each volunteer’s instincts.'],
+            questions: []
+          },
+          {
+            label: 'Call them “art therapy volunteers” and have them document “sessions” in patient notes.',
+            status: 'exceeded',
+            reason: 'The title claims a credential. Charting makes it part of the clinical record.',
+            consequences: [
+              'A chart note that says “art therapy session” implies a licensed service. Clinical, billing, and compliance teams will ask who provided it.',
+              'Volunteers writing in clinical notes raises training and privacy questions the compliance office will have views on.',
+              'If a patient later asks for their art therapy records, there are none.'
+            ],
+            responsibilities: [
+              'Accurate titles. Art therapists hold ATCB credentials (ATR-P, ATR, ATR-BC). Many also hold a state license. Which license varies by state; confirm for Indiana.',
+              'Clinical documentation rules.'
+            ],
+            commitments: ['You titled volunteers “art therapy volunteers.” The hospital’s records now imply a credentialed service.'],
+            questions: ['What does the hospital’s compliance office say about volunteer entries in patient records?']
+          }
+        ]
+      },
+      {
+        area: 'scope',
+        prompt: 'The funder’s form asks for the program name and “measurable outcomes.”',
+        choices: [
+          {
+            label: '“Bedside Art Cart, arts programming for patients and families.” Outcomes reported are visit counts, materials used, and patient and family feedback on the experience. No clinical outcomes claimed.',
+            status: 'held',
+            reason: 'Honest name, honest measures.',
+            consequences: [
+              'The funder may want clinical-sounding results. You can describe what the program is, offer feedback data, and decline to claim what you did not measure.',
+              'Feedback forms from hospital patients need privacy review before use.'
+            ],
+            responsibilities: [
+              'Accurate representation in grant materials.'
+            ],
+            commitments: ['You committed to feedback and count data only. Any later clinical claim would need a different program.'],
+            questions: []
+          },
+          {
+            label: '“Art Therapy at the Bedside.” Outcomes are reduced anxiety and pain, measured by volunteers asking patients to rate both before and after.',
+            status: 'exceeded',
+            reason: 'The name claims a profession. The measures claim a clinical effect from an untrained group collecting data on patients.',
+            consequences: [
+              'Volunteers collecting symptom ratings from patients is research or quality measurement. Either needs institutional review.',
+              'If the grant is funded on this description, the hospital is accountable for delivering art therapy.',
+              'A future art therapist hired here inherits a program that already used the title.'
+            ],
+            responsibilities: [
+              'Research and quality-measurement oversight.',
+              'Accurate claims. Art therapy has its own evidence base. This program is not art therapy, and its results are not that evidence.'
+            ],
+            commitments: ['You named the cart “art therapy” and promised clinical outcomes to a funder.'],
+            questions: []
+          },
+          {
+            label: '“Creative Care Program.” Outcomes are “improved patient wellbeing and emotional healing.”',
+            status: 'exceeded',
+            reason: 'The name avoids “therapy.” The outcomes claim it anyway.',
+            consequences: [
+              '“Emotional healing” is a clinical claim with no measure behind it.',
+              'Vague outcomes are hard to report on. The funder’s next question will be how you know.',
+              '“Creative Care” may be fine. The outcomes line is what overreaches.'
+            ],
+            responsibilities: [
+              'Not overclaiming.'
+            ],
+            commitments: ['You promised “emotional healing” to a funder. Someone will have to report on it.'],
+            questions: ['What outcomes can the program honestly report, and would the funder accept them?']
+          }
+        ]
+      },
+      {
+        area: 'boundaries',
+        prompt: 'A nurse who paints on weekends wants to run the cart on her own unit during breaks. A patient’s family asks to hang their father’s drawings at the nurses’ station.',
+        choices: [
+          {
+            label: 'The nurse may volunteer on a different unit, off shift, under the volunteer program. Drawings may hang in the patient’s own room if the patient wants. The nurses’ station is a clinical workspace that other families pass.',
+            status: 'held',
+            reason: 'Dual roles are separated by unit and time. Display stays with the patient’s choice and the patient’s space.',
+            consequences: [
+              'The nurse may find this restrictive. Her clinical role and the cart role carry different relationships with a patient. Mixing them on one unit confuses both.',
+              'The family may be disappointed. Offer the room, and a photo they can take home.',
+              'If the patient is not able to decide, the family’s wish is not the same as the patient’s consent.'
+            ],
+            responsibilities: [
+              'Dual relationships. A clinician who is also the art volunteer for her own patients holds two roles with one person.',
+              'Patient privacy. Artwork with a name, in a hallway, is identifiable.'
+            ],
+            commitments: ['You committed to separating clinical and volunteer roles by unit. The volunteer schedule now reflects it.'],
+            questions: ['What does the hospital’s privacy office say about displaying patient artwork, named or unnamed, in shared spaces?']
+          },
+          {
+            label: 'Let the nurse run it on her unit. She knows the patients. Hang the drawings at the station with the father’s name.',
+            status: 'exceeded',
+            reason: 'A nurse delivering art to patients she also treats collapses two roles. Named patient art in a shared space is identifiable health-related information.',
+            consequences: [
+              'A patient may make art for the nurse they depend on for care, rather than for themselves.',
+              'Other families see a named patient’s drawings. That may fall under hospital privacy rules. Confirm with the privacy office.',
+              'When the nurse is off, the cart stops.'
+            ],
+            responsibilities: [
+              'Dual relationships.',
+              'Privacy in shared clinical spaces.'
+            ],
+            commitments: ['You placed a clinician in a dual role and displayed named patient work publicly.'],
+            questions: []
+          },
+          {
+            label: 'No display anywhere. The nurse cannot be involved at all.',
+            status: 'held',
+            reason: 'This stays within scope. It gives up choices patients could have made.',
+            consequences: [
+              'A patient who wants their work on their own door is told no. Their room, their choice, was available.',
+              'The nurse’s skill is lost to the program. A different unit was an option.',
+              'Blanket rules are easy to enforce. They sometimes cost people something.'
+            ],
+            responsibilities: [
+              'Patient choice.'
+            ],
+            commitments: ['You committed to no display and no clinical staff involvement. Simpler to run, fewer choices for patients.'],
+            questions: []
+          }
+        ]
+      },
+      {
+        area: 'distress',
+        prompt: 'A patient painting with a volunteer stops, cries, and says she is afraid she will not see her daughter’s wedding. Her sister is in the room.',
+        choices: [
+          {
+            label: 'The volunteer stays, says “I’m here,” does not fill the silence, and asks if she would like the nurse or the chaplain. Afterward the volunteer tells the nurse what was said, in the patient’s words.',
+            status: 'held',
+            reason: 'Presence without processing. The patient’s fear is received, and the care team is told plainly.',
+            consequences: [
+              'The volunteer needs to have practiced this. Silence is hard.',
+              '“Afraid she will not see her daughter’s wedding” is information for the care team, chaplain, or social work. The volunteer passes it on as a quote.',
+              'The sister heard it too. The volunteer does not manage the sister’s response.'
+            ],
+            responsibilities: [
+              'Staying within the volunteer role while escalating.',
+              'Reporting observations in the patient’s words.',
+              'On a hospital unit, the nurse call comes first for any safety concern.'
+            ],
+            commitments: ['You committed to a volunteer response of presence and handoff. Volunteers need to rehearse it.'],
+            questions: []
+          },
+          {
+            label: 'The volunteer asks her to paint the wedding she hopes for, so she can hold onto hope.',
+            status: 'exceeded',
+            reason: 'A directive to make an image about the fear is a therapeutic intervention. It is not the volunteer’s to give.',
+            consequences: [
+              'The patient may feel pushed to perform hope for the volunteer.',
+              'An art therapist might or might not use an image like this, with assessment, timing, and follow-through the volunteer cannot provide.',
+              'The sister is now watching her sibling be directed through her fear.'
+            ],
+            responsibilities: [
+              'No therapeutic directives from untrained volunteers.',
+              'Non-interpretation. The volunteer has decided what the fear means and what it needs.'
+            ],
+            commitments: ['You set up volunteers as people who give emotional directives.'],
+            questions: []
+          },
+          {
+            label: 'The volunteer says “I’m sure you will,” packs up, and tells no one.',
+            status: 'exceeded',
+            reason: 'Reassurance the volunteer cannot back up, and a disclosure that goes nowhere.',
+            consequences: [
+              'The care team does not learn what the patient said.',
+              'The patient learns that saying her fear made the volunteer leave.',
+              'The volunteer carries it alone.'
+            ],
+            responsibilities: [
+              'Handoff to the care team.',
+              'Volunteer support. Volunteers who hear hard things need somewhere to put them.'
+            ],
+            commitments: ['You committed to no handoff. The care team learns nothing from the cart.'],
+            questions: ['What is the unit’s process for a volunteer to pass on something a patient said?']
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'community',
+    name: 'Family art night',
+    where: 'Neighborhood community center',
+    role: 'You direct programs at the center.',
+    situation: 'A foster and adoption support network has asked you to host a monthly Family Art Night. Families formed through adoption, foster care, and kinship care will come, along with neighbors. You serve on the network’s board and know several of the families.',
+    baseQuestions: [
+      'Could the network bring in a credentialed art therapist to advise on prompts and distress response for this group?',
+      'How will you hold your board role and your host role with the same families?'
+    ],
+    decisions: [
+      {
+        area: 'scope',
+        prompt: 'The network’s volunteer writes the flyer. “Heal together through art. A safe space to process your family’s trauma.” What goes to print?',
+        choices: [
+          {
+            label: '“Family Art Night. Make things together. Materials provided, all ages, no experience needed.” Plus one line naming the host and one line on where families can find support services.',
+            status: 'held',
+            reason: 'The flyer describes what will happen. It makes no clinical promise.',
+            consequences: [
+              'The network volunteer may feel the flyer is “too plain.” Plain is accurate.',
+              'Families arriving for art night get art night. Some will still have hard moments. The program does not promise to resolve them.',
+              'The support-services line needs a real list behind it. Build it with the network.'
+            ],
+            responsibilities: [
+              'Accurate representation.',
+              'A referral path.'
+            ],
+            commitments: ['You committed to a plain flyer and a referral line. The list behind it has to exist.'],
+            questions: []
+          },
+          {
+            label: 'Print it as written. The network knows these families.',
+            status: 'exceeded',
+            reason: '“Process your family’s trauma” is a clinical promise. No one leading the night is credentialed to keep it.',
+            consequences: [
+              'Parents may arrive expecting a treatment setting. Children may be told this is where they will “work on things.”',
+              '“Heal together” assumes every family wants healing in a shared room. Some adoptees want to make art without being a project.',
+              'The center’s name is on a clinical claim.'
+            ],
+            responsibilities: [
+              'Accurate representation. “Trauma” and “process” describe clinical work.',
+              'Not assuming what families need.'
+            ],
+            commitments: ['You printed a clinical promise. Families will arrive expecting trauma work.'],
+            questions: ['Who at the network could partner with a credentialed art therapist if families want clinical support?']
+          },
+          {
+            label: '“Therapeutic Family Art Night. Led by a trauma-informed facilitator.”',
+            status: 'exceeded',
+            reason: '“Trauma-informed” describes a stance. It is not a credential, and on a flyer next to “therapeutic” it reads as one.',
+            consequences: [
+              'Families will ask what training “trauma-informed” means here. Have a true answer.',
+              'The word “therapeutic” raises expectations for support the facilitator’s role does not include.',
+              'If the facilitator has taken a workshop, say that. If they have more, say what.'
+            ],
+            responsibilities: [
+              'Clear description of facilitator training.'
+            ],
+            commitments: ['You advertised a trauma-informed facilitator. The training behind that phrase needs to be stated.'],
+            questions: []
+          }
+        ]
+      },
+      {
+        area: 'accessibility',
+        prompt: 'Several families speak Spanish at home. One child uses a wheelchair. Two parents have said their children “cannot handle loud rooms.”',
+        choices: [
+          {
+            label: 'Spanish and English on every sign and instruction, one bilingual volunteer per night. Tables at wheelchair height with clear floor paths. A lower-light, lower-sound side room with the same materials. Scent-free supplies.',
+            status: 'held',
+            reason: 'Access planned ahead, across language, mobility, and sensory load.',
+            consequences: [
+              'A side room means a second adult. Staff it.',
+              'A bilingual volunteer is not an interpreter for a hard conversation. If something sensitive comes up, know what you will do.',
+              'Wheelchair-height tables may mean borrowing or buying. Budget it.'
+            ],
+            responsibilities: [
+              'Physical, sensory, and language access as program design.'
+            ],
+            commitments: ['You committed to two rooms, bilingual materials, and accessible tables. Each has a cost and a person attached.'],
+            questions: ['Which access features can the center fund this year, and which need a partner?']
+          },
+          {
+            label: 'English materials. Bilingual families can help each other. The child in a wheelchair can use the end of a table.',
+            status: 'held',
+            reason: 'Within arts programming. Access is pushed onto the people who need it.',
+            consequences: [
+              'Families who translate for each other are working during a night they came to for their own family.',
+              'The end of a table is a workaround. It says the room was not planned for this child.',
+              'Parents of sound-sensitive children may stop coming without saying why.'
+            ],
+            responsibilities: [
+              'Access as the host’s work rather than the participant’s.'
+            ],
+            commitments: ['You left language and sensory access to participants. Attendance will reflect it.'],
+            questions: []
+          },
+          {
+            label: 'A separate sensory-friendly night for “special needs families.”',
+            status: 'held',
+            reason: 'Within arts programming. Separating families by access need splits the community the night was for.',
+            consequences: [
+              'Families with mixed needs have to choose which night fits which child.',
+              '“Special needs” labels the family instead of the room.',
+              'One night with a quieter side room serves the same families without sorting them.'
+            ],
+            responsibilities: [
+              'Inclusion as design. Access features inside one program before a separate program.'
+            ],
+            commitments: ['You committed to two separate nights. Families are now sorted by access need.'],
+            questions: []
+          }
+        ]
+      },
+      {
+        area: 'boundaries',
+        prompt: 'A network volunteer suggests the prompt “Draw your family.” Separately, a parent you know from the board pulls you aside and asks what their child made last month and “what it means.”',
+        choices: [
+          {
+            label: 'Change the prompt to something open, like “a place you know well” or “something you would pack for a trip.” Tell the parent you do not keep or interpret children’s work, and that their child can show them if they want to.',
+            status: 'held',
+            reason: 'An open prompt lets each person decide what to bring. The child keeps their work and its meaning.',
+            consequences: [
+              '“Draw your family” asks an adopted or fostered child to make a public decision about who counts. Some will draw two families, some one, some none. At a shared table, every version is visible. An open prompt removes the forced choice.',
+              'The parent may be hurt that you will not tell them. You are their neighbor and board colleague. Say it kindly and say it once.',
+              'You hold a dual role with this family. Naming it to yourself helps you hold the line.'
+            ],
+            responsibilities: [
+              'Non-interpretation. No one in the room assigns meaning to a child’s image.',
+              'Dual roles. Board member, neighbor, program host.',
+              'Children’s ownership of their work.'
+            ],
+            commitments: ['You committed to open prompts and no interpretation. Parents will hear this from you more than once.'],
+            questions: []
+          },
+          {
+            label: 'Keep “Draw your family.” It is a classic. Tell the parent what you noticed in the child’s drawing and what you think it suggests.',
+            status: 'exceeded',
+            reason: 'A directive family prompt in a room of adoptive and foster families, then an interpretation delivered to a parent, is clinical work done without training or consent.',
+            consequences: [
+              'A child who drew a birth parent may have that fact relayed home as a concern.',
+              'A child who left someone out may be asked why.',
+              'Your read becomes the parent’s story about their child.'
+            ],
+            responsibilities: [
+              'Non-interpretation.',
+              'Privacy between child and parent in a program setting.',
+              'Adoption-informed practice. Family prompts carry loyalty, grief, and identity weight for adoptees. Drawing one family can feel like erasing another.'
+            ],
+            commitments: ['You interpreted a child’s work for a parent. The parent now holds your reading as fact.'],
+            questions: ['Could the network bring in a credentialed art therapist to advise on prompts for this group?']
+          },
+          {
+            label: 'Keep “Draw your family” and tell families they can draw anyone they consider family. Decline to interpret.',
+            status: 'held',
+            reason: 'The prompt is softened and the interpretation line holds. The prompt still points at family in a public room.',
+            consequences: [
+              '“Anyone you consider family” is kinder than the original. It still asks for a decision in front of others.',
+              'Some children will relax into it. Some will freeze. You will not know which until it happens.',
+              'Declining to interpret is the right call and may need repeating with this parent.'
+            ],
+            responsibilities: [
+              'Non-interpretation.',
+              'Awareness of what a prompt asks of a child.'
+            ],
+            commitments: ['You kept a family-focused prompt with an open definition. Watch how children respond and be ready to swap it.'],
+            questions: []
+          }
+        ]
+      },
+      {
+        area: 'distress',
+        prompt: 'A child cries at the table and says, “I don’t want to draw my old house.” Their adoptive parent, across the room, has not noticed. Other families are watching.',
+        choices: [
+          {
+            label: 'Crouch to the child’s level, say they do not have to draw anything, and offer to walk with them to their parent or to the quiet room. Let the parent take it from there. Do not ask about the old house.',
+            status: 'held',
+            reason: 'The child gets choice, privacy, and their parent. No one asks the child to explain.',
+            consequences: [
+              'The child’s “old house” is their story. It can mean many things and belongs to them.',
+              'The parent may want to talk with you afterward. The referral list from the flyer is what you offer.',
+              'The families watching see a calm, private response. That is what the room learns.'
+            ],
+            responsibilities: [
+              'The child’s choice over participation.',
+              'Privacy.',
+              'The parent as first responder for their own child in a family program.'
+            ],
+            commitments: ['You committed to a child-choice, parent-first response. The quiet room needs to be ready every night.'],
+            questions: []
+          },
+          {
+            label: 'Sit with the child and gently ask what the old house was like, so they can get it out.',
+            status: 'exceeded',
+            reason: 'Inviting a child to narrate a hard memory at a public table is processing. It is not the host’s to do.',
+            consequences: [
+              'The child may tell you about a placement, a birth home, or something harder, in front of other families.',
+              '“Getting it out” is a theory of what helps. It is not always what helps, and it is not yours to decide.',
+              'The parent was not consulted.'
+            ],
+            responsibilities: [
+              'No processing in public.',
+              'The parent’s role.',
+              'Adoption-informed practice. Memories of former homes can carry grief, loyalty, and unknowns. They are not a prompt to work through on a Tuesday night.'
+            ],
+            commitments: ['You processed a child’s memory at a public table. Other families watched.'],
+            questions: []
+          },
+          {
+            label: 'Say “draw something happy instead” and move on.',
+            status: 'exceeded',
+            reason: 'Redirecting to “happy” tells the child their feeling was wrong for the room.',
+            consequences: [
+              'The child learns the room does not have space for what they brought.',
+              'Nothing reaches the parent.',
+              'The old house stays untouched, and so does the tear.'
+            ],
+            responsibilities: [
+              'Acknowledging a child without directing their feelings.',
+              'Handoff to the parent.'
+            ],
+            commitments: ['You redirected distress to “happy.” The program’s distress response is redirection.'],
+            questions: []
+          }
+        ]
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   LOGIC. No content below this line.
+   ============================================================ */
+
+var state = loadState();
+
+function blankState(){
+  var choices = {};
+  var compare = {};
+  SCENARIOS.forEach(function(s){ choices[s.id] = [null,null,null,null]; compare[s.id] = false; });
+  return { current: SCENARIOS[0].id, choices: choices, compare: compare };
+}
+function loadState(){
+  var base = blankState();
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return base;
+    var saved = JSON.parse(raw);
+    if(saved && saved.choices){
+      SCENARIOS.forEach(function(s){
+        var arr = saved.choices[s.id];
+        if(Array.isArray(arr)){
+          base.choices[s.id] = s.decisions.map(function(d,i){
+            var v = arr[i];
+            return (typeof v === 'number' && v >= 0 && v < d.choices.length) ? v : null;
+          });
+        }
+        if(saved.compare && typeof saved.compare[s.id] === 'boolean') base.compare[s.id] = saved.compare[s.id];
+      });
+      if(saved.current && SCENARIOS.some(function(s){ return s.id === saved.current; })) base.current = saved.current;
+    }
+  }catch(e){}
+  return base;
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function clearState(){
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  state = blankState();
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function scenario(id){
+  for(var i=0;i<SCENARIOS.length;i++) if(SCENARIOS[i].id===id) return SCENARIOS[i];
+  return SCENARIOS[0];
+}
+function statusLabel(s){ return s === 'held' ? 'Scope held' : 'Scope exceeded'; }
+function iconHeld(){
+  return '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.5 8.2l2.3 2.3 4.7-4.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+function iconExceeded(){
+  return '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M8 4.2v4.6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="11.5" r="1.1" fill="#fff"/></svg>';
+}
+function statusBadge(s){
+  return '<span class="status '+s+'">'+(s==='held'?iconHeld():iconExceeded())+esc(statusLabel(s))+'</span>';
+}
+function doneCount(id){
+  return state.choices[id].filter(function(v){ return v !== null; }).length;
+}
+function isDone(id){ return doneCount(id) === scenario(id).decisions.length; }
+function list(items){
+  return '<ul>'+items.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul>';
+}
+
+/* ---------- static frame ---------- */
+function renderFrame(){
+  document.getElementById('lede').textContent = PAGE.lede;
+  document.getElementById('howto').innerHTML = PAGE.howTo.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('');
+  document.getElementById('placeholder').textContent = PAGE.placeholder;
+  document.getElementById('disclaimer').textContent = PAGE.disclaimer;
+  document.getElementById('terms').innerHTML = TERMS.map(function(t){
+    return '<div class="term"><h3>'+esc(t.name)+'</h3>'+t.body.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+'</div>';
+  }).join('');
+}
+
+/* ---------- scenario tabs ---------- */
+function renderTabs(){
+  var el = document.getElementById('tabs');
+  el.innerHTML = SCENARIOS.map(function(s){
+    var n = doneCount(s.id);
+    var pips = s.decisions.map(function(d,i){ return '<span class="pip'+(state.choices[s.id][i]!==null?' on':'')+'"></span>'; }).join('');
+    var stateTxt = n === s.decisions.length ? 'complete' : (n === 0 ? 'not started' : n+' of '+s.decisions.length);
+    return '<button type="button" class="tab" data-scn="'+s.id+'" aria-pressed="'+(state.current===s.id)+'">'+
+      '<span class="tname">'+esc(s.name)+'</span>'+
+      '<span class="twhere">'+esc(s.where)+'</span>'+
+      '<span class="pips" aria-hidden="true">'+pips+'<span class="tstate">'+esc(stateTxt)+'</span></span>'+
+      '<span class="sr">Progress: '+esc(stateTxt)+'</span>'+
+    '</button>';
+  }).join('');
+}
+
+/* ---------- main column ---------- */
+function renderMain(){
+  var s = scenario(state.current);
+  var picks = state.choices[s.id];
+  var html = '';
+
+  html += '<article class="card situation">'+
+    '<p class="kicker">Situation</p>'+
+    '<h2>'+esc(s.name)+'</h2>'+
+    '<p class="where">'+esc(s.where)+'</p>'+
+    '<p class="role"><strong>'+esc(s.role)+'</strong> '+esc(s.situation)+'</p>'+
+  '</article>';
+
+  html += '<ol class="decisions" aria-label="Decision points">';
+  s.decisions.forEach(function(d, di){
+    var picked = picks[di];
+    var locked = di > 0 && picks[di-1] === null;
+    html += '<li class="dp'+(locked?' locked':'')+'" id="dp-'+di+'">';
+    html += '<div class="dp-head"><span class="dp-num" aria-hidden="true">'+(di+1)+'</span>'+
+      '<span class="sr">Decision point '+(di+1)+'. </span>'+
+      '<span class="dp-area">'+esc(AREAS[d.area])+'</span></div>';
+    html += '<p class="dp-prompt">'+esc(d.prompt)+'</p>';
+    if(locked) html += '<p class="dp-note">Decide point '+di+' first.</p>';
+    html += '<div class="choices" role="group" aria-label="Choices for decision point '+(di+1)+'">';
+    d.choices.forEach(function(c, ci){
+      html += '<button type="button" class="choice" data-dp="'+di+'" data-ch="'+ci+'" aria-pressed="'+(picked===ci)+'"'+(locked?' disabled':'')+'>'+
+        '<span class="key" aria-hidden="true">'+String.fromCharCode(65+ci)+'</span>'+
+        '<span>'+esc(c.label)+'</span></button>';
+    });
+    html += '</div>';
+    if(picked !== null){
+      var c = d.choices[picked];
+      html += '<div class="reveal" id="reveal-'+di+'" tabindex="-1">';
+      html += statusBadge(c.status);
+      html += '<p class="reason">'+esc(c.reason)+'</p>';
+      html += '<div class="rev-grid">'+
+        '<div class="rev"><h4>Practical consequences</h4>'+list(c.consequences)+'</div>'+
+        '<div class="rev"><h4>Professional responsibilities engaged</h4>'+list(c.responsibilities)+'</div>'+
+      '</div>';
+      if(c.commitments.length){
+        html += '<p class="rev-commit"><strong>Commits the program to.</strong> '+esc(c.commitments.join(' '))+'</p>';
+      }
+      if(d.area === 'distress'){
+        html += '<p class="crisis">'+esc(PAGE.distressGuide)+' '+esc(PAGE.crisis)+'</p>';
+      }
+      html += '</div>';
+    }
+    html += '</li>';
+  });
+  html += '</ol>';
+
+  if(isDone(s.id)) html += renderFinish(s);
+
+  document.getElementById('main').innerHTML = html;
+}
+
+/* ---------- finish: summary + compare ---------- */
+function collectQuestions(s){
+  var picks = state.choices[s.id];
+  var out = [];
+  s.decisions.forEach(function(d, di){
+    var c = d.choices[picks[di]];
+    c.questions.forEach(function(q){ if(out.indexOf(q) < 0) out.push(q); });
+  });
+  s.baseQuestions.forEach(function(q){ if(out.indexOf(q) < 0) out.push(q); });
+  return out;
+}
+function collectCommitments(s){
+  var picks = state.choices[s.id];
+  var out = [];
+  s.decisions.forEach(function(d, di){
+    if(picks[di] === null) return;
+    d.choices[picks[di]].commitments.forEach(function(t){ out.push({ n: di+1, area: AREAS[d.area], text: t }); });
+  });
+  return out;
+}
+
+function renderFinish(s){
+  var picks = state.choices[s.id];
+  var html = '<section class="finish" aria-labelledby="fin-h">';
+
+  html += '<div class="card">';
+  html += '<h2 id="fin-h">Summary</h2>';
+  html += '<p class="sub">'+esc(s.where)+'. '+esc(s.role)+'</p>';
+  html += '<div class="summary-block"><h3>Decisions and consequences</h3><ol>';
+  s.decisions.forEach(function(d, di){
+    var c = d.choices[picks[di]];
+    html += '<li><span class="dlabel">'+esc(AREAS[d.area])+'.</span> '+esc(c.label)+'<br>'+
+      '<span class="dstatus '+c.status+'">'+esc(statusLabel(c.status))+'.</span> '+esc(c.reason)+
+      list(c.consequences).replace('<ul>','<ul style="margin-top:6px">')+'</li>';
+  });
+  html += '</ol></div>';
+
+  var commits = collectCommitments(s);
+  html += '<div class="summary-block"><h3>What the program is now committed to</h3>';
+  html += commits.length ? '<ul>'+commits.map(function(c){ return '<li>'+esc(c.text)+'</li>'; }).join('')+'</ul>' : '<p class="commits-empty">No commitments recorded.</p>';
+  html += '</div>';
+
+  html += '<div class="summary-block"><h3>Questions to bring to a credentialed art therapist or program leadership</h3>'+
+    '<ul>'+collectQuestions(s).map(function(q){ return '<li>'+esc(q)+'</li>'; }).join('')+'</ul></div>';
+
+  html += '<div class="exports">'+
+    '<button type="button" class="btn sm" id="copy-txt">Copy as text</button>'+
+    '<a class="btn sm ghost" id="dl-json" href="#" download="boundary-lab-'+esc(s.id)+'.json">Download as JSON</a>'+
+    '<span class="export-status" id="export-status" role="status" aria-live="polite"></span>'+
+  '</div>';
+  html += '</div>';
+
+  html += '<div class="card compare-wrap">';
+  html += '<h2>Compare paths</h2>';
+  html += '<p class="sub">See the other two choices at each point, with what they would have engaged. Your choice is marked.</p>';
+  html += '<div style="margin-top:12px"><button type="button" class="btn sm ghost" id="toggle-compare" aria-expanded="'+(state.compare[s.id]?'true':'false')+'" aria-controls="compare-body">'+(state.compare[s.id]?'Hide comparison':'Show comparison')+'</button></div>';
+  html += '<div id="compare-body"'+(state.compare[s.id]?'':' hidden')+'>';
+  s.decisions.forEach(function(d, di){
+    html += '<div class="cmp-dp"><h3>'+(di+1)+'. '+esc(AREAS[d.area])+'</h3><p class="cmp-prompt">'+esc(d.prompt)+'</p><div class="cmp-grid">';
+    d.choices.forEach(function(c, ci){
+      var chosen = picks[di] === ci;
+      html += '<div class="cmp'+(chosen?' chosen':'')+'">'+
+        (chosen ? '<p class="cmp-you">Your choice</p>' : '<p class="cmp-you" style="color:var(--ink-soft)">Option '+String.fromCharCode(65+ci)+'</p>')+
+        '<p class="cmp-label">'+esc(c.label)+'</p>'+
+        statusBadge(c.status)+
+        '<p class="cmp-reason">'+esc(c.reason)+'</p>'+
+        list(c.consequences)+
+      '</div>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+
+  html += '</section>';
+  return html;
+}
+
+/* ---------- side column ---------- */
+function renderSide(){
+  var s = scenario(state.current);
+  var commits = collectCommitments(s);
+  var html = '';
+  html += '<div class="card"><h2>Commitments so far</h2>';
+  if(commits.length){
+    html += '<ul class="commits" id="commits" aria-live="polite">'+commits.map(function(c){
+      return '<li><span class="cnum">'+c.n+'. '+esc(c.area)+'</span>'+esc(c.text)+'</li>';
+    }).join('')+'</ul>';
+  }else{
+    html += '<p class="commits-empty" id="commits" aria-live="polite">Nothing yet. Each choice adds what it commits the program to.</p>';
+  }
+  html += '</div>';
+
+  html += '<div class="card"><h2>How choices are marked</h2><div class="legend">'+
+    '<div class="row held">'+iconHeld()+'<span><strong>Scope held.</strong> The choice stays inside the role and training of the people in the room. It can still carry costs.</span></div>'+
+    '<div class="row exceeded">'+iconExceeded()+'<span><strong>Scope exceeded.</strong> The choice claims, implies, or performs something that belongs to a credentialed clinician or to a consent the program does not have.</span></div>'+
+    '<p style="color:var(--ink-soft); font-size:13.5px; margin-top:4px">There is no score. A scenario with four held choices still has questions to take to a credentialed art therapist.</p>'+
+  '</div></div>';
+
+  html += '<div class="card"><h2>Controls</h2><div class="sidebtns">'+
+    '<button type="button" class="btn sm quiet" id="reset-scn">Reset this scenario</button>'+
+    '<div id="reset-scn-confirm"></div>'+
+    '<button type="button" class="btn sm quiet" id="start-fresh">Start fresh</button>'+
+    '<div id="start-fresh-confirm"></div>'+
+  '</div></div>';
+
+  document.getElementById('side').innerHTML = html;
+}
+
+/* ---------- export ---------- */
+function summaryText(s){
+  var picks = state.choices[s.id];
+  var L = [];
+  L.push('The Art Therapy Boundary Lab');
+  L.push('IndiATA ART+SMART public-education series. Draft for IndiATA review. Educational scenario set, not legal or clinical advice.');
+  L.push('');
+  L.push('Setting: '+s.where+' ('+s.name+')');
+  L.push('Role: '+s.role);
+  L.push('Situation: '+s.situation);
+  L.push('');
+  L.push('DECISIONS');
+  s.decisions.forEach(function(d, di){
+    var c = d.choices[picks[di]];
+    L.push('');
+    L.push((di+1)+'. '+AREAS[d.area]);
+    L.push('Prompt: '+d.prompt);
+    L.push('Choice: '+c.label);
+    L.push(statusLabel(c.status)+'. '+c.reason);
+    L.push('Practical consequences:');
+    c.consequences.forEach(function(t){ L.push('  - '+t); });
+    L.push('Professional responsibilities engaged:');
+    c.responsibilities.forEach(function(t){ L.push('  - '+t); });
+  });
+  L.push('');
+  L.push('WHAT THE PROGRAM IS NOW COMMITTED TO');
+  var commits = collectCommitments(s);
+  if(commits.length) commits.forEach(function(c){ L.push('  - '+c.text); }); else L.push('  (none recorded)');
+  L.push('');
+  L.push('QUESTIONS TO BRING TO A CREDENTIALED ART THERAPIST OR PROGRAM LEADERSHIP');
+  collectQuestions(s).forEach(function(q){ L.push('  - '+q); });
+  L.push('');
+  L.push(PAGE.crisis);
+  L.push('');
+  L.push('Prepared for IndiATA. Katy Wagner, MA, ATR-P, LMHCA');
+  return L.join('\n');
+}
+function summaryJSON(s){
+  var picks = state.choices[s.id];
+  return {
+    experience: 'The Art Therapy Boundary Lab',
+    series: 'IndiATA ART+SMART public-education series',
+    status: 'Draft for IndiATA review. Educational scenario set, not legal or clinical advice.',
+    exported: new Date().toISOString(),
+    setting: { id: s.id, name: s.name, where: s.where, role: s.role, situation: s.situation },
+    decisions: s.decisions.map(function(d, di){
+      var c = d.choices[picks[di]];
+      return { number: di+1, area: AREAS[d.area], prompt: d.prompt, choice: c.label, scope: statusLabel(c.status), reason: c.reason, consequences: c.consequences, responsibilities: c.responsibilities, commitments: c.commitments };
+    }),
+    commitments: collectCommitments(s).map(function(c){ return c.text; }),
+    questions: collectQuestions(s)
+  };
+}
+function setExportStatus(msg){
+  var el = document.getElementById('export-status');
+  if(el) el.textContent = msg;
+}
+function copyText(text){
+  function fallback(){
+    var ta = document.getElementById('exp');
+    ta.value = text;
+    ta.focus(); ta.select();
+    var ok = false;
+    try{ ok = document.execCommand('copy'); }catch(e){}
+    setExportStatus(ok ? 'Copied to clipboard.' : 'Copy did not work here. The text is selected in a hidden field; use your device’s copy command.');
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ setExportStatus('Copied to clipboard.'); }, fallback);
+  }else{
+    fallback();
+  }
+}
+var lastBlobUrl = null;
+function prepareDownload(a, s){
+  try{
+    var blob = new Blob([JSON.stringify(summaryJSON(s), null, 2)], { type: 'application/json' });
+    if(lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+    lastBlobUrl = URL.createObjectURL(blob);
+    a.href = lastBlobUrl;
+    setExportStatus('JSON file prepared.');
+    return true;
+  }catch(e){
+    setExportStatus('Download is not available in this browser.');
+    return false;
+  }
+}
+
+/* ---------- confirmations ---------- */
+function showConfirm(holderId, question, yesLabel, onYes){
+  var holder = document.getElementById(holderId);
+  if(!holder) return;
+  holder.innerHTML = '<div class="confirm" role="group"><span>'+esc(question)+'</span>'+
+    '<button type="button" class="btn sm" data-act="yes">'+esc(yesLabel)+'</button>'+
+    '<button type="button" class="btn sm quiet" data-act="no">Keep</button></div>';
+  var yes = holder.querySelector('[data-act="yes"]');
+  var no = holder.querySelector('[data-act="no"]');
+  yes.addEventListener('click', onYes);
+  no.addEventListener('click', function(){ holder.innerHTML = ''; });
+  yes.focus();
+}
+
+/* ---------- render + events ---------- */
+function renderAll(){
+  renderTabs();
+  renderMain();
+  renderSide();
+}
+
+document.addEventListener('click', function(ev){
+  var t = ev.target.closest('button, a');
+  if(!t) return;
+
+  if(t.classList.contains('tab')){
+    state.current = t.getAttribute('data-scn');
+    saveState(); renderAll();
+    var tab = document.querySelector('.tab[data-scn="'+state.current+'"]');
+    if(tab) tab.focus();
+    return;
+  }
+  if(t.classList.contains('choice')){
+    var di = +t.getAttribute('data-dp'), ci = +t.getAttribute('data-ch');
+    var s = scenario(state.current);
+    state.choices[s.id][di] = ci;
+    saveState(); renderAll();
+    var btn = document.querySelector('.choice[data-dp="'+di+'"][data-ch="'+ci+'"]');
+    if(btn) btn.focus();
+    return;
+  }
+  if(t.id === 'toggle-compare'){
+    var sc = scenario(state.current);
+    state.compare[sc.id] = !state.compare[sc.id];
+    saveState(); renderAll();
+    var tg = document.getElementById('toggle-compare');
+    if(tg) tg.focus();
+    return;
+  }
+  if(t.id === 'copy-txt'){
+    copyText(summaryText(scenario(state.current)));
+    return;
+  }
+  if(t.id === 'dl-json'){
+    if(!t.getAttribute('data-ready')){
+      if(prepareDownload(t, scenario(state.current))){
+        t.setAttribute('data-ready','1');
+        t.click();
+      }else{
+        ev.preventDefault();
+      }
+    }
+    return;
+  }
+  if(t.id === 'reset-scn'){
+    var sid = state.current;
+    showConfirm('reset-scn-confirm', 'Clear the choices in this scenario?', 'Yes, clear', function(){
+      state.choices[sid] = scenario(sid).decisions.map(function(){ return null; });
+      state.compare[sid] = false;
+      saveState(); renderAll();
+      var b = document.getElementById('reset-scn'); if(b) b.focus();
+    });
+    return;
+  }
+  if(t.id === 'start-fresh'){
+    showConfirm('start-fresh-confirm', 'Clear all saved choices in every scenario?', 'Yes, clear all', function(){
+      clearState(); renderAll();
+      var b = document.getElementById('start-fresh'); if(b) b.focus();
+    });
+    return;
+  }
+});
+
+renderFrame();
+renderAll();
+</script>
+</body>
+</html>

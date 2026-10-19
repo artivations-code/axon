@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond The Sun Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+  /* Layout: one column of three shelves; each shelf is a row of object-cards sharing the book's palette. */
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --sh-sm:0 5px 12px rgba(43,58,66,.13);
+    --round:20px;
+    --sans:"Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:700;
+    line-height:1.45;
+    padding-block:32px 48px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+  .chip{
+    display:inline-block;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    font-size:12px;padding:7px 14px;border-radius:999px;background:var(--sky-100);color:var(--sky-d);
+  }
+  h1{font-size:clamp(34px,6vw,54px);line-height:1.02;letter-spacing:-.01em;font-weight:900;margin:14px 0 10px;text-wrap:balance;max-width:720px}
+  .lede{font-size:19px;color:var(--ink-soft);max-width:640px;margin:0 0 10px}
+  .status{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 0;font-size:14px;color:var(--ink-soft)
+  }
+  .status span{display:inline-flex;align-items:center;gap:8px}
+  .status i{width:12px;height:12px;border-radius:50%;display:inline-block}
+  .status .d{background:var(--leaf)}
+  .status .p{background:var(--sunny)}
+
+  .shelf{margin-top:44px}
+  .shelf-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:2px solid rgba(43,58,66,.14);padding-bottom:10px;margin-bottom:18px}
+  .shelf-head h2{margin:0;font-size:26px;font-weight:900}
+  .shelf-head p{margin:0;color:var(--ink-soft);font-size:15px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{
+    display:flex;flex-direction:column;gap:10px;min-width:0;
+    background:var(--card);border-radius:var(--round);box-shadow:var(--sh-sm);
+    padding:20px 20px 18px;text-decoration:none;color:inherit;
+    border-top:8px solid var(--accent, var(--sky));
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover,.card:focus-visible{transform:translateY(-2px);box-shadow:var(--sh);outline:none}
+  .card:focus-visible{box-shadow:var(--sh),0 0 0 3px var(--accent, var(--sky))}
+  .card.night{background:var(--night);color:#F3EEE4}
+  .card.night .what{color:#C9D3DA}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .card .kind{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .card.night .kind{color:#AEBBC5}
+  .card svg{width:34px;height:34px;flex:none}
+  .card h3{margin:0;font-size:21px;line-height:1.1;font-weight:900}
+  .card .what{margin:0;font-size:15px;color:var(--ink-soft);flex:1}
+  .card .do{margin:4px 0 0;font-size:13px;font-weight:800;letter-spacing:.02em}
+  .card .do::before{content:"Open";margin-right:6px;padding:3px 9px;border-radius:999px;background:var(--accent, var(--sky));color:#fff;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  .card.night .do::before{color:var(--night)}
+
+  .a-sky{--accent:var(--sky)} .a-sunny{--accent:var(--sunny)} .a-coral{--accent:var(--coral)} .a-leaf{--accent:var(--leaf)}
+
+  .note{
+    margin-top:44px;background:var(--card);border-radius:var(--round);padding:20px 22px;box-shadow:var(--sh-sm);
+    font-size:15px;color:var(--ink-soft);max-width:760px
+  }
+  .note h2{margin:0 0 8px;font-size:18px;color:var(--ink)}
+  .note ul{margin:0;padding-left:20px}
+  .note li{margin:4px 0}
+  .sig{
+    margin-top:40px;padding-top:14px;border-top:2px solid rgba(43,58,66,.14);
+    font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
+  }
+  .sig a{color:var(--sky-d)}
+  @media (prefers-reduced-motion: reduce){ .card{transition:none} .card:hover{transform:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="chip">Beyond The Sun Therapy</span>
+  <h1>Twelve things to explore, move, question, and change</h1>
+  <p class="lede">Each page is an interactive experience built around art, writing, art psychotherapy, adoption, and IndiATA work. Interaction changes what can be examined.</p>
+  <div class="status">
+    <span><i class="d"></i>Built and render-checked</span>
+    <span><i class="p"></i>Draft content inside, marked for Katy's review</span>
+  </div>
+
+  <section class="shelf">
+    <div class="shelf-head"><h2>Art, surrealism, and writing</h2><p>Creative La'boratory</p></div>
+    <div class="grid">
+      <a class="card night a-sunny" href="01-cabinet-of-unfinished-things.html">
+        <div class="top"><span class="kind">Surreal narrative</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="24" height="26" rx="3"/><line x1="5" y1="13" x2="29" y2="13"/><line x1="5" y1="22" x2="29" y2="22"/><circle cx="17" cy="8.5" r="1.2" fill="currentColor"/><circle cx="17" cy="17.5" r="1.2" fill="currentColor"/><circle cx="17" cy="26" r="1.2" fill="currentColor"/></svg></div>
+        <h3>The Cabinet of Unfinished Things</h3>
+        <p class="what">Drawers and doors open into fragments, creatures, and unfinished images. Pair found objects on the worktable to change how the story unfolds.</p>
+        <p class="do">Open compartments, combine objects, leave it unfinished</p>
+      </a>
+      <a class="card night a-sky" href="02-projection-observatory.html">
+        <div class="top"><span class="kind">AI and projection</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><circle cx="17" cy="17" r="12"/><circle cx="17" cy="17" r="6"/><circle cx="17" cy="17" r="1.5" fill="currentColor"/><line x1="17" y1="2" x2="17" y2="5"/><line x1="17" y1="29" x2="17" y2="32"/></svg></div>
+        <h3>The Projection Observatory</h3>
+        <p class="what">One exchange with an AI, three layers. The record stays still while the attribution lens moves what is read into it and what stays unknown.</p>
+        <p class="do">Change the lens, write your own attribution</p>
+      </a>
+      <a class="card a-coral" href="03-anatomy-of-a-sentence.html">
+        <div class="top"><span class="kind">Literary instrument</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="10" x2="29" y2="10"/><line x1="5" y1="17" x2="21" y2="17"/><line x1="5" y1="24" x2="25" y2="24"/><rect x="22" y="14" width="8" height="6" rx="2" fill="var(--coral-100)"/></svg></div>
+        <h3>The Anatomy of a Sentence</h3>
+        <p class="what">Reveal a sentence's assumptions, omissions, ambiguities, and implications. Toggle one word and see precisely what changes. The original stays intact.</p>
+        <p class="do">Examine, swap a word, keep or discard a revision</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="shelf">
+    <div class="shelf-head"><h2>Art psychotherapy, adoption, and identity</h2><p>Beyond The Sun Therapy</p></div>
+    <div class="grid">
+      <a class="card a-leaf" href="04-inner-world-atlas.html">
+        <div class="top"><span class="kind">Illustrated map</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9l9-4 8 4 9-4v20l-9 4-8-4-9 4z"/><line x1="13" y1="5" x2="13" y2="25"/><line x1="21" y1="9" x2="21" y2="29"/></svg></div>
+        <h3>The Inner World Atlas</h3>
+        <p class="what">A clickable map of a fictional inner world. Rename regions, move them, connect them, conceal them, and return over many sessions. No fixed meanings.</p>
+        <p class="do">Rearrange, connect, conceal, add new regions</p>
+      </a>
+      <a class="card night a-sky" href="05-adoption-constellation.html">
+        <div class="top"><span class="kind">Non-linear field</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="9" r="2" fill="currentColor"/><circle cx="24" cy="7" r="2" fill="currentColor"/><circle cx="27" cy="22" r="2" fill="currentColor"/><circle cx="13" cy="26" r="2" fill="currentColor"/><path d="M8 9l16-2 3 15-14 4z" stroke-dasharray="3 3"/></svg></div>
+        <h3>The Adoption Constellation</h3>
+        <p class="what">Identity, relationships, belonging, loss, anger, joy, and unanswered questions can sit in one sky. Move them, link them, let them contradict, leave space undefined.</p>
+        <p class="do">Place stars, draw relationships, keep it private</p>
+      </a>
+      <a class="card a-coral" href="06-inside-the-brain.html">
+        <div class="top"><span class="kind">For children and adults</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6c-5 0-7 4-6 8-2 2-2 6 1 8 0 4 4 6 7 5 2 2 6 2 8 0 4 1 8-2 7-6 3-2 2-7-1-8 1-4-2-8-7-7-2-1-7-1-9 0z"/><path d="M17 10v18" stroke-dasharray="2 3"/></svg></div>
+        <h3>Inside the Brain</h3>
+        <p class="what">Touch the amygdala, hippocampus, prefrontal cortex, or insula. Each opens a visual explanation, a sensory example, and an art-making activity, in child or adult words.</p>
+        <p class="do">Touch a region, switch the reader</p>
+      </a>
+      <a class="card a-sunny" href="07-art-making-possibility-machine.html">
+        <div class="top"><span class="kind">Invitation generator</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="5" height="18" rx="1"/><rect x="11" y="8" width="5" height="18" rx="1"/><rect x="18" y="8" width="5" height="18" rx="1"/><rect x="25" y="8" width="5" height="18" rx="1"/><line x1="2" y1="17" x2="32" y2="17"/></svg></div>
+        <h3>The Art-Making Possibility Machine</h3>
+        <p class="what">Combine a material, a sensory quality, an artistic operation, and an expressive constraint. The machine writes a materially specific invitation, never an interpretation.</p>
+        <p class="do">Spin, lock, generate, keep on the shelf</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="shelf">
+    <div class="shelf-head"><h2>IndiATA, professional advocacy, and public education</h2><p>Indiana Art Therapy Association</p></div>
+    <div class="grid">
+      <a class="card a-sky" href="08-art-therapy-boundary-lab.html">
+        <div class="top"><span class="kind">Branching scenarios</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="17" r="3"/><circle cx="26" cy="8" r="3"/><circle cx="26" cy="26" r="3"/><path d="M11 16l12-7M11 18l12 7"/></svg></div>
+        <h3>The Art Therapy Boundary Lab</h3>
+        <p class="what">Schools, libraries, hospitals, community programs. Decide on facilitation, scope, accessibility, boundaries, and response to distress, then see what each choice commits you to.</p>
+        <p class="do">Choose a setting, decide, compare paths</p>
+      </a>
+      <a class="card a-leaf" href="09-indiana-art-therapy-living-map.html">
+        <div class="top"><span class="kind">Documented landscape</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4h16v14l-3 6 2 6h-6l-2-4-3 4H8l1-8z"/><circle cx="17" cy="14" r="2" fill="currentColor"/></svg></div>
+        <h3>Indiana Art Therapy: The Living Map</h3>
+        <p class="what">Practitioners, service access, telehealth, educational pathways, and workforce gaps by region. Documented entries are solid. Everything else says so.</p>
+        <p class="do">Toggle layers, add sourced entries, export</p>
+      </a>
+      <a class="card a-sky" href="10-build-an-art-therapy-program.html">
+        <div class="top"><span class="kind">Workspace for employers</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="12" height="22" rx="2"/><rect x="18" y="6" width="12" height="9" rx="2"/><rect x="18" y="19" width="12" height="9" rx="2"/></svg></div>
+        <h3>Build an Art Therapy Program</h3>
+        <p class="what">Choose setting, population, services, staffing, supervision, accessibility, and resources. A program structure, staffing plan, job description, and budget framework assemble live.</p>
+        <p class="do">Choose, watch the draft assemble, export</p>
+      </a>
+      <a class="card a-coral" href="11-living-exhibition-wall.html">
+        <div class="top"><span class="kind">Online exhibition</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="11" height="14" rx="1"/><rect x="18" y="5" width="13" height="10" rx="1"/><rect x="18" y="18" width="9" height="11" rx="1"/></svg></div>
+        <h3>The Living Exhibition Wall</h3>
+        <p class="what">Pan a salon-style wall for Art Therapists of the Midwest or Trust the Process. Follow thematic threads, open process documentation and statements. Artwork stays as the artist supplied it.</p>
+        <p class="do">Pan, follow a thread, curate</p>
+      </a>
+      <a class="card a-sky" href="12-advocacy-consequences-explorer.html">
+        <div class="top"><span class="kind">Branching model</span>
+          <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2"><circle cx="17" cy="6" r="3"/><circle cx="7" cy="27" r="3"/><circle cx="27" cy="27" r="3"/><circle cx="17" cy="27" r="3"/><path d="M17 9v6M17 15l-10 9M17 15v9M17 15l10 9"/></svg></div>
+        <h3>The Advocacy Consequences Explorer</h3>
+        <p class="what">Licensure, hiring qualifications, title representation, workforce access. See the people, institutions, requirements, and decisions each touches. Enacted, proposed, and hypothetical stay distinct.</p>
+        <p class="do">Pick a proposal, toggle "if enacted", filter by role</p>
+      </a>
+    </div>
+  </section>
+
+  <div class="note">
+    <h2>What these pages are, and are not</h2>
+    <ul>
+      <li>Each page runs on its own, saves to the device it runs on, and exports what the person made as text or JSON.</li>
+      <li>Example content inside is labeled as example or draft. Facts that need a source are labeled "Needs source confirmation".</li>
+      <li>No page interprets a person's imagery, diagnoses, or stands in for therapy. Pages that touch distress say so and point to 988.</li>
+    </ul>
+  </div>
+
+  <div class="sig">
+    <span>Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</span>
+    <a href="../index.html">Many-Meanings Book</a>
+  </div>
+</div>
+</body>
+</html>

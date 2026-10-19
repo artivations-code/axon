@@ -6,188 +6,201 @@
 <title>Inside the Brain</title>
 <meta name="description" content="Touch four parts of the brain to learn what each one does, where you can feel it in your body, and one art activity to try.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-  --night:#1B2730; --night-2:#24333E;
-  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-  --round:20px;
-  --coral-a: rgba(240,138,120,.38);
+  --ground:#FFFFFF;
+  --paper:#FBFAF7;
+  --line:#D9CFBF;
+  --line-soft:#F7F6F5;
+  --ink:#3E3F46;
+  --ink-soft:#6B6C73;
+  --sage:#8E9A82;
+  --olive:#666741;
+  --clay:#C07A57; --clay-deep:#9A5C3E;
+  --gold:#E0B14C;
+  --teal:#0C4862;
+  --night:#2E3036; --night-2:#3E3F46;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Mulish',Arial,sans-serif;
+  --clay-tint:rgba(192,122,87,.12);
+  --clay-tint-soft:rgba(192,122,87,.06);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0; background:var(--paper); color:var(--ink);
-  font-family:"Nunito", system-ui, sans-serif; font-weight:600;
-  font-size:17px; line-height:1.5; overflow-x:hidden;
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-weight:400; font-size:17px; line-height:1.65;
+  overflow-x:hidden;
 }
-.wrap{max-width:1180px; margin:0 auto; padding:28px 16px 40px}
-@media (min-width:700px){ .wrap{padding:40px 28px 56px} }
+.wrap{max-width:1120px; margin:0 auto; padding:36px 16px 48px}
+@media (min-width:700px){ .wrap{padding:56px 32px 64px} }
+a{color:var(--clay-deep); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
+hr.rule{border:0; border-top:1px solid var(--line); margin:0}
 
 /* ---------- frame ---------- */
-.chip{
-  display:inline-block; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
-  font-weight:800; color:var(--coral-d); background:var(--coral-100);
-  padding:5px 12px; border-radius:999px;
+.eyebrow{
+  margin:0 0 18px; font:700 11.5px var(--sans); letter-spacing:.18em; text-transform:uppercase; color:var(--olive);
 }
-h1{font-size:clamp(34px,5.4vw,56px); line-height:1.02; margin:14px 0 10px; font-weight:900; letter-spacing:-.01em}
-.lede{font-size:clamp(17px,2vw,20px); margin:0 0 16px; max-width:62ch; color:var(--ink)}
-details.howto{
-  background:var(--card); border-radius:14px; padding:10px 16px; max-width:62ch;
-  border:2px solid var(--coral-100);
+h1{
+  font:500 clamp(34px,4.2vw,50px) var(--serif); line-height:1.05; letter-spacing:.005em;
+  margin:0 0 16px; max-width:18ch; text-wrap:balance; color:var(--ink);
 }
-details.howto summary{cursor:pointer; font-weight:800; color:var(--coral-d); list-style:none; display:flex; align-items:center; gap:8px}
+.lede{font:italic 400 clamp(19px,2vw,21px) var(--serif); line-height:1.4; margin:0 0 12px; max-width:58ch; color:var(--ink)}
+.quiet{font-size:15px; color:var(--ink-soft); margin:0 0 10px; max-width:64ch}
+details.howto{max-width:64ch; margin:0 0 26px}
+details.howto summary{
+  cursor:pointer; list-style:none; display:inline; font:400 15px var(--sans); color:var(--clay-deep);
+  text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px;
+}
 details.howto summary::-webkit-details-marker{display:none}
-details.howto summary svg{transition:transform .2s}
-details.howto[open] summary svg{transform:rotate(90deg)}
-details.howto ul{margin:8px 0 4px; padding-left:20px}
-details.howto li{margin:4px 0}
+.howto-body{
+  margin-top:12px; background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:14px 18px;
+  font-size:15px; color:var(--ink); line-height:1.6;
+}
+.howto-body p{margin:0 0 6px}
+.howto-body p:last-child{margin:0}
 
 /* ---------- controls row ---------- */
 .controls{
-  display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;
-  margin:26px 0 18px;
+  display:flex; flex-wrap:wrap; gap:14px 28px; align-items:center; justify-content:space-between;
+  padding:18px 0 14px;
 }
-.seg{display:inline-flex; background:var(--card); border:2px solid var(--coral-100); border-radius:999px; padding:4px}
+.seg{display:inline-flex; gap:22px}
 .seg button{
-  font:inherit; font-weight:800; font-size:15px; color:var(--ink-soft);
-  background:transparent; border:0; border-radius:999px; padding:9px 18px; cursor:pointer; min-height:44px;
+  font:600 14px var(--sans); color:var(--ink-soft); background:transparent; border:0; border-bottom:2px solid transparent;
+  padding:8px 0 6px; cursor:pointer; min-height:44px; letter-spacing:.01em;
 }
-.seg button[aria-pressed="true"]{background:var(--coral); color:#fff}
+.seg button[aria-pressed="true"]{color:var(--ink); border-bottom-color:var(--sage)}
 .seg button:hover{color:var(--ink)}
-.seg button[aria-pressed="true"]:hover{color:#fff}
 .progress{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
-.progress .count{font-weight:800}
-.progress .dots{display:inline-flex; gap:6px; vertical-align:middle; margin-right:8px}
-.progress .dots i{width:12px; height:12px; border-radius:50%; border:2px solid var(--coral); display:inline-block; background:transparent}
-.progress .dots i.on{background:var(--leaf-d); border-color:var(--leaf-d)}
+.progress .count{font-size:14px; color:var(--ink-soft); font-variant-numeric:tabular-nums; display:inline-flex; align-items:center}
+.progress .dots{display:inline-flex; gap:7px; vertical-align:middle; margin-right:10px}
+.progress .dots i{width:9px; height:9px; border-radius:50%; border:1px solid var(--olive); display:inline-block; background:transparent}
+.progress .dots i.on{background:var(--sage); border-color:var(--sage)}
 .btn-ghost{
-  font:inherit; font-weight:800; font-size:15px; color:var(--ink-soft); background:transparent;
-  border:2px solid var(--ink-soft); border-radius:999px; padding:8px 16px; cursor:pointer; min-height:44px;
+  font:600 14px var(--sans); color:var(--ink); background:transparent;
+  border:1px solid var(--line); border-radius:3px; padding:9px 16px; cursor:pointer; min-height:40px;
 }
-.btn-ghost:hover{color:var(--ink); border-color:var(--ink)}
-.confirm{display:none; align-items:center; gap:10px; flex-wrap:wrap; font-size:15px}
+.btn-ghost:hover{border-color:var(--ink-soft)}
+.confirm{display:none; align-items:center; gap:10px; flex-wrap:wrap; font-size:14px; color:var(--ink-soft)}
 .confirm.show{display:flex}
-.confirm button{min-height:40px; padding:6px 14px}
-.btn-solid{font:inherit; font-weight:800; font-size:15px; color:#fff; background:var(--coral-d); border:2px solid var(--coral-d); border-radius:999px; padding:8px 16px; cursor:pointer; min-height:44px}
-.btn-solid:hover{background:#c9503d; border-color:#c9503d}
-.status{font-size:14px; color:var(--ink-soft); min-height:1.4em}
+.btn-solid{
+  font:700 14px var(--sans); letter-spacing:.03em; color:#fff; background:var(--clay); border:1px solid var(--clay);
+  border-radius:3px; padding:9px 18px; cursor:pointer; min-height:40px;
+}
+.btn-solid:hover{background:var(--clay-deep); border-color:var(--clay-deep)}
+.status{font-size:13px; color:var(--ink-soft); min-height:1.4em; margin:0 0 18px}
 
 /* ---------- stage ---------- */
-.stage{display:grid; grid-template-columns:1fr; gap:22px}
-@media (min-width:900px){ .stage{grid-template-columns:5fr 6fr; align-items:start} }
+.stage{display:grid; grid-template-columns:1fr; gap:28px}
+@media (min-width:900px){ .stage{grid-template-columns:5fr 6fr; gap:36px; align-items:start} }
 
-.brain-card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:16px 16px 10px}
-@media (min-width:700px){ .brain-card{padding:22px 22px 14px} }
-.brain-card h2{margin:0 0 4px; font-size:18px; font-weight:900}
-.brain-card .cap{margin:0 0 8px; font-size:14px; color:var(--ink-soft)}
+/* the plate */
+.plate{background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:18px 16px 14px}
+@media (min-width:700px){ .plate{padding:22px 22px 16px} }
+.plate h2{margin:0 0 10px; font:500 20px var(--serif); line-height:1.25; color:var(--ink)}
+.plate .cap{margin:6px 0 0; font:italic 400 15px var(--serif); line-height:1.4; color:var(--ink-soft)}
 #brain-art{width:100%; height:auto; display:block}
-#brain-art .outline{fill:#fff; stroke:var(--ink); stroke-width:3; stroke-linejoin:round}
-#brain-art .lobe{fill:var(--coral-100); stroke:var(--ink); stroke-width:3; stroke-linejoin:round}
-#brain-art .sulcus{fill:none; stroke:var(--ink-soft); stroke-width:2.2; stroke-linecap:round; opacity:.55}
-#brain-art .lbl{font:800 17px "Nunito", system-ui, sans-serif; fill:var(--ink); paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round; pointer-events:none}
-#brain-art .lbl.inside{font-size:16px}
-#brain-art .tiny{font:700 13px "Nunito", system-ui, sans-serif; fill:var(--ink-soft)}
-#brain-art .leader{fill:none; stroke:var(--ink-soft); stroke-width:1.8; stroke-linecap:round}
+#brain-art .outline{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+#brain-art .sulcus{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; opacity:.75}
+#brain-art .hatch{fill:none; stroke:var(--olive); stroke-width:1; stroke-linecap:round; opacity:.6}
+#brain-art .stip{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round; stroke-dasharray:0 3.6; opacity:.7}
+#brain-art .lbl{font:700 12.5px var(--sans); letter-spacing:.14em; text-transform:uppercase; fill:var(--olive)}
+#brain-art .cap-i{font:italic 400 14px var(--serif); fill:var(--ink-soft)}
+#brain-art .leader{fill:none; stroke:var(--olive); stroke-width:1; stroke-linecap:round; opacity:.8}
 #brain-art .hot{cursor:pointer; outline:none}
 #brain-art .hot .hit{fill:transparent; stroke:none}
-#brain-art .hot .shape{fill:var(--coral-a); stroke:var(--coral-d); stroke-width:3; stroke-linejoin:round; transition:fill .15s, stroke-width .15s}
-#brain-art .hot .shape.deep{stroke-dasharray:7 5}
-#brain-art .hot:hover .shape{fill:rgba(240,138,120,.65)}
-#brain-art .hot.is-active .shape{fill:var(--coral); stroke-width:4; stroke-dasharray:none}
-#brain-art .hot:focus-visible .shape{stroke:var(--ink); stroke-width:4}
+#brain-art .hot .shape{fill:transparent; stroke:var(--olive); stroke-width:1; stroke-linejoin:round; transition:fill .15s, stroke .15s}
+#brain-art .hot .shape.deep{stroke-dasharray:4 3}
+#brain-art .hot:hover .shape{fill:var(--clay-tint-soft)}
+#brain-art .hot.is-active .shape{fill:var(--clay-tint); stroke:var(--clay-deep); stroke-width:1.5; stroke-dasharray:none}
+#brain-art .hot.is-active .lbl{fill:var(--clay-deep)}
+#brain-art .hot:focus-visible .shape{stroke:var(--sage); stroke-width:2; stroke-dasharray:none}
 #brain-art .hot .check{opacity:0; transition:opacity .15s}
 #brain-art .hot.is-visited .check{opacity:1}
-#brain-art .hot .check circle{fill:var(--leaf-d)}
-#brain-art .hot .check path{fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+#brain-art .hot .check circle{fill:var(--sage)}
 
-.legend{list-style:none; margin:10px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:8px}
-@media (max-width:460px){ .legend{grid-template-columns:1fr} }
+.legend{list-style:none; margin:14px 0 0; padding:0; border-top:1px solid var(--line)}
 .leg{
-  font:inherit; text-align:left; display:flex; align-items:center; gap:10px; width:100%;
-  background:var(--paper); border:2px solid var(--coral-100); border-radius:14px; padding:9px 12px; cursor:pointer; color:var(--ink);
-  min-height:52px;
+  font:inherit; text-align:left; display:grid; grid-template-columns:26px 9px 1fr; align-items:center; gap:0 12px; width:100%;
+  background:transparent; border:0; border-bottom:1px solid var(--line); padding:9px 0; cursor:pointer; color:var(--ink); min-height:48px;
 }
-.leg:hover{border-color:var(--coral)}
-.leg[aria-pressed="true"]{background:var(--coral-100); border-color:var(--coral-d)}
-.leg .mark{width:22px; height:22px; flex:0 0 22px; border-radius:50%; border:2px solid var(--coral); display:grid; place-items:center; background:#fff}
-.leg.visited .mark{background:var(--leaf-d); border-color:var(--leaf-d)}
-.leg .mark svg{width:13px; height:13px; display:none}
-.leg.visited .mark svg{display:block}
-.leg b{display:block; font-weight:800; font-size:15px; line-height:1.2}
-.leg small{display:block; font-size:13px; color:var(--ink-soft); line-height:1.25}
+.leg .bar{width:26px; height:4px; background:transparent}
+.leg[aria-pressed="true"] .bar{background:var(--clay)}
+.leg .mark{width:9px; height:9px; border-radius:50%; border:1px solid var(--olive); background:transparent}
+.leg.visited .mark{background:var(--sage); border-color:var(--sage)}
+.leg .txt{display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 10px}
+.leg b{font-weight:600; font-size:14px; line-height:1.3}
+.leg small{font:italic 400 15px var(--serif); color:var(--ink-soft); line-height:1.3}
+.leg:hover b{color:var(--clay-deep)}
 
 /* ---------- panel ---------- */
-.panel{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px 16px 20px}
-@media (min-width:700px){ .panel{padding:26px 28px 28px} }
+.panel{background:var(--ground); border:1px solid var(--line); border-radius:4px; padding:20px 16px 22px}
+@media (min-width:700px){ .panel{padding:28px 30px 30px} }
 .panel.swap{animation:fade .22s ease-out}
-@keyframes fade{from{opacity:.35; transform:translateY(4px)} to{opacity:1; transform:none}}
-.panel-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-bottom:4px}
-.panel-head h2{margin:0; font-size:clamp(26px,3.2vw,34px); font-weight:900; line-height:1.05; color:var(--coral-d)}
-.panel-head .tag{font-size:15px; color:var(--ink-soft); font-weight:700}
-.sayit{margin:0 0 14px; font-size:14px; color:var(--ink-soft)}
-.sayit b{color:var(--ink)}
-.part{border-top:2px solid var(--coral-100); padding:16px 0 4px; margin-top:8px}
-.part h3{margin:0 0 8px; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--coral-d); font-weight:900; display:flex; align-items:center; gap:8px}
-.part h3 svg{width:18px; height:18px}
-.part p{margin:0 0 10px}
-.visual{display:grid; grid-template-columns:1fr; gap:12px}
+@keyframes fade{from{opacity:.4} to{opacity:1}}
+.panel-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 14px; margin-bottom:4px}
+.panel-head h2{margin:0; font:500 clamp(28px,3vw,31px) var(--serif); line-height:1.1; color:var(--ink)}
+.panel-head .tag{font:italic 400 18px var(--serif); color:var(--ink-soft)}
+.sayit{margin:0 0 16px; font-size:14px; color:var(--ink-soft)}
+.sayit b{color:var(--ink); font-weight:600}
+.part{border-top:1px solid var(--line); padding:18px 0 6px; margin-top:8px}
+.part h3{margin:0 0 10px; font:700 11.5px var(--sans); letter-spacing:.18em; text-transform:uppercase; color:var(--olive)}
+.part p{margin:0 0 10px; max-width:64ch}
+.visual{display:grid; grid-template-columns:1fr; gap:14px}
 @media (min-width:560px){ .visual{grid-template-columns:1fr minmax(220px,260px); align-items:start} }
-.dg{width:100%; height:auto; display:block; background:var(--paper); border-radius:14px}
-.dg .ln{stroke:var(--ink); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
-.dg .ln-soft{stroke:var(--ink-soft); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-dasharray:4 3}
-.dg .acc{fill:var(--coral)} .dg .acc-l{fill:var(--coral-100); stroke:var(--coral-d); stroke-width:2}
-.dg .acc-s{stroke:var(--coral-d); fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
-.dg .card{fill:#fff; stroke:var(--ink-soft); stroke-width:1.4}
-.dg text{font:700 11px "Nunito", system-ui, sans-serif; fill:var(--ink)}
-.dg .soft{fill:var(--ink-soft); font-weight:600}
-.dg .big{font-size:12px; font-weight:800}
+.dg{width:100%; height:auto; display:block; background:var(--paper); border:1px solid var(--line); border-radius:4px}
+.dg .ln{stroke:var(--olive); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+.dg .ln-soft{stroke:var(--ink-soft); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-dasharray:1 4}
+.dg .hair{stroke:var(--line); fill:none; stroke-width:1}
+.dg .hatch{stroke:var(--olive); fill:none; stroke-width:1; opacity:.6}
+.dg .stip{stroke:var(--olive); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-dasharray:0 3.5; opacity:.7}
+.dg .tint{fill:var(--clay-tint); stroke:var(--olive); stroke-width:1.5; stroke-linejoin:round}
+.dg .acc-s{stroke:var(--clay-deep); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+.dg .dot{fill:var(--olive)}
+.dg text{font:400 11px var(--sans); fill:var(--ink)}
+.dg .soft{fill:var(--ink-soft); font:italic 400 12.5px var(--serif)}
+.dg .big{font:600 11px var(--sans); letter-spacing:.06em; fill:var(--ink)}
 
-.sensory{display:grid; grid-template-columns:1fr; gap:12px}
-@media (min-width:560px){ .sensory{grid-template-columns:1fr 170px; align-items:start} }
-.bodybox{display:flex; flex-direction:column; align-items:center; gap:8px}
+.sensory{display:grid; grid-template-columns:1fr; gap:14px}
+@media (min-width:560px){ .sensory{grid-template-columns:1fr 176px; align-items:start} }
+.bodybox{display:flex; flex-direction:column; align-items:center; gap:10px}
 .btn-body{
-  font:inherit; font-weight:800; font-size:15px; color:var(--coral-d); background:#fff;
-  border:2px solid var(--coral); border-radius:999px; padding:8px 14px; cursor:pointer; min-height:44px; width:100%;
+  font:600 14px var(--sans); color:var(--ink); background:transparent;
+  border:1px solid var(--line); border-radius:3px; padding:9px 14px; cursor:pointer; min-height:40px; width:100%;
 }
-.btn-body[aria-pressed="true"]{background:var(--coral); color:#fff; border-color:var(--coral)}
-#body-art{width:132px; height:auto; display:block}
-#body-art .fig{fill:#fff; stroke:var(--ink); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round}
-#body-art .zone{fill:var(--coral); opacity:0; transition:opacity .2s; pointer-events:none}
-#body-art .zone.on{opacity:.7}
-#body-art .zone.on.pulse{animation:pulse 1.6s ease-in-out infinite}
-#body-art .zone-line{fill:none; stroke:var(--coral); stroke-width:9; stroke-linecap:round; opacity:0; transition:opacity .2s; pointer-events:none}
-#body-art .zone-line.on{opacity:.8}
-#body-art .zone-line.on.pulse{animation:pulse 1.6s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:.5} 50%{opacity:.9}}
-.where{font-size:15px; text-align:center; margin:0; min-height:1.4em; color:var(--ink)}
-.where b{color:var(--coral-d)}
+.btn-body:hover{border-color:var(--ink-soft)}
+.btn-body[aria-pressed="true"]{border-color:var(--sage); background:var(--paper); color:var(--ink)}
+#body-art{width:128px; height:auto; display:block}
+#body-art .fig{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round}
+#body-art .zone{fill:var(--clay-tint); stroke:var(--clay-deep); stroke-width:1; opacity:0; transition:opacity .2s; pointer-events:none}
+#body-art .zone.on{opacity:1}
+#body-art .zone.on.pulse{animation:pulse 1.8s ease-in-out infinite}
+#body-art .zone-line{fill:none; stroke:var(--clay-deep); stroke-width:2.2; stroke-linecap:round; stroke-dasharray:0 4.5; opacity:0; transition:opacity .2s; pointer-events:none}
+#body-art .zone-line.on{opacity:1}
+#body-art .zone-line.on.pulse{animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55} 50%{opacity:1}}
+.where{font-size:14px; text-align:center; margin:0; min-height:1.4em; color:var(--ink-soft)}
+.where b{color:var(--ink); font-weight:600}
 
-.activity dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 14px}
-.activity dt{font-weight:900; color:var(--coral-d); font-size:14px; letter-spacing:.04em; padding-top:2px}
-.activity dd{margin:0}
-@media (max-width:420px){ .activity dl{grid-template-columns:1fr; gap:2px} .activity dd{margin-bottom:8px} }
+.activity dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 18px}
+.activity dt{font:700 11px var(--sans); letter-spacing:.14em; text-transform:uppercase; color:var(--olive); padding-top:6px}
+.activity dd{margin:0; max-width:64ch}
+@media (max-width:420px){ .activity dl{grid-template-columns:1fr; gap:2px} .activity dd{margin-bottom:10px} }
 
-.note{
-  margin:22px 0 0; background:var(--card); border-radius:14px; padding:14px 18px; border:2px solid var(--coral-100);
-  font-size:15px; max-width:80ch;
-}
-.note b{color:var(--coral-d)}
+.note{margin:34px 0 0; padding-top:18px; border-top:1px solid var(--line); font-size:15px; color:var(--ink-soft); max-width:64ch; line-height:1.6}
+.note b{color:var(--ink); font-weight:600}
 .note p{margin:0 0 6px}
 .note p:last-child{margin:0}
 
-footer{margin-top:40px; padding-top:18px; border-top:2px solid var(--coral-100); font-size:15px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center}
-footer a{color:var(--coral-d); font-weight:800}
-.sig{font-weight:700; color:var(--ink)}
-a{color:var(--coral-d)}
+footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center}
+footer a{font-size:14px}
+.sig{color:var(--ink-soft)}
 
 /* ---------- focus + motion ---------- */
-button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
+button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--sage); outline-offset:3px}
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 @media (prefers-reduced-motion:reduce){
   *, *::before, *::after{animation:none !important; transition:none !important}
@@ -198,20 +211,21 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
 <div class="wrap">
 
 <header>
-  <span class="chip">Beyond The Sun Therapy</span>
+  <p class="eyebrow">Beyond The Sun Therapy</p>
   <h1>Inside the Brain</h1>
   <p class="lede">Touch four parts of the brain to find out what each one does, where you can feel it in your body, and one art activity to try.</p>
+  <p class="quiet">Touch a part of the brain, or its name beneath the plate, to open it.</p>
   <details class="howto">
-    <summary><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
-    <ul>
-      <li>Touch a part of the brain, or its name under the picture, to open it.</li>
-      <li>Each part has a picture, a thing to feel in your body, and an art activity.</li>
-      <li>Switch between <b>For kids</b> and <b>For grown-ups</b> any time. Both are true. One uses more words.</li>
-      <li>Press <b>Where is it in me?</b> to light up the place on the body.</li>
-      <li>Parts you have opened get a green check. Nothing is scored.</li>
-    </ul>
+    <summary>How this page works</summary>
+    <div class="howto-body">
+      <p>Each part has a picture, a thing to feel in your body, and an art activity.</p>
+      <p>Switch between For kids and For grown-ups any time. Both are true. One uses more words.</p>
+      <p>Press Where is it in me? to light up the place on the body.</p>
+      <p>Parts you have opened get a small mark. Nothing is scored.</p>
+    </div>
   </details>
 </header>
+<hr class="rule">
 
 <div class="controls">
   <div role="group" aria-label="Who is reading" class="seg" id="audience">
@@ -222,7 +236,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
     <span class="count"><span class="dots" id="dots" aria-hidden="true"></span><span id="count">0 of 4 parts opened</span></span>
     <button type="button" class="btn-ghost" id="fresh">Start fresh</button>
     <span class="confirm" id="confirm">
-      <span>Clear the checks and start over?</span>
+      <span>Clear the marks and start over?</span>
       <button type="button" class="btn-solid" id="fresh-yes">Yes, clear</button>
       <button type="button" class="btn-ghost" id="fresh-no">Keep them</button>
     </span>
@@ -231,62 +245,73 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
 <p class="status" id="status" aria-live="polite"></p>
 
 <main class="stage">
-  <section class="brain-card" aria-labelledby="brain-h">
+  <section class="plate" aria-labelledby="brain-h">
     <h2 id="brain-h">A side view, looking at the left side of the head</h2>
-    <p class="cap">The front of the head is on the left. Dashed outlines mean the part is tucked inside, under the surface.</p>
 
     <!-- BRAIN ILLUSTRATION. See the swap note at the top of the script. -->
     <svg id="brain-art" viewBox="0 0 520 400" role="group" aria-label="Side view of a brain with four touchable parts">
       <!-- cerebrum -->
-      <path class="outline" d="M 92 248 C 58 198 58 112 150 76 C 222 48 330 44 400 74 C 468 104 488 190 466 250 C 448 292 398 308 352 310 C 322 312 302 300 278 300 C 252 300 242 314 210 316 C 182 318 150 310 136 290 C 120 272 104 266 92 248 Z"/>
-      <!-- temporal lobe -->
-      <path class="outline" d="M 134 288 C 146 332 236 344 294 304 C 272 290 198 284 134 288 Z"/>
+      <path class="outline" d="M 96 236 C 70 196 66 118 142 80 C 210 48 322 44 396 72 C 466 98 486 182 462 244 C 446 284 404 306 360 310 C 330 314 306 304 284 304 C 262 304 246 316 214 318 C 180 322 140 312 124 290 C 112 270 102 256 96 236 Z"/>
+      <!-- lateral sulcus and temporal lobe -->
+      <path class="sulcus" d="M 128 282 C 190 258 250 236 316 230"/>
+      <path class="outline" d="M 128 284 C 150 328 236 340 292 302"/>
       <!-- cerebellum -->
-      <path class="lobe" d="M 358 311 C 374 346 440 344 456 306 C 430 298 388 298 358 311 Z"/>
-      <path class="sulcus" d="M 376 318 C 392 332 426 332 442 316 M 386 330 C 400 338 420 338 434 328"/>
+      <path class="outline" d="M 356 312 C 372 348 442 346 458 306"/>
+      <path class="hatch" d="M 366 322 C 388 342 428 342 450 320 M 372 316 C 390 330 426 330 442 316 M 380 332 C 398 344 420 344 436 332 M 392 340 C 404 347 416 347 428 340 M 386 316 C 400 324 418 324 432 316"/>
       <!-- brainstem -->
-      <path class="lobe" d="M 336 310 C 330 338 342 362 336 386 L 366 386 C 360 362 370 338 362 314 Z"/>
-      <!-- sulci -->
-      <path class="sulcus" d="M 134 286 C 190 262 250 236 318 232"/>
-      <path class="sulcus" d="M 296 72 C 288 130 300 190 318 230"/>
-      <path class="sulcus" d="M 180 100 C 210 120 230 150 232 190"/>
-      <path class="sulcus" d="M 340 90 C 360 130 372 180 376 230"/>
-      <path class="sulcus" d="M 400 120 C 420 160 432 200 426 250"/>
-      <path class="sulcus" d="M 150 250 C 120 210 128 150 170 110"/>
-      <path class="sulcus" d="M 240 90 C 250 120 246 160 238 190"/>
-      <path class="sulcus" d="M 300 262 C 330 266 360 280 380 296"/>
+      <path class="outline" d="M 338 313 C 332 340 344 364 338 388 M 362 316 C 358 340 370 364 364 388"/>
+      <path class="hatch" d="M 339 324 L 360 322 M 338 334 L 361 332 M 339 344 L 364 342 M 341 354 L 366 352 M 343 364 L 367 362 M 341 374 L 366 372 M 339 384 L 365 383"/>
+      <!-- sulci (gyri of the surface) -->
+      <path class="sulcus" d="M 298 72 C 288 128 302 190 318 230"/>
+      <path class="sulcus" d="M 180 100 C 206 120 226 146 228 180"/>
+      <path class="sulcus" d="M 340 90 C 362 132 372 182 378 230"/>
+      <path class="sulcus" d="M 402 120 C 420 160 432 200 426 252"/>
+      <path class="sulcus" d="M 150 250 C 120 212 128 150 168 110"/>
+      <path class="sulcus" d="M 242 90 C 252 122 248 160 238 190"/>
+      <path class="sulcus" d="M 302 262 C 330 266 360 280 382 296"/>
       <path class="sulcus" d="M 150 300 C 190 322 250 326 286 306"/>
-      <text class="tiny" x="30" y="292">front</text>
-      <text class="tiny" x="450" y="390">back</text>
+      <path class="sulcus" d="M 362 252 C 380 240 404 236 430 236"/>
+      <path class="sulcus" d="M 196 60 C 206 76 214 94 212 110"/>
+      <path class="sulcus" d="M 262 56 C 270 86 268 120 258 150"/>
+      <path class="sulcus" d="M 330 240 C 350 228 376 222 402 224"/>
+      <path class="sulcus" d="M 440 120 C 452 150 456 184 452 214"/>
+      <!-- shading: hatch along the occipital edge, stipple under the temporal lobe -->
+      <path class="hatch" d="M 452 148 L 466 142 M 460 168 L 474 162 M 464 190 L 478 186 M 466 212 L 480 210 M 462 234 L 476 234 M 452 256 L 466 258 M 436 282 L 448 288 M 414 300 L 422 310"/>
+      <path class="stip" d="M 140 300 C 180 332 240 338 290 310"/>
+      <path class="stip" d="M 160 316 C 200 340 250 342 288 322"/>
+      <text class="cap-i" x="30" y="292">front</text>
+      <text class="cap-i" x="448" y="390">back</text>
 
       <!-- HOTSPOTS. Keep these ids: hot-prefrontal, hot-insula, hot-hippocampus, hot-amygdala -->
       <g id="hot-prefrontal" class="hot">
-        <path class="shape" d="M 100 244 C 70 196 74 122 150 88 C 170 80 190 78 202 94 C 182 150 176 204 188 254 C 158 262 124 260 100 244 Z"/>
-        <text class="lbl inside" x="96" y="162">Prefrontal</text>
-        <text class="lbl inside" x="96" y="182">cortex</text>
-        <g class="check" transform="translate(190,98)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+        <path class="shape" d="M 104 236 C 76 196 78 124 148 92 C 170 82 190 80 204 96 C 184 150 178 204 190 252 C 158 262 126 256 104 236 Z"/>
+        <text class="lbl" x="104" y="166">Prefrontal</text>
+        <text class="lbl" x="104" y="182">cortex</text>
+        <g class="check" transform="translate(96,162)"><circle r="4.5"/></g>
       </g>
       <g id="hot-insula" class="hot">
         <circle class="hit" cx="240" cy="246" r="36"/>
         <ellipse class="shape deep" cx="240" cy="246" rx="36" ry="21" transform="rotate(-14 240 246)"/>
-        <text class="lbl inside" x="240" y="214" text-anchor="middle">Insula</text>
-        <g class="check" transform="translate(276,230)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+        <path class="leader" d="M 252 226 L 262 212"/>
+        <text class="lbl" x="266" y="208">Insula</text>
+        <g class="check" transform="translate(258,204)"><circle r="4.5"/></g>
+      </g>
+      <g id="hot-amygdala" class="hot">
+        <circle class="hit" cx="186" cy="308" r="35"/>
+        <ellipse class="shape deep" cx="186" cy="308" rx="15" ry="10" transform="rotate(-18 186 308)"/>
+        <path class="leader" d="M 178 322 L 150 348"/>
+        <text class="lbl" x="92" y="366">Amygdala</text>
+        <g class="check" transform="translate(84,362)"><circle r="4.5"/></g>
       </g>
       <g id="hot-hippocampus" class="hot">
         <circle class="hit" cx="246" cy="300" r="34"/>
         <path class="shape deep" d="M 212 306 C 226 290 262 288 286 304 C 288 312 278 318 266 316 C 252 312 230 316 214 318 C 206 316 206 310 212 306 Z"/>
-        <path class="leader" d="M 262 322 L 272 346"/>
-        <text class="lbl" x="272" y="366" text-anchor="middle">Hippocampus</text>
-        <g class="check" transform="translate(290,292)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
-      </g>
-      <g id="hot-amygdala" class="hot">
-        <circle class="hit" cx="186" cy="308" r="30"/>
-        <ellipse class="shape deep" cx="186" cy="308" rx="15" ry="10" transform="rotate(-18 186 308)"/>
-        <path class="leader" d="M 178 322 L 160 346"/>
-        <text class="lbl" x="150" y="366" text-anchor="middle">Amygdala</text>
-        <g class="check" transform="translate(168,292)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+        <path class="leader" d="M 262 322 L 262 348"/>
+        <text class="lbl" x="206" y="366">Hippocampus</text>
+        <g class="check" transform="translate(198,362)"><circle r="4.5"/></g>
       </g>
     </svg>
+    <p class="cap">The front of the head is on the left. Dashed outlines mean the part is tucked inside, under the surface.</p>
 
     <ul class="legend" id="legend"></ul>
   </section>
@@ -299,7 +324,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
     <p class="sayit" id="sayit"></p>
 
     <section class="part">
-      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2.5" fill="currentColor"/></svg><span id="h-visual"></span></h3>
+      <h3 id="h-visual"></h3>
       <div class="visual">
         <p id="visual-text"></p>
         <div id="diagram"></div>
@@ -307,7 +332,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
     </section>
 
     <section class="part">
-      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10c2-5 5-5 7 0s5 5 7 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="h-sensory"></span></h3>
+      <h3 id="h-sensory"></h3>
       <div class="sensory">
         <p id="sensory-text"></p>
         <div class="bodybox">
@@ -315,16 +340,15 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
           <svg id="body-art" viewBox="0 0 120 232" role="img" aria-labelledby="body-title">
             <title id="body-title">Body outline</title>
             <!-- figure -->
-            <circle class="fig" cx="60" cy="30" r="19"/>
-            <path class="fig" d="M 52 48 L 52 56 L 68 56 L 68 48"/>
-            <path class="fig" d="M 36 60 C 30 60 28 64 27 72 L 22 142 L 36 142 L 40 92 L 40 142 L 44 142 L 44 212 L 56 212 L 58 150 L 62 150 L 64 212 L 76 212 L 76 142 L 80 142 L 80 92 L 84 142 L 98 142 L 93 72 C 92 64 90 60 84 60 Z"/>
-            <circle class="fig" cx="19" cy="154" r="8"/>
-            <circle class="fig" cx="101" cy="154" r="8"/>
+            <ellipse class="fig" cx="60" cy="28" rx="17" ry="19"/>
+            <path class="fig" d="M 54 46 L 53 56 M 66 46 L 67 56"/>
+            <path class="fig" d="M 53 56 C 40 58 32 62 28 74 L 20 140 L 33 142 L 39 94 L 40 148 L 42 214 L 55 214 L 58 152 L 62 152 L 65 214 L 78 214 L 80 148 L 81 94 L 87 142 L 100 140 L 92 74 C 88 62 80 58 67 56"/>
+            <path class="fig" d="M 20 140 C 14 146 14 158 20 162 C 26 164 30 158 30 150 M 100 140 C 106 146 106 158 100 162 C 94 164 90 158 90 150"/>
             <!-- highlight zones (one shows at a time) -->
-            <circle class="zone" data-zone="head" cx="60" cy="30" r="24"/>
-            <ellipse class="zone" data-zone="chest" cx="60" cy="86" rx="22" ry="15"/>
-            <ellipse class="zone" data-zone="stomach" cx="60" cy="122" rx="18" ry="13"/>
-            <g class="zone" data-zone="hands"><circle cx="19" cy="160" r="13"/><circle cx="101" cy="160" r="13"/></g>
+            <circle class="zone" data-zone="head" cx="60" cy="28" r="23"/>
+            <ellipse class="zone" data-zone="chest" cx="60" cy="86" rx="21" ry="13"/>
+            <ellipse class="zone" data-zone="stomach" cx="60" cy="122" rx="17" ry="12"/>
+            <g class="zone" data-zone="hands"><circle cx="22" cy="152" r="12"/><circle cx="98" cy="152" r="12"/></g>
             <path class="zone-line" data-zone="breath" d="M 60 44 L 60 70 C 60 86 60 100 60 124"/>
           </svg>
           <p class="where" id="where"></p>
@@ -333,7 +357,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
     </section>
 
     <section class="part activity">
-      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16l2-6 8-8 4 4-8 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 10l4 4" stroke="currentColor" stroke-width="2"/></svg><span id="h-activity"></span></h3>
+      <h3 id="h-activity"></h3>
       <dl>
         <dt id="l-material"></dt><dd id="a-material"></dd>
         <dt id="l-action"></dt><dd id="a-action"></dd>
@@ -377,8 +401,11 @@ button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-v
            Inside each group: one element with class="shape" (the visible
            outline the page tints on hover and press) and, for small
            parts, a <circle class="hit"> that gives fingers a bigger
-           target. A <g class="check"> inside the group shows the visited
-           check. The script finds the groups by id and does the rest.
+           target. A <g class="check"> inside the group holds the small
+           sage dot that marks a visited part (one <circle r="4.5">); the
+           page shows it by id. The script finds the groups by id and does
+           the rest. Outlines are 1px olive hairlines; the open part fills
+           with a 12% clay tint. Keep that register in any new artwork.
         d. Labels can stay in the artwork or be removed. The list of
            names under the picture is generated and always works.
 
@@ -426,20 +453,21 @@ var REGIONS = {
     body: 'chest',
     diagram:
       '<svg class="dg" viewBox="0 0 280 136" role="img" aria-label="A loud sound reaches the amygdala. A thick fast arrow goes to the body. A thin slower arrow goes to thinking.">' +
-      '<defs><marker id="mk-a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E0614C"/></marker>' +
-      '<marker id="mk-a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5A6B74"/></marker></defs>' +
-      '<circle cx="36" cy="66" r="6" class="acc"/>' +
-      '<path class="ln" d="M24 52l5 5M24 80l5-5M20 66h6M36 48v6M36 78v6"/>' +
-      '<text x="36" y="104" text-anchor="middle" class="soft">loud sound</text>' +
-      '<path class="ln" d="M50 66h30"/>' +
-      '<ellipse cx="106" cy="66" rx="22" ry="13" class="acc-l" transform="rotate(-20 106 66)"/>' +
+      '<defs><marker id="mk-a1" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M2 1.5L7 5L2 8.5" fill="none" stroke="#9A5C3E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></marker>' +
+      '<marker id="mk-a2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M2 1.5L7 5L2 8.5" fill="none" stroke="#6B6C73" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>' +
+      '<circle cx="30" cy="66" r="2" class="dot"/>' +
+      '<path class="ln" d="M38 57a12 12 0 0 1 0 18 M45 50a21 21 0 0 1 0 32"/>' +
+      '<text x="38" y="104" text-anchor="middle" class="soft">loud sound</text>' +
+      '<path class="hair" d="M58 66h24"/>' +
+      '<path class="tint" d="M 86 71 C 90 53 116 47 128 59 C 123 77 99 84 86 71 Z"/>' +
+      '<path class="hatch" d="M96 73 L 112 56 M104 76 L 119 61"/>' +
       '<text x="106" y="104" text-anchor="middle" class="big">amygdala</text>' +
-      '<path d="M126 56 C 146 40 166 30 184 26" stroke="#E0614C" stroke-width="4" fill="none" stroke-linecap="round" marker-end="url(#mk-a1)"/>' +
-      '<path d="M214 24 c-4-7-14-5-12 3 c2 6 12 10 12 10 s10-4 12-10 c2-8-8-10-12-3z" class="acc"/>' +
-      '<text x="214" y="52" text-anchor="middle" class="big">body reacts</text><text x="214" y="64" text-anchor="middle" class="soft">fast</text>' +
+      '<path class="acc-s" d="M128 56 C 148 40 166 30 182 26" marker-end="url(#mk-a1)"/>' +
+      '<path class="ln" d="M214 24 c-4-7-14-5-12 3 c2 6 12 10 12 10 s10-4 12-10 c2-8-8-10-12-3z"/>' +
+      '<text x="214" y="52" text-anchor="middle" class="big">body reacts</text><text x="214" y="66" text-anchor="middle" class="soft">fast</text>' +
       '<path class="ln-soft" d="M128 76 C 146 92 158 100 166 104" marker-end="url(#mk-a2)"/>' +
-      '<rect x="170" y="88" width="90" height="32" rx="8" class="card"/>' +
-      '<text x="215" y="102" text-anchor="middle" class="big">thinking checks</text><text x="215" y="114" text-anchor="middle" class="soft">slower</text>' +
+      '<text x="215" y="102" text-anchor="middle" class="big">thinking checks</text><text x="215" y="116" text-anchor="middle" class="soft">slower</text>' +
+      '<path class="hair" d="M176 122h78"/>' +
       '</svg>',
     child: {
       visual: 'The amygdala is a small part shaped like an almond, deep inside your brain, one on each side. Its job is to notice anything that might matter for your safety and to react fast. It can get your body moving before the thinking part of your brain has finished thinking. That is why you can jump at a loud bang before you know what made it.',
@@ -470,13 +498,16 @@ var REGIONS = {
     body: 'head',
     diagram:
       '<svg class="dg" viewBox="0 0 280 136" role="img" aria-label="A seahorse-shaped hippocampus connected to three memory cards: what, when, where.">' +
-      '<path class="acc-s" d="M 46 104 C 34 72 58 44 86 48 C 110 52 112 78 96 86 C 86 90 80 80 86 74" stroke-width="9"/>' +
-      '<circle cx="88" cy="50" r="7" class="acc"/>' +
+      '<path class="ln" d="M 46 106 C 34 74 56 44 86 48 C 110 52 112 78 96 86 C 86 90 80 80 86 74"/>' +
+      '<path class="stip" d="M 54 100 C 46 78 60 56 84 57"/>' +
+      '<path class="hatch" d="M50 94 L 58 92 M48 86 L 57 84 M49 78 L 58 76 M52 70 L 61 68 M57 62 L 66 61"/>' +
+      '<circle cx="90" cy="54" r="1.8" class="dot"/>' +
       '<text x="70" y="126" text-anchor="middle" class="big">hippocampus</text>' +
-      '<path class="ln-soft" d="M110 60 L146 36 M112 70 L148 66 M106 82 L150 96"/>' +
-      '<rect x="148" y="22" width="124" height="26" rx="6" class="card"/><text x="156" y="39" class="big">what</text><text x="192" y="39" class="soft">the lake</text>' +
-      '<rect x="148" y="54" width="124" height="26" rx="6" class="card"/><text x="156" y="71" class="big">when</text><text x="194" y="71" class="soft">last summer</text>' +
-      '<rect x="148" y="86" width="124" height="26" rx="6" class="card"/><text x="156" y="103" class="big">where</text><text x="198" y="103" class="soft">the north dock</text>' +
+      '<path class="ln-soft" d="M110 60 L146 40 M112 70 L148 72 M106 82 L148 104"/>' +
+      '<path class="hair" d="M148 44h124 M148 76h124 M148 108h124"/>' +
+      '<text x="150" y="39" class="big">what</text><text x="192" y="39" class="soft">the lake</text>' +
+      '<text x="150" y="71" class="big">when</text><text x="194" y="71" class="soft">last summer</text>' +
+      '<text x="150" y="103" class="big">where</text><text x="198" y="103" class="soft">the north dock</text>' +
       '<text x="210" y="128" text-anchor="middle" class="soft">filed together</text>' +
       '</svg>',
     child: {
@@ -508,14 +539,14 @@ var REGIONS = {
     body: 'hands',
     diagram:
       '<svg class="dg" viewBox="0 0 260 130" role="img" aria-label="Four jobs of the prefrontal cortex: plan, pause, choose, weigh.">' +
-      '<text x="130" y="14" text-anchor="middle" class="soft">behind the forehead</text><path class="ln-soft" d="M30 34 C 90 20 170 20 230 34"/>' +
-      '<g transform="translate(34,62)"><circle cx="-14" cy="-12" r="2.5" class="acc"/><path class="ln" d="M-7 -12h22"/><circle cx="-14" cy="0" r="2.5" class="acc"/><path class="ln" d="M-7 0h22"/><circle cx="-14" cy="12" r="2.5" class="acc"/><path class="ln" d="M-7 12h22"/></g>' +
+      '<text x="130" y="15" text-anchor="middle" class="soft">behind the forehead</text><path class="hair" d="M30 34 C 90 20 170 20 230 34"/>' +
+      '<g transform="translate(34,62)"><circle cx="-15" cy="-12" r="1.6" class="dot"/><path class="ln" d="M-8 -12h22"/><circle cx="-15" cy="0" r="1.6" class="dot"/><path class="ln" d="M-8 0h22"/><circle cx="-15" cy="12" r="1.6" class="dot"/><path class="ln" d="M-8 12h22"/></g>' +
       '<text x="34" y="104" text-anchor="middle" class="big">plan</text>' +
-      '<g transform="translate(98,62)"><rect x="-13" y="-16" width="9" height="32" rx="2" class="acc"/><rect x="4" y="-16" width="9" height="32" rx="2" class="acc"/></g>' +
+      '<g transform="translate(98,62)"><path class="ln" d="M-12 -16h8v32h-8z M4 -16h8v32h-8z"/><path class="hatch" d="M-11 -8l6 -4 M-11 0l6 -4 M-11 8l6 -4 M5 -8l6 -4 M5 0l6 -4 M5 8l6 -4"/></g>' +
       '<text x="98" y="104" text-anchor="middle" class="big">pause</text>' +
-      '<g transform="translate(162,62)"><path class="ln" d="M0 20 V 4 M0 4 C 0 -6 -14 -8 -16 -18 M0 4 C 0 -6 14 -8 16 -18"/><circle cx="-16" cy="-18" r="4" class="acc"/><circle cx="16" cy="-18" r="4" class="acc"/></g>' +
+      '<g transform="translate(162,62)"><path class="ln" d="M0 20 V 4 M0 4 C 0 -6 -14 -8 -16 -18 M0 4 C 0 -6 14 -8 16 -18"/><circle cx="-16" cy="-18" r="4" class="ln"/><circle cx="16" cy="-18" r="4" class="ln"/><circle cx="16" cy="-18" r="1.4" class="dot"/></g>' +
       '<text x="162" y="104" text-anchor="middle" class="big">choose</text>' +
-      '<g transform="translate(226,62)"><path class="ln" d="M0 -16 V 20 M-10 20 H 10 M-20 -8 H 20"/><path class="ln" d="M-20 -8 L -26 6 H -14 Z M20 -8 L 14 6 H 26 Z"/><path d="M-26 6 a6 6 0 0 0 12 0z M14 6 a6 6 0 0 0 12 0z" class="acc"/></g>' +
+      '<g transform="translate(226,62)"><path class="ln" d="M0 -16 V 20 M-10 20 H 10 M-20 -8 H 20 M-20 -8 L -27 6 H -13 Z M20 -8 L 13 6 H 27 Z"/><path class="ln" d="M-27 6 a7 7 0 0 0 14 0 M13 6 a7 7 0 0 0 14 0"/></g>' +
       '<text x="226" y="104" text-anchor="middle" class="big">weigh</text>' +
       '<text x="130" y="124" text-anchor="middle" class="soft">slower than the amygdala, on purpose</text>' +
       '</svg>',
@@ -548,14 +579,15 @@ var REGIONS = {
     body: 'breath',
     diagram:
       '<svg class="dg" viewBox="0 0 260 130" role="img" aria-label="The insula in the middle receives lines from heartbeat, breath, stomach, and temperature.">' +
-      '<path class="acc-l" d="M 104 48 C 118 36 146 36 158 50 C 166 62 160 82 146 88 C 130 94 108 90 102 76 C 98 66 98 56 104 48 Z"/>' +
-      '<path class="ln-soft" d="M112 56 C 126 52 140 56 150 64 M110 72 C 124 68 138 72 148 80" stroke-dasharray="none"/>' +
+      '<defs><clipPath id="ins-clip"><path d="M 104 48 C 118 36 146 36 158 50 C 166 62 160 82 146 88 C 130 94 108 90 102 76 C 98 66 98 56 104 48 Z"/></clipPath></defs>' +
+      '<path class="ln" d="M 104 48 C 118 36 146 36 158 50 C 166 62 160 82 146 88 C 130 94 108 90 102 76 C 98 66 98 56 104 48 Z"/>' +
+      '<g clip-path="url(#ins-clip)"><path class="hatch" d="M90 60 L150 110 M96 50 L160 104 M104 42 L170 96 M114 36 L178 88 M126 32 L186 80"/></g>' +
       '<text x="130" y="112" text-anchor="middle" class="big">insula</text>' +
       '<path class="ln-soft" d="M102 54 L 60 36 M158 54 L 200 36 M104 82 L 60 100 M156 84 L 200 100"/>' +
-      '<path d="M40 28 c-3-6-12-4-10 3 c2 5 10 9 10 9 s8-4 10-9 c2-7-7-9-10-3z" class="acc"/><text x="40" y="54" text-anchor="middle" class="soft">heartbeat</text>' +
+      '<path class="ln" d="M40 28 c-3-6-12-4-10 3 c2 5 10 9 10 9 s8-4 10-9 c2-7-7-9-10-3z"/><text x="40" y="54" text-anchor="middle" class="soft">heartbeat</text>' +
       '<path class="ln" d="M206 30 c4-6 8-6 12 0 s8 6 12 0 M206 40 c4-6 8-6 12 0 s8 6 12 0"/><text x="218" y="56" text-anchor="middle" class="soft">breath</text>' +
-      '<path class="ln" d="M30 100 c0-8 8-14 14-10 c6 4 6 12 0 16 c-4 3-10 2-12-2"/><circle cx="44" cy="98" r="3" class="acc"/><text x="40" y="124" text-anchor="middle" class="soft">stomach</text>' +
-      '<rect x="214" y="84" width="8" height="24" rx="4" class="card"/><circle cx="218" cy="110" r="5" class="acc"/><path class="acc-s" d="M218 92 v18" stroke-width="3"/><text x="218" y="126" text-anchor="middle" class="soft">warm or cold</text>' +
+      '<path class="ln" d="M30 100 c0-8 8-14 14-10 c6 4 6 12 0 16 c-4 3-10 2-12-2"/><circle cx="44" cy="98" r="1.6" class="dot"/><text x="40" y="124" text-anchor="middle" class="soft">stomach</text>' +
+      '<path class="ln" d="M214 84 h8 v22 a6 6 0 1 1 -8 0 z"/><path class="ln" d="M218 92 v18"/><text x="218" y="126" text-anchor="middle" class="soft">warm or cold</text>' +
       '</svg>',
     child: {
       visual: 'The insula is folded deep inside your brain, under the sides, so you cannot see it from the outside. It listens to signals from inside your body. Your heartbeat, your breath, your stomach, how warm or cold you are. It takes part in turning those signals into feelings you can notice and name.',
@@ -618,8 +650,8 @@ function buildLegend() {
     b.type = 'button';
     b.className = 'leg';
     b.setAttribute('data-region', id);
-    b.innerHTML = '<span class="mark" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
-      '<span><b></b><small></small></span>';
+    b.innerHTML = '<span class="bar" aria-hidden="true"></span><span class="mark" aria-hidden="true"></span>' +
+      '<span class="txt"><b></b><small></small></span>';
     b.addEventListener('click', function () { openRegion(id, true); });
     li.appendChild(b);
     ul.appendChild(li);

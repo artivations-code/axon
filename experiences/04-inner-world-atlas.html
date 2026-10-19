@@ -5,195 +5,243 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Inner World Atlas</title>
 <meta name="description" content="A clickable map of a fictional inner world. Name regions, move them, connect them, cover some in fog, and return over many sessions.">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
-  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
-  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
-  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
-  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
-  --night:#1B2730; --night-2:#24333E;
-  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
-  --round:20px;
+  --ground:#FFFFFF;
+  --paper:#FBFAF7;
+  --line:#D9CFBF;
+  --line-soft:#F7F6F5;
+  --ink:#3E3F46;
+  --ink-soft:#6B6C73;
+  --sage:#8E9A82;
+  --olive:#666741;
+  --clay:#C07A57; --clay-deep:#9A5C3E;
+  --gold:#E0B14C;
+  --teal:#0C4862;
+  --night:#2E3036; --night-2:#3E3F46;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Mulish',Arial,sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
-  background:var(--paper); color:var(--ink);
-  font-family:"Nunito",system-ui,sans-serif; font-weight:600;
-  font-size:16px; line-height:1.5;
+  background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-weight:400;
+  font-size:17px; line-height:1.65;
   overflow-x:hidden;
 }
-.wrap{max-width:1180px; margin:0 auto; padding:28px 16px 40px}
-a{color:var(--sky-d); font-weight:800}
+.wrap{max-width:1180px; margin:0 auto; padding:56px 16px 48px}
+@media (min-width:720px){ .wrap{padding:72px 40px 64px} }
+a{color:var(--clay-deep); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
 a:hover{color:var(--ink)}
-:focus-visible{outline:3px solid var(--leaf-d); outline-offset:3px; border-radius:6px}
+:focus-visible{outline:2px solid var(--sage); outline-offset:3px; border-radius:2px}
+p{margin:0 0 12px}
 
-/* ---------- frame ---------- */
-.chip{
-  display:inline-block; margin:0 0 14px; padding:5px 11px;
-  font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:800;
-  color:var(--leaf-d); background:var(--leaf-100); border-radius:999px;
+/* ---------- type ---------- */
+.eyebrow{
+  font-family:var(--sans); font-weight:700; font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--olive); margin:0 0 22px;
 }
-h1{font-size:clamp(32px,5vw,46px); font-weight:900; line-height:1.08; margin:0 0 10px; letter-spacing:-.01em}
-.lead{font-size:18px; max-width:60ch; margin:0 0 16px}
-.howto{max-width:60ch; margin:0 0 26px; border-top:2px solid var(--leaf-100); border-bottom:2px solid var(--leaf-100); padding:8px 0}
-.howto summary{cursor:pointer; font-weight:800; padding:4px 0; list-style-position:inside}
-.howto ol{margin:6px 0 4px; padding-left:22px}
-.howto li{margin:4px 0}
-h2{font-size:21px; font-weight:900; margin:0 0 4px}
-h3{font-size:16px; font-weight:900; margin:0 0 6px}
-.sub{color:var(--ink-soft); margin:0 0 14px; font-size:15px}
+h1{
+  font-family:var(--serif); font-weight:500; font-size:clamp(42px,4.6vw,52px); line-height:1.05; letter-spacing:.005em;
+  margin:0 0 18px; max-width:18ch; text-wrap:balance;
+}
+@media (max-width:719px){ h1{font-size:34px} }
+h2{font-family:var(--serif); font-weight:500; font-size:29px; line-height:1.15; margin:0 0 6px}
+h3{font-family:var(--serif); font-weight:500; font-size:21px; line-height:1.2; margin:0 0 8px}
+.lede{font-family:var(--serif); font-style:italic; font-weight:400; font-size:21px; line-height:1.4; max-width:52ch; margin:0 0 14px}
+.quiet{font-size:15px; color:var(--ink-soft); margin:0 0 10px; max-width:64ch}
+.sub{color:var(--ink-soft); margin:0 0 18px; font-size:15px; max-width:64ch}
 .hint{color:var(--ink-soft); font-size:14px; margin:8px 0 0}
 .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.rule{border:0; border-top:1px solid var(--line); margin:28px 0 36px}
+
+/* how this page works: tertiary link opening a small paper panel */
+.howto{max-width:64ch; margin:0}
+.howto summary{
+  display:inline; cursor:pointer; list-style:none; font-size:15px; color:var(--clay-deep);
+  text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px;
+}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary:hover{color:var(--ink)}
+.howto .howto-panel{
+  background:var(--paper); border:1px solid var(--line); border-radius:4px;
+  padding:14px 18px; margin:14px 0 0; font-size:15px; line-height:1.6;
+}
+.howto .howto-panel p{margin:0 0 6px}
+.howto .howto-panel p:last-child{margin:0}
 
 /* ---------- controls ---------- */
 button, .btn{
-  font:inherit; font-weight:800; font-size:15px; line-height:1.2;
-  border:2px solid var(--ink); background:var(--card); color:var(--ink);
-  border-radius:999px; padding:9px 15px; min-height:40px; cursor:pointer;
+  font-family:var(--sans); font-weight:700; font-size:14px; line-height:1.2; letter-spacing:.03em;
+  border:1px solid var(--line); background:transparent; color:var(--ink);
+  border-radius:3px; padding:10px 16px; min-height:40px; cursor:pointer;
   display:inline-flex; align-items:center; gap:8px; text-decoration:none;
 }
-button:hover, .btn:hover{background:var(--leaf-100)}
-.btn-primary{background:var(--ink); color:var(--paper)}
-.btn-primary:hover{background:var(--night-2); color:var(--paper)}
-.btn-quiet{border-color:transparent; background:transparent; color:var(--ink-soft); padding-inline:10px}
-.btn-quiet:hover{color:var(--ink); background:var(--leaf-100)}
-.btn-danger{border-color:var(--coral-d); color:var(--coral-d)}
-.btn-danger:hover{background:var(--coral-100)}
-button[aria-pressed="true"]{background:var(--leaf-100); border-color:var(--leaf-d); box-shadow:inset 0 0 0 1px var(--leaf-d)}
-button svg{width:18px; height:18px; flex:none}
-.row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
-.toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 14px}
-.status{
-  flex:1 1 220px; min-width:0; font-size:15px; color:var(--ink); min-height:24px;
-  font-weight:700;
+button:hover, .btn:hover{border-color:var(--ink-soft); color:var(--ink)}
+.btn-primary{background:var(--clay); border-color:var(--clay); color:#fff; padding:11px 20px}
+.btn-primary:hover{background:var(--clay-deep); border-color:var(--clay-deep); color:#fff}
+.btn-danger{background:var(--clay); border-color:var(--clay); color:#fff}
+.btn-danger:hover{background:var(--clay-deep); border-color:var(--clay-deep); color:#fff}
+.btn-quiet{
+  border:0; background:transparent; color:var(--clay-deep); padding:6px 2px; min-height:0; border-radius:0;
+  font-weight:600; letter-spacing:0; font-size:14px;
+  text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px;
 }
+.btn-quiet:hover{color:var(--ink)}
+button svg{width:18px; height:18px; flex:none}
+.row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center}
+.toolbar{display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; margin:0 0 16px}
+.toggle{
+  border:0; border-bottom:2px solid transparent; border-radius:0; padding:8px 0 6px; min-height:0;
+  background:transparent; font-weight:600; letter-spacing:0; font-size:14px; color:var(--ink);
+}
+.toggle:hover{border-bottom-color:var(--line)}
+.toggle[aria-pressed="true"]{border-bottom-color:var(--sage); color:var(--ink)}
+.toggle .dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--olive); flex:none}
+.toggle[aria-pressed="true"] .dot{background:var(--sage); border-color:var(--sage)}
+.status{flex:1 1 220px; min-width:0; font-size:14px; color:var(--ink-soft); min-height:22px; line-height:1.5}
 .status:empty{display:none}
 input[type="text"], input[type="date"], textarea, select{
-  font:inherit; font-weight:600; font-size:16px; color:var(--ink);
-  border:2px solid var(--ink-soft); border-radius:12px; padding:9px 12px;
-  background:var(--card); width:100%; max-width:100%;
+  font-family:var(--sans); font-weight:400; font-size:16px; color:var(--ink);
+  border:1px solid var(--line); border-radius:4px; padding:9px 12px;
+  background:var(--ground); width:100%; max-width:100%;
 }
+input:focus-visible, textarea:focus-visible, select:focus-visible{outline:2px solid var(--sage); outline-offset:1px}
 textarea{resize:vertical; min-height:88px}
 select{width:auto}
-label{display:block; font-weight:800; font-size:14px; margin:0 0 4px}
-.field{margin:0 0 14px}
-fieldset{border:0; padding:0; margin:0 0 14px; min-width:0}
-legend{font-weight:800; font-size:14px; padding:0; margin:0 0 6px}
+label{display:block; font-weight:600; font-size:13px; margin:0 0 6px; color:var(--ink)}
+.field{margin:0 0 16px}
+fieldset{border:0; padding:0; margin:0 0 16px; min-width:0}
+legend{font-weight:600; font-size:13px; padding:0; margin:0 0 8px}
+
+/* ---------- sections as ruled bands ---------- */
+main > section{border-top:1px solid var(--line); padding-top:30px; margin-top:38px}
+main > section:first-child{border-top:0; padding-top:0; margin-top:0}
 
 /* ---------- atlas layout ---------- */
-.atlas-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:18px; align-items:start}
-@media (min-width:960px){ .atlas-grid{grid-template-columns:minmax(0,1fr) 330px} }
+.atlas-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:22px; align-items:start}
+@media (min-width:960px){ .atlas-grid{grid-template-columns:minmax(0,1fr) 320px} }
 .map-wrap{
-  overflow:auto; border-radius:var(--round); background:var(--sky-100);
-  box-shadow:var(--sh); min-width:0; -webkit-overflow-scrolling:touch;
-  border:2px solid var(--sky-100);
+  overflow:auto; border-radius:4px; background:var(--paper);
+  border:1px solid var(--line); min-width:0; -webkit-overflow-scrolling:touch;
 }
 #map{display:block; width:100%; min-width:720px; height:auto; user-select:none; -webkit-user-select:none}
 .map-scroll-hint{display:none; margin:8px 0 0}
 @media (max-width:959px){ .map-scroll-hint{display:block} }
-.panel{display:grid; gap:16px}
-.card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px}
-section.card{margin:20px 0 0}
+.panel{display:grid; gap:22px}
+.card{background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:20px}
+.card h3{margin-bottom:12px}
 
-/* map drawing */
-.sea{fill:var(--sky-100)}
-.shallows{fill:none; stroke:var(--sky); stroke-width:22; stroke-opacity:.33; stroke-linejoin:round}
-.land{fill:var(--paper); stroke:var(--sky-d); stroke-width:2.2; stroke-linejoin:round}
-.river-bed{fill:none; stroke:var(--sky); stroke-width:7; stroke-linecap:round; stroke-opacity:.9}
-.river-line{fill:none; stroke:var(--sky-d); stroke-width:1.4; stroke-linecap:round}
-.hills{fill:none; stroke:var(--leaf-d); stroke-width:1.7; stroke-linecap:round}
-.belt{fill:var(--card); fill-opacity:.78}
-.terrain-label{font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; fill:var(--ink-soft); pointer-events:none}
-.water-label{fill:var(--sky-d)}
+/* ---------- the chart (every line 1.5px olive; water and fog by stipple) ---------- */
+.plate-frame{fill:none; stroke:var(--line); stroke-width:1}
+.stip{fill:var(--olive)}
+.sea-stipple{fill:none; stroke-linejoin:round}
+.land{fill:var(--ground); stroke:none}
+.coast{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round}
+.river-bed{fill:none; stroke:var(--ground); stroke-width:6; stroke-linecap:round; stroke-linejoin:round}
+.river-line{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+.hills{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+.hills .hachure{stroke-width:1}
+.terrain-label{font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; fill:var(--olive); paint-order:stroke; stroke:var(--paper); stroke-width:4px; stroke-linejoin:round; pointer-events:none}
+.plate-caption{font-family:var(--serif); font-style:italic; font-size:15px; fill:var(--ink-soft); paint-order:stroke; stroke:var(--paper); stroke-width:4px; stroke-linejoin:round; pointer-events:none}
+.leader{fill:none; stroke:var(--olive); stroke-width:1; stroke-linecap:round}
 
 .region{cursor:grab; touch-action:none; outline:none}
 .region:active{cursor:grabbing}
-.region-shape{fill:var(--leaf-100); stroke:var(--leaf-d); stroke-width:2.2; stroke-linejoin:round; transition:stroke-width .12s, stroke .12s}
-.hue-sky .region-shape{fill:var(--sky-100); stroke:var(--sky-d)}
-.hue-sunny .region-shape{fill:var(--sunny-100); stroke:var(--sunny-d)}
-.hue-coral .region-shape{fill:var(--coral-100); stroke:var(--coral-d)}
-.hue-leaf .region-shape{fill:var(--leaf-100); stroke:var(--leaf-d)}
-.region:hover .region-shape{stroke-width:3}
-.region:focus-visible .region-shape{stroke:var(--ink); stroke-width:4}
-.region.is-selected .region-shape{stroke:var(--ink); stroke-width:3.4}
-.region.is-pending .region-shape{stroke:var(--ink); stroke-width:3.4; stroke-dasharray:7 5}
+.region.is-dragging .region-shape{filter:drop-shadow(0 8px 22px rgba(62,63,70,.08))}
+.region-shape{fill:var(--ground); stroke:var(--olive); stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round; transition:stroke-width .12s, stroke .12s}
+.hue-leaf .region-shape{fill:var(--sage); fill-opacity:.14}
+.hue-sky .region-shape{fill:var(--teal); fill-opacity:.1}
+.hue-sunny .region-shape{fill:var(--gold); fill-opacity:.14}
+.hue-coral .region-shape{fill:var(--clay); fill-opacity:.12}
+.region:hover .region-shape{stroke-width:2}
+.region:focus-visible .region-shape{stroke:var(--sage); stroke-width:2.5}
+.region.is-selected .region-shape{stroke:var(--ink); stroke-width:2.5}
+.region.is-pending .region-shape{stroke:var(--clay-deep); stroke-width:2; stroke-dasharray:6 4}
 .region-label{
-  font-size:15px; font-weight:800; fill:var(--ink); text-anchor:middle;
-  paint-order:stroke; stroke:var(--card); stroke-width:4px; stroke-linejoin:round;
+  font-family:var(--serif); font-style:italic; font-size:18px; font-weight:500; fill:var(--ink); text-anchor:middle;
+  paint-order:stroke; stroke:var(--ground); stroke-width:4px; stroke-linejoin:round;
   pointer-events:none;
 }
-.region-glyph{color:var(--ink); pointer-events:none}
-.hue-sky .region-glyph{color:var(--sky-d)}
-.hue-sunny .region-glyph{color:var(--sunny-d)}
-.hue-coral .region-glyph{color:var(--coral-d)}
-.hue-leaf .region-glyph{color:var(--leaf-d)}
-.region.is-concealed .region-shape{fill:var(--paper); stroke:var(--ink-soft); stroke-dasharray:3 6; stroke-linecap:round}
-.region-fog{fill:var(--card); fill-opacity:.9; pointer-events:none}
-.label-ghost{fill:none; stroke:var(--ink-soft); stroke-width:1.6; stroke-dasharray:2 5; stroke-linecap:round; pointer-events:none}
+.region-glyph{color:var(--olive); pointer-events:none}
+.region.is-concealed .region-shape{fill:none; stroke:var(--ink-soft); stroke-dasharray:1 5; stroke-linecap:round}
+.region-fog{pointer-events:none}
+.label-ghost{fill:none; stroke:var(--ink-soft); stroke-width:1; stroke-dasharray:1 4; stroke-linecap:round; pointer-events:none}
 
-.conn-line{fill:none; stroke:var(--ink-soft); stroke-width:2.6; stroke-linecap:round}
-.conn.style-dotted .conn-line{stroke-dasharray:1 8}
-.conn.style-uncertain .conn-line{stroke-dasharray:9 7}
-.conn-label{font-size:13px; font-weight:800; fill:var(--ink); text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:5px; stroke-linejoin:round; pointer-events:none}
-.conn-q{color:var(--ink-soft)}
-.conn-q-bg{fill:var(--paper); stroke:var(--ink-soft); stroke-width:1.6}
+.conn-line{fill:none; stroke:var(--olive); stroke-width:1.5; stroke-linecap:round}
+.conn.style-dotted .conn-line{stroke-dasharray:1 6}
+.conn.style-uncertain .conn-line{stroke-dasharray:8 6}
+.conn-label{font-family:var(--serif); font-style:italic; font-size:16px; fill:var(--ink); text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:5px; stroke-linejoin:round; pointer-events:none}
+.conn-q{color:var(--olive)}
+.conn-q-bg{fill:var(--paper); stroke:var(--olive); stroke-width:1}
 
-/* glyph and hue pickers */
-.glyph-grid{display:flex; flex-wrap:wrap; gap:8px}
-.glyph-btn{width:44px; height:44px; padding:0; justify-content:center; border-radius:12px}
-.glyph-btn svg{width:22px; height:22px}
-.glyph-btn.is-none{width:auto; padding:0 12px; font-size:14px}
-.hue-row{display:flex; flex-wrap:wrap; gap:8px}
-.hue-btn{padding:6px 12px 6px 8px; border-radius:999px; font-size:14px}
-.swatch{width:18px; height:18px; border-radius:50%; border:2px solid; flex:none}
-.swatch-leaf{background:var(--leaf-100); border-color:var(--leaf-d)}
-.swatch-sky{background:var(--sky-100); border-color:var(--sky-d)}
-.swatch-sunny{background:var(--sunny-100); border-color:var(--sunny-d)}
-.swatch-coral{background:var(--coral-100); border-color:var(--coral-d)}
-.nudge{display:grid; grid-template-columns:repeat(3,44px); gap:6px; margin:4px 0 0}
-.nudge button{width:44px; height:40px; padding:0; justify-content:center; border-radius:10px}
+/* ---------- glyph and hue pickers ---------- */
+.glyph-grid{display:flex; flex-wrap:wrap; gap:6px}
+.glyph-btn{width:40px; height:40px; padding:0; justify-content:center; border-radius:3px; color:var(--olive); background:var(--ground)}
+.glyph-btn svg{width:20px; height:20px}
+.glyph-btn.is-none{width:auto; padding:0 12px; font-size:13px; font-weight:600; letter-spacing:0; color:var(--ink)}
+.glyph-btn[aria-pressed="true"]{border-color:var(--sage); box-shadow:inset 0 -2px 0 var(--sage); color:var(--ink)}
+.hue-row{display:flex; flex-wrap:wrap; gap:4px 18px}
+.hue-btn{
+  border:0; border-bottom:2px solid transparent; border-radius:0; padding:6px 0 4px; min-height:0;
+  background:transparent; font-weight:600; letter-spacing:0; font-size:14px;
+}
+.hue-btn:hover{border-bottom-color:var(--line)}
+.hue-btn[aria-pressed="true"]{border-bottom-color:var(--sage)}
+.swatch{width:9px; height:9px; border-radius:50%; flex:none; display:inline-block}
+.swatch-leaf{background:var(--sage)}
+.swatch-sky{background:var(--teal)}
+.swatch-sunny{background:var(--gold)}
+.swatch-coral{background:var(--clay)}
+.nudge{display:grid; grid-template-columns:repeat(3,40px); gap:4px; margin:2px 0 0}
+.nudge button{width:40px; height:36px; min-height:0; padding:0; justify-content:center; border-radius:3px; color:var(--olive); background:var(--ground)}
 .nudge .n-up{grid-column:2} .nudge .n-left{grid-column:1} .nudge .n-right{grid-column:3} .nudge .n-down{grid-column:2}
-.confirm{background:var(--sunny-100); border-radius:12px; padding:12px 14px; margin:12px 0 0}
-.confirm p{margin:0 0 10px}
-.empty{color:var(--ink-soft); margin:0}
+.confirm{position:relative; background:var(--ground); border:1px solid var(--line); border-radius:4px; padding:18px 16px 14px; margin:16px 0 0}
+.confirm::before{content:""; position:absolute; left:16px; top:-1px; width:26px; height:4px; background:var(--clay)}
+.confirm p{margin:0 0 12px; font-size:15px}
+.empty{color:var(--ink-soft); margin:0; font-size:15px}
 
-/* lists */
-.list{list-style:none; margin:0; padding:0; display:grid; gap:10px}
-.list li{border:2px solid var(--leaf-100); border-radius:14px; padding:12px 14px}
-.conn-head{font-weight:800; margin:0 0 8px}
-.conn-controls{display:flex; flex-wrap:wrap; gap:8px 12px; align-items:end}
-.conn-controls .field{margin:0; flex:1 1 160px}
+/* ---------- ruled lists ---------- */
+.list{list-style:none; margin:0; padding:0}
+.list li{border-top:1px solid var(--line); padding:14px 0}
+.list li:last-child{border-bottom:1px solid var(--line)}
+.conn-head{font-family:var(--serif); font-size:20px; font-weight:500; margin:0 0 10px}
+.conn-controls{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:end}
+.conn-controls .field{margin:0; flex:1 1 180px}
 .conn-controls .field-style{flex:0 1 auto}
-.legend-grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.conn-controls .btn-quiet{padding-bottom:12px}
+.legend-grid{display:grid; gap:14px 28px; grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
 .legend-item{display:flex; gap:12px; align-items:flex-start}
-.legend-icon{width:40px; height:40px; flex:none; border-radius:12px; background:var(--leaf-100); display:grid; place-items:center; color:var(--ink)}
-.legend-icon svg{width:22px; height:22px}
+.legend-icon{width:28px; height:28px; flex:none; display:grid; place-items:center; color:var(--olive); margin-top:2px}
+.legend-icon svg{width:20px; height:20px}
+.legend-item strong{font-weight:600; font-size:15px}
 .legend-item .names{margin:0; font-size:14px; color:var(--ink-soft)}
-.legend-item input{margin-top:6px; padding:6px 10px; font-size:14px; border-radius:10px}
-.legend-group{margin:0 0 16px}
+.legend-item input{margin-top:8px; padding:6px 10px; font-size:14px}
+.legend-group{margin:0 0 22px}
 .legend-group:last-child{margin:0}
+.legend-group h3{font-size:19px}
 .log-entry{display:flex; gap:12px; align-items:flex-start; justify-content:space-between}
-.log-entry time{font-weight:900; display:block; font-size:14px; color:var(--ink-soft)}
+.log-entry time{display:block; font-size:13px; color:var(--ink-soft); font-variant-numeric:tabular-nums; letter-spacing:.02em}
 .log-entry p{margin:2px 0 0; white-space:pre-wrap}
-.log-form .field{margin:0 0 12px}
-.two{display:grid; gap:12px; grid-template-columns:1fr}
+.log-form .field{margin:0 0 14px}
+.two{display:grid; gap:14px; grid-template-columns:1fr}
 @media (min-width:720px){ .two{grid-template-columns:200px 1fr} }
 .file-btn{position:relative; overflow:hidden}
 .file-btn input{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%}
-.file-btn:focus-within{outline:3px solid var(--leaf-d); outline-offset:3px}
-.msg{margin:10px 0 0; font-weight:700}
-.msg.is-bad{color:var(--coral-d)}
+.file-btn:focus-within{outline:2px solid var(--sage); outline-offset:3px}
+.msg{margin:12px 0 0; font-size:15px; color:var(--ink-soft)}
+.msg.is-bad{color:var(--clay-deep)}
 .msg:empty{display:none}
 #copy-fallback{position:absolute; left:-9999px; top:0; width:1px; height:1px}
+.fresh{border-top:1px solid var(--line); margin-top:26px; padding-top:22px}
 
-/* footer */
-footer{margin:36px 0 0; border-top:2px solid var(--leaf-100); padding-top:18px; font-size:15px}
-footer p{margin:0 0 8px}
-.crisis{color:var(--ink-soft); font-size:14px}
-.sig{font-weight:800}
+/* ---------- footer ---------- */
+footer{margin:48px 0 0; border-top:1px solid var(--line); padding-top:22px; font-size:15px; color:var(--ink-soft)}
+footer p{margin:0 0 8px; max-width:64ch}
+.crisis{font-size:14px}
+.sig{font-size:13px; margin-top:16px}
 
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important; animation:none !important}
@@ -204,19 +252,20 @@ footer p{margin:0 0 8px}
 <body>
 <div class="wrap">
 <header>
-  <p class="chip">Beyond The Sun Therapy</p>
+  <p class="eyebrow">Beyond The Sun Therapy</p>
   <h1>The Inner World Atlas</h1>
-  <p class="lead">Draw a map of a place that is yours. Name its regions, move them, link them, cover some in fog, and come back to it another day.</p>
+  <p class="lede">Draw a map of a place that is yours. Name its regions, move them, link them, cover some in fog, and come back to it another day.</p>
+  <p class="quiet">Click a region to open its card. Drag it to move it.</p>
   <details class="howto">
-    <summary>How to use this</summary>
-    <ol>
-      <li>Click a region to name it, write a note, pick a symbol or a color, or cover it with fog.</li>
-      <li>Drag a region to move it. When a region has focus, the arrow keys move it too.</li>
-      <li>Press Connect, then click two regions to draw a path between them. Give the path a word.</li>
-      <li>Everything saves on this device. Download the file to carry the atlas somewhere else.</li>
-      <li>To make a paper version, 140 lb cold-press watercolor paper takes pencil, ink, and wash without buckling.</li>
-    </ol>
+    <summary>How this page works</summary>
+    <div class="howto-panel">
+      <p>Click a region to name it, write a note, pick a symbol or a color, or cover it with fog.</p>
+      <p>Drag a region to move it. When a region has focus, the arrow keys move it too.</p>
+      <p>Press Connect, then click two regions to draw a path between them. Give the path a word.</p>
+      <p>Everything saves on this device. Download the file to carry the atlas somewhere else. For a paper version, 140 lb cold-press watercolor paper takes pencil, ink, and wash without buckling.</p>
+    </div>
   </details>
+  <hr class="rule">
 </header>
 
 <main>
@@ -224,12 +273,12 @@ footer p{margin:0 0 8px}
     <h2 id="map-h">The map</h2>
     <p class="sub">Eight regions are here to start. Their names are open. Keep them, rename them, add more, or clear them all.</p>
     <div class="toolbar" role="toolbar" aria-label="Map tools">
-      <button type="button" id="mode-connect" aria-pressed="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h9"/></svg>
+      <button type="button" class="toggle" id="mode-connect" aria-pressed="false">
+        <span class="dot" aria-hidden="true"></span>
         Connect
       </button>
       <button type="button" id="btn-add-jump">
-        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
         Add a region
       </button>
       <span id="status" class="status" role="status" aria-live="polite"></span>
@@ -240,12 +289,21 @@ footer p{margin:0 0 8px}
         <div class="map-wrap" id="map-wrap">
           <svg id="map" viewBox="0 0 1000 680" role="group" aria-label="Map of the inner world. Regions are buttons inside the map.">
             <defs>
-              <filter id="fog-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
-              <filter id="belt-blur" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="16"/></filter>
+              <!-- Stipple tiles. Dots sit a little off the grid so the tiling reads as hand-dotted. -->
+              <pattern id="stip-sparse" width="30" height="30" patternUnits="userSpaceOnUse">
+                <circle class="stip" cx="4" cy="7" r=".9"/><circle class="stip" cx="19" cy="3" r=".8"/><circle class="stip" cx="13" cy="17" r=".9"/><circle class="stip" cx="26" cy="22" r=".8"/><circle class="stip" cx="7" cy="26" r=".8"/>
+              </pattern>
+              <pattern id="stip-mid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle class="stip" cx="3" cy="4" r=".9"/><circle class="stip" cx="12" cy="2" r=".8"/><circle class="stip" cx="17" cy="9" r=".9"/><circle class="stip" cx="8" cy="11" r=".9"/><circle class="stip" cx="2" cy="16" r=".8"/><circle class="stip" cx="14" cy="17" r=".9"/>
+              </pattern>
+              <pattern id="stip-dense" width="12" height="12" patternUnits="userSpaceOnUse">
+                <circle class="stip" cx="2" cy="3" r=".9"/><circle class="stip" cx="8" cy="1.5" r=".8"/><circle class="stip" cx="10.5" cy="7" r=".9"/><circle class="stip" cx="5" cy="7.5" r=".9"/><circle class="stip" cx="1.5" cy="10.5" r=".8"/><circle class="stip" cx="8.5" cy="11" r=".9"/>
+              </pattern>
+              <clipPath id="plate-clip"><rect x="13" y="13" width="974" height="654"/></clipPath>
             </defs>
-            <rect class="sea" x="0" y="0" width="1000" height="680"/>
-            <g id="terrain"></g>
-            <g id="belt-layer"></g>
+            <rect class="plate-frame" x="12.5" y="12.5" width="975" height="655"/>
+            <g id="terrain" clip-path="url(#plate-clip)"></g>
+            <g id="belt-layer" clip-path="url(#plate-clip)"></g>
             <g id="conn-layer" aria-hidden="true"></g>
             <g id="region-layer"></g>
           </svg>
@@ -271,19 +329,19 @@ footer p{margin:0 0 8px}
     </div>
   </section>
 
-  <section class="card" id="connections-section" aria-labelledby="conn-h">
+  <section id="connections-section" aria-labelledby="conn-h">
     <h2 id="conn-h">Paths</h2>
     <p class="sub">A path joins two regions. You choose the word on it and how sure the line looks.</p>
     <div id="conn-list"></div>
   </section>
 
-  <section class="card" id="legend-section" aria-labelledby="legend-h">
+  <section id="legend-section" aria-labelledby="legend-h">
     <h2 id="legend-h">Legend</h2>
     <p class="sub">Built only from what you chose. Nothing here has a set meaning. If you want, say what a symbol means to you.</p>
     <div id="legend"></div>
   </section>
 
-  <section class="card" id="log-section" aria-labelledby="log-h">
+  <section id="log-section" aria-labelledby="log-h">
     <h2 id="log-h">Session log</h2>
     <p class="sub">A dated line for each visit. Write what changed today, in the atlas or outside it.</p>
     <form class="log-form" id="log-form" novalidate>
@@ -299,10 +357,10 @@ footer p{margin:0 0 8px}
       </div>
       <button type="submit" class="btn-primary">Add to the log</button>
     </form>
-    <div id="log-list" style="margin-top:16px"></div>
+    <div id="log-list" style="margin-top:20px"></div>
   </section>
 
-  <section class="card" id="carry-section" aria-labelledby="carry-h">
+  <section id="carry-section" aria-labelledby="carry-h">
     <h2 id="carry-h">Carry it with you</h2>
     <p class="sub">The atlas saves in this browser only. Nothing is sent anywhere. To move it to another device, download the file and import it there.</p>
     <div class="row">
@@ -312,15 +370,16 @@ footer p{margin:0 0 8px}
     </div>
     <p class="msg" id="carry-msg"></p>
     <textarea id="copy-fallback" aria-hidden="true" tabindex="-1"></textarea>
-    <hr style="border:0;border-top:2px solid var(--leaf-100);margin:18px 0">
-    <h3>Start fresh</h3>
-    <p class="sub" style="margin-bottom:10px">Clears every region, path, note, and log entry on this device and puts the eight starting regions back.</p>
-    <button type="button" id="btn-fresh">Start fresh</button>
-    <div class="confirm" id="fresh-confirm" hidden>
-      <p>This cannot be undone. If you want to keep this atlas, download it first.</p>
-      <div class="row">
-        <button type="button" class="btn-danger" id="fresh-yes">Yes, clear it</button>
-        <button type="button" class="btn-quiet" id="fresh-no">Keep my atlas</button>
+    <div class="fresh">
+      <h3>Start fresh</h3>
+      <p class="sub" style="margin-bottom:12px">Clears every region, path, note, and log entry on this device and puts the eight starting regions back.</p>
+      <button type="button" id="btn-fresh">Start fresh</button>
+      <div class="confirm" id="fresh-confirm" hidden>
+        <p>This cannot be undone. If you want to keep this atlas, download it first.</p>
+        <div class="row">
+          <button type="button" class="btn-danger" id="fresh-yes">Yes, clear it</button>
+          <button type="button" class="btn-quiet" id="fresh-no">Keep my atlas</button>
+        </div>
       </div>
     </div>
   </section>
@@ -334,22 +393,22 @@ footer p{margin:0 0 8px}
 </footer>
 </div>
 
-<!-- Glyph set. Each symbol is a small line drawing. Referenced by <use href="#g-id">. -->
+<!-- Glyph set. Each symbol is a single-weight 1.5px line drawing on a 20 by 20 grid. Referenced by <use href="#g-id">. -->
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
   <defs>
-    <symbol id="g-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v4M21 12v3"/></symbol>
-    <symbol id="g-door" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1.5"/><path d="M15 12v.01M3 21h18"/></symbol>
-    <symbol id="g-lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M12 3v3M8 6h8M9 21h6"/><rect x="7" y="6" width="10" height="12" rx="2.5"/><path d="M12 10v4"/></symbol>
-    <symbol id="g-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0M2 16c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0"/></symbol>
-    <symbol id="g-root" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v7M12 10c-3 2-5 5-6 10M12 10c3 2 5 5 6 10M12 10c-1 4-1 7 0 11M8 15c-2 0-3 1-4 2M16 15c2 0 3 1 4 2"/></symbol>
-    <symbol id="g-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c-7 0-12 5-13 14M7 18L20 4M20 4c0 7-5 12-13 14M9 14h3M11 10h3"/></symbol>
-    <symbol id="g-stone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4 3.5-7 8.5-7S20 9 20 12.5 16.5 19 12 19s-8-2-8-6z"/><path d="M8 11c1-1 2-1.5 3.5-1.5"/></symbol>
-    <symbol id="g-thread" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="10" height="13" rx="2"/><path d="M6 8h10M6 11h10M6 14h10M16 15c3 0 4.5 2 4.5 5"/></symbol>
-    <symbol id="g-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M12 4v16M4 12h16"/></symbol>
-    <symbol id="g-ladder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v18M16 3v18M8 7h8M8 11h8M8 15h8M8 19h8"/></symbol>
-    <symbol id="g-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c0-5 1.5-10 6-10s6 5 6 10H6zM12 3v3M10 19a2 2 0 0 0 4 0"/></symbol>
-    <symbol id="g-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3a9 9 0 1 0 7 13 7 7 0 0 1-7-13z"/></symbol>
-    <symbol id="g-question" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9.5a3 3 0 1 1 4.2 2.7c-.8.4-1.2 1-1.2 1.8v.5M12 18v.01"/></symbol>
+    <symbol id="g-key" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="10" r="3.6"/><path d="M10.1 10h7.4M15 10v3.2M17.5 10v2.3"/></symbol>
+    <symbol id="g-door" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.2 17.5V3.4c0-.6.4-1 1-1h7.6c.6 0 1 .4 1 1v14.1"/><path d="M12.4 10.6v.4M2.5 17.5h15"/></symbol>
+    <symbol id="g-lantern" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 2.5h4.8M10 2.5v2.4M6.3 4.9h7.4M7.6 17.5h4.8"/><path d="M6.2 7.2c0-1.3 1-2.3 2.3-2.3h3c1.3 0 2.3 1 2.3 2.3v6.3c0 1.3-1 2.3-2.3 2.3h-3c-1.3 0-2.3-1-2.3-2.3z"/><path d="M10 8.4v3.4"/></symbol>
+    <symbol id="g-wave" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.6c2-2.5 4-2.5 6 0s4 2.5 6 0 3-1.7 4 0M2 13.2c2-2.5 4-2.5 6 0s4 2.5 6 0 3-1.7 4 0"/></symbol>
+    <symbol id="g-root" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5v6M10 8.5c-2.5 1.6-4.2 4.2-5 8.6M10 8.5c2.5 1.6 4.2 4.2 5 8.6M10 8.5c-.8 3.2-.8 6 0 9.2M6.8 12.6c-1.6 0-2.6.8-3.4 1.6M13.2 12.6c1.6 0 2.6.8 3.4 1.6"/></symbol>
+    <symbol id="g-feather" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.8 3.2c-5.8 0-10 4.2-11 11.7M5.8 14.9L16.8 3.2M16.8 3.2c0 5.9-4.2 10.1-11 11.7M7.5 11.6h2.6M9.2 8.3h2.6"/></symbol>
+    <symbol id="g-stone" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 10.8c0-3.4 3-5.9 7.1-5.9 3.9 0 6.5 2.1 6.5 5.1S14 15.9 10.2 15.9c-3.6 0-7-1.7-7-5.1z"/><path d="M6.6 9.2c.8-.8 1.7-1.2 2.9-1.3"/></symbol>
+    <symbol id="g-thread" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.4c0-.8.6-1.4 1.4-1.4h6.2c.8 0 1.4.6 1.4 1.4v9.2c0 .8-.6 1.4-1.4 1.4H6.4c-.8 0-1.4-.6-1.4-1.4z"/><path d="M5 6.6h9M5 9.1h9M5 11.6h9M14 12.4c2.5 0 3.8 1.7 3.8 4.6"/></symbol>
+    <symbol id="g-window" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 4.2c0-.4.3-.7.7-.7h11.6c.4 0 .7.3.7.7v11.6c0 .4-.3.7-.7.7H4.2c-.4 0-.7-.3-.7-.7z"/><path d="M10 3.5v13M3.5 10h13"/></symbol>
+    <symbol id="g-ladder" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 2.5v15M13.4 2.5v15M6.6 5.8h6.8M6.6 9.2h6.8M6.6 12.6h6.8M6.6 16h6.8"/></symbol>
+    <symbol id="g-bell" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13.4c0-4.3 1.3-8.4 5-8.4s5 4.1 5 8.4zM4.2 13.4h11.6M10 2.5v2.5M8.4 15.9a1.6 1.6 0 0 0 3.2 0"/></symbol>
+    <symbol id="g-moon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.6 2.6a7.4 7.4 0 1 0 5.8 10.8 5.8 5.8 0 0 1-5.8-10.8z"/></symbol>
+    <symbol id="g-question" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 7.8a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5v.4M10 15v.01"/></symbol>
   </defs>
 </svg>
 
@@ -551,7 +610,7 @@ function niceDate(iso) {
 function glyphLabel(id) { for (var i = 0; i < GLYPHS.length; i++) if (GLYPHS[i].id === id) return GLYPHS[i].label; return ''; }
 function hueLabel(id) { for (var i = 0; i < HUES.length; i++) if (HUES[i].id === id) return HUES[i].label; return ''; }
 function styleLabel(id) { for (var i = 0; i < LINE_STYLES.length; i++) if (LINE_STYLES[i].id === id) return LINE_STYLES[i].label; return ''; }
-function glyphSvg(id, cls) { return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#g-' + id + '"></use></svg>'; }
+function glyphSvg(id, cls) { return '<svg class="' + (cls || '') + '" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#g-' + id + '"></use></svg>'; }
 
 var statusEl = document.getElementById('status');
 function announce(text) { statusEl.textContent = text; }
@@ -602,26 +661,39 @@ function renderTerrain() {
     var x0 = h.x - h.w / 2, x1 = h.x + h.w / 2;
     var out = '<path d="M' + x0 + ' ' + h.y + ' q' + (h.w / 2) + ' -' + h.h + ' ' + h.w + ' 0"/>';
     /* hachures: short slope strokes, the old mapmakers' way to show a hill side */
-    for (var t = 0.18; t <= 0.83; t += 0.13) {
+    for (var t = 0.14; t <= 0.87; t += 0.11) {
       var px = x0 + (x1 - x0) * t;
       var py = h.y - 2 * h.h * t * (1 - t);
-      var slope = (t < 0.5 ? -1 : 1) * 3;
-      out += '<path d="M' + px.toFixed(1) + ' ' + (py + 3).toFixed(1) + ' l' + slope + ' ' + (7 + 4 * Math.abs(0.5 - t)).toFixed(1) + '"/>';
+      var slope = (t < 0.5 ? -1 : 1) * 2.6;
+      out += '<path class="hachure" d="M' + px.toFixed(1) + ' ' + (py + 2.5).toFixed(1) + ' l' + slope + ' ' + (6 + 5 * Math.abs(0.5 - t)).toFixed(1) + '"/>';
     }
     return out;
   }).join('');
   terrainLayer.innerHTML =
-    '<path class="shallows" d="' + LAND_PATH + '"/>' +
+    /* water: three stipple bands that thin out as they leave the coast */
+    '<path class="sea-stipple" d="' + LAND_PATH + '" stroke="url(#stip-sparse)" stroke-width="118"/>' +
+    '<path class="sea-stipple" d="' + LAND_PATH + '" stroke="url(#stip-mid)" stroke-width="66"/>' +
+    '<path class="sea-stipple" d="' + LAND_PATH + '" stroke="url(#stip-dense)" stroke-width="26"/>' +
     '<path class="land" id="land" d="' + LAND_PATH + '"/>' +
+    '<path class="coast" d="' + LAND_PATH + '"/>' +
     '<path class="river-bed" d="' + RIVER_PATH + '"/>' +
     '<path class="river-line" d="' + RIVER_PATH + '"/>' +
     '<g class="hills">' + hills + '</g>' +
-    '<text class="terrain-label water-label" x="300" y="640" text-anchor="middle">Open water</text>' +
-    '<text class="terrain-label water-label" x="30" y="40">Sea</text>' +
-    '<text class="terrain-label" x="690" y="170" text-anchor="middle">Hills</text>';
+    '<text class="terrain-label" x="300" y="652" text-anchor="middle">Open water</text>' +
+    '<text class="terrain-label" x="34" y="44">Sea</text>' +
+    '<path class="leader" d="M690 174 v10"/>' +
+    '<text class="terrain-label" x="690" y="200" text-anchor="middle">Hills</text>' +
+    '<text class="plate-caption" x="962" y="46" text-anchor="end">An inner world, not to scale</text>';
   beltLayer.innerHTML =
-    '<path class="belt" d="' + BELT_PATH + '" filter="url(#belt-blur)"/>' +
-    '<text class="terrain-label" x="40" y="432">Fog belt</text>';
+    /* fog: the same band three times, each narrower and more closely dotted, so the fog fades at its edges */
+    /* (the narrower bands are clip paths, so the dots stay round instead of being squashed with the band) */
+    '<clipPath id="belt-a"><path d="' + BELT_PATH + '"/></clipPath>' +
+    '<clipPath id="belt-b"><path d="' + BELT_PATH + '" transform="translate(0 420) scale(1 .62) translate(0 -420)"/></clipPath>' +
+    '<clipPath id="belt-c"><path d="' + BELT_PATH + '" transform="translate(0 420) scale(1 .3) translate(0 -420)"/></clipPath>' +
+    '<rect x="0" y="330" width="1000" height="180" fill="url(#stip-sparse)" clip-path="url(#belt-a)"/>' +
+    '<rect x="0" y="330" width="1000" height="180" fill="url(#stip-mid)" clip-path="url(#belt-b)"/>' +
+    '<rect x="0" y="330" width="1000" height="180" fill="url(#stip-dense)" clip-path="url(#belt-c)"/>' +
+    '<text class="terrain-label" x="40" y="436">Fog belt</text>';
 }
 
 function regionAria(r) {
@@ -644,10 +716,11 @@ function renderMap() {
     var inner = '<path class="region-shape" d="' + shape + '"/>';
     if (r.concealed) {
       var w = Math.min(r.rx * 1.6, r.name.length * 8.4 + 16);
-      inner += '<path class="region-fog" d="' + shape + '" transform="scale(1.18)" filter="url(#fog-blur)"/>';
-      inner += '<rect class="label-ghost" x="' + (-w / 2).toFixed(1) + '" y="-11" width="' + w.toFixed(1) + '" height="22" rx="7"/>';
+      inner += '<path class="region-fog" d="' + shape + '" transform="scale(1.22)" fill="url(#stip-sparse)"/>';
+      inner += '<path class="region-fog" d="' + shape + '" fill="url(#stip-mid)"/>';
+      inner += '<rect class="label-ghost" x="' + (-w / 2).toFixed(1) + '" y="-11" width="' + w.toFixed(1) + '" height="22" rx="2"/>';
     } else {
-      if (r.glyph) inner += '<use class="region-glyph" href="#g-' + r.glyph + '" x="-12" y="-33" width="24" height="24"></use>';
+      if (r.glyph) inner += '<use class="region-glyph" href="#g-' + r.glyph + '" x="-10" y="-34" width="20" height="20"></use>';
       inner += '<text class="region-label" y="' + (r.glyph ? 10 : 5) + '">' + esc(r.name) + '</text>';
     }
     return '<g class="' + cls.join(' ') + '" data-id="' + esc(r.id) + '" transform="translate(' + r.x + ' ' + r.y + ')" tabindex="0" role="button" aria-label="' + esc(regionAria(r)) + '"' +
@@ -718,10 +791,10 @@ function renderCard() {
     '<fieldset><legend>Symbol</legend><div class="glyph-grid" id="f-glyphs">' + glyphs + '</div></fieldset>' +
     '<fieldset><legend>Color</legend><div class="hue-row" id="f-hues">' + hues + '</div></fieldset>' +
     '<fieldset><legend>Move with buttons</legend><div class="nudge" id="f-nudge">' +
-      '<button type="button" class="n-up" data-dx="0" data-dy="-10" aria-label="Move up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>' +
-      '<button type="button" class="n-left" data-dx="-10" data-dy="0" aria-label="Move left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>' +
-      '<button type="button" class="n-right" data-dx="10" data-dy="0" aria-label="Move right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
-      '<button type="button" class="n-down" data-dx="0" data-dy="10" aria-label="Move down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>' +
+      '<button type="button" class="n-up" data-dx="0" data-dy="-10" aria-label="Move up"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16V4M4 10l6-6 6 6"/></svg></button>' +
+      '<button type="button" class="n-left" data-dx="-10" data-dy="0" aria-label="Move left"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M10 4l-6 6 6 6"/></svg></button>' +
+      '<button type="button" class="n-right" data-dx="10" data-dy="0" aria-label="Move right"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M10 4l6 6-6 6"/></svg></button>' +
+      '<button type="button" class="n-down" data-dx="0" data-dy="10" aria-label="Move down"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v12M4 10l6 6 6-6"/></svg></button>' +
     '</div><p class="hint">Or drag it on the map. Arrow keys work when the region has focus. Hold Shift for small steps.</p></fieldset>' +
     '<div class="row">' +
       '<button type="button" id="f-conceal" aria-pressed="' + (r.concealed ? 'true' : 'false') + '">' + (r.concealed ? 'Lift the fog' : 'Cover with fog') + '</button>' +
@@ -838,6 +911,7 @@ map.addEventListener('pointermove', function (e) {
   var dx = p.x - drag.px, dy = p.y - drag.py;
   if (!drag.moved && Math.hypot(dx, dy) < 4) return;
   drag.moved = true;
+  drag.g.classList.add('is-dragging');
   var r = byId(drag.id); if (!r) return;
   r.x = clamp(drag.ox + dx, BOUNDS.minX, BOUNDS.maxX);
   r.y = clamp(drag.oy + dy, BOUNDS.minY, BOUNDS.maxY);

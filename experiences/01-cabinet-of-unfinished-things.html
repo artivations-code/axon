@@ -26,7 +26,6 @@
   --text-2:#B9B4AA;
   --rule:rgba(255,255,255,.12);
   --rule-strong:rgba(236,231,221,.38);
-  --hatch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M-1 8 L8 -1 M-1 1 L1 -1 M6 8 L8 6' stroke='%23ECE7DD' stroke-opacity='.26' stroke-width='1' fill='none'/%3E%3C/svg%3E");
   --ruled:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='26'%3E%3Cpath d='M0 25.5 H4' stroke='%23ECE7DD' stroke-opacity='.11' stroke-width='1'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
@@ -68,81 +67,40 @@ details.how summary::-webkit-details-marker{display:none}
 h2{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px;line-height:1.15;color:var(--text)}
 .muted{color:var(--text-2);font-size:15px}
 
-/* Cabinet: a front elevation, engraved */
+/* Cabinet: an engraved front elevation in shallow oblique.
+   The carcass is one SVG; each compartment is a button laid over it in the same
+   coordinate system, holding a drawn cavity (behind) and a drawn front (in front). */
 .cabinet-col{min-width:0}
-.cabinet{
-  background:var(--night-2);
-  border:1px solid var(--rule-strong);
-  border-radius:2px;
-  padding:14px;
-  position:relative;
-  margin-bottom:12px;
-}
-.cornice{height:7px;margin:-14px -14px 12px;border-bottom:1px solid var(--rule-strong);position:relative}
-.cornice::after{content:"";position:absolute;left:0;right:0;top:3px;border-top:1px solid var(--rule)}
-.feet{position:absolute;left:26px;right:26px;bottom:-11px;display:flex;justify-content:space-between}
-.feet span{width:18px;height:11px;border:1px solid var(--rule-strong);border-top:0;background:var(--night)}
-.cab-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  grid-template-rows:58px 52px 72px 72px 62px 62px 64px 0;
-  gap:8px;
-  transition:grid-template-rows .4s ease;
-}
-.cab-grid.has-false{grid-template-rows:58px 52px 72px 72px 62px 62px 64px 32px}
-#c-plan{grid-area:1/1/2/5}
-#c-key{grid-area:2/1/3/3}
-#c-empty{grid-area:2/3/3/5}
-#c-shadow{grid-area:3/1/5/3}
-#c-lock{grid-area:3/3/5/5}
-#c-moth{grid-area:5/1/7/2}
-#c-jar{grid-area:5/2/7/5}
-#c-letter{grid-area:7/1/8/5}
-#c-false{grid-area:8/1/9/5}
+.cabinet{position:relative;width:100%;max-width:360px;aspect-ratio:340/556;margin:0 0 6px}
+.carcass{position:absolute;inset:0;width:100%;height:100%;overflow:visible;display:block}
+.carcass text,.front text{font-family:var(--sans);font-weight:700;letter-spacing:.16em;text-transform:uppercase;fill:var(--text-2);font-size:9.5px}
 .comp{
-  position:relative;padding:0;border:0;margin:0;
-  background:var(--night) var(--hatch);
-  border-radius:2px;cursor:pointer;color:inherit;text-align:left;
-  min-width:0;
+  position:absolute;display:block;padding:0;margin:0;border:0;background:none;
+  color:inherit;cursor:pointer;overflow:visible;
 }
-.comp:focus-visible{outline-offset:2px}
+.comp:focus-visible{outline-offset:4px}
 .comp.open{z-index:2}
-.face{
-  position:absolute;inset:0;border-radius:2px;
-  background:var(--night-2);
-  border:1px solid var(--rule-strong);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  transition:transform .38s cubic-bezier(.2,.8,.2,1), border-color .38s ease;
-  overflow:visible;
-}
-.comp.open .face{border-color:rgba(224,177,76,.75)}
-.comp.drawer.open .face{transform:translateY(8px) scale(1.035)}
-.comp.door .face{transform-origin:left center}
-.comp.door.open .face{transform:perspective(900px) rotateY(-36deg)}
-.comp.door.right .face{transform-origin:right center}
-.comp.door.right.open .face{transform:perspective(900px) rotateY(36deg)}
 .comp.false{display:none}
-.cab-grid.has-false .comp.false{display:block}
-.comp.false .face{border-style:dashed}
-.comp.false.open .face{transform:translateY(7px) scale(1.02)}
-.label{font:700 10px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--text-2);white-space:nowrap}
-.pull{width:38px;height:14px;display:block;color:var(--gold)}
-.pull.sm{width:26px;height:10px}
-.knob{position:absolute;width:12px;height:12px;color:var(--gold)}
-.door .knob{top:50%;transform:translateY(-50%)}
-.door:not(.right) .knob{right:12px}
-.door.right .knob{left:12px}
-.hinge{position:absolute;width:1.5px;height:14px;background:var(--gold)}
-.door:not(.right) .hinge{left:-1px}
-.door.right .hinge{right:-1px}
-.hinge.t{top:14px}.hinge.b{bottom:14px}
-.panel{position:absolute;inset:10px 14px;border:1px solid var(--rule);pointer-events:none}
-.door .label{position:absolute;top:16px}
-.escutcheon{width:20px;height:32px;display:block;margin-top:6px;color:var(--gold)}
-.comp.locked .escutcheon{color:var(--text-2)}
-.comp.moth-drawer .face{gap:8px}
-.comp.moth-drawer .label{writing-mode:vertical-rl;transform:rotate(180deg);font-size:9.5px;padding:4px 0}
-.notch{width:26px;height:10px;display:block;color:var(--gold)}
+.cabinet.has-false .comp.false{display:block}
+.cav,.front{position:absolute;inset:0;width:100%;height:100%;overflow:visible;display:block}
+.front{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.front .plate{fill:var(--night-2);transition:fill-opacity .2s ease}
+.front .box{opacity:0;transition:opacity .2s ease}
+.front .label,.front .grain,.front .pull{transition:opacity .2s ease}
+.comp.open .front .pull{opacity:.28}
+/* drawers slide down and out, and the front is then drawn as a box in oblique */
+.comp.drawer.open .front{transform:translate(-6px,9px)}
+.comp.false.open .front{transform:translateY(-10px)}
+.comp.drawer.open .front .plate,.comp.false.open .front .plate{fill-opacity:0}
+.comp.drawer.open .front .label,.comp.drawer.open .front .grain,.comp.false.open .front .grain{opacity:0}
+.comp.open .front .box{opacity:1}
+/* doors swing on the hinge */
+.comp.door .front{transform-origin:0 50%}
+.comp.door.right .front{transform-origin:100% 50%}
+.comp.door.open .front{transform:perspective(520px) rotateY(-68deg)}
+.comp.door.right.open .front{transform:perspective(520px) rotateY(68deg)}
+@keyframes rattle{0%{transform:translateX(0)}20%{transform:translateX(-2px)}40%{transform:translateX(2px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}100%{transform:translateX(0)}}
+.comp.rattle .front{animation:rattle .32s ease}
 .plate-cap{margin:18px 0 0;font:italic 400 15px/1.45 var(--serif);color:var(--text-2)}
 .plate-cap .fig{font:700 10px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;font-style:normal;color:var(--sage);margin-right:10px}
 #status{min-height:1.5em;margin:10px 0 0;color:var(--text-2);font-size:15px;line-height:1.5}
@@ -161,10 +119,35 @@ h2{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px;line-h
 .card .sketch{display:block;width:100%;max-height:180px;color:var(--olive);margin:4px 0 10px}
 .card .caption{font:italic 400 17px/1.45 var(--serif);margin:0;color:var(--ink)}
 .card .empty{font:500 26px/1.25 var(--serif);margin:10px 0 12px;color:var(--ink)}
+.card .own-img{display:block;max-width:100%;max-height:240px;border:1px solid var(--line);border-radius:3px;margin:4px 0 12px;background:#fff}
 .card .found{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .card .obj{font:400 15px/1.5 var(--sans);margin:0;color:var(--ink-soft)}
 .card .obj b{font:500 19px/1.3 var(--serif);color:var(--ink)}
 .card .acts{display:flex;gap:8px;flex-wrap:wrap}
+
+/* The ruled form in the drawer marked Yours */
+.form{border-top:1px solid var(--line);margin-top:4px}
+.form .frow{padding:12px 0;border-bottom:1px solid var(--line);display:grid;gap:6px}
+.form label{font:600 13px/1.4 var(--sans);color:var(--olive)}
+.form input[type=text],.form textarea{
+  width:100%;font:400 18px/1.45 var(--serif);color:var(--ink);background:#fff;
+  border:1px solid var(--line);border-radius:4px;padding:8px 10px;
+}
+.form textarea{min-height:88px;resize:vertical}
+.form input::placeholder,.form textarea::placeholder{color:var(--ink-soft);font-style:italic}
+.form input:focus-visible,.form textarea:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.form .file{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:400 14px/1.4 var(--sans);color:var(--ink-soft)}
+.form .file input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.form .thumb{display:block;height:56px;width:auto;max-width:120px;object-fit:contain;border:1px solid var(--line);border-radius:3px;background:#fff}
+.form .fnote{margin:0;font:400 14px/1.45 var(--sans);color:var(--clay-deep)}
+.form .frow.submit{display:flex;justify-content:flex-start;border-bottom:0}
+.kept{margin-top:14px}
+.kept .tag{color:var(--olive)}
+.kept ul{list-style:none;margin:0;padding:0}
+.kept li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line);font:400 18px/1.35 var(--serif);color:var(--ink)}
+.kept li:last-child{border-bottom:1px solid var(--line)}
+.kept .none{font:italic 400 16px/1.45 var(--serif);color:var(--ink-soft);margin:0}
+.card .tlink.ink{color:var(--clay-deep)}
 
 /* Buttons */
 .btn{
@@ -179,17 +162,24 @@ h2{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px;line-h
 .btn.night{border-color:rgba(255,255,255,.28);color:var(--text)}
 .btn.brass{border-color:var(--gold);color:var(--gold)}
 
-/* Worktable: a ruled surface */
+/* Worktable: a drawn ruled surface with two chalk places */
 .aside{display:grid;gap:26px;align-content:start}
 .table{background:var(--night-2);border:1px solid var(--rule);border-radius:4px;padding:18px 20px 20px}
 .table h2{margin-bottom:2px}
 .table .sub{margin:0 0 14px}
+.bench{position:relative;padding-bottom:7px}
+.bench::after{content:"";position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule)}
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);background:var(--ruled);background-position:0 11px}
-.slot{min-height:104px;padding:12px 0 14px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;min-width:0;align-items:flex-start}
+.slot{min-height:104px;padding:12px 0 14px;display:flex;flex-direction:column;justify-content:flex-start;gap:8px;min-width:0;align-items:flex-start}
+.slot .btn{margin-top:auto}
 .slot + .slot{border-left:1px solid var(--rule);padding-left:16px}
 .slot .n{font:700 11px/1.4 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--text-2);display:flex;align-items:center;gap:10px}
 .slot .n::before{content:"";width:26px;height:4px;background:var(--rule-strong);flex:none}
 .slot.filled .n::before{background:var(--gold)}
+.place{position:relative;width:100%;height:72px;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.place .chalk{position:absolute;inset:0;width:100%;height:100%;display:block}
+.place .osk{position:relative;height:56px;width:auto;max-width:88%;display:block}
+.place .oimg{position:relative;height:56px;width:auto;max-width:88%;display:block;border:1px solid var(--rule-strong)}
 .slot .what{font:400 20px/1.3 var(--serif);margin:0;color:var(--text)}
 .slot .what.none{color:var(--text-2);font-style:italic}
 .result{margin-top:16px}
@@ -201,12 +191,12 @@ h2{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px;line-h
 .result .tag + .tag{margin-top:14px}
 .conn{font:italic 400 23px/1.4 var(--serif);margin:0;color:var(--text)}
 .unwritten-line{margin:0 0 10px;color:var(--text);font-size:15px;line-height:1.55}
-textarea{
+.result textarea{
   width:100%;min-height:92px;resize:vertical;font:400 18px/1.45 var(--serif);
   color:var(--text);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);border-radius:4px;padding:10px 12px;
 }
-textarea::placeholder{color:var(--text-2);font-style:italic}
-textarea:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+.result textarea::placeholder{color:var(--text-2);font-style:italic}
+.result textarea:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
 .tray{margin-top:16px;padding-top:12px;border-top:1px solid var(--rule)}
 .chips{display:flex;flex-direction:column}
@@ -242,7 +232,8 @@ footer .note{width:100%}
   .slot + .slot{border-left:0;border-top:1px solid var(--rule);padding-left:0}
 }
 @media (prefers-reduced-motion:reduce){
-  .face,.cab-grid{transition:none}
+  .front,.front .plate,.front .box,.front .label,.front .grain,.front .pull{transition:none}
+  .comp.rattle .front{animation:none}
 }
 </style>
 </head>
@@ -258,8 +249,8 @@ footer .note{width:100%}
       <div class="how-panel">
         <p>Each open compartment shows one fragment and gives you one found object. Close it and the object goes back in.</p>
         <p>Put two objects on the worktable. Some pairs have a connection written. For the rest, you can write your own, and it is kept on this device.</p>
-        <p>The panel called What the cabinet is telling changes with what is open and what has been joined.</p>
-        <p>Leave it unfinished closes everything and keeps your own writing. Start fresh clears all of it.</p>
+        <p>The drawer marked Yours takes your own unfinished things: a title, some writing, an image if you like. Each becomes a found object too.</p>
+        <p>The panel called What the cabinet is telling changes with what is open and what has been joined. Leave it unfinished closes everything and keeps your own writing. Start fresh clears all of it.</p>
       </div>
     </details>
   </header>
@@ -267,12 +258,8 @@ footer .note{width:100%}
   <div class="stage">
     <div class="cabinet-col">
       <h2 class="sr">The cabinet</h2>
-      <div class="cabinet">
-        <div class="cornice" aria-hidden="true"></div>
-        <div class="cab-grid" id="cabgrid" role="group" aria-label="Cabinet compartments"></div>
-        <div class="feet" aria-hidden="true"><span></span><span></span></div>
-      </div>
-      <p class="plate-cap"><span class="fig">Plate I</span>Front elevation. Cedar, brass, nine compartments.</p>
+      <div class="cabinet" id="cabinet" role="group" aria-label="Cabinet compartments"></div>
+      <p class="plate-cap"><span class="fig">Plate I</span>Front elevation, shallow oblique. Cedar, brass, ten compartments and a false bottom.</p>
       <p id="status" aria-live="polite"></p>
     </div>
 
@@ -286,7 +273,7 @@ footer .note{width:100%}
       <section class="table" aria-labelledby="h-table">
         <h2 id="h-table">Worktable</h2>
         <p class="sub muted">Objet trouvé. Two at a time.</p>
-        <div class="slots" id="slots"></div>
+        <div class="bench"><div class="slots" id="slots"></div></div>
         <div class="result" id="result"></div>
         <div class="tray" id="tray"></div>
         <div class="record">
@@ -309,7 +296,7 @@ footer .note{width:100%}
         <button class="btn night" type="button" id="freshBtn">Start fresh</button>
       </div>
       <div id="confirmBox" hidden class="confirm">
-        <p>Start fresh clears everything on this device, including the connections you wrote. Your writing cannot be recovered after that.</p>
+        <p>Start fresh clears everything on this device, including the connections and the fragments you wrote. Your writing cannot be recovered after that.</p>
         <div class="row" style="margin-top:0">
           <button class="btn night small" type="button" id="freshYes">Yes, clear it all</button>
           <button class="btn brass small" type="button" id="freshNo">Keep it</button>
@@ -334,6 +321,7 @@ footer .note{width:100%}
    DRAFT_STORY      : the paragraphs of "What the cabinet is telling". Each rule has a "when" test on the
                       current state and a "text". Rules print in the order listed when their test is true.
    UI               : short status lines.
+   The drawer marked Yours has no entry here: it holds whatever the person adds, kept on their device.
    Nothing below the data blocks needs to change for a wording edit.
 */
 
@@ -420,6 +408,7 @@ const COMPARTMENTS = [
   { id: 'moth',   kind: 'drawer', label: 'Moths',    where: 'the tall narrow drawer', tall: true },
   { id: 'jar',    kind: 'drawer', label: 'Weather',  where: 'the deep drawer' },
   { id: 'letter', kind: 'drawer', label: 'Letters',  where: 'the bottom drawer' },
+  { id: 'yours',  kind: 'drawer', label: 'Yours',    where: 'the drawer marked Yours', own: true },
   { id: 'false',  kind: 'false',  label: '',         where: 'the false bottom' }
 ];
 
@@ -514,41 +503,70 @@ const UI = {
   lifted: name => 'Lifted off: ' + name + '.'
 };
 
+
+/* Status lines for the drawer marked Yours. */
+Object.assign(UI, {
+  needTitle: 'Give it a title first, so the cabinet can call it something.',
+  needBody: 'Add a few lines, or an image, or both.',
+  imageTooBig: 'That image is larger than 1.5 MB. Choose a smaller one.',
+  imageNotImage: 'That file is not an image.',
+  kept: title => 'Kept in the drawer marked Yours: ' + title + '.',
+  unkept: title => 'Taken out of the drawer: ' + title + '.',
+  storageFull: 'This device would not keep it. Storage is full, so it stays only until you leave the page.'
+});
+
 /* ---------- Logic. Nothing below is wording. ---------- */
 const STORE = 'cabinet-unfinished-v1';
-const EMPTY = () => ({ open: [], keyFound: false, falseShown: false, table: [], found: [], own: {} });
+const EMPTY = () => ({ open: [], keyFound: false, falseShown: false, table: [], found: [], own: {}, mine: [] });
+const FIRST_OPEN = ['plan'];   /* what is already out when nothing has been saved */
 let S = EMPTY();
 
+const isComp = id => !!DRAFT_FRAGMENTS[id] || id === 'yours';
 function load() {
+  let raw = null;
+  try { raw = localStorage.getItem(STORE); } catch (e) { raw = null; }
+  if (!raw) { S = EMPTY(); S.open = FIRST_OPEN.slice(); return; }
   try {
-    const raw = localStorage.getItem(STORE);
-    if (!raw) return;
     const d = JSON.parse(raw);
     if (d && typeof d === 'object') {
       S = Object.assign(EMPTY(), d);
-      S.open = (S.open || []).filter(id => DRAFT_FRAGMENTS[id]);
+      S.mine = Array.isArray(S.mine) ? S.mine.filter(m => m && typeof m === 'object' && typeof m.id === 'string' && typeof m.title === 'string')
+        .map(m => ({ id: m.id, title: m.title, text: typeof m.text === 'string' ? m.text : '', image: (typeof m.image === 'string' && m.image.indexOf('data:image/') === 0) ? m.image : null })) : [];
+      S.open = (S.open || []).filter(isComp);
       S.table = (S.table || []).filter(id => objectById(id)).slice(0, 2);
       S.found = (S.found || []).filter(k => typeof k === 'string');
       if (!S.own || typeof S.own !== 'object') S.own = {};
+      Object.keys(S.own).forEach(k => { const [a, b] = k.split('+'); if (!objectById(a) || !objectById(b)) delete S.own[k]; });
     }
-  } catch (e) { S = EMPTY(); }
+  } catch (e) { S = EMPTY(); S.open = FIRST_OPEN.slice(); }
 }
+let storageWarned = false;
 function save() {
-  try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* storage unavailable; page still works */ }
+  try { localStorage.setItem(STORE, JSON.stringify(S)); storageWarned = false; return true; }
+  catch (e) { if (!storageWarned) { storageWarned = true; setTimeout(() => status(UI.storageFull), 0); } return false; }
 }
 
 const comp = id => COMPARTMENTS.find(c => c.id === id);
 const frag = id => DRAFT_FRAGMENTS[id];
+const mineById = id => S.mine.find(m => m.id === id);
 function objectById(objId) {
   for (const id in DRAFT_FRAGMENTS) {
     const f = DRAFT_FRAGMENTS[id];
     if (f.object && f.object.id === objId) return Object.assign({ from: id }, f.object);
   }
+  const m = mineById(objId);
+  if (m) return { id: m.id, name: m.title, from: 'yours', own: true };
   return null;
 }
 const pairKey = (a, b) => [a, b].sort().join('+');
 const findPairing = (a, b) => DRAFT_PAIRINGS.find(p => pairKey(p.a, p.b) === pairKey(a, b));
 const objName = id => { const o = objectById(id); return o ? o.name : id; };
+/* objects a compartment gives, in order */
+function objectsOf(id) {
+  if (id === 'yours') return S.mine.map(m => ({ id: m.id, name: m.title }));
+  const f = frag(id);
+  return f && f.object ? [f.object] : [];
+}
 
 const $ = sel => document.querySelector(sel);
 const statusEl = $('#status');
@@ -559,14 +577,21 @@ function status(msg) {
   statusTimer = setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ''; }, 7000);
 }
 
+function rattle(id) {
+  const b = $('#c-' + id);
+  if (!b) return;
+  b.classList.remove('rattle');
+  void b.offsetWidth;
+  b.classList.add('rattle');
+}
 function toggle(id) {
   const c = comp(id);
-  if (id === 'lock' && !S.keyFound) { status(UI.locked); return; }
+  if (id === 'lock' && !S.keyFound) { rattle('lock'); status(UI.locked); return; }
   const i = S.open.indexOf(id);
   if (i >= 0) {
     S.open.splice(i, 1);
-    const f = frag(id);
-    if (f.object) S.table = S.table.filter(o => o !== f.object.id);
+    const gone = objectsOf(id).map(o => o.id);
+    S.table = S.table.filter(o => !gone.includes(o));
     status(UI.closed(c.where));
   } else {
     S.open.push(id);
@@ -602,40 +627,224 @@ function saveOwn(k, text) {
   save(); render();
 }
 
-/* ---------- Rendering ---------- */
-const PULL = '<svg class="pull" viewBox="0 0 40 14" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.2 4.1 Q19.6 15.4 34.8 3.8"/><circle cx="5" cy="3.9" r="2.1"/><circle cx="35" cy="3.9" r="2.1"/></g></svg>';
-const PULL_SM = PULL.replace('class="pull"', 'class="pull sm"');
-const KNOB = '<svg class="knob" viewBox="0 0 12 12" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.4"/><path d="M6 5.6 L6.1 6.3"/></g></svg>';
-const ESCUTCHEON = '<svg class="escutcheon" viewBox="0 0 22 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path class="plate" d="M11 1.2 L19.8 7.1 V26.8 L11 32.8 L2.2 27 V7.2 Z"/><circle class="hole" cx="11" cy="13" r="3.2"/><path class="hole" d="M9.4 15.4 L12.6 15.4 L13.8 24.6 L8.2 24.6 Z"/></g></svg>';
-const NOTCH = '<svg class="notch" viewBox="0 0 26 10" aria-hidden="true"><path d="M1.5 9 A11.6 11.6 0 0 1 24.6 8.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+/* Own fragments: the drawer marked Yours */
+const MAX_IMAGE = 1.5 * 1024 * 1024;
+let draft = { title: '', text: '', image: null, imageName: '', note: '' };
+function keepMine() {
+  const title = draft.title.trim(), text = draft.text.trim();
+  if (!title) { status(UI.needTitle); const t = $('#mine-title'); if (t) t.focus(); return; }
+  if (!text && !draft.image) { status(UI.needBody); const t = $('#mine-text'); if (t) t.focus(); return; }
+  const m = { id: 'own-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), title, text, image: draft.image };
+  S.mine.push(m);
+  draft = { title: '', text: '', image: null, imageName: '', note: '' };
+  status(UI.kept(title));
+  save(); render();
+  const t = $('#mine-title'); if (t) t.focus();
+}
+function removeMine(id) {
+  const m = mineById(id);
+  if (!m) return;
+  S.mine = S.mine.filter(x => x.id !== id);
+  S.table = S.table.filter(o => o !== id);
+  Object.keys(S.own).forEach(k => { if (k.split('+').includes(id)) delete S.own[k]; });
+  status(UI.unkept(m.title));
+  save(); render();
+}
+function pickImage(file) {
+  if (!file) return;
+  if (!/^image\//.test(file.type)) { draft.note = UI.imageNotImage; status(UI.imageNotImage); render(); return; }
+  if (file.size > MAX_IMAGE) { draft.note = UI.imageTooBig; draft.image = null; draft.imageName = ''; status(UI.imageTooBig); render(); return; }
+  const r = new FileReader();
+  r.onload = () => { draft.image = String(r.result); draft.imageName = file.name; draft.note = ''; render(); };
+  r.onerror = () => { draft.note = UI.imageNotImage; render(); };
+  r.readAsDataURL(file);
+}
+
+/* ---------- The drawing ---------- */
+/* Everything is drawn in one coordinate system, 340 by 556, and scaled with the column. */
+const CAB = { w: 340, h: 556, dx: 16, dy: -12 };
+const LAYOUT = {
+  plan:   { x: 22,  y: 40,  w: 270, h: 52 },
+  key:    { x: 22,  y: 99,  w: 131, h: 46 },
+  empty:  { x: 160, y: 99,  w: 132, h: 46 },
+  shadow: { x: 22,  y: 152, w: 131, h: 110 },
+  lock:   { x: 160, y: 152, w: 132, h: 110 },
+  moth:   { x: 22,  y: 269, w: 50,  h: 104 },
+  jar:    { x: 79,  y: 269, w: 213, h: 104 },
+  letter: { x: 22,  y: 380, w: 270, h: 50 },
+  yours:  { x: 22,  y: 437, w: 270, h: 44 },
+  false:  { x: 22,  y: 488, w: 270, h: 26 }
+};
+const LN = 'fill="none" stroke="#ECE7DD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+const HAIR = 'fill="none" stroke="#ECE7DD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"';
+const BRASS = 'fill="none" stroke="#E0B14C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+
+const PULL = '<g class="pull" ' + BRASS + '><path d="M5.2 4.1 Q19.6 15.4 34.8 3.8"/><circle cx="5" cy="3.9" r="2.1"/><circle cx="35" cy="3.9" r="2.1"/></g>';
+const PULL_SM = '<g class="pull" ' + BRASS + '><path d="M3.2 3 Q13 11.6 22.8 2.8"/><circle cx="3" cy="2.8" r="1.7"/><circle cx="23" cy="2.8" r="1.7"/></g>';
+const ESCUTCHEON = '<g ' + BRASS + '><path d="M11 1.2 L19.8 7.1 V26.8 L11 32.8 L2.2 27 V7.2 Z"/><circle cx="11" cy="13" r="3.2"/><path d="M9.4 15.4 L12.6 15.4 L13.8 24.6 L8.2 24.6 Z"/><circle cx="11" cy="5" r=".8" fill="#E0B14C" stroke="none"/><circle cx="11" cy="29" r=".8" fill="#E0B14C" stroke="none"/></g>';
+const NOTCH = '<g class="pull" ' + BRASS + '><path d="M1.5 9 A11.6 11.6 0 0 1 24.6 8.8"/></g>';
+
+/* Small sketches of the contents, one per object, drawn at 1.5px in their own small box. */
+const SKETCH = {
+  map:    { w: 92, h: 42, svg: '<g ' + LN + '><path d="M6 38 L6.4 22"/><path d="M6.2 12 L6.6 3 L62 2.6 L88 3.4 L88.6 38"/><path d="M6.4 22 L-2 22.3"/><path d="M-2 22.3 A9.5 9.5 0 0 1 6.2 12" stroke-dasharray="2 2.4" opacity=".7"/><path d="M6 38 L42 38.4"/><path d="M42 38.4 L56 38.6" stroke-dasharray="1.5 3.2" opacity=".5"/><path d="M62 2.6 V6 M74 2.8 V6 M62 4.3 H74" stroke-width="1" opacity=".7"/></g>' },
+  key:    { w: 70, h: 22, svg: '<g ' + BRASS + '><circle cx="9" cy="11" r="7"/><circle cx="9" cy="11" r="2.4" opacity=".6"/><path d="M16 9.4 L19.5 9.4 M16 12.6 L19.5 12.6"/><path d="M19.5 7.2 V14.8"/><path d="M19.5 9.6 L60 9.3 Q63.5 10.9 60 12.5 L19.5 12.6"/></g>' },
+  shadow: { w: 62, h: 46, svg: '<g ' + LN + '><path d="M4 16 L46 11 L48.6 40 L6.4 44 Z"/><path d="M4 16 L48.6 40" opacity=".5" stroke-width="1"/><path d="M9 20 L12 36 M15 19 L18 34 M21 18 L24 33 M27 17 L30 32 M33 16 L36 31 M39 15 L42 30" stroke-width="1" opacity=".55"/><path d="M46 11 Q54 1 60 6 Q55 9 51 15" /><path d="M14 28 Q22 24 32 26" stroke-width="1" opacity=".35" stroke-dasharray="2 2"/></g>' },
+  teeth:  { w: 72, h: 36, svg: '<g ' + HAIR + '><rect x="2" y="2" width="68" height="32" rx="1" opacity=".75"/><path d="M8 8 H12 M8 28 H12 M60 8 H64 M60 28 H64" opacity=".4"/></g><g ' + BRASS + '><path d="M14 26 V15 L17.5 11 L21 15 V26 Z"/><path d="M28 26 V15 L31.5 11 L35 15 V26 Z"/><path d="M42 26 V15 L45.5 11 L49 15 V26 Z"/></g><g ' + HAIR + '><path d="M56 26 V15 L59.5 11 L63 15 V26 Z" stroke-dasharray="1.5 2.5" opacity=".55"/></g>' },
+  jar:    { w: 36, h: 52, svg: '<g ' + LN + '><path d="M8 3 H28 V8.5 H8 Z"/><path d="M10 8.5 Q4 13 4 21 V46 Q4 50 8 50 H26"/><path d="M26 8.5 Q32 13 32 21 V30"/><path d="M12 29 Q10 23 16 23 Q18 17 24 20 Q29 19 28 25 Q31 27 27 30 Z" opacity=".85"/><path d="M14 34 L13 39 M19 34 L18 41 M24 34 L23.5 38" opacity=".7"/></g>' },
+  thread: { w: 38, h: 82, svg: '<g ' + LN + '><g transform="translate(19,22)"><ellipse cx="0" cy="0" rx="2.2" ry="7"/><path d="M-2 -4 Q-15 -11 -16 0 Q-13 7 -2 4"/><path d="M2 -4 Q15 -11 16 0 Q13 7 2 4"/><path d="M-1 -7 Q-4 -12 -7 -13 M1 -7 Q4 -12 7 -13" opacity=".7" stroke-width="1"/><path d="M-4 -2 L-12 -3 M-4 1 L-11 3" opacity=".45" stroke-width="1"/></g><g transform="translate(14,60) rotate(24) scale(.72)"><ellipse cx="0" cy="0" rx="2.2" ry="7"/><path d="M-2 -4 Q-15 -11 -16 0 Q-13 7 -2 4"/><path d="M2 -4 Q15 -11 16 0 Q13 7 2 4" stroke-dasharray="3 3" opacity=".6"/></g><path d="M19 29 Q31 40 21 50 T24 70 Q12 78 19 82" stroke-width="1" opacity=".7"/></g>' },
+  letter: { w: 30, h: 42, svg: '<g ' + LN + '><path d="M2 2 H22 L25 7 L21 12 L25 18 L21 24 L24 30 L20 35 L22.4 40 H2 Z"/><path d="M7 10 H14 M7 16 H18 M7 22 H16 M7 28 H17 M7 34 H13" stroke-width="1" opacity=".5"/></g>' },
+  stone:  { w: 42, h: 26, svg: '<g ' + LN + '><path d="M3 15 Q2 6 10 4 Q20 0 30 4 Q38 7 39 15"/><path d="M3 15 Q6 22 17 23 Q24 24 30 22"/><path d="M7 10 L13 20 M11 7 L18 21 M16 5 L23 21 M21 4 L27 19" stroke-width="1" opacity=".6"/></g>' },
+  tag:    { w: 62, h: 36, svg: '<g ' + LN + '><path d="M10 2 H56 V34 H10 L2 18 Z"/><circle cx="10" cy="18" r="2"/><path d="M8 18 Q0 13 -4 20" stroke-width="1" opacity=".6"/><path d="M18 12 H48 M18 20 H44 M18 28 H40" stroke-width="1" opacity=".45"/></g>' }
+};
+const OBJ_SKETCH = { map: 'map', key: 'key', shadow: 'shadow', teeth: 'teeth', jar: 'jar', thread: 'thread', letter: 'letter', stone: 'stone' };
+const sk = (name, x, y) => '<g transform="translate(' + x + ',' + y + ')">' + SKETCH[name].svg + '</g>';
+const stipple = (x, y, w, h) => '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="url(#stipple)"/>';
+
+/* What is drawn inside each compartment when it is open */
+function cavityContents(id, w, h) {
+  switch (id) {
+    case 'plan':   return sk('map', (w - 92) / 2 - 2, 7);
+    case 'key':    return sk('key', (w - 70) / 2 - 3, 15);
+    case 'empty':  return stipple(14, 16, w - 34, h - 24);
+    case 'shadow': return sk('shadow', 58, 32);
+    case 'lock':   return sk('teeth', 10, 40);
+    case 'moth':   return sk('thread', 4, 10);
+    case 'jar':    return sk('jar', (w - 36) / 2 - 3, (h - 52) / 2 + 3);
+    case 'letter': return sk('letter', (w - 30) / 2 - 3, 5);
+    case 'false':  return sk('stone', (w - 42) / 2, 1);
+    case 'yours': {
+      const n = Math.min(3, S.mine.length);
+      let out = '';
+      for (let i = n - 1; i >= 0; i--) out += '<g opacity="' + (i === 0 ? 1 : .55) + '">' + sk('tag', (w - 62) / 2 - 3 + i * 14, 5 - i * 1.5) + '</g>';
+      return out || '<g opacity=".55">' + sk('tag', (w - 62) / 2 - 3, 5) + '</g>';
+    }
+  }
+  return '';
+}
+
+function drawerFront(c, w, h) {
+  const tall = !!c.tall;
+  const py = tall ? 10 : Math.round(h * .42) - 7;
+  let s = '<rect class="plate" x=".75" y=".75" width="' + (w - 1.5) + '" height="' + (h - 1.5) + '" stroke="#ECE7DD" stroke-width="1.5"/>';
+  s += '<rect class="bead" x="5.5" y="5.5" width="' + (w - 11) + '" height="' + (h - 11) + '" ' + HAIR + ' opacity=".42"/>';
+  if (!tall) {
+    const g1 = Math.round(h * .22), g2 = h - Math.round(h * .2);
+    s += '<g class="grain" ' + HAIR + ' opacity=".2"><path d="M12 ' + g1 + ' Q' + (w * .3) + ' ' + (g1 - 1.6) + ' ' + (w * .6) + ' ' + (g1 + .8) + ' T' + (w - 12) + ' ' + (g1 - .4) + '"/><path d="M14 ' + g2 + ' Q' + (w * .35) + ' ' + (g2 + 1.4) + ' ' + (w * .62) + ' ' + (g2 - 1) + ' T' + (w - 14) + ' ' + (g2 + .6) + '"/></g>';
+  } else {
+    s += '<g class="grain" ' + HAIR + ' opacity=".2"><path d="M' + (w * .3) + ' 12 Q' + (w * .3 - 1.5) + ' ' + (h * .4) + ' ' + (w * .3 + .8) + ' ' + (h * .62) + ' T' + (w * .3) + ' ' + (h - 12) + '"/></g>';
+  }
+  /* the drawer box in oblique, seen once the front is pulled */
+  s += '<g class="box" ' + HAIR + ' opacity="0"><path d="M.75 .75 L6.75 -8.25 M' + (w - .75) + ' .75 L' + (w + 5.25) + ' -8.25 M.75 ' + (h - .75) + ' L6.75 ' + (h - 9.25) + '"/></g>';
+  if (tall) {
+    s += '<g transform="translate(' + ((w - 26) / 2) + ',' + py + ')">' + PULL_SM + '</g>';
+    s += '<text class="label" transform="translate(' + (w / 2 + 3.5) + ',' + (h / 2 + 10) + ') rotate(-90)" text-anchor="middle">' + c.label + '</text>';
+  } else {
+    s += '<g transform="translate(' + ((w - 40) / 2) + ',' + py + ')">' + PULL + '</g>';
+    s += '<text class="label" x="' + (w / 2) + '" y="' + (py + 23) + '" text-anchor="middle">' + c.label + '</text>';
+  }
+  return s;
+}
+function doorFront(c, w, h) {
+  const right = !!c.right;
+  const far = right ? 16 : w - 16;
+  let s = '<rect class="plate" x=".75" y=".75" width="' + (w - 1.5) + '" height="' + (h - 1.5) + '" stroke="#ECE7DD" stroke-width="1.5"/>';
+  s += '<rect x="12.5" y="30.5" width="' + (w - 25) + '" height="' + (h - 43) + '" ' + HAIR + ' opacity=".5"/>';
+  s += '<rect x="17.5" y="35.5" width="' + (w - 35) + '" height="' + (h - 53) + '" ' + HAIR + ' opacity=".3"/>';
+  s += '<path d="M12.5 30.5 L17.5 35.5 M' + (w - 12.5) + ' 30.5 L' + (w - 17.5) + ' 35.5 M12.5 ' + (h - 12.5) + ' L17.5 ' + (h - 17.5) + ' M' + (w - 12.5) + ' ' + (h - 12.5) + ' L' + (w - 17.5) + ' ' + (h - 17.5) + '" ' + HAIR + ' opacity=".3"/>';
+  s += '<g class="grain" ' + HAIR + ' opacity=".18"><path d="M' + (w * .5) + ' 40 Q' + (w * .5 - 1.5) + ' ' + (h * .5) + ' ' + (w * .5 + 1) + ' ' + (h * .7) + ' T' + (w * .5) + ' ' + (h - 22) + '"/></g>';
+  const hx = right ? w - 2.5 : -.5;
+  s += '<g fill="#E0B14C"><rect x="' + hx + '" y="16" width="3" height="12" rx=".6"/><rect x="' + hx + '" y="' + (h - 28) + '" width="3" height="12" rx=".6"/></g>';
+  s += '<g ' + BRASS + '><circle cx="' + far + '" cy="' + (c.id === 'lock' ? h / 2 - 14 : h / 2) + '" r="4.4"/><path d="M' + far + ' ' + (c.id === 'lock' ? h / 2 - 14.4 : h / 2 - .4) + ' v.8"/></g>';
+  if (c.id === 'lock') s += '<g transform="translate(' + (far - 11) + ',' + (h / 2 - 4) + ')">' + ESCUTCHEON + '</g>';
+  s += '<text class="label" x="' + (w / 2) + '" y="19" text-anchor="middle">' + c.label + '</text>';
+  return s;
+}
+function falseFront(w, h) {
+  let s = '<rect class="plate" x=".75" y=".75" width="' + (w - 1.5) + '" height="' + (h - 1.5) + '" stroke="#ECE7DD" stroke-width="1.5" stroke-dasharray="1.5 3"/>';
+  s += '<g class="box" ' + HAIR + ' opacity="0"><path d="M.75 ' + (h - .75) + ' V' + (h + 9.25) + ' M' + (w - .75) + ' ' + (h - .75) + ' V' + (h + 9.25) + '"/></g>';
+  s += '<g transform="translate(' + ((w - 26) / 2) + ',' + ((h - 10) / 2) + ')">' + NOTCH + '</g>';
+  return s;
+}
+function cavity(c, w, h) {
+  let s = '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#2E3036"/>';
+  if (c.kind === 'door') {
+    s += '<path d="M0 0 H' + w + ' V' + h + ' H0 Z M12 12 H' + (w - 12) + ' V' + (h - 12) + ' H12 Z" fill="url(#hatch)" fill-rule="evenodd"/>';
+    s += '<rect x="12" y="12" width="' + (w - 24) + '" height="' + (h - 24) + '" ' + HAIR + ' opacity=".5"/>';
+    s += '<path d="M0 0 L12 12 M' + w + ' 0 L' + (w - 12) + ' 12 M0 ' + h + ' L12 ' + (h - 12) + ' M' + w + ' ' + h + ' L' + (w - 12) + ' ' + (h - 12) + '" ' + HAIR + ' opacity=".5"/>';
+    s += '<path d="M12 ' + (h - 34) + ' H' + (w - 12) + '" ' + HAIR + ' opacity=".35"/>';
+  } else if (c.kind === 'false') {
+    s += '<rect x="0" y="' + (h - 5) + '" width="' + w + '" height="5" fill="url(#hatch)"/><rect x="0" y="0" width="4" height="' + h + '" fill="url(#hatch)"/><rect x="' + (w - 4) + '" y="0" width="4" height="' + h + '" fill="url(#hatch)"/>';
+  } else {
+    s += '<rect x="0" y="0" width="' + w + '" height="9" fill="url(#hatch)"/><rect x="' + (w - 6) + '" y="0" width="6" height="' + h + '" fill="url(#hatch)"/>';
+    s += '<path d="M0 9 H' + (w - 6) + ' V' + h + '" ' + HAIR + ' opacity=".45"/>';
+  }
+  s += cavityContents(c.id, w, h);
+  return s;
+}
+
+function carcassSVG() {
+  const dx = CAB.dx, dy = CAB.dy;
+  let s = '<svg class="carcass" viewBox="0 0 ' + CAB.w + ' ' + CAB.h + '" aria-hidden="true" focusable="false">';
+  s += '<defs>';
+  s += '<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 V6" stroke="#ECE7DD" stroke-opacity=".3" stroke-width="1"/></pattern>';
+  s += '<pattern id="hatch-sparse" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 V10" stroke="#ECE7DD" stroke-opacity=".18" stroke-width="1"/></pattern>';
+  s += '<pattern id="hatch-dense" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 V4.5" stroke="#ECE7DD" stroke-opacity=".22" stroke-width="1"/></pattern>';
+  s += '<pattern id="stipple" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".65" fill="#ECE7DD" fill-opacity=".35"/><circle cx="4.1" cy="4" r=".5" fill="#ECE7DD" fill-opacity=".25"/></pattern>';
+  s += '</defs>';
+  /* returns: top of the cornice, right side of cornice, body and plinth, in shallow oblique */
+  s += '<g ' + LN + '>';
+  s += '<path d="M8 22 L306 22 L' + (306 + dx) + ' ' + (22 + dy) + ' L' + (8 + dx) + ' ' + (22 + dy) + ' Z" fill="url(#hatch-sparse)"/>';
+  s += '<path d="M306 22 L' + (306 + dx) + ' ' + (22 + dy) + ' V' + (36 + dy) + ' L306 36 Z" fill="url(#hatch-dense)"/>';
+  s += '<path d="M302 36 L' + (302 + dx) + ' ' + (36 + dy) + ' V' + (518 + dy) + ' L302 518 Z" fill="url(#hatch-dense)"/>';
+  s += '<path d="M306 518 L' + (306 + dx) + ' ' + (518 + dy) + ' V' + (536 + dy) + ' L306 536 Z" fill="url(#hatch-dense)"/>';
+  s += '<path d="M300 536 L' + (300 + dx) + ' ' + (536 + dy) + ' V' + (548 + dy) + ' L300 548 Z" fill="url(#hatch-dense)"/>';
+  /* cornice */
+  s += '<rect x="8" y="22" width="298" height="14" fill="#3E3F46"/>';
+  s += '<path d="M8 26.5 H306 M8 31.5 H306" stroke-width="1" opacity=".45"/>';
+  /* body */
+  s += '<rect x="12" y="36" width="290" height="482" fill="#3E3F46"/>';
+  s += '<rect x="22" y="40" width="270" height="474" stroke-width="1" opacity=".6"/>';
+  s += '<path d="M17 60 Q16 200 17.6 330 T17 500 M297 60 Q298 200 296.4 330 T297 500" stroke-width="1" opacity=".2"/>';
+  /* rails and stiles between the compartments */
+  s += '<path d="M22 95.5 H292 M22 148.5 H292 M22 265.5 H292 M22 376.5 H292 M22 433.5 H292" stroke-width="1" opacity=".3"/>';
+  s += '<path d="M156.5 99 V262 M75.5 269 V373" stroke-width="1" opacity=".3"/>';
+  /* the false bottom: a dotted seam */
+  s += '<path d="M22 484.5 H292" stroke-width="1" stroke-dasharray="1 3" opacity=".7"/>';
+  /* plinth and feet */
+  s += '<rect x="8" y="518" width="298" height="18" fill="#3E3F46"/>';
+  s += '<path d="M8 522.5 H306" stroke-width="1" opacity=".45"/>';
+  s += '<path d="M14 536 V548 H38 Q35 541 26 538.4 Q20 537 14 536 Z M300 536 V548 H276 Q279 541 288 538.4 Q294 537 300 536 Z" fill="#3E3F46"/>';
+  s += '<path d="M8 548 H306" stroke-width="1" opacity=".25" stroke-dasharray="2 3"/>';
+  s += '</g>';
+  s += '</svg>';
+  return s;
+}
 
 function buildCabinet() {
-  const grid = $('#cabgrid');
-  grid.innerHTML = '';
+  const cab = $('#cabinet');
+  cab.innerHTML = carcassSVG();
   COMPARTMENTS.forEach(c => {
+    const L = LAYOUT[c.id];
     const b = document.createElement('button');
     b.type = 'button';
     b.id = 'c-' + c.id;
-    b.className = 'comp ' + c.kind + (c.right ? ' right' : '') + (c.tall ? ' moth-drawer' : '');
+    b.className = 'comp ' + c.kind + (c.right ? ' right' : '') + (c.tall ? ' tall' : '');
     b.dataset.id = c.id;
-    const face = document.createElement('div');
-    face.className = 'face';
-    if (c.kind === 'drawer') {
-      face.innerHTML = (c.tall ? PULL_SM : PULL) + '<span class="label" aria-hidden="true">' + c.label + '</span>';
-    } else if (c.kind === 'door') {
-      face.innerHTML = '<div class="panel"></div><span class="label" aria-hidden="true">' + c.label + '</span>' +
-        (c.right ? ESCUTCHEON : '') + KNOB + '<span class="hinge t"></span><span class="hinge b"></span>';
-    } else {
-      face.innerHTML = NOTCH;
-    }
-    b.appendChild(face);
+    b.style.left = (L.x / CAB.w * 100) + '%';
+    b.style.top = (L.y / CAB.h * 100) + '%';
+    b.style.width = (L.w / CAB.w * 100) + '%';
+    b.style.height = (L.h / CAB.h * 100) + '%';
+    const vb = ' viewBox="0 0 ' + L.w + ' ' + L.h + '" aria-hidden="true" focusable="false"';
+    const front = c.kind === 'door' ? doorFront(c, L.w, L.h) : c.kind === 'false' ? falseFront(L.w, L.h) : drawerFront(c, L.w, L.h);
+    b.innerHTML = '<svg class="cav"' + vb + '>' + cavity(c, L.w, L.h) + '</svg><svg class="front"' + vb + '>' + front + '</svg>';
     b.addEventListener('click', () => toggle(c.id));
-    grid.appendChild(b);
+    b.addEventListener('animationend', () => b.classList.remove('rattle'));
+    cab.appendChild(b);
   });
 }
 
 function renderCabinet() {
-  $('#cabgrid').classList.toggle('has-false', S.falseShown);
+  $('#cabinet').classList.toggle('has-false', S.falseShown);
   COMPARTMENTS.forEach(c => {
     const b = $('#c-' + c.id);
     const open = S.open.includes(c.id);
@@ -647,6 +856,11 @@ function renderCabinet() {
       const locked = !S.keyFound;
       b.classList.toggle('locked', locked);
       name += locked ? '. Locked' : '. Unlocked';
+    }
+    if (c.id === 'yours') {
+      const L = LAYOUT.yours;
+      b.querySelector('.cav').innerHTML = cavity(c, L.w, L.h);
+      name += S.mine.length ? ', holding ' + S.mine.length : ', empty';
     }
     b.setAttribute('aria-label', name + (open ? '. Open' : '. Closed'));
   });
@@ -666,12 +880,115 @@ function btn(cls, text, onClick) {
 }
 const KIND_LABEL = { image: 'An unfinished image', creature: 'An impossible creature', writing: 'A fragment of writing', empty: '' };
 
+function foundFoot(card, objects, closeLabel, closeFn) {
+  const foot = el('div', 'found');
+  objects.forEach(o => {
+    const p = el('p', 'obj');
+    p.appendChild(document.createTextNode('Found: '));
+    p.appendChild(el('b', '', o.name));
+    foot.appendChild(p);
+  });
+  const acts = el('div', 'acts');
+  objects.forEach(o => {
+    const onTable = S.table.includes(o.id);
+    const b = btn('ink small', onTable ? 'On the worktable' : 'Place on the worktable', () => place(o.id));
+    b.disabled = onTable || S.table.length >= 2;
+    acts.appendChild(b);
+  });
+  if (closeLabel) acts.appendChild(btn('ghost small', closeLabel, closeFn));
+  foot.appendChild(acts);
+  card.appendChild(foot);
+}
+
+function renderMineCards(wrap, c) {
+  /* one card per kept fragment, newest first, then the drawer's own card with the form */
+  [...S.mine].reverse().forEach(m => {
+    const card = el('article', 'card');
+    card.setAttribute('aria-label', 'Your fragment: ' + m.title);
+    card.dataset.mine = m.id;
+    card.appendChild(el('p', 'from', 'From ' + c.where));
+    card.appendChild(el('p', 'kind', 'Your fragment'));
+    card.appendChild(el('p', 'cname', m.title));
+    if (m.image) { const img = el('img', 'own-img'); img.src = m.image; img.alt = 'Image for ' + m.title; card.appendChild(img); }
+    m.text.split(/\n\s*\n|\n/).map(t => t.trim()).filter(Boolean).forEach(t => card.appendChild(el('p', 'prose', t)));
+    foundFoot(card, [{ id: m.id, name: m.title }], null);
+    const rm = el('button', 'tlink ink', 'Remove this fragment');
+    rm.type = 'button';
+    rm.addEventListener('click', () => removeMine(m.id));
+    card.querySelector('.acts').appendChild(rm);
+    wrap.appendChild(card);
+  });
+
+  const card = el('article', 'card');
+  card.setAttribute('aria-label', 'The drawer marked Yours');
+  card.id = 'mine-card';
+  card.appendChild(el('p', 'from', 'From ' + c.where));
+  card.appendChild(el('p', 'kind', 'Your own unfinished things'));
+  card.appendChild(el('p', 'caption', 'A title, a few lines, an image if you like. It is kept on this device and becomes a found object.'));
+  const form = el('form', 'form');
+  form.addEventListener('submit', e => { e.preventDefault(); keepMine(); });
+
+  const r1 = el('div', 'frow');
+  const l1 = el('label', '', 'Title'); l1.setAttribute('for', 'mine-title');
+  const i1 = el('input'); i1.type = 'text'; i1.id = 'mine-title'; i1.maxLength = 120; i1.placeholder = 'What it is called'; i1.value = draft.title; i1.autocomplete = 'off';
+  i1.addEventListener('input', () => { draft.title = i1.value; });
+  r1.appendChild(l1); r1.appendChild(i1); form.appendChild(r1);
+
+  const r2 = el('div', 'frow');
+  const l2 = el('label', '', 'A fragment of writing'); l2.setAttribute('for', 'mine-text');
+  const t2 = el('textarea'); t2.id = 'mine-text'; t2.placeholder = 'Where it stops is fine.'; t2.value = draft.text;
+  t2.addEventListener('input', () => { draft.text = t2.value; });
+  r2.appendChild(l2); r2.appendChild(t2); form.appendChild(r2);
+
+  const r3 = el('div', 'frow');
+  const l3 = el('label', '', 'An image, if you like'); l3.setAttribute('for', 'mine-image');
+  const fileRow = el('div', 'file');
+  const fi = el('input'); fi.type = 'file'; fi.id = 'mine-image'; fi.accept = 'image/*';
+  fi.addEventListener('change', () => pickImage(fi.files && fi.files[0]));
+  const pick = btn('ghost small', draft.image ? 'Choose a different image' : 'Choose an image', () => fi.click());
+  fileRow.appendChild(fi); fileRow.appendChild(pick);
+  if (draft.image) {
+    const th = el('img', 'thumb'); th.src = draft.image; th.alt = 'Chosen image: ' + draft.imageName; fileRow.appendChild(th);
+    const clear = el('button', 'tlink ink', 'Leave it out'); clear.type = 'button';
+    clear.addEventListener('click', () => { draft.image = null; draft.imageName = ''; draft.note = ''; render(); });
+    fileRow.appendChild(clear);
+  } else fileRow.appendChild(el('span', '', 'Up to 1.5 MB. It stays on this device.'));
+  r3.appendChild(l3); r3.appendChild(fileRow);
+  if (draft.note) r3.appendChild(el('p', 'fnote', draft.note));
+  form.appendChild(r3);
+
+  const r4 = el('div', 'frow submit');
+  const keep = el('button', 'btn ink small', 'Keep this fragment'); keep.type = 'submit'; keep.id = 'mine-keep';
+  r4.appendChild(keep); form.appendChild(r4);
+  card.appendChild(form);
+
+  const kept = el('div', 'kept');
+  kept.appendChild(el('p', 'tag', S.mine.length ? 'In the drawer (' + S.mine.length + ')' : 'In the drawer, nothing yet'));
+  if (S.mine.length) {
+    const ul = el('ul');
+    S.mine.forEach(m => {
+      const li = el('li');
+      li.appendChild(el('span', '', m.title));
+      const rm = el('button', 'tlink ink', 'Remove'); rm.type = 'button';
+      rm.setAttribute('aria-label', 'Remove ' + m.title);
+      rm.addEventListener('click', () => removeMine(m.id));
+      li.appendChild(rm);
+      ul.appendChild(li);
+    });
+    kept.appendChild(ul);
+  }
+  card.appendChild(kept);
+  foundFoot(card, [], 'Close drawer', () => toggle('yours'));
+  wrap.appendChild(card);
+}
+
 function renderCards() {
   const wrap = $('#cards');
   wrap.innerHTML = '';
   $('#none-open').hidden = S.open.length > 0;
   [...S.open].reverse().forEach(id => {
     const c = comp(id), f = frag(id);
+    if (id === 'yours') { renderMineCards(wrap, c); return; }
     const card = el('article', 'card');
     card.setAttribute('aria-label', 'Fragment from ' + c.where);
     card.appendChild(el('p', 'from', 'From ' + c.where));
@@ -691,25 +1008,26 @@ function renderCards() {
         f.text.forEach(t => card.appendChild(el('p', 'prose', t)));
       }
     }
-    const foot = el('div', 'found');
-    if (f.object) {
-      const p = el('p', 'obj');
-      p.appendChild(document.createTextNode('Found: '));
-      p.appendChild(el('b', '', f.object.name));
-      foot.appendChild(p);
-    }
-    const acts = el('div', 'acts');
-    if (f.object) {
-      const onTable = S.table.includes(f.object.id);
-      const b = btn('ink small', onTable ? 'On the worktable' : 'Place on the worktable', () => place(f.object.id));
-      b.disabled = onTable || S.table.length >= 2;
-      acts.appendChild(b);
-    }
-    acts.appendChild(btn('ghost small', 'Close ' + (c.kind === 'door' ? 'door' : c.kind === 'false' ? 'panel' : 'drawer'), () => toggle(id)));
-    foot.appendChild(acts);
-    card.appendChild(foot);
+    foundFoot(card, f.object ? [f.object] : [], 'Close ' + (c.kind === 'door' ? 'door' : c.kind === 'false' ? 'panel' : 'drawer'), () => toggle(id));
     wrap.appendChild(card);
   });
+}
+
+const CHALK = '<svg class="chalk" viewBox="0 0 200 72" preserveAspectRatio="none" aria-hidden="true"><path d="M3.5 4 Q60 2.6 120 3.4 T196.5 3.6 L197 36 Q196.4 50 196.6 68.4 Q140 69.6 80 68.8 T3.2 68.6 Q2.6 40 3.5 4 Z" fill="none" stroke="#ECE7DD" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
+function objectSketch(objId) {
+  const o = objectById(objId);
+  if (!o) return null;
+  if (o.own) {
+    const m = mineById(objId);
+    if (m && m.image) { const img = el('img', 'oimg'); img.src = m.image; img.alt = ''; return img; }
+    const d = SKETCH.tag;
+    const holder = el('div'); holder.innerHTML = '<svg class="osk" viewBox="-6 -2 ' + (d.w + 8) + ' ' + (d.h + 4) + '" aria-hidden="true">' + d.svg + '</svg>';
+    return holder.firstChild;
+  }
+  const d = SKETCH[OBJ_SKETCH[objId]];
+  if (!d) return null;
+  const holder = el('div'); holder.innerHTML = '<svg class="osk" viewBox="-4 -2 ' + (d.w + 8) + ' ' + (d.h + 4) + '" aria-hidden="true">' + d.svg + '</svg>';
+  return holder.firstChild;
 }
 
 function renderTable() {
@@ -719,6 +1037,10 @@ function renderTable() {
     const objId = S.table[i];
     const s = el('div', 'slot' + (objId ? ' filled' : ''));
     s.appendChild(el('span', 'n', objId ? 'Object ' + (i + 1) : 'Empty place'));
+    const place = el('div', 'place');
+    place.innerHTML = CHALK;
+    if (objId) { const sketch = objectSketch(objId); if (sketch) place.appendChild(sketch); }
+    s.appendChild(place);
     if (objId) {
       s.appendChild(el('p', 'what', objName(objId)));
       s.appendChild(btn('night small', 'Lift off', () => lift(objId)));
@@ -762,7 +1084,7 @@ function renderTable() {
 
   const tray = $('#tray');
   tray.innerHTML = '';
-  const avail = S.open.map(id => frag(id).object).filter(Boolean);
+  const avail = [].concat(...S.open.map(objectsOf));
   tray.appendChild(el('p', 'tag', avail.length ? 'Found objects' : 'Found objects, none yet'));
   if (avail.length) {
     const chips = el('div', 'chips');
@@ -796,8 +1118,10 @@ function storyState() {
 function storyParagraphs() {
   const s = storyState();
   const out = [];
-  if (!s.open.length) out.push(DRAFT_STORY.closed);
-  else out.push(DRAFT_STORY.first[s.open[0]] || DRAFT_STORY.closed);
+  /* the opening paragraph follows the first compartment that has one written */
+  const firstId = s.open.find(id => DRAFT_STORY.first[id]);
+  if (!s.open.length || !firstId) out.push(DRAFT_STORY.closed);
+  else out.push(DRAFT_STORY.first[firstId]);
   DRAFT_STORY.rules.forEach(r => {
     let ok = false;
     try { ok = !!r.when(s); } catch (e) { ok = false; }
@@ -834,6 +1158,11 @@ function recordText() {
     lines.push('- ' + objName(a) + ' + ' + objName(b) + ': ' + S.own[k]);
   });
   lines.push('');
+  lines.push('Your fragments (' + S.mine.length + '):');
+  S.mine.forEach(m => {
+    lines.push('- ' + m.title + (m.image ? ' (with an image)' : '') + (m.text ? ': ' + m.text.replace(/\s*\n\s*/g, ' / ') : ''));
+  });
+  lines.push('');
   lines.push('What the cabinet is telling:');
   storyParagraphs().forEach(t => lines.push(t));
   return lines.join('\n');
@@ -845,6 +1174,7 @@ function recordJSON() {
     worktable: S.table.map(id => ({ id, name: objName(id) })),
     connectionsFound: S.found.map(k => { const [a, b] = k.split('+'); const p = findPairing(a, b); return { objects: [objName(a), objName(b)], text: p ? p.text : '' }; }),
     connectionsWritten: Object.keys(S.own).map(k => { const [a, b] = k.split('+'); return { objects: [objName(a), objName(b)], text: S.own[k] }; }),
+    fragmentsWritten: S.mine.map(m => ({ id: m.id, title: m.title, text: m.text, image: m.image || null })),
     story: storyParagraphs()
   };
 }
@@ -876,8 +1206,8 @@ $('#copyBtn').addEventListener('click', () => {
 
 /* ---------- Controls ---------- */
 $('#leaveBtn').addEventListener('click', () => {
-  const own = S.own;
-  S = EMPTY(); S.own = own;
+  const own = S.own, mine = S.mine;
+  S = EMPTY(); S.own = own; S.mine = mine;
   save(); render(); status(UI.left);
 });
 $('#freshBtn').addEventListener('click', () => {
@@ -888,7 +1218,8 @@ $('#freshBtn').addEventListener('click', () => {
 $('#freshNo').addEventListener('click', () => { $('#confirmBox').hidden = true; $('#freshBtn').focus(); });
 $('#freshYes').addEventListener('click', () => {
   try { localStorage.removeItem(STORE); } catch (e) { /* ignore */ }
-  S = EMPTY();
+  S = EMPTY(); S.open = FIRST_OPEN.slice();
+  draft = { title: '', text: '', image: null, imageName: '', note: '' };
   $('#confirmBox').hidden = true;
   render(); status(UI.fresh); $('#freshBtn').focus();
 });

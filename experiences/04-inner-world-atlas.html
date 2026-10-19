@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Inner World Atlas</title>
+<meta name="description" content="A clickable map of a fictional inner world. Name regions, move them, connect them, cover some in fog, and return over many sessions.">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Nunito",system-ui,sans-serif; font-weight:600;
+  font-size:16px; line-height:1.5;
+  overflow-x:hidden;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:28px 16px 40px}
+a{color:var(--sky-d); font-weight:800}
+a:hover{color:var(--ink)}
+:focus-visible{outline:3px solid var(--leaf-d); outline-offset:3px; border-radius:6px}
+
+/* ---------- frame ---------- */
+.chip{
+  display:inline-block; margin:0 0 14px; padding:5px 11px;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:800;
+  color:var(--leaf-d); background:var(--leaf-100); border-radius:999px;
+}
+h1{font-size:clamp(32px,5vw,46px); font-weight:900; line-height:1.08; margin:0 0 10px; letter-spacing:-.01em}
+.lead{font-size:18px; max-width:60ch; margin:0 0 16px}
+.howto{max-width:60ch; margin:0 0 26px; border-top:2px solid var(--leaf-100); border-bottom:2px solid var(--leaf-100); padding:8px 0}
+.howto summary{cursor:pointer; font-weight:800; padding:4px 0; list-style-position:inside}
+.howto ol{margin:6px 0 4px; padding-left:22px}
+.howto li{margin:4px 0}
+h2{font-size:21px; font-weight:900; margin:0 0 4px}
+h3{font-size:16px; font-weight:900; margin:0 0 6px}
+.sub{color:var(--ink-soft); margin:0 0 14px; font-size:15px}
+.hint{color:var(--ink-soft); font-size:14px; margin:8px 0 0}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* ---------- controls ---------- */
+button, .btn{
+  font:inherit; font-weight:800; font-size:15px; line-height:1.2;
+  border:2px solid var(--ink); background:var(--card); color:var(--ink);
+  border-radius:999px; padding:9px 15px; min-height:40px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+}
+button:hover, .btn:hover{background:var(--leaf-100)}
+.btn-primary{background:var(--ink); color:var(--paper)}
+.btn-primary:hover{background:var(--night-2); color:var(--paper)}
+.btn-quiet{border-color:transparent; background:transparent; color:var(--ink-soft); padding-inline:10px}
+.btn-quiet:hover{color:var(--ink); background:var(--leaf-100)}
+.btn-danger{border-color:var(--coral-d); color:var(--coral-d)}
+.btn-danger:hover{background:var(--coral-100)}
+button[aria-pressed="true"]{background:var(--leaf-100); border-color:var(--leaf-d); box-shadow:inset 0 0 0 1px var(--leaf-d)}
+button svg{width:18px; height:18px; flex:none}
+.row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 14px}
+.status{
+  flex:1 1 220px; min-width:0; font-size:15px; color:var(--ink); min-height:24px;
+  font-weight:700;
+}
+.status:empty{display:none}
+input[type="text"], input[type="date"], textarea, select{
+  font:inherit; font-weight:600; font-size:16px; color:var(--ink);
+  border:2px solid var(--ink-soft); border-radius:12px; padding:9px 12px;
+  background:var(--card); width:100%; max-width:100%;
+}
+textarea{resize:vertical; min-height:88px}
+select{width:auto}
+label{display:block; font-weight:800; font-size:14px; margin:0 0 4px}
+.field{margin:0 0 14px}
+fieldset{border:0; padding:0; margin:0 0 14px; min-width:0}
+legend{font-weight:800; font-size:14px; padding:0; margin:0 0 6px}
+
+/* ---------- atlas layout ---------- */
+.atlas-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:18px; align-items:start}
+@media (min-width:960px){ .atlas-grid{grid-template-columns:minmax(0,1fr) 330px} }
+.map-wrap{
+  overflow:auto; border-radius:var(--round); background:var(--sky-100);
+  box-shadow:var(--sh); min-width:0; -webkit-overflow-scrolling:touch;
+  border:2px solid var(--sky-100);
+}
+#map{display:block; width:100%; min-width:720px; height:auto; user-select:none; -webkit-user-select:none}
+.map-scroll-hint{display:none; margin:8px 0 0}
+@media (max-width:959px){ .map-scroll-hint{display:block} }
+.panel{display:grid; gap:16px}
+.card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px}
+section.card{margin:20px 0 0}
+
+/* map drawing */
+.sea{fill:var(--sky-100)}
+.shallows{fill:none; stroke:var(--sky); stroke-width:22; stroke-opacity:.33; stroke-linejoin:round}
+.land{fill:var(--paper); stroke:var(--sky-d); stroke-width:2.2; stroke-linejoin:round}
+.river-bed{fill:none; stroke:var(--sky); stroke-width:7; stroke-linecap:round; stroke-opacity:.9}
+.river-line{fill:none; stroke:var(--sky-d); stroke-width:1.4; stroke-linecap:round}
+.hills{fill:none; stroke:var(--leaf-d); stroke-width:1.7; stroke-linecap:round}
+.belt{fill:var(--card); fill-opacity:.78}
+.terrain-label{font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; fill:var(--ink-soft); pointer-events:none}
+.water-label{fill:var(--sky-d)}
+
+.region{cursor:grab; touch-action:none; outline:none}
+.region:active{cursor:grabbing}
+.region-shape{fill:var(--leaf-100); stroke:var(--leaf-d); stroke-width:2.2; stroke-linejoin:round; transition:stroke-width .12s, stroke .12s}
+.hue-sky .region-shape{fill:var(--sky-100); stroke:var(--sky-d)}
+.hue-sunny .region-shape{fill:var(--sunny-100); stroke:var(--sunny-d)}
+.hue-coral .region-shape{fill:var(--coral-100); stroke:var(--coral-d)}
+.hue-leaf .region-shape{fill:var(--leaf-100); stroke:var(--leaf-d)}
+.region:hover .region-shape{stroke-width:3}
+.region:focus-visible .region-shape{stroke:var(--ink); stroke-width:4}
+.region.is-selected .region-shape{stroke:var(--ink); stroke-width:3.4}
+.region.is-pending .region-shape{stroke:var(--ink); stroke-width:3.4; stroke-dasharray:7 5}
+.region-label{
+  font-size:15px; font-weight:800; fill:var(--ink); text-anchor:middle;
+  paint-order:stroke; stroke:var(--card); stroke-width:4px; stroke-linejoin:round;
+  pointer-events:none;
+}
+.region-glyph{color:var(--ink); pointer-events:none}
+.hue-sky .region-glyph{color:var(--sky-d)}
+.hue-sunny .region-glyph{color:var(--sunny-d)}
+.hue-coral .region-glyph{color:var(--coral-d)}
+.hue-leaf .region-glyph{color:var(--leaf-d)}
+.region.is-concealed .region-shape{fill:var(--paper); stroke:var(--ink-soft); stroke-dasharray:3 6; stroke-linecap:round}
+.region-fog{fill:var(--card); fill-opacity:.9; pointer-events:none}
+.label-ghost{fill:none; stroke:var(--ink-soft); stroke-width:1.6; stroke-dasharray:2 5; stroke-linecap:round; pointer-events:none}
+
+.conn-line{fill:none; stroke:var(--ink-soft); stroke-width:2.6; stroke-linecap:round}
+.conn.style-dotted .conn-line{stroke-dasharray:1 8}
+.conn.style-uncertain .conn-line{stroke-dasharray:9 7}
+.conn-label{font-size:13px; font-weight:800; fill:var(--ink); text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:5px; stroke-linejoin:round; pointer-events:none}
+.conn-q{color:var(--ink-soft)}
+.conn-q-bg{fill:var(--paper); stroke:var(--ink-soft); stroke-width:1.6}
+
+/* glyph and hue pickers */
+.glyph-grid{display:flex; flex-wrap:wrap; gap:8px}
+.glyph-btn{width:44px; height:44px; padding:0; justify-content:center; border-radius:12px}
+.glyph-btn svg{width:22px; height:22px}
+.glyph-btn.is-none{width:auto; padding:0 12px; font-size:14px}
+.hue-row{display:flex; flex-wrap:wrap; gap:8px}
+.hue-btn{padding:6px 12px 6px 8px; border-radius:999px; font-size:14px}
+.swatch{width:18px; height:18px; border-radius:50%; border:2px solid; flex:none}
+.swatch-leaf{background:var(--leaf-100); border-color:var(--leaf-d)}
+.swatch-sky{background:var(--sky-100); border-color:var(--sky-d)}
+.swatch-sunny{background:var(--sunny-100); border-color:var(--sunny-d)}
+.swatch-coral{background:var(--coral-100); border-color:var(--coral-d)}
+.nudge{display:grid; grid-template-columns:repeat(3,44px); gap:6px; margin:4px 0 0}
+.nudge button{width:44px; height:40px; padding:0; justify-content:center; border-radius:10px}
+.nudge .n-up{grid-column:2} .nudge .n-left{grid-column:1} .nudge .n-right{grid-column:3} .nudge .n-down{grid-column:2}
+.confirm{background:var(--sunny-100); border-radius:12px; padding:12px 14px; margin:12px 0 0}
+.confirm p{margin:0 0 10px}
+.empty{color:var(--ink-soft); margin:0}
+
+/* lists */
+.list{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.list li{border:2px solid var(--leaf-100); border-radius:14px; padding:12px 14px}
+.conn-head{font-weight:800; margin:0 0 8px}
+.conn-controls{display:flex; flex-wrap:wrap; gap:8px 12px; align-items:end}
+.conn-controls .field{margin:0; flex:1 1 160px}
+.conn-controls .field-style{flex:0 1 auto}
+.legend-grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.legend-item{display:flex; gap:12px; align-items:flex-start}
+.legend-icon{width:40px; height:40px; flex:none; border-radius:12px; background:var(--leaf-100); display:grid; place-items:center; color:var(--ink)}
+.legend-icon svg{width:22px; height:22px}
+.legend-item .names{margin:0; font-size:14px; color:var(--ink-soft)}
+.legend-item input{margin-top:6px; padding:6px 10px; font-size:14px; border-radius:10px}
+.legend-group{margin:0 0 16px}
+.legend-group:last-child{margin:0}
+.log-entry{display:flex; gap:12px; align-items:flex-start; justify-content:space-between}
+.log-entry time{font-weight:900; display:block; font-size:14px; color:var(--ink-soft)}
+.log-entry p{margin:2px 0 0; white-space:pre-wrap}
+.log-form .field{margin:0 0 12px}
+.two{display:grid; gap:12px; grid-template-columns:1fr}
+@media (min-width:720px){ .two{grid-template-columns:200px 1fr} }
+.file-btn{position:relative; overflow:hidden}
+.file-btn input{position:absolute; inset:0; opacity:0; cursor:pointer; width:100%}
+.file-btn:focus-within{outline:3px solid var(--leaf-d); outline-offset:3px}
+.msg{margin:10px 0 0; font-weight:700}
+.msg.is-bad{color:var(--coral-d)}
+.msg:empty{display:none}
+#copy-fallback{position:absolute; left:-9999px; top:0; width:1px; height:1px}
+
+/* footer */
+footer{margin:36px 0 0; border-top:2px solid var(--leaf-100); padding-top:18px; font-size:15px}
+footer p{margin:0 0 8px}
+.crisis{color:var(--ink-soft); font-size:14px}
+.sig{font-weight:800}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+  .map-wrap{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="chip">Beyond The Sun Therapy</p>
+  <h1>The Inner World Atlas</h1>
+  <p class="lead">Draw a map of a place that is yours. Name its regions, move them, link them, cover some in fog, and come back to it another day.</p>
+  <details class="howto">
+    <summary>How to use this</summary>
+    <ol>
+      <li>Click a region to name it, write a note, pick a symbol or a color, or cover it with fog.</li>
+      <li>Drag a region to move it. When a region has focus, the arrow keys move it too.</li>
+      <li>Press Connect, then click two regions to draw a path between them. Give the path a word.</li>
+      <li>Everything saves on this device. Download the file to carry the atlas somewhere else.</li>
+      <li>To make a paper version, 140 lb cold-press watercolor paper takes pencil, ink, and wash without buckling.</li>
+    </ol>
+  </details>
+</header>
+
+<main>
+  <section class="atlas" aria-labelledby="map-h">
+    <h2 id="map-h">The map</h2>
+    <p class="sub">Eight regions are here to start. Their names are open. Keep them, rename them, add more, or clear them all.</p>
+    <div class="toolbar" role="toolbar" aria-label="Map tools">
+      <button type="button" id="mode-connect" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h9"/></svg>
+        Connect
+      </button>
+      <button type="button" id="btn-add-jump">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add a region
+      </button>
+      <span id="status" class="status" role="status" aria-live="polite"></span>
+    </div>
+
+    <div class="atlas-grid">
+      <div>
+        <div class="map-wrap" id="map-wrap">
+          <svg id="map" viewBox="0 0 1000 680" role="group" aria-label="Map of the inner world. Regions are buttons inside the map.">
+            <defs>
+              <filter id="fog-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+              <filter id="belt-blur" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="16"/></filter>
+            </defs>
+            <rect class="sea" x="0" y="0" width="1000" height="680"/>
+            <g id="terrain"></g>
+            <g id="belt-layer"></g>
+            <g id="conn-layer" aria-hidden="true"></g>
+            <g id="region-layer"></g>
+          </svg>
+        </div>
+        <p class="hint map-scroll-hint">The map is wider than the screen. Slide it sideways on the water.</p>
+      </div>
+
+      <aside class="panel" aria-label="Region tools">
+        <div class="card" id="region-card" aria-live="off"></div>
+        <form class="card" id="add-form" novalidate>
+          <h3>Add a region</h3>
+          <div class="field">
+            <label for="add-name">Name</label>
+            <input type="text" id="add-name" maxlength="32" placeholder="Leave blank for Unnamed Territory" autocomplete="off">
+          </div>
+          <fieldset>
+            <legend>Symbol (optional)</legend>
+            <div class="glyph-grid" id="add-glyphs"></div>
+          </fieldset>
+          <button type="submit" class="btn-primary">Place it in open space</button>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+  <section class="card" id="connections-section" aria-labelledby="conn-h">
+    <h2 id="conn-h">Paths</h2>
+    <p class="sub">A path joins two regions. You choose the word on it and how sure the line looks.</p>
+    <div id="conn-list"></div>
+  </section>
+
+  <section class="card" id="legend-section" aria-labelledby="legend-h">
+    <h2 id="legend-h">Legend</h2>
+    <p class="sub">Built only from what you chose. Nothing here has a set meaning. If you want, say what a symbol means to you.</p>
+    <div id="legend"></div>
+  </section>
+
+  <section class="card" id="log-section" aria-labelledby="log-h">
+    <h2 id="log-h">Session log</h2>
+    <p class="sub">A dated line for each visit. Write what changed today, in the atlas or outside it.</p>
+    <form class="log-form" id="log-form" novalidate>
+      <div class="two">
+        <div class="field">
+          <label for="log-date">Date</label>
+          <input type="date" id="log-date">
+        </div>
+        <div class="field">
+          <label for="log-text">What changed today</label>
+          <textarea id="log-text" maxlength="800" rows="3"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">Add to the log</button>
+    </form>
+    <div id="log-list" style="margin-top:16px"></div>
+  </section>
+
+  <section class="card" id="carry-section" aria-labelledby="carry-h">
+    <h2 id="carry-h">Carry it with you</h2>
+    <p class="sub">The atlas saves in this browser only. Nothing is sent anywhere. To move it to another device, download the file and import it there.</p>
+    <div class="row">
+      <button type="button" id="btn-copy">Copy as text</button>
+      <a class="btn" id="btn-download" href="#" download="inner-world-atlas.json">Download as JSON</a>
+      <span class="btn file-btn"><input type="file" id="import-file" accept="application/json,.json" aria-label="Import a JSON atlas file">Import a JSON file</span>
+    </div>
+    <p class="msg" id="carry-msg"></p>
+    <textarea id="copy-fallback" aria-hidden="true" tabindex="-1"></textarea>
+    <hr style="border:0;border-top:2px solid var(--leaf-100);margin:18px 0">
+    <h3>Start fresh</h3>
+    <p class="sub" style="margin-bottom:10px">Clears every region, path, note, and log entry on this device and puts the eight starting regions back.</p>
+    <button type="button" id="btn-fresh">Start fresh</button>
+    <div class="confirm" id="fresh-confirm" hidden>
+      <p>This cannot be undone. If you want to keep this atlas, download it first.</p>
+      <div class="row">
+        <button type="button" class="btn-danger" id="fresh-yes">Yes, clear it</button>
+        <button type="button" class="btn-quiet" id="fresh-no">Keep my atlas</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>This page is for making. It does not diagnose anything, and it is not therapy. A region means what you decide it means, and you can change your mind.</p>
+  <p class="crisis">If you are in crisis in the US, call or text 988 to reach the Suicide &amp; Crisis Lifeline, any hour of the day.</p>
+  <p class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</p>
+  <p><a href="index.html">All experiences</a></p>
+</footer>
+</div>
+
+<!-- Glyph set. Each symbol is a small line drawing. Referenced by <use href="#g-id">. -->
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="g-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v4M21 12v3"/></symbol>
+    <symbol id="g-door" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="1.5"/><path d="M15 12v.01M3 21h18"/></symbol>
+    <symbol id="g-lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M12 3v3M8 6h8M9 21h6"/><rect x="7" y="6" width="10" height="12" rx="2.5"/><path d="M12 10v4"/></symbol>
+    <symbol id="g-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0M2 16c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0"/></symbol>
+    <symbol id="g-root" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v7M12 10c-3 2-5 5-6 10M12 10c3 2 5 5 6 10M12 10c-1 4-1 7 0 11M8 15c-2 0-3 1-4 2M16 15c2 0 3 1 4 2"/></symbol>
+    <symbol id="g-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c-7 0-12 5-13 14M7 18L20 4M20 4c0 7-5 12-13 14M9 14h3M11 10h3"/></symbol>
+    <symbol id="g-stone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4 3.5-7 8.5-7S20 9 20 12.5 16.5 19 12 19s-8-2-8-6z"/><path d="M8 11c1-1 2-1.5 3.5-1.5"/></symbol>
+    <symbol id="g-thread" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="10" height="13" rx="2"/><path d="M6 8h10M6 11h10M6 14h10M16 15c3 0 4.5 2 4.5 5"/></symbol>
+    <symbol id="g-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M12 4v16M4 12h16"/></symbol>
+    <symbol id="g-ladder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v18M16 3v18M8 7h8M8 11h8M8 15h8M8 19h8"/></symbol>
+    <symbol id="g-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c0-5 1.5-10 6-10s6 5 6 10H6zM12 3v3M10 19a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="g-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3a9 9 0 1 0 7 13 7 7 0 0 1-7-13z"/></symbol>
+    <symbol id="g-question" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9.5a3 3 0 1 1 4.2 2.7c-.8.4-1.2 1-1.2 1.8v.5M12 18v.01"/></symbol>
+  </defs>
+</svg>
+
+<script>
+/* =====================================================================
+   HOW TO EDIT THE CONTENT
+   - STARTING_REGIONS: the eight regions a fresh atlas begins with.
+       name = label on the map. x, y = position on a 1000 by 680 grid.
+       rx, ry = width and height of the shape. seed = which organic
+       outline it gets (any whole number).
+   - GLYPHS: the symbol list. Each id matches a <symbol id="g-..."> in
+       the hidden SVG above the script. Add a symbol there, then here.
+   - HUES: the four palette colors a region can take.
+   - LINE_STYLES: how a path between regions can look.
+   - MESSAGES: the short lines the page speaks in the status area.
+   Logic lives below the data. Wording edits never need to touch it.
+   ===================================================================== */
+
+var STARTING_REGIONS = [
+  { name: 'The Loud Shore',     x: 215, y: 205, rx: 100, ry: 58, seed: 11 },
+  { name: 'The Waiting Room',   x: 470, y: 140, rx: 108, ry: 56, seed: 23 },
+  { name: 'The Lookout',        x: 848, y: 215, rx: 90,  ry: 54, seed: 37 },
+  { name: 'The Workshop',       x: 330, y: 345, rx: 98,  ry: 60, seed: 41 },
+  { name: 'The Archive',        x: 690, y: 330, rx: 96,  ry: 58, seed: 53 },
+  { name: 'The Crossing',       x: 545, y: 450, rx: 90,  ry: 54, seed: 61 },
+  { name: 'Low Tide Flats',     x: 215, y: 505, rx: 102, ry: 56, seed: 73 },
+  { name: 'Unnamed Territory',  x: 800, y: 545, rx: 112, ry: 60, seed: 89 }
+];
+
+var GLYPHS = [
+  { id: 'key',     label: 'Key' },
+  { id: 'door',    label: 'Door' },
+  { id: 'lantern', label: 'Lantern' },
+  { id: 'wave',    label: 'Wave' },
+  { id: 'root',    label: 'Root' },
+  { id: 'feather', label: 'Feather' },
+  { id: 'stone',   label: 'Stone' },
+  { id: 'thread',  label: 'Thread' },
+  { id: 'window',  label: 'Window' },
+  { id: 'ladder',  label: 'Ladder' },
+  { id: 'bell',    label: 'Bell' },
+  { id: 'moon',    label: 'Moon' }
+];
+
+var HUES = [
+  { id: 'leaf',  label: 'Leaf' },
+  { id: 'sky',   label: 'Sky' },
+  { id: 'sunny', label: 'Sunny' },
+  { id: 'coral', label: 'Coral' }
+];
+
+var LINE_STYLES = [
+  { id: 'solid',     label: 'Solid' },
+  { id: 'dotted',    label: 'Dotted' },
+  { id: 'uncertain', label: 'Uncertain' }
+];
+
+var MESSAGES = {
+  selected: 'Opened {name}. Its card is beside the map, or below it on a small screen.',
+  moved: '{name} moved.',
+  connectOn: 'Connect is on. Click the first region.',
+  connectSecond: '{name} is the first end. Now click a second region.',
+  connectDone: 'Path drawn from {a} to {b}. Click two more regions, or press Connect to stop.',
+  connectExists: '{a} and {b} are already joined. Click two other regions.',
+  connectCancel: 'First end cleared. Click a region to start again.',
+  connectOff: 'Connect is off.',
+  concealed: '{name} is under fog.',
+  revealed: '{name} is back in view.',
+  added: '{name} placed on the map and opened.',
+  removed: '{name} removed.',
+  pathRemoved: 'Path removed.',
+  logAdded: 'Log entry added.',
+  fresh: 'The atlas is fresh. The eight starting regions are back.',
+  copied: 'Copied as text.',
+  copyFail: 'Copy did not work here. Select the text in the box that opened and copy it yourself.',
+  imported: 'Atlas imported. {n} regions.',
+  importBad: 'That file is not an atlas this page can read.',
+  importEmpty: 'Choose a JSON file that this page exported.',
+  unnamed: 'Unnamed Territory'
+};
+
+/* ---------------------------------------------------------------------
+   Terrain. Static shapes drawn once. Coordinates are on the 1000 x 680 grid.
+   --------------------------------------------------------------------- */
+var LAND_PATH = 'M150 70 C 280 28, 440 52, 590 36 C 740 20, 870 38, 915 90 C 965 148, 942 280, 958 400 C 972 510, 980 590, 932 626 C 872 668, 720 636, 590 650 C 520 658, 486 606, 440 568 C 398 534, 342 532, 300 574 C 254 620, 214 658, 150 656 C 92 652, 56 598, 78 520 C 100 440, 92 340, 74 250 C 58 170, 90 102, 150 70 Z';
+var RIVER_PATH = 'M 838 100 C 798 158, 742 176, 722 244 C 702 312, 622 336, 588 396 C 552 458, 486 474, 452 522 C 432 550, 402 556, 372 548';
+var BELT_PATH = 'M -40 372 C 160 342, 380 420, 600 392 C 800 366, 900 418, 1040 404 L 1040 466 C 860 492, 700 436, 500 466 C 300 496, 150 448, -40 470 Z';
+var HILLS = [
+  { x: 700, y: 128, w: 54, h: 36 },
+  { x: 756, y: 112, w: 72, h: 50 },
+  { x: 826, y: 98,  w: 84, h: 58 },
+  { x: 898, y: 122, w: 56, h: 40 },
+  { x: 772, y: 150, w: 48, h: 30 }
+];
+
+var STORAGE_KEY = 'bts-inner-world-atlas-v1';
+var BOUNDS = { minX: 60, maxX: 940, minY: 60, maxY: 630 };
+
+/* ---------------------------------------------------------------------
+   State
+   --------------------------------------------------------------------- */
+var state = null;
+var ui = { selectedId: null, mode: 'edit', pendingId: null, confirmRemove: false };
+var drag = null;
+var blobCache = {};
+
+function uid(prefix) { return prefix + Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-3); }
+
+function freshState() {
+  return {
+    regions: STARTING_REGIONS.map(function (r) {
+      return { id: uid('r'), name: r.name, x: r.x, y: r.y, rx: r.rx, ry: r.ry, seed: r.seed, glyph: '', hue: '', concealed: false, note: '' };
+    }),
+    connections: [],
+    log: [],
+    legendNotes: {}
+  };
+}
+
+function normalize(obj) {
+  if (!obj || typeof obj !== 'object' || !Array.isArray(obj.regions)) return null;
+  var regions = [];
+  obj.regions.forEach(function (r, i) {
+    if (!r || typeof r !== 'object') return;
+    var x = Number(r.x), y = Number(r.y);
+    if (!isFinite(x) || !isFinite(y)) return;
+    regions.push({
+      id: String(r.id || uid('r')),
+      name: String(r.name || MESSAGES.unnamed).slice(0, 32),
+      x: clamp(x, BOUNDS.minX, BOUNDS.maxX),
+      y: clamp(y, BOUNDS.minY, BOUNDS.maxY),
+      rx: clamp(Number(r.rx) || 96, 60, 140),
+      ry: clamp(Number(r.ry) || 56, 40, 90),
+      seed: Number(r.seed) || (i + 1) * 17,
+      glyph: GLYPHS.some(function (g) { return g.id === r.glyph; }) ? r.glyph : '',
+      hue: HUES.some(function (h) { return h.id === r.hue; }) ? r.hue : '',
+      concealed: !!r.concealed,
+      note: String(r.note || '').slice(0, 800)
+    });
+  });
+  var ids = {};
+  regions.forEach(function (r) { ids[r.id] = true; });
+  var connections = [];
+  (Array.isArray(obj.connections) ? obj.connections : []).forEach(function (c) {
+    if (!c || !ids[c.a] || !ids[c.b] || c.a === c.b) return;
+    connections.push({
+      id: String(c.id || uid('c')),
+      a: String(c.a), b: String(c.b),
+      label: String(c.label || '').slice(0, 24),
+      style: LINE_STYLES.some(function (s) { return s.id === c.style; }) ? c.style : 'solid'
+    });
+  });
+  var log = [];
+  (Array.isArray(obj.log) ? obj.log : []).forEach(function (e) {
+    if (!e || typeof e.text !== 'string') return;
+    log.push({ id: String(e.id || uid('l')), date: /^\d{4}-\d{2}-\d{2}$/.test(e.date) ? e.date : todayISO(), text: e.text.slice(0, 800) });
+  });
+  var legendNotes = {};
+  if (obj.legendNotes && typeof obj.legendNotes === 'object') {
+    Object.keys(obj.legendNotes).forEach(function (k) {
+      if (GLYPHS.some(function (g) { return g.id === k; })) legendNotes[k] = String(obj.legendNotes[k]).slice(0, 80);
+    });
+  }
+  return { regions: regions, connections: connections, log: log, legendNotes: legendNotes };
+}
+
+function load() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { var parsed = normalize(JSON.parse(raw)); if (parsed) return parsed; }
+  } catch (e) { /* storage blocked or corrupt; start fresh */ }
+  return freshState();
+}
+
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { /* storage blocked; the page still works for this visit */ }
+}
+
+function clearStorage() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+}
+
+/* ---------------------------------------------------------------------
+   Helpers
+   --------------------------------------------------------------------- */
+function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function byId(id) { for (var i = 0; i < state.regions.length; i++) if (state.regions[i].id === id) return state.regions[i]; return null; }
+function fill(tpl, vars) { return tpl.replace(/\{(\w+)\}/g, function (_, k) { return vars[k] != null ? vars[k] : ''; }); }
+function todayISO() {
+  var d = new Date(); var m = String(d.getMonth() + 1).padStart(2, '0'); var day = String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + m + '-' + day;
+}
+function niceDate(iso) {
+  var p = iso.split('-'); var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+function glyphLabel(id) { for (var i = 0; i < GLYPHS.length; i++) if (GLYPHS[i].id === id) return GLYPHS[i].label; return ''; }
+function hueLabel(id) { for (var i = 0; i < HUES.length; i++) if (HUES[i].id === id) return HUES[i].label; return ''; }
+function styleLabel(id) { for (var i = 0; i < LINE_STYLES.length; i++) if (LINE_STYLES[i].id === id) return LINE_STYLES[i].label; return ''; }
+function glyphSvg(id, cls) { return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#g-' + id + '"></use></svg>'; }
+
+var statusEl = document.getElementById('status');
+function announce(text) { statusEl.textContent = text; }
+
+/* Seeded pseudo-random so a region keeps the same outline across visits. */
+function rng(seed) {
+  var t = (seed * 2654435761) >>> 0;
+  return function () {
+    t += 0x6D2B79F5;
+    var r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function blobPath(seed, rx, ry) {
+  var key = seed + ':' + rx + ':' + ry;
+  if (blobCache[key]) return blobCache[key];
+  var rand = rng(seed), n = 9, pts = [], i;
+  for (i = 0; i < n; i++) {
+    var a = (i / n) * Math.PI * 2 + (rand() - 0.5) * 0.36;
+    var k = 0.82 + rand() * 0.3;
+    pts.push([Math.cos(a) * rx * k, Math.sin(a) * ry * k]);
+  }
+  var d = 'M' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+  for (i = 0; i < n; i++) {
+    var p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
+    var c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    var c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ' C' + [c1[0], c1[1], c2[0], c2[1], p2[0], p2[1]].map(function (v) { return v.toFixed(1); }).join(' ');
+  }
+  d += ' Z';
+  blobCache[key] = d;
+  return d;
+}
+
+/* ---------------------------------------------------------------------
+   Map rendering
+   --------------------------------------------------------------------- */
+var map = document.getElementById('map');
+var terrainLayer = document.getElementById('terrain');
+var beltLayer = document.getElementById('belt-layer');
+var connLayer = document.getElementById('conn-layer');
+var regionLayer = document.getElementById('region-layer');
+
+function renderTerrain() {
+  var hills = HILLS.map(function (h) {
+    var x0 = h.x - h.w / 2, x1 = h.x + h.w / 2;
+    var out = '<path d="M' + x0 + ' ' + h.y + ' q' + (h.w / 2) + ' -' + h.h + ' ' + h.w + ' 0"/>';
+    /* hachures: short slope strokes, the old mapmakers' way to show a hill side */
+    for (var t = 0.18; t <= 0.83; t += 0.13) {
+      var px = x0 + (x1 - x0) * t;
+      var py = h.y - 2 * h.h * t * (1 - t);
+      var slope = (t < 0.5 ? -1 : 1) * 3;
+      out += '<path d="M' + px.toFixed(1) + ' ' + (py + 3).toFixed(1) + ' l' + slope + ' ' + (7 + 4 * Math.abs(0.5 - t)).toFixed(1) + '"/>';
+    }
+    return out;
+  }).join('');
+  terrainLayer.innerHTML =
+    '<path class="shallows" d="' + LAND_PATH + '"/>' +
+    '<path class="land" id="land" d="' + LAND_PATH + '"/>' +
+    '<path class="river-bed" d="' + RIVER_PATH + '"/>' +
+    '<path class="river-line" d="' + RIVER_PATH + '"/>' +
+    '<g class="hills">' + hills + '</g>' +
+    '<text class="terrain-label water-label" x="300" y="640" text-anchor="middle">Open water</text>' +
+    '<text class="terrain-label water-label" x="30" y="40">Sea</text>' +
+    '<text class="terrain-label" x="690" y="170" text-anchor="middle">Hills</text>';
+  beltLayer.innerHTML =
+    '<path class="belt" d="' + BELT_PATH + '" filter="url(#belt-blur)"/>' +
+    '<text class="terrain-label" x="40" y="432">Fog belt</text>';
+}
+
+function regionAria(r) {
+  if (r.concealed) return 'Concealed region. Press Enter to open it. Arrow keys move it.';
+  return r.name + '. Press Enter to open it. Arrow keys move it.';
+}
+
+function renderMap() {
+  var focusId = null;
+  var active = document.activeElement;
+  if (active && active.classList && active.classList.contains('region')) focusId = active.getAttribute('data-id');
+
+  regionLayer.innerHTML = state.regions.map(function (r) {
+    var cls = ['region'];
+    if (r.hue) cls.push('hue-' + r.hue);
+    if (r.concealed) cls.push('is-concealed');
+    if (r.id === ui.selectedId) cls.push('is-selected');
+    if (r.id === ui.pendingId) cls.push('is-pending');
+    var shape = blobPath(r.seed, r.rx, r.ry);
+    var inner = '<path class="region-shape" d="' + shape + '"/>';
+    if (r.concealed) {
+      var w = Math.min(r.rx * 1.6, r.name.length * 8.4 + 16);
+      inner += '<path class="region-fog" d="' + shape + '" transform="scale(1.18)" filter="url(#fog-blur)"/>';
+      inner += '<rect class="label-ghost" x="' + (-w / 2).toFixed(1) + '" y="-11" width="' + w.toFixed(1) + '" height="22" rx="7"/>';
+    } else {
+      if (r.glyph) inner += '<use class="region-glyph" href="#g-' + r.glyph + '" x="-12" y="-33" width="24" height="24"></use>';
+      inner += '<text class="region-label" y="' + (r.glyph ? 10 : 5) + '">' + esc(r.name) + '</text>';
+    }
+    return '<g class="' + cls.join(' ') + '" data-id="' + esc(r.id) + '" transform="translate(' + r.x + ' ' + r.y + ')" tabindex="0" role="button" aria-label="' + esc(regionAria(r)) + '"' +
+      (r.id === ui.selectedId ? ' aria-pressed="true"' : '') + '>' + inner + '</g>';
+  }).join('');
+
+  renderConnections();
+
+  if (focusId) {
+    var el = regionLayer.querySelector('[data-id="' + focusId + '"]');
+    if (el) el.focus({ preventScroll: true });
+  }
+}
+
+function connGeometry(c) {
+  var a = byId(c.a), b = byId(c.b);
+  if (!a || !b) return null;
+  var dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+  var nx = -dy / len, ny = dx / len;
+  var bend = Math.min(60, len * 0.14);
+  var cx = (a.x + b.x) / 2 + nx * bend, cy = (a.y + b.y) / 2 + ny * bend;
+  var mx = 0.25 * a.x + 0.5 * cx + 0.25 * b.x, my = 0.25 * a.y + 0.5 * cy + 0.25 * b.y;
+  return { a: a, b: b, cx: cx, cy: cy, mx: mx, my: my };
+}
+
+function renderConnections() {
+  connLayer.innerHTML = state.connections.map(function (c) {
+    var g = connGeometry(c);
+    if (!g) return '';
+    var out = '<g class="conn style-' + c.style + '">';
+    out += '<path class="conn-line" d="M' + g.a.x + ' ' + g.a.y + ' Q' + g.cx.toFixed(1) + ' ' + g.cy.toFixed(1) + ' ' + g.b.x + ' ' + g.b.y + '"/>';
+    var labelY = g.my + 5;
+    if (c.style === 'uncertain') {
+      out += '<circle class="conn-q-bg" cx="' + g.mx.toFixed(1) + '" cy="' + g.my.toFixed(1) + '" r="11"/>';
+      out += '<use class="conn-q" href="#g-question" x="' + (g.mx - 9).toFixed(1) + '" y="' + (g.my - 9).toFixed(1) + '" width="18" height="18"></use>';
+      labelY = g.my + 28;
+    }
+    if (c.label) out += '<text class="conn-label" x="' + g.mx.toFixed(1) + '" y="' + labelY.toFixed(1) + '">' + esc(c.label) + '</text>';
+    return out + '</g>';
+  }).join('');
+}
+
+/* ---------------------------------------------------------------------
+   Region card (side panel)
+   --------------------------------------------------------------------- */
+var cardEl = document.getElementById('region-card');
+
+function renderCard() {
+  var r = byId(ui.selectedId);
+  if (!r) {
+    ui.confirmRemove = false;
+    cardEl.innerHTML = '<h3>Region card</h3><p class="empty">Click a region on the map to open it here. Nothing is required. You can also just move things around.</p>';
+    return;
+  }
+  var glyphs = '<button type="button" class="glyph-btn is-none" data-glyph="" aria-pressed="' + (r.glyph ? 'false' : 'true') + '">None</button>' +
+    GLYPHS.map(function (g) {
+      return '<button type="button" class="glyph-btn" data-glyph="' + g.id + '" aria-label="' + g.label + '" title="' + g.label + '" aria-pressed="' + (r.glyph === g.id ? 'true' : 'false') + '">' + glyphSvg(g.id) + '</button>';
+    }).join('');
+  var hues = HUES.map(function (h) {
+    var on = (r.hue || 'leaf') === h.id;
+    return '<button type="button" class="hue-btn" data-hue="' + h.id + '" aria-pressed="' + (on ? 'true' : 'false') + '"><span class="swatch swatch-' + h.id + '" aria-hidden="true"></span>' + h.label + '</button>';
+  }).join('');
+  var connCount = state.connections.filter(function (c) { return c.a === r.id || c.b === r.id; }).length;
+  cardEl.innerHTML =
+    '<h3>Region card</h3>' +
+    '<div class="field"><label for="f-name">Name</label><input type="text" id="f-name" maxlength="32" value="' + esc(r.name) + '" autocomplete="off"></div>' +
+    '<div class="field"><label for="f-note">Note (only you read this)</label><textarea id="f-note" maxlength="800" rows="3">' + esc(r.note) + '</textarea></div>' +
+    '<fieldset><legend>Symbol</legend><div class="glyph-grid" id="f-glyphs">' + glyphs + '</div></fieldset>' +
+    '<fieldset><legend>Color</legend><div class="hue-row" id="f-hues">' + hues + '</div></fieldset>' +
+    '<fieldset><legend>Move with buttons</legend><div class="nudge" id="f-nudge">' +
+      '<button type="button" class="n-up" data-dx="0" data-dy="-10" aria-label="Move up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>' +
+      '<button type="button" class="n-left" data-dx="-10" data-dy="0" aria-label="Move left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>' +
+      '<button type="button" class="n-right" data-dx="10" data-dy="0" aria-label="Move right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
+      '<button type="button" class="n-down" data-dx="0" data-dy="10" aria-label="Move down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>' +
+    '</div><p class="hint">Or drag it on the map. Arrow keys work when the region has focus. Hold Shift for small steps.</p></fieldset>' +
+    '<div class="row">' +
+      '<button type="button" id="f-conceal" aria-pressed="' + (r.concealed ? 'true' : 'false') + '">' + (r.concealed ? 'Lift the fog' : 'Cover with fog') + '</button>' +
+      '<button type="button" class="btn-quiet" id="f-remove">Remove region</button>' +
+      '<button type="button" class="btn-quiet" id="f-close">Close card</button>' +
+    '</div>' +
+    (ui.confirmRemove ?
+      '<div class="confirm" id="f-remove-confirm"><p>Remove ' + esc(r.name) + (connCount ? ' and its ' + connCount + (connCount === 1 ? ' path' : ' paths') : '') + '? This cannot be undone.</p>' +
+      '<div class="row"><button type="button" class="btn-danger" id="f-remove-yes">Yes, remove it</button><button type="button" class="btn-quiet" id="f-remove-no">Keep it</button></div></div>' : '');
+}
+
+cardEl.addEventListener('input', function (e) {
+  var r = byId(ui.selectedId); if (!r) return;
+  if (e.target.id === 'f-name') { r.name = e.target.value.trim() || MESSAGES.unnamed; renderMap(); renderConnList(); renderLegend(); save(); }
+  if (e.target.id === 'f-note') { r.note = e.target.value; save(); }
+});
+cardEl.addEventListener('click', function (e) {
+  var r = byId(ui.selectedId); if (!r) return;
+  var btn = e.target.closest('button'); if (!btn) return;
+  if (btn.hasAttribute('data-glyph')) {
+    r.glyph = btn.getAttribute('data-glyph');
+    cardEl.querySelectorAll('[data-glyph]').forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    renderMap(); renderLegend(); save(); return;
+  }
+  if (btn.hasAttribute('data-hue')) {
+    r.hue = btn.getAttribute('data-hue');
+    cardEl.querySelectorAll('[data-hue]').forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    renderMap(); renderLegend(); save(); return;
+  }
+  if (btn.hasAttribute('data-dx')) {
+    moveRegion(r, Number(btn.getAttribute('data-dx')), Number(btn.getAttribute('data-dy')));
+    return;
+  }
+  if (btn.id === 'f-conceal') {
+    r.concealed = !r.concealed;
+    btn.setAttribute('aria-pressed', r.concealed ? 'true' : 'false');
+    btn.textContent = r.concealed ? 'Lift the fog' : 'Cover with fog';
+    renderMap(); renderLegend(); save();
+    announce(fill(r.concealed ? MESSAGES.concealed : MESSAGES.revealed, { name: r.name }));
+    return;
+  }
+  if (btn.id === 'f-remove') { ui.confirmRemove = true; renderCard(); document.getElementById('f-remove-yes').focus(); return; }
+  if (btn.id === 'f-remove-no') { ui.confirmRemove = false; renderCard(); document.getElementById('f-remove').focus(); return; }
+  if (btn.id === 'f-remove-yes') { removeRegion(r); return; }
+  if (btn.id === 'f-close') { ui.selectedId = null; ui.confirmRemove = false; renderMap(); renderCard(); return; }
+});
+
+function moveRegion(r, dx, dy) {
+  r.x = clamp(r.x + dx, BOUNDS.minX, BOUNDS.maxX);
+  r.y = clamp(r.y + dy, BOUNDS.minY, BOUNDS.maxY);
+  renderMap(); save();
+  announce(fill(MESSAGES.moved, { name: r.concealed ? 'Concealed region' : r.name }));
+}
+
+function removeRegion(r) {
+  state.regions = state.regions.filter(function (x) { return x.id !== r.id; });
+  state.connections = state.connections.filter(function (c) { return c.a !== r.id && c.b !== r.id; });
+  if (ui.pendingId === r.id) ui.pendingId = null;
+  ui.selectedId = null; ui.confirmRemove = false;
+  renderAll(); save();
+  announce(fill(MESSAGES.removed, { name: r.name }));
+  document.getElementById('btn-add-jump').focus();
+}
+
+/* ---------------------------------------------------------------------
+   Selecting, connecting, dragging, keyboard
+   --------------------------------------------------------------------- */
+function activateRegion(id) {
+  var r = byId(id); if (!r) return;
+  if (ui.mode === 'connect') {
+    if (!ui.pendingId) {
+      ui.pendingId = id; renderMap();
+      announce(fill(MESSAGES.connectSecond, { name: r.concealed ? 'Concealed region' : r.name }));
+    } else if (ui.pendingId === id) {
+      ui.pendingId = null; renderMap(); announce(MESSAGES.connectCancel);
+    } else {
+      var a = byId(ui.pendingId);
+      var exists = state.connections.some(function (c) { return (c.a === a.id && c.b === id) || (c.a === id && c.b === a.id); });
+      var names = { a: a.concealed ? 'Concealed region' : a.name, b: r.concealed ? 'Concealed region' : r.name };
+      if (exists) { announce(fill(MESSAGES.connectExists, names)); ui.pendingId = null; renderMap(); return; }
+      state.connections.push({ id: uid('c'), a: a.id, b: id, label: '', style: 'solid' });
+      ui.pendingId = null;
+      renderMap(); renderConnList(); renderLegend(); save();
+      announce(fill(MESSAGES.connectDone, names));
+    }
+    return;
+  }
+  ui.selectedId = id; ui.confirmRemove = false;
+  renderMap(); renderCard();
+  announce(fill(MESSAGES.selected, { name: r.concealed ? 'the concealed region' : r.name }));
+}
+
+function svgPoint(e) {
+  var pt = map.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+  var m = map.getScreenCTM();
+  if (!m) return { x: 0, y: 0 };
+  var p = pt.matrixTransform(m.inverse());
+  return { x: p.x, y: p.y };
+}
+
+map.addEventListener('pointerdown', function (e) {
+  var g = e.target.closest('.region');
+  if (!g || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  var r = byId(g.getAttribute('data-id')); if (!r) return;
+  var p = svgPoint(e);
+  drag = { id: r.id, g: g, ox: r.x, oy: r.y, px: p.x, py: p.y, moved: false, pointerId: e.pointerId };
+  try { g.setPointerCapture(e.pointerId); } catch (err) { /* older browsers */ }
+  try { g.focus({ preventScroll: true }); } catch (err) { /* ignore */ }
+  e.preventDefault();
+});
+map.addEventListener('pointermove', function (e) {
+  if (!drag || e.pointerId !== drag.pointerId) return;
+  var p = svgPoint(e);
+  var dx = p.x - drag.px, dy = p.y - drag.py;
+  if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+  drag.moved = true;
+  var r = byId(drag.id); if (!r) return;
+  r.x = clamp(drag.ox + dx, BOUNDS.minX, BOUNDS.maxX);
+  r.y = clamp(drag.oy + dy, BOUNDS.minY, BOUNDS.maxY);
+  drag.g.setAttribute('transform', 'translate(' + r.x + ' ' + r.y + ')');
+  renderConnections();
+});
+function endDrag(e) {
+  if (!drag || (e && e.pointerId !== drag.pointerId)) return;
+  var d = drag; drag = null;
+  var r = byId(d.id); if (!r) return;
+  if (d.moved) {
+    r.x = Math.round(r.x); r.y = Math.round(r.y);
+    renderMap(); save();
+    announce(fill(MESSAGES.moved, { name: r.concealed ? 'Concealed region' : r.name }));
+  } else if (e && e.type === 'pointerup') {
+    activateRegion(r.id);
+  } else {
+    renderMap();
+  }
+}
+map.addEventListener('pointerup', endDrag);
+map.addEventListener('pointercancel', endDrag);
+
+map.addEventListener('keydown', function (e) {
+  var g = e.target.closest('.region'); if (!g) return;
+  var r = byId(g.getAttribute('data-id')); if (!r) return;
+  var step = e.shiftKey ? 2 : 10;
+  switch (e.key) {
+    case 'Enter': case ' ': e.preventDefault(); activateRegion(r.id); break;
+    case 'ArrowUp': e.preventDefault(); moveRegion(r, 0, -step); break;
+    case 'ArrowDown': e.preventDefault(); moveRegion(r, 0, step); break;
+    case 'ArrowLeft': e.preventDefault(); moveRegion(r, -step, 0); break;
+    case 'ArrowRight': e.preventDefault(); moveRegion(r, step, 0); break;
+    case 'Escape':
+      if (ui.mode === 'connect') setConnectMode(false);
+      else if (ui.selectedId) { ui.selectedId = null; renderMap(); renderCard(); }
+      break;
+  }
+});
+
+var connectBtn = document.getElementById('mode-connect');
+function setConnectMode(on) {
+  ui.mode = on ? 'connect' : 'edit';
+  ui.pendingId = null;
+  connectBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  renderMap();
+  announce(on ? MESSAGES.connectOn : MESSAGES.connectOff);
+}
+connectBtn.addEventListener('click', function () { setConnectMode(ui.mode !== 'connect'); });
+
+document.getElementById('btn-add-jump').addEventListener('click', function () {
+  var input = document.getElementById('add-name');
+  input.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  input.focus({ preventScroll: true });
+});
+
+/* ---------------------------------------------------------------------
+   Add a region
+   --------------------------------------------------------------------- */
+var addForm = document.getElementById('add-form');
+var addGlyphs = document.getElementById('add-glyphs');
+var addGlyph = '';
+addGlyphs.innerHTML = '<button type="button" class="glyph-btn is-none" data-glyph="" aria-pressed="true">None</button>' +
+  GLYPHS.map(function (g) { return '<button type="button" class="glyph-btn" data-glyph="' + g.id + '" aria-label="' + g.label + '" title="' + g.label + '" aria-pressed="false">' + glyphSvg(g.id) + '</button>'; }).join('');
+addGlyphs.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-glyph]'); if (!btn) return;
+  addGlyph = btn.getAttribute('data-glyph');
+  addGlyphs.querySelectorAll('[data-glyph]').forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+});
+
+function pointOnLand(x, y) {
+  var land = document.getElementById('land');
+  try {
+    var pt;
+    if (typeof DOMPoint === 'function') pt = new DOMPoint(x, y);
+    else { pt = map.createSVGPoint(); pt.x = x; pt.y = y; }
+    return land.isPointInFill(pt);
+  } catch (e) { return true; }
+}
+
+function openSpot(rx, ry) {
+  var best = null, bestScore = -1;
+  for (var y = BOUNDS.minY + 30; y <= BOUNDS.maxY - 30; y += 24) {
+    for (var x = BOUNDS.minX + 40; x <= BOUNDS.maxX - 40; x += 24) {
+      if (!pointOnLand(x, y)) continue;
+      var onLand = true;
+      for (var k = 0; k < 8 && onLand; k++) {
+        var a = k / 8 * Math.PI * 2;
+        if (!pointOnLand(x + Math.cos(a) * rx * 0.85, y + Math.sin(a) * ry * 0.85)) onLand = false;
+      }
+      if (!onLand) continue;
+      var score = Infinity;
+      state.regions.forEach(function (r) {
+        var d = Math.hypot((x - r.x) / (rx + r.rx), (y - r.y) / (ry + r.ry));
+        if (d < score) score = d;
+      });
+      HILLS.forEach(function (h) {
+        var d = Math.hypot((x - h.x) / (rx + h.w * 0.6), (y - h.y + h.h * 0.5) / (ry + h.h * 0.8));
+        if (d < score) score = d;
+      });
+      if (score > bestScore) { bestScore = score; best = { x: x, y: y }; }
+    }
+  }
+  return best || { x: 500, y: 340 };
+}
+
+addForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var nameInput = document.getElementById('add-name');
+  var name = nameInput.value.trim().slice(0, 32) || MESSAGES.unnamed;
+  var rx = 94, ry = 56;
+  var spot = openSpot(rx, ry);
+  var r = { id: uid('r'), name: name, x: spot.x, y: spot.y, rx: rx, ry: ry, seed: Math.floor(Math.random() * 100000) + 1, glyph: addGlyph, hue: '', concealed: false, note: '' };
+  state.regions.push(r);
+  ui.selectedId = r.id; ui.confirmRemove = false;
+  nameInput.value = ''; addGlyph = '';
+  addGlyphs.querySelectorAll('[data-glyph]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-glyph') === '' ? 'true' : 'false'); });
+  renderAll(); save();
+  announce(fill(MESSAGES.added, { name: name }));
+  var el = regionLayer.querySelector('[data-id="' + r.id + '"]');
+  if (el) el.focus({ preventScroll: true });
+});
+
+/* ---------------------------------------------------------------------
+   Paths list
+   --------------------------------------------------------------------- */
+var connListEl = document.getElementById('conn-list');
+function regionName(id) { var r = byId(id); return r ? (r.concealed ? 'Concealed region' : r.name) : '?'; }
+
+function renderConnList() {
+  if (!state.connections.length) {
+    connListEl.innerHTML = '<p class="empty">No paths yet. Press Connect above the map, then click two regions.</p>';
+    return;
+  }
+  connListEl.innerHTML = '<ul class="list">' + state.connections.map(function (c) {
+    var styles = LINE_STYLES.map(function (s) { return '<option value="' + s.id + '"' + (c.style === s.id ? ' selected' : '') + '>' + s.label + '</option>'; }).join('');
+    return '<li data-conn="' + esc(c.id) + '"><p class="conn-head">' + esc(regionName(c.a)) + ' to ' + esc(regionName(c.b)) + '</p>' +
+      '<div class="conn-controls">' +
+      '<div class="field"><label for="cl-' + esc(c.id) + '">Word on the path</label><input type="text" id="cl-' + esc(c.id) + '" maxlength="24" value="' + esc(c.label) + '" data-conn-label autocomplete="off"></div>' +
+      '<div class="field field-style"><label for="cs-' + esc(c.id) + '">Line</label><select id="cs-' + esc(c.id) + '" data-conn-style>' + styles + '</select></div>' +
+      '<button type="button" class="btn-quiet" data-conn-remove>Remove path</button>' +
+      '</div></li>';
+  }).join('') + '</ul>';
+}
+connListEl.addEventListener('input', function (e) {
+  var li = e.target.closest('[data-conn]'); if (!li) return;
+  var c = state.connections.filter(function (x) { return x.id === li.getAttribute('data-conn'); })[0]; if (!c) return;
+  if (e.target.hasAttribute('data-conn-label')) { c.label = e.target.value.trim(); renderConnections(); renderLegend(); save(); }
+  if (e.target.hasAttribute('data-conn-style')) { c.style = e.target.value; renderConnections(); save(); }
+});
+connListEl.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-conn-remove]'); if (!btn) return;
+  var li = btn.closest('[data-conn]');
+  state.connections = state.connections.filter(function (x) { return x.id !== li.getAttribute('data-conn'); });
+  renderConnections(); renderConnList(); renderLegend(); save();
+  announce(MESSAGES.pathRemoved);
+  var next = connListEl.querySelector('[data-conn-remove]');
+  (next || connectBtn).focus();
+});
+
+/* ---------------------------------------------------------------------
+   Legend, from the person's own choices only
+   --------------------------------------------------------------------- */
+var legendEl = document.getElementById('legend');
+function renderLegend() {
+  var glyphUse = {}, hueUse = {}, labelUse = {}, concealedCount = 0;
+  state.regions.forEach(function (r) {
+    var n = r.concealed ? 'a concealed region' : r.name;
+    if (r.glyph) (glyphUse[r.glyph] = glyphUse[r.glyph] || []).push(n);
+    if (r.hue) (hueUse[r.hue] = hueUse[r.hue] || []).push(n);
+    if (r.concealed) concealedCount++;
+  });
+  state.connections.forEach(function (c) { if (c.label) labelUse[c.label] = (labelUse[c.label] || 0) + 1; });
+  var glyphIds = GLYPHS.map(function (g) { return g.id; }).filter(function (id) { return glyphUse[id]; });
+  var hueIds = HUES.map(function (h) { return h.id; }).filter(function (id) { return hueUse[id]; });
+  var labels = Object.keys(labelUse);
+  if (!glyphIds.length && !hueIds.length && !labels.length && !concealedCount) {
+    legendEl.innerHTML = '<p class="empty">Empty so far. It fills in as you pick symbols, colors, and words for paths.</p>';
+    return;
+  }
+  var html = '';
+  if (glyphIds.length) {
+    html += '<div class="legend-group"><h3>Symbols you placed</h3><div class="legend-grid">' + glyphIds.map(function (id) {
+      var note = state.legendNotes[id] || '';
+      return '<div class="legend-item"><span class="legend-icon">' + glyphSvg(id) + '</span><div style="min-width:0;flex:1">' +
+        '<strong>' + glyphLabel(id) + '</strong><p class="names">' + esc(glyphUse[id].join(', ')) + '</p>' +
+        '<label class="sr-only" for="ln-' + id + '">What ' + glyphLabel(id) + ' means to you</label>' +
+        '<input type="text" id="ln-' + id + '" maxlength="80" placeholder="In your words (optional)" value="' + esc(note) + '" data-legend-note="' + id + '"></div></div>';
+    }).join('') + '</div></div>';
+  }
+  if (hueIds.length) {
+    html += '<div class="legend-group"><h3>Colors you chose</h3><div class="legend-grid">' + hueIds.map(function (id) {
+      return '<div class="legend-item"><span class="legend-icon"><span class="swatch swatch-' + id + '"></span></span><div><strong>' + hueLabel(id) + '</strong><p class="names">' + esc(hueUse[id].join(', ')) + '</p></div></div>';
+    }).join('') + '</div></div>';
+  }
+  if (labels.length) {
+    html += '<div class="legend-group"><h3>Words on paths</h3><p class="names" style="margin:0;color:var(--ink-soft)">' + labels.map(function (l) {
+      return esc(l) + (labelUse[l] > 1 ? ' (' + labelUse[l] + ')' : '');
+    }).join(', ') + '</p></div>';
+  }
+  if (concealedCount) {
+    html += '<div class="legend-group"><h3>Under fog</h3><p class="names" style="margin:0;color:var(--ink-soft)">' + concealedCount + (concealedCount === 1 ? ' region is' : ' regions are') + ' covered. Open one on the map to lift the fog.</p></div>';
+  }
+  legendEl.innerHTML = html;
+}
+legendEl.addEventListener('input', function (e) {
+  var id = e.target.getAttribute('data-legend-note'); if (!id) return;
+  state.legendNotes[id] = e.target.value.slice(0, 80); save();
+});
+
+/* ---------------------------------------------------------------------
+   Session log
+   --------------------------------------------------------------------- */
+var logForm = document.getElementById('log-form');
+var logListEl = document.getElementById('log-list');
+document.getElementById('log-date').value = todayISO();
+
+function renderLog() {
+  if (!state.log.length) { logListEl.innerHTML = '<p class="empty">No entries yet.</p>'; return; }
+  var entries = state.log.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  logListEl.innerHTML = '<ul class="list">' + entries.map(function (e) {
+    return '<li class="log-entry" data-log="' + esc(e.id) + '"><div style="min-width:0"><time datetime="' + esc(e.date) + '">' + esc(niceDate(e.date)) + '</time><p>' + esc(e.text) + '</p></div>' +
+      '<button type="button" class="btn-quiet" data-log-remove aria-label="Remove entry from ' + esc(niceDate(e.date)) + '">Remove</button></li>';
+  }).join('') + '</ul>';
+}
+logForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var dateEl = document.getElementById('log-date'), textEl = document.getElementById('log-text');
+  var text = textEl.value.trim();
+  if (!text) { textEl.focus(); return; }
+  var date = /^\d{4}-\d{2}-\d{2}$/.test(dateEl.value) ? dateEl.value : todayISO();
+  state.log.push({ id: uid('l'), date: date, text: text.slice(0, 800) });
+  textEl.value = '';
+  renderLog(); save();
+  announce(MESSAGES.logAdded);
+});
+logListEl.addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-log-remove]'); if (!btn) return;
+  var id = btn.closest('[data-log]').getAttribute('data-log');
+  state.log = state.log.filter(function (x) { return x.id !== id; });
+  renderLog(); save();
+  document.getElementById('log-text').focus();
+});
+
+/* ---------------------------------------------------------------------
+   Carry it with you: copy, download, import, start fresh
+   --------------------------------------------------------------------- */
+var carryMsg = document.getElementById('carry-msg');
+function setCarryMsg(text, bad) { carryMsg.textContent = text; carryMsg.classList.toggle('is-bad', !!bad); }
+
+function atlasAsText() {
+  var lines = ['The Inner World Atlas', 'Exported ' + niceDate(todayISO()), '', 'Regions'];
+  state.regions.forEach(function (r) {
+    var bits = [];
+    if (r.glyph) bits.push('symbol ' + glyphLabel(r.glyph).toLowerCase());
+    if (r.hue) bits.push('color ' + hueLabel(r.hue).toLowerCase());
+    if (r.concealed) bits.push('under fog');
+    lines.push('- ' + r.name + (bits.length ? ' (' + bits.join(', ') + ')' : ''));
+    if (r.note) lines.push('  Note: ' + r.note.replace(/\s*\n\s*/g, ' / '));
+  });
+  lines.push('', 'Paths');
+  if (!state.connections.length) lines.push('- none');
+  state.connections.forEach(function (c) {
+    var a = byId(c.a), b = byId(c.b);
+    lines.push('- ' + (a ? a.name : '?') + ' to ' + (b ? b.name : '?') + (c.label ? ', "' + c.label + '"' : '') + ', ' + styleLabel(c.style).toLowerCase());
+  });
+  var noteKeys = Object.keys(state.legendNotes).filter(function (k) { return state.legendNotes[k]; });
+  if (noteKeys.length) {
+    lines.push('', 'Legend, in my words');
+    noteKeys.forEach(function (k) { lines.push('- ' + glyphLabel(k) + ': ' + state.legendNotes[k]); });
+  }
+  lines.push('', 'Session log');
+  if (!state.log.length) lines.push('- none');
+  state.log.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (e) {
+    lines.push('- ' + e.date + ': ' + e.text.replace(/\s*\n\s*/g, ' / '));
+  });
+  return lines.join('\n');
+}
+
+document.getElementById('btn-copy').addEventListener('click', function () {
+  var text = atlasAsText();
+  var fallback = document.getElementById('copy-fallback');
+  function viaTextarea() {
+    try {
+      fallback.value = text; fallback.style.left = '0'; fallback.style.width = '100%'; fallback.style.height = '120px'; fallback.style.position = 'relative';
+      fallback.setAttribute('aria-hidden', 'false'); fallback.removeAttribute('tabindex');
+      fallback.focus(); fallback.select();
+      var ok = document.execCommand && document.execCommand('copy');
+      setCarryMsg(ok ? MESSAGES.copied : MESSAGES.copyFail, !ok);
+    } catch (e) { setCarryMsg(MESSAGES.copyFail, true); }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () { setCarryMsg(MESSAGES.copied); }, viaTextarea);
+  } else viaTextarea();
+});
+
+var dlLink = document.getElementById('btn-download');
+var lastBlobUrl = null;
+dlLink.addEventListener('click', function () {
+  try {
+    var payload = { app: 'inner-world-atlas', version: 1, exportedAt: new Date().toISOString(), regions: state.regions, connections: state.connections, log: state.log, legendNotes: state.legendNotes };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+    lastBlobUrl = URL.createObjectURL(blob);
+    dlLink.href = lastBlobUrl;
+    setCarryMsg('File ready. Keep it somewhere you can find it.');
+  } catch (e) { setCarryMsg('Download did not work in this browser. Use Copy as text instead.', true); }
+});
+
+document.getElementById('import-file').addEventListener('change', function (e) {
+  var file = e.target.files && e.target.files[0];
+  if (!file) { setCarryMsg(MESSAGES.importEmpty, true); return; }
+  var reader = new FileReader();
+  reader.onload = function () {
+    var parsed = null;
+    try { parsed = normalize(JSON.parse(String(reader.result))); } catch (err) { parsed = null; }
+    if (!parsed) { setCarryMsg(MESSAGES.importBad, true); return; }
+    state = parsed;
+    ui.selectedId = null; ui.pendingId = null; ui.confirmRemove = false;
+    renderAll(); save();
+    setCarryMsg(fill(MESSAGES.imported, { n: state.regions.length }));
+    announce(fill(MESSAGES.imported, { n: state.regions.length }));
+  };
+  reader.onerror = function () { setCarryMsg(MESSAGES.importBad, true); };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+var freshBtn = document.getElementById('btn-fresh'), freshBox = document.getElementById('fresh-confirm');
+freshBtn.addEventListener('click', function () { freshBox.hidden = false; document.getElementById('fresh-yes').focus(); });
+document.getElementById('fresh-no').addEventListener('click', function () { freshBox.hidden = true; freshBtn.focus(); });
+document.getElementById('fresh-yes').addEventListener('click', function () {
+  clearStorage();
+  state = freshState();
+  ui.selectedId = null; ui.pendingId = null; ui.confirmRemove = false;
+  setConnectMode(false);
+  freshBox.hidden = true;
+  renderAll(); save();
+  setCarryMsg('');
+  announce(MESSAGES.fresh);
+  freshBtn.focus();
+});
+
+/* ---------------------------------------------------------------------
+   Boot
+   --------------------------------------------------------------------- */
+function renderAll() { renderMap(); renderCard(); renderConnList(); renderLegend(); renderLog(); }
+state = load();
+renderTerrain();
+renderAll();
+</script>
+</body>
+</html>

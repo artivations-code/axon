@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside the Brain</title>
+<meta name="description" content="Touch four parts of the brain to learn what each one does, where you can feel it in your body, and one art activity to try.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+  --coral-a: rgba(240,138,120,.38);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Nunito", system-ui, sans-serif; font-weight:600;
+  font-size:17px; line-height:1.5; overflow-x:hidden;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:28px 16px 40px}
+@media (min-width:700px){ .wrap{padding:40px 28px 56px} }
+
+/* ---------- frame ---------- */
+.chip{
+  display:inline-block; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:800; color:var(--coral-d); background:var(--coral-100);
+  padding:5px 12px; border-radius:999px;
+}
+h1{font-size:clamp(34px,5.4vw,56px); line-height:1.02; margin:14px 0 10px; font-weight:900; letter-spacing:-.01em}
+.lede{font-size:clamp(17px,2vw,20px); margin:0 0 16px; max-width:62ch; color:var(--ink)}
+details.howto{
+  background:var(--card); border-radius:14px; padding:10px 16px; max-width:62ch;
+  border:2px solid var(--coral-100);
+}
+details.howto summary{cursor:pointer; font-weight:800; color:var(--coral-d); list-style:none; display:flex; align-items:center; gap:8px}
+details.howto summary::-webkit-details-marker{display:none}
+details.howto summary svg{transition:transform .2s}
+details.howto[open] summary svg{transform:rotate(90deg)}
+details.howto ul{margin:8px 0 4px; padding-left:20px}
+details.howto li{margin:4px 0}
+
+/* ---------- controls row ---------- */
+.controls{
+  display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;
+  margin:26px 0 18px;
+}
+.seg{display:inline-flex; background:var(--card); border:2px solid var(--coral-100); border-radius:999px; padding:4px}
+.seg button{
+  font:inherit; font-weight:800; font-size:15px; color:var(--ink-soft);
+  background:transparent; border:0; border-radius:999px; padding:9px 18px; cursor:pointer; min-height:44px;
+}
+.seg button[aria-pressed="true"]{background:var(--coral); color:#fff}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]:hover{color:#fff}
+.progress{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.progress .count{font-weight:800}
+.progress .dots{display:inline-flex; gap:6px; vertical-align:middle; margin-right:8px}
+.progress .dots i{width:12px; height:12px; border-radius:50%; border:2px solid var(--coral); display:inline-block; background:transparent}
+.progress .dots i.on{background:var(--leaf-d); border-color:var(--leaf-d)}
+.btn-ghost{
+  font:inherit; font-weight:800; font-size:15px; color:var(--ink-soft); background:transparent;
+  border:2px solid var(--ink-soft); border-radius:999px; padding:8px 16px; cursor:pointer; min-height:44px;
+}
+.btn-ghost:hover{color:var(--ink); border-color:var(--ink)}
+.confirm{display:none; align-items:center; gap:10px; flex-wrap:wrap; font-size:15px}
+.confirm.show{display:flex}
+.confirm button{min-height:40px; padding:6px 14px}
+.btn-solid{font:inherit; font-weight:800; font-size:15px; color:#fff; background:var(--coral-d); border:2px solid var(--coral-d); border-radius:999px; padding:8px 16px; cursor:pointer; min-height:44px}
+.btn-solid:hover{background:#c9503d; border-color:#c9503d}
+.status{font-size:14px; color:var(--ink-soft); min-height:1.4em}
+
+/* ---------- stage ---------- */
+.stage{display:grid; grid-template-columns:1fr; gap:22px}
+@media (min-width:900px){ .stage{grid-template-columns:5fr 6fr; align-items:start} }
+
+.brain-card{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:16px 16px 10px}
+@media (min-width:700px){ .brain-card{padding:22px 22px 14px} }
+.brain-card h2{margin:0 0 4px; font-size:18px; font-weight:900}
+.brain-card .cap{margin:0 0 8px; font-size:14px; color:var(--ink-soft)}
+#brain-art{width:100%; height:auto; display:block}
+#brain-art .outline{fill:#fff; stroke:var(--ink); stroke-width:3; stroke-linejoin:round}
+#brain-art .lobe{fill:var(--coral-100); stroke:var(--ink); stroke-width:3; stroke-linejoin:round}
+#brain-art .sulcus{fill:none; stroke:var(--ink-soft); stroke-width:2.2; stroke-linecap:round; opacity:.55}
+#brain-art .lbl{font:800 17px "Nunito", system-ui, sans-serif; fill:var(--ink); paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round; pointer-events:none}
+#brain-art .lbl.inside{font-size:16px}
+#brain-art .tiny{font:700 13px "Nunito", system-ui, sans-serif; fill:var(--ink-soft)}
+#brain-art .leader{fill:none; stroke:var(--ink-soft); stroke-width:1.8; stroke-linecap:round}
+#brain-art .hot{cursor:pointer; outline:none}
+#brain-art .hot .hit{fill:transparent; stroke:none}
+#brain-art .hot .shape{fill:var(--coral-a); stroke:var(--coral-d); stroke-width:3; stroke-linejoin:round; transition:fill .15s, stroke-width .15s}
+#brain-art .hot .shape.deep{stroke-dasharray:7 5}
+#brain-art .hot:hover .shape{fill:rgba(240,138,120,.65)}
+#brain-art .hot.is-active .shape{fill:var(--coral); stroke-width:4; stroke-dasharray:none}
+#brain-art .hot:focus-visible .shape{stroke:var(--ink); stroke-width:4}
+#brain-art .hot .check{opacity:0; transition:opacity .15s}
+#brain-art .hot.is-visited .check{opacity:1}
+#brain-art .hot .check circle{fill:var(--leaf-d)}
+#brain-art .hot .check path{fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+
+.legend{list-style:none; margin:10px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:8px}
+@media (max-width:460px){ .legend{grid-template-columns:1fr} }
+.leg{
+  font:inherit; text-align:left; display:flex; align-items:center; gap:10px; width:100%;
+  background:var(--paper); border:2px solid var(--coral-100); border-radius:14px; padding:9px 12px; cursor:pointer; color:var(--ink);
+  min-height:52px;
+}
+.leg:hover{border-color:var(--coral)}
+.leg[aria-pressed="true"]{background:var(--coral-100); border-color:var(--coral-d)}
+.leg .mark{width:22px; height:22px; flex:0 0 22px; border-radius:50%; border:2px solid var(--coral); display:grid; place-items:center; background:#fff}
+.leg.visited .mark{background:var(--leaf-d); border-color:var(--leaf-d)}
+.leg .mark svg{width:13px; height:13px; display:none}
+.leg.visited .mark svg{display:block}
+.leg b{display:block; font-weight:800; font-size:15px; line-height:1.2}
+.leg small{display:block; font-size:13px; color:var(--ink-soft); line-height:1.25}
+
+/* ---------- panel ---------- */
+.panel{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px 16px 20px}
+@media (min-width:700px){ .panel{padding:26px 28px 28px} }
+.panel.swap{animation:fade .22s ease-out}
+@keyframes fade{from{opacity:.35; transform:translateY(4px)} to{opacity:1; transform:none}}
+.panel-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-bottom:4px}
+.panel-head h2{margin:0; font-size:clamp(26px,3.2vw,34px); font-weight:900; line-height:1.05; color:var(--coral-d)}
+.panel-head .tag{font-size:15px; color:var(--ink-soft); font-weight:700}
+.sayit{margin:0 0 14px; font-size:14px; color:var(--ink-soft)}
+.sayit b{color:var(--ink)}
+.part{border-top:2px solid var(--coral-100); padding:16px 0 4px; margin-top:8px}
+.part h3{margin:0 0 8px; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--coral-d); font-weight:900; display:flex; align-items:center; gap:8px}
+.part h3 svg{width:18px; height:18px}
+.part p{margin:0 0 10px}
+.visual{display:grid; grid-template-columns:1fr; gap:12px}
+@media (min-width:560px){ .visual{grid-template-columns:1fr minmax(220px,260px); align-items:start} }
+.dg{width:100%; height:auto; display:block; background:var(--paper); border-radius:14px}
+.dg .ln{stroke:var(--ink); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.dg .ln-soft{stroke:var(--ink-soft); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-dasharray:4 3}
+.dg .acc{fill:var(--coral)} .dg .acc-l{fill:var(--coral-100); stroke:var(--coral-d); stroke-width:2}
+.dg .acc-s{stroke:var(--coral-d); fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.dg .card{fill:#fff; stroke:var(--ink-soft); stroke-width:1.4}
+.dg text{font:700 11px "Nunito", system-ui, sans-serif; fill:var(--ink)}
+.dg .soft{fill:var(--ink-soft); font-weight:600}
+.dg .big{font-size:12px; font-weight:800}
+
+.sensory{display:grid; grid-template-columns:1fr; gap:12px}
+@media (min-width:560px){ .sensory{grid-template-columns:1fr 170px; align-items:start} }
+.bodybox{display:flex; flex-direction:column; align-items:center; gap:8px}
+.btn-body{
+  font:inherit; font-weight:800; font-size:15px; color:var(--coral-d); background:#fff;
+  border:2px solid var(--coral); border-radius:999px; padding:8px 14px; cursor:pointer; min-height:44px; width:100%;
+}
+.btn-body[aria-pressed="true"]{background:var(--coral); color:#fff; border-color:var(--coral)}
+#body-art{width:132px; height:auto; display:block}
+#body-art .fig{fill:#fff; stroke:var(--ink); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round}
+#body-art .zone{fill:var(--coral); opacity:0; transition:opacity .2s; pointer-events:none}
+#body-art .zone.on{opacity:.7}
+#body-art .zone.on.pulse{animation:pulse 1.6s ease-in-out infinite}
+#body-art .zone-line{fill:none; stroke:var(--coral); stroke-width:9; stroke-linecap:round; opacity:0; transition:opacity .2s; pointer-events:none}
+#body-art .zone-line.on{opacity:.8}
+#body-art .zone-line.on.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.5} 50%{opacity:.9}}
+.where{font-size:15px; text-align:center; margin:0; min-height:1.4em; color:var(--ink)}
+.where b{color:var(--coral-d)}
+
+.activity dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 14px}
+.activity dt{font-weight:900; color:var(--coral-d); font-size:14px; letter-spacing:.04em; padding-top:2px}
+.activity dd{margin:0}
+@media (max-width:420px){ .activity dl{grid-template-columns:1fr; gap:2px} .activity dd{margin-bottom:8px} }
+
+.note{
+  margin:22px 0 0; background:var(--card); border-radius:14px; padding:14px 18px; border:2px solid var(--coral-100);
+  font-size:15px; max-width:80ch;
+}
+.note b{color:var(--coral-d)}
+.note p{margin:0 0 6px}
+.note p:last-child{margin:0}
+
+footer{margin-top:40px; padding-top:18px; border-top:2px solid var(--coral-100); font-size:15px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center}
+footer a{color:var(--coral-d); font-weight:800}
+.sig{font-weight:700; color:var(--ink)}
+a{color:var(--coral-d)}
+
+/* ---------- focus + motion ---------- */
+button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{animation:none !important; transition:none !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="chip">Beyond The Sun Therapy</span>
+  <h1>Inside the Brain</h1>
+  <p class="lede">Touch four parts of the brain to find out what each one does, where you can feel it in your body, and one art activity to try.</p>
+  <details class="howto">
+    <summary><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+    <ul>
+      <li>Touch a part of the brain, or its name under the picture, to open it.</li>
+      <li>Each part has a picture, a thing to feel in your body, and an art activity.</li>
+      <li>Switch between <b>For kids</b> and <b>For grown-ups</b> any time. Both are true. One uses more words.</li>
+      <li>Press <b>Where is it in me?</b> to light up the place on the body.</li>
+      <li>Parts you have opened get a green check. Nothing is scored.</li>
+    </ul>
+  </details>
+</header>
+
+<div class="controls">
+  <div role="group" aria-label="Who is reading" class="seg" id="audience">
+    <button type="button" data-aud="child" aria-pressed="true">For kids</button>
+    <button type="button" data-aud="adult" aria-pressed="false">For grown-ups</button>
+  </div>
+  <div class="progress">
+    <span class="count"><span class="dots" id="dots" aria-hidden="true"></span><span id="count">0 of 4 parts opened</span></span>
+    <button type="button" class="btn-ghost" id="fresh">Start fresh</button>
+    <span class="confirm" id="confirm">
+      <span>Clear the checks and start over?</span>
+      <button type="button" class="btn-solid" id="fresh-yes">Yes, clear</button>
+      <button type="button" class="btn-ghost" id="fresh-no">Keep them</button>
+    </span>
+  </div>
+</div>
+<p class="status" id="status" aria-live="polite"></p>
+
+<main class="stage">
+  <section class="brain-card" aria-labelledby="brain-h">
+    <h2 id="brain-h">A side view, looking at the left side of the head</h2>
+    <p class="cap">The front of the head is on the left. Dashed outlines mean the part is tucked inside, under the surface.</p>
+
+    <!-- BRAIN ILLUSTRATION. See the swap note at the top of the script. -->
+    <svg id="brain-art" viewBox="0 0 520 400" role="group" aria-label="Side view of a brain with four touchable parts">
+      <!-- cerebrum -->
+      <path class="outline" d="M 92 248 C 58 198 58 112 150 76 C 222 48 330 44 400 74 C 468 104 488 190 466 250 C 448 292 398 308 352 310 C 322 312 302 300 278 300 C 252 300 242 314 210 316 C 182 318 150 310 136 290 C 120 272 104 266 92 248 Z"/>
+      <!-- temporal lobe -->
+      <path class="outline" d="M 134 288 C 146 332 236 344 294 304 C 272 290 198 284 134 288 Z"/>
+      <!-- cerebellum -->
+      <path class="lobe" d="M 358 311 C 374 346 440 344 456 306 C 430 298 388 298 358 311 Z"/>
+      <path class="sulcus" d="M 376 318 C 392 332 426 332 442 316 M 386 330 C 400 338 420 338 434 328"/>
+      <!-- brainstem -->
+      <path class="lobe" d="M 336 310 C 330 338 342 362 336 386 L 366 386 C 360 362 370 338 362 314 Z"/>
+      <!-- sulci -->
+      <path class="sulcus" d="M 134 286 C 190 262 250 236 318 232"/>
+      <path class="sulcus" d="M 296 72 C 288 130 300 190 318 230"/>
+      <path class="sulcus" d="M 180 100 C 210 120 230 150 232 190"/>
+      <path class="sulcus" d="M 340 90 C 360 130 372 180 376 230"/>
+      <path class="sulcus" d="M 400 120 C 420 160 432 200 426 250"/>
+      <path class="sulcus" d="M 150 250 C 120 210 128 150 170 110"/>
+      <path class="sulcus" d="M 240 90 C 250 120 246 160 238 190"/>
+      <path class="sulcus" d="M 300 262 C 330 266 360 280 380 296"/>
+      <path class="sulcus" d="M 150 300 C 190 322 250 326 286 306"/>
+      <text class="tiny" x="30" y="292">front</text>
+      <text class="tiny" x="450" y="390">back</text>
+
+      <!-- HOTSPOTS. Keep these ids: hot-prefrontal, hot-insula, hot-hippocampus, hot-amygdala -->
+      <g id="hot-prefrontal" class="hot">
+        <path class="shape" d="M 100 244 C 70 196 74 122 150 88 C 170 80 190 78 202 94 C 182 150 176 204 188 254 C 158 262 124 260 100 244 Z"/>
+        <text class="lbl inside" x="96" y="162">Prefrontal</text>
+        <text class="lbl inside" x="96" y="182">cortex</text>
+        <g class="check" transform="translate(190,98)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+      </g>
+      <g id="hot-insula" class="hot">
+        <circle class="hit" cx="240" cy="246" r="36"/>
+        <ellipse class="shape deep" cx="240" cy="246" rx="36" ry="21" transform="rotate(-14 240 246)"/>
+        <text class="lbl inside" x="240" y="214" text-anchor="middle">Insula</text>
+        <g class="check" transform="translate(276,230)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+      </g>
+      <g id="hot-hippocampus" class="hot">
+        <circle class="hit" cx="246" cy="300" r="34"/>
+        <path class="shape deep" d="M 212 306 C 226 290 262 288 286 304 C 288 312 278 318 266 316 C 252 312 230 316 214 318 C 206 316 206 310 212 306 Z"/>
+        <path class="leader" d="M 262 322 L 272 346"/>
+        <text class="lbl" x="272" y="366" text-anchor="middle">Hippocampus</text>
+        <g class="check" transform="translate(290,292)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+      </g>
+      <g id="hot-amygdala" class="hot">
+        <circle class="hit" cx="186" cy="308" r="30"/>
+        <ellipse class="shape deep" cx="186" cy="308" rx="15" ry="10" transform="rotate(-18 186 308)"/>
+        <path class="leader" d="M 178 322 L 160 346"/>
+        <text class="lbl" x="150" y="366" text-anchor="middle">Amygdala</text>
+        <g class="check" transform="translate(168,292)"><circle r="11"/><path d="M-5 0l3.5 3.5L6 -4"/></g>
+      </g>
+    </svg>
+
+    <ul class="legend" id="legend"></ul>
+  </section>
+
+  <article class="panel" id="panel" aria-labelledby="panel-h">
+    <div class="panel-head">
+      <h2 id="panel-h"></h2>
+      <span class="tag" id="panel-tag"></span>
+    </div>
+    <p class="sayit" id="sayit"></p>
+
+    <section class="part">
+      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2.5" fill="currentColor"/></svg><span id="h-visual"></span></h3>
+      <div class="visual">
+        <p id="visual-text"></p>
+        <div id="diagram"></div>
+      </div>
+    </section>
+
+    <section class="part">
+      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10c2-5 5-5 7 0s5 5 7 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="h-sensory"></span></h3>
+      <div class="sensory">
+        <p id="sensory-text"></p>
+        <div class="bodybox">
+          <button type="button" class="btn-body" id="body-btn" aria-pressed="false" aria-controls="body-art">Where is it in me?</button>
+          <svg id="body-art" viewBox="0 0 120 232" role="img" aria-labelledby="body-title">
+            <title id="body-title">Body outline</title>
+            <!-- figure -->
+            <circle class="fig" cx="60" cy="30" r="19"/>
+            <path class="fig" d="M 52 48 L 52 56 L 68 56 L 68 48"/>
+            <path class="fig" d="M 36 60 C 30 60 28 64 27 72 L 22 142 L 36 142 L 40 92 L 40 142 L 44 142 L 44 212 L 56 212 L 58 150 L 62 150 L 64 212 L 76 212 L 76 142 L 80 142 L 80 92 L 84 142 L 98 142 L 93 72 C 92 64 90 60 84 60 Z"/>
+            <circle class="fig" cx="19" cy="154" r="8"/>
+            <circle class="fig" cx="101" cy="154" r="8"/>
+            <!-- highlight zones (one shows at a time) -->
+            <circle class="zone" data-zone="head" cx="60" cy="30" r="24"/>
+            <ellipse class="zone" data-zone="chest" cx="60" cy="86" rx="22" ry="15"/>
+            <ellipse class="zone" data-zone="stomach" cx="60" cy="122" rx="18" ry="13"/>
+            <g class="zone" data-zone="hands"><circle cx="19" cy="160" r="13"/><circle cx="101" cy="160" r="13"/></g>
+            <path class="zone-line" data-zone="breath" d="M 60 44 L 60 70 C 60 86 60 100 60 124"/>
+          </svg>
+          <p class="where" id="where"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="part activity">
+      <h3><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16l2-6 8-8 4 4-8 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 10l4 4" stroke="currentColor" stroke-width="2"/></svg><span id="h-activity"></span></h3>
+      <dl>
+        <dt id="l-material"></dt><dd id="a-material"></dd>
+        <dt id="l-action"></dt><dd id="a-action"></dd>
+        <dt id="l-stop"></dt><dd id="a-stop"></dd>
+      </dl>
+    </section>
+  </article>
+</main>
+
+<aside class="note" id="note" aria-label="About this page"></aside>
+
+<footer>
+  <span class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</span>
+  <a href="index.html">All experiences</a>
+</footer>
+
+</div>
+
+<script>
+/* =====================================================================
+   HOW TO EDIT THIS PAGE
+
+   1. Words. Everything a reader sees lives in REGIONS, UI, and NOTES
+      just below. Change text there. Do not touch the code under
+      "LOGIC". Each region has a child version and an adult version
+      with the same three parts: visual, sensory, activity.
+
+   2. Swapping in Katy's brain illustration.
+      The drawing is the single <svg id="brain-art"> above. To replace it:
+        a. Keep the <svg> element and its id. Set viewBox to match the
+           new artwork (width and height of the drawing).
+        b. Put the new artwork inside the <svg>. An exported SVG from
+           Illustrator, Procreate, or Inkscape can be pasted in. A raster
+           image also works as <image href="data:..."> inside the svg.
+        c. Keep four groups with these exact ids, placed over the
+           matching parts of the new drawing:
+             <g id="hot-prefrontal"  class="hot"> ... </g>
+             <g id="hot-insula"      class="hot"> ... </g>
+             <g id="hot-hippocampus" class="hot"> ... </g>
+             <g id="hot-amygdala"    class="hot"> ... </g>
+           Inside each group: one element with class="shape" (the visible
+           outline the page tints on hover and press) and, for small
+           parts, a <circle class="hit"> that gives fingers a bigger
+           target. A <g class="check"> inside the group shows the visited
+           check. The script finds the groups by id and does the rest.
+        d. Labels can stay in the artwork or be removed. The list of
+           names under the picture is generated and always works.
+
+   3. Body outline. <svg id="body-art"> holds five zones with data-zone
+      values head, chest, stomach, hands, breath. Each region's "body"
+      field names which zone lights up.
+   ===================================================================== */
+
+/* ----------------------------- CONTENT ----------------------------- */
+
+var UI = {
+  audience: { child: 'For kids', adult: 'For grown-ups' },
+  parts: {
+    visual:   { child: 'What it does',  adult: 'What it does' },
+    sensory:  { child: 'Feel it',       adult: 'Sensory example' },
+    activity: { child: 'Make it',       adult: 'Art activity' }
+  },
+  activityLabels: {
+    child: { material: 'You need', action: 'Do this', stop: 'Stop when' },
+    adult: { material: 'Material',  action: 'Action',  stop: 'Stopping rule' }
+  },
+  sayit: 'Say it',
+  count: function (n, total) { return n + ' of ' + total + ' parts opened'; },
+  bodyOn: 'Where is it in me?',
+  bodyOff: 'Hide it',
+  cleared: 'Checks cleared. The brain is ready again.',
+  showing: function (name, aud) { return 'Showing ' + name + ', ' + (aud === 'child' ? 'for kids' : 'for grown-ups') + '.'; }
+};
+
+var NOTES = {
+  child: '<p><b>This is a learning page.</b> It is for finding out how your brain works. It is not a doctor\'s page, and the grown-up with you can answer questions the page cannot.</p>' +
+         '<p>If you or someone with you needs help right now in the US, a grown-up can call or text <b>988</b>.</p>',
+  adult: '<p><b>For grown-ups.</b> Each part is described on its own so a child can hold it. In the brain these parts work as networks, and none of them works alone. Shorthand such as "lizard brain" or a brain "hijack" is a simplification, not anatomy.</p>' +
+         '<p>This is a learning page, not a medical page and not therapy. It does not diagnose, and it makes no claims about how stress or trauma change the size of any brain structure. If you or a child are in crisis in the US, call or text <b>988</b>, the Suicide &amp; Crisis Lifeline.</p>'
+};
+
+var ORDER = ['amygdala', 'hippocampus', 'prefrontal', 'insula'];
+
+var REGIONS = {
+
+  amygdala: {
+    name: 'Amygdala',
+    say: 'uh-MIG-duh-luh',
+    tag: { child: 'the fast alarm', adult: 'fast safety detection' },
+    body: 'chest',
+    diagram:
+      '<svg class="dg" viewBox="0 0 280 136" role="img" aria-label="A loud sound reaches the amygdala. A thick fast arrow goes to the body. A thin slower arrow goes to thinking.">' +
+      '<defs><marker id="mk-a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E0614C"/></marker>' +
+      '<marker id="mk-a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5A6B74"/></marker></defs>' +
+      '<circle cx="36" cy="66" r="6" class="acc"/>' +
+      '<path class="ln" d="M24 52l5 5M24 80l5-5M20 66h6M36 48v6M36 78v6"/>' +
+      '<text x="36" y="104" text-anchor="middle" class="soft">loud sound</text>' +
+      '<path class="ln" d="M50 66h30"/>' +
+      '<ellipse cx="106" cy="66" rx="22" ry="13" class="acc-l" transform="rotate(-20 106 66)"/>' +
+      '<text x="106" y="104" text-anchor="middle" class="big">amygdala</text>' +
+      '<path d="M126 56 C 146 40 166 30 184 26" stroke="#E0614C" stroke-width="4" fill="none" stroke-linecap="round" marker-end="url(#mk-a1)"/>' +
+      '<path d="M214 24 c-4-7-14-5-12 3 c2 6 12 10 12 10 s10-4 12-10 c2-8-8-10-12-3z" class="acc"/>' +
+      '<text x="214" y="52" text-anchor="middle" class="big">body reacts</text><text x="214" y="64" text-anchor="middle" class="soft">fast</text>' +
+      '<path class="ln-soft" d="M128 76 C 146 92 158 100 166 104" marker-end="url(#mk-a2)"/>' +
+      '<rect x="170" y="88" width="90" height="32" rx="8" class="card"/>' +
+      '<text x="215" y="102" text-anchor="middle" class="big">thinking checks</text><text x="215" y="114" text-anchor="middle" class="soft">slower</text>' +
+      '</svg>',
+    child: {
+      visual: 'The amygdala is a small part shaped like an almond, deep inside your brain, one on each side. Its job is to notice anything that might matter for your safety and to react fast. It can get your body moving before the thinking part of your brain has finished thinking. That is why you can jump at a loud bang before you know what made it.',
+      sensory: 'Sit still and listen for one minute. If a door bangs or someone says your name all of a sudden, notice what your body does first. Shoulders up? Breath caught? Heart faster? That quick jolt is the amygdala doing its job. It settles once the rest of your brain finishes checking.',
+      where: '<b>Chest.</b> A faster heartbeat and a caught breath.',
+      activity: {
+        material: 'Oil pastels and a big sheet of paper, as big as you can find.',
+        action: 'Pick one color. Make a fast scribble, with your hand moving as quick as the jolt felt. Next to it, make one slow line with the same color.',
+        stop: 'The slow line reaches the edge of the paper. Keep both marks. Do not fix them.'
+      }
+    },
+    adult: {
+      visual: 'The amygdalae are paired, almond-shaped clusters of nuclei in the medial temporal lobes. They detect stimuli that matter for safety, along with other events that carry strong significance, and they trigger fast bodily responses through connections to the brainstem and hypothalamus. This response can begin before slower cortical processing has finished evaluating the situation. The amygdala works within networks with the prefrontal cortex, hippocampus, and insula. Shorthand such as "lizard brain" or "amygdala hijack" is a simplification, not anatomy.',
+      sensory: 'A startle response is the most observable example for a child. After a sudden sound, the fast reaction shows in the body before the cause can be named. A flinch, a held breath, a quicker heartbeat. The useful teaching is the order of events. The jolt comes first. Checking comes after. Neither one is a failure.',
+      where: '<b>Chest.</b> Heart rate and the caught breath are signals a child can find without help.',
+      activity: {
+        material: 'Oil pastels on paper at least 12 by 18 inches. Larger is better for a fast arm movement.',
+        action: 'The child chooses one color and makes a fast mark at the speed the jolt felt, then a slow mark in the same color beside it. The two marks side by side are the lesson.',
+        stop: 'The slow line reaching the paper\'s edge ends the activity. Do not interpret the marks and do not ask what they mean. If you ask anything, ask which one was easier to make.'
+      }
+    }
+  },
+
+  hippocampus: {
+    name: 'Hippocampus',
+    say: 'hip-uh-KAM-pus',
+    tag: { child: 'the memory filer', adult: 'memory formation and placement' },
+    body: 'head',
+    diagram:
+      '<svg class="dg" viewBox="0 0 280 136" role="img" aria-label="A seahorse-shaped hippocampus connected to three memory cards: what, when, where.">' +
+      '<path class="acc-s" d="M 46 104 C 34 72 58 44 86 48 C 110 52 112 78 96 86 C 86 90 80 80 86 74" stroke-width="9"/>' +
+      '<circle cx="88" cy="50" r="7" class="acc"/>' +
+      '<text x="70" y="126" text-anchor="middle" class="big">hippocampus</text>' +
+      '<path class="ln-soft" d="M110 60 L146 36 M112 70 L148 66 M106 82 L150 96"/>' +
+      '<rect x="148" y="22" width="124" height="26" rx="6" class="card"/><text x="156" y="39" class="big">what</text><text x="192" y="39" class="soft">the lake</text>' +
+      '<rect x="148" y="54" width="124" height="26" rx="6" class="card"/><text x="156" y="71" class="big">when</text><text x="194" y="71" class="soft">last summer</text>' +
+      '<rect x="148" y="86" width="124" height="26" rx="6" class="card"/><text x="156" y="103" class="big">where</text><text x="198" y="103" class="soft">the north dock</text>' +
+      '<text x="210" y="128" text-anchor="middle" class="soft">filed together</text>' +
+      '</svg>',
+    child: {
+      visual: 'The hippocampus is a curved part that sits just behind the amygdala. Its name means seahorse, because that is close to its shape. It helps your brain make new memories and file each one with a when and a where. Because of it, you can remember more than the fact that you went to the lake. You can remember which summer, and who was there.',
+      sensory: 'Think of the smell of a food you like while it is cooking. Notice if a place or a day arrives with the smell. The hippocampus helped put that smell on a shelf with its time and its place, so they come back together.',
+      where: '<b>Head.</b> The smell comes in at the nose, and the memory comes with it.',
+      activity: {
+        material: 'Watercolor paints, a brush, and one small square of paper.',
+        action: 'Wet the whole square with clean water first. Paint one place you remember, using only colors that were really there. Add one mark for the time of day, like a sun, a lamp, or a dark window.',
+        stop: 'The whole square is wet with color. Let it dry all the way before you decide anything about it.'
+      }
+    },
+    adult: {
+      visual: 'The hippocampus is a curved structure in the medial temporal lobe, adjacent to the amygdala. It supports the formation of new memories and helps place them in time and context, so an event can later be recalled as a specific episode with a time and a place attached. Memory depends on many regions, including wide areas of cortex, and the hippocampus works as part of those networks. This page makes no claims about how stress or trauma change the size of any brain structure.',
+      sensory: 'Smell and memory are a reliable pairing for children because the link is immediate and needs no explanation. A familiar cooking smell often arrives with a place or a day attached. The point to teach is placement. The memory has a when and a where, and that placement is work the hippocampus takes part in.',
+      where: '<b>Head.</b> The child can point to the nose as where the smell arrives and to the head as where the memory is kept.',
+      activity: {
+        material: 'Watercolor on a small square of watercolor paper, about 6 by 6 inches, worked wet-on-wet.',
+        action: 'The child wets the square, paints one remembered place using only colors that were present, then adds a single mark for time of day.',
+        stop: 'The activity ends when the whole square holds color. Drying time is part of it. Do not ask the child to explain the place. If the child offers, listen.'
+      }
+    }
+  },
+
+  prefrontal: {
+    name: 'Prefrontal cortex',
+    say: 'pree-FRUN-tul KOR-teks',
+    tag: { child: 'the planner and the pauser', adult: 'planning, pausing, choosing, weighing' },
+    body: 'hands',
+    diagram:
+      '<svg class="dg" viewBox="0 0 260 130" role="img" aria-label="Four jobs of the prefrontal cortex: plan, pause, choose, weigh.">' +
+      '<text x="130" y="14" text-anchor="middle" class="soft">behind the forehead</text><path class="ln-soft" d="M30 34 C 90 20 170 20 230 34"/>' +
+      '<g transform="translate(34,62)"><circle cx="-14" cy="-12" r="2.5" class="acc"/><path class="ln" d="M-7 -12h22"/><circle cx="-14" cy="0" r="2.5" class="acc"/><path class="ln" d="M-7 0h22"/><circle cx="-14" cy="12" r="2.5" class="acc"/><path class="ln" d="M-7 12h22"/></g>' +
+      '<text x="34" y="104" text-anchor="middle" class="big">plan</text>' +
+      '<g transform="translate(98,62)"><rect x="-13" y="-16" width="9" height="32" rx="2" class="acc"/><rect x="4" y="-16" width="9" height="32" rx="2" class="acc"/></g>' +
+      '<text x="98" y="104" text-anchor="middle" class="big">pause</text>' +
+      '<g transform="translate(162,62)"><path class="ln" d="M0 20 V 4 M0 4 C 0 -6 -14 -8 -16 -18 M0 4 C 0 -6 14 -8 16 -18"/><circle cx="-16" cy="-18" r="4" class="acc"/><circle cx="16" cy="-18" r="4" class="acc"/></g>' +
+      '<text x="162" y="104" text-anchor="middle" class="big">choose</text>' +
+      '<g transform="translate(226,62)"><path class="ln" d="M0 -16 V 20 M-10 20 H 10 M-20 -8 H 20"/><path class="ln" d="M-20 -8 L -26 6 H -14 Z M20 -8 L 14 6 H 26 Z"/><path d="M-26 6 a6 6 0 0 0 12 0z M14 6 a6 6 0 0 0 12 0z" class="acc"/></g>' +
+      '<text x="226" y="104" text-anchor="middle" class="big">weigh</text>' +
+      '<text x="130" y="124" text-anchor="middle" class="soft">slower than the amygdala, on purpose</text>' +
+      '</svg>',
+    child: {
+      visual: 'The prefrontal cortex is the front of your brain, right behind your forehead. It helps you make a plan, pause before you act, pick between two things, and weigh which one matters more. It keeps developing all through childhood and into your twenties. It works slower than the amygdala, so a pause gives it time to catch up.',
+      sensory: 'Hold both hands out in front of you, palms up. Put one choice in each hand, like go outside in one and keep drawing in the other. Feel yourself weighing them, as if your hands were a scale. That slow weighing is the prefrontal cortex at work.',
+      where: '<b>Hands.</b> One choice in each, held out like a scale.',
+      activity: {
+        material: 'One sheet of paper folded in half, a pencil, and one marker.',
+        action: 'On the left half, draw the first choice. On the right half, draw the second. Then draw one marker line down the fold.',
+        stop: 'That one line is done. The picture is your plan. You can change it tomorrow.'
+      }
+    },
+    adult: {
+      visual: 'The prefrontal cortex is the front portion of the frontal lobes. It supports planning, pausing, choosing between options, holding a goal in mind, and weighing one consideration against another. It develops over a long period, through childhood and adolescence into early adulthood. Its contribution is slower than the amygdala\'s fast response, and it works in networks with the amygdala, hippocampus, insula, and other cortical areas. A pause gives slower processing time to take part. This describes timing. No region switches the others off.',
+      sensory: 'The two-hands scale makes weighing physical. One option per hand, then slow attention to which hand feels heavier. The child is practicing the pause and the comparison. Neither choice is the right answer. The pause is the content.',
+      where: '<b>Hands.</b> The weight of each option is imagined, and the hands give the comparison somewhere to live.',
+      activity: {
+        material: 'Folded paper, pencil, one marker. A second sheet nearby in case a third option appears.',
+        action: 'Each half of the fold holds one option, drawn in pencil. A single marker line down the fold closes the plan.',
+        stop: 'One line, then hands off. Keep the plan where the child can see it and change it. If a third option comes up, use the second sheet. Do not crowd the first.'
+      }
+    }
+  },
+
+  insula: {
+    name: 'Insula',
+    say: 'IN-suh-luh',
+    tag: { child: 'the inside listener', adult: 'internal body signals and interoception' },
+    body: 'breath',
+    diagram:
+      '<svg class="dg" viewBox="0 0 260 130" role="img" aria-label="The insula in the middle receives lines from heartbeat, breath, stomach, and temperature.">' +
+      '<path class="acc-l" d="M 104 48 C 118 36 146 36 158 50 C 166 62 160 82 146 88 C 130 94 108 90 102 76 C 98 66 98 56 104 48 Z"/>' +
+      '<path class="ln-soft" d="M112 56 C 126 52 140 56 150 64 M110 72 C 124 68 138 72 148 80" stroke-dasharray="none"/>' +
+      '<text x="130" y="112" text-anchor="middle" class="big">insula</text>' +
+      '<path class="ln-soft" d="M102 54 L 60 36 M158 54 L 200 36 M104 82 L 60 100 M156 84 L 200 100"/>' +
+      '<path d="M40 28 c-3-6-12-4-10 3 c2 5 10 9 10 9 s8-4 10-9 c2-7-7-9-10-3z" class="acc"/><text x="40" y="54" text-anchor="middle" class="soft">heartbeat</text>' +
+      '<path class="ln" d="M206 30 c4-6 8-6 12 0 s8 6 12 0 M206 40 c4-6 8-6 12 0 s8 6 12 0"/><text x="218" y="56" text-anchor="middle" class="soft">breath</text>' +
+      '<path class="ln" d="M30 100 c0-8 8-14 14-10 c6 4 6 12 0 16 c-4 3-10 2-12-2"/><circle cx="44" cy="98" r="3" class="acc"/><text x="40" y="124" text-anchor="middle" class="soft">stomach</text>' +
+      '<rect x="214" y="84" width="8" height="24" rx="4" class="card"/><circle cx="218" cy="110" r="5" class="acc"/><path class="acc-s" d="M218 92 v18" stroke-width="3"/><text x="218" y="126" text-anchor="middle" class="soft">warm or cold</text>' +
+      '</svg>',
+    child: {
+      visual: 'The insula is folded deep inside your brain, under the sides, so you cannot see it from the outside. It listens to signals from inside your body. Your heartbeat, your breath, your stomach, how warm or cold you are. It takes part in turning those signals into feelings you can notice and name.',
+      sensory: 'Close your mouth and breathe in through your nose. Follow the air. Cool at the nose, then your chest, maybe your belly. Breathe out and follow it back. Noticing all of that is the insula at work.',
+      where: '<b>Breath.</b> Nose, then chest, then belly.',
+      activity: {
+        material: 'Air-dry clay or Model Magic, a piece about the size of your fist.',
+        action: 'Hold the clay in both hands while you breathe through your nose. Each time you breathe out, press one thumbprint into it.',
+        stop: 'You reach ten thumbprints. The clay now shows ten breaths. You decide whether to keep it or squash it back.'
+      }
+    },
+    adult: {
+      visual: 'The insula is a region of cortex folded within the lateral sulcus, covered by parts of the frontal, parietal, and temporal lobes. It receives signals from inside the body, including heartbeat, breathing, stomach and gut sensation, and temperature. It takes part in interoception, the sensing of the body\'s internal state, and in the noticing of feelings that draw on those signals. Like the other regions here, it works in networks. No feeling lives in one place.',
+      sensory: 'Breath is the easiest internal signal to teach because it can be slowed on purpose and felt in a specific place. Nose breathing with attention to where the air is felt gives the child a body location to point to. Do not add a counting goal or a right way to breathe.',
+      where: '<b>Breath.</b> The path from nose to chest to belly, which the child can trace with a finger.',
+      activity: {
+        material: 'Air-dry clay or Crayola Model Magic, fist-sized. Model Magic is lighter and leaves no residue on hands.',
+        action: 'One thumbprint per exhale, pressed into the clay held in both hands.',
+        stop: 'Ten prints end it. The child decides whether the piece is kept or returned to the bag. Avoid asking what the piece looks like. It records ten breaths, and that is enough.'
+      }
+    }
+  }
+};
+
+/* ------------------------------ LOGIC ------------------------------ */
+
+var KEY = 'bts-inside-the-brain-v1';
+var state = { audience: 'child', current: 'amygdala', visited: [], bodyOn: false };
+
+function load() {
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (!raw) return;
+    var s = JSON.parse(raw);
+    if (s && typeof s === 'object') {
+      if (s.audience === 'child' || s.audience === 'adult') state.audience = s.audience;
+      if (REGIONS[s.current]) state.current = s.current;
+      if (Array.isArray(s.visited)) state.visited = s.visited.filter(function (r) { return REGIONS[r]; });
+      state.bodyOn = !!s.bodyOn;
+    }
+  } catch (e) { /* storage unavailable; page still works */ }
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+}
+function clearSaved() {
+  try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+}
+
+var $ = function (id) { return document.getElementById(id); };
+var reduced = false;
+try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+function buildLegend() {
+  var ul = $('legend');
+  ul.innerHTML = '';
+  ORDER.forEach(function (id) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'leg';
+    b.setAttribute('data-region', id);
+    b.innerHTML = '<span class="mark" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span><b></b><small></small></span>';
+    b.addEventListener('click', function () { openRegion(id, true); });
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+}
+
+function wireHotspots() {
+  ORDER.forEach(function (id) {
+    var g = $('hot-' + id);
+    if (!g) return;
+    g.setAttribute('tabindex', '0');
+    g.setAttribute('role', 'button');
+    g.setAttribute('aria-label', REGIONS[id].name);
+    g.addEventListener('click', function () { openRegion(id, true); });
+    g.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openRegion(id, true); }
+    });
+  });
+}
+
+function openRegion(id, byUser) {
+  if (!REGIONS[id]) return;
+  var changed = state.current !== id;
+  state.current = id;
+  if (byUser && state.visited.indexOf(id) < 0) state.visited.push(id);
+  if (byUser && changed) state.bodyOn = false;
+  save();
+  render(byUser && changed);
+  if (byUser) {
+    var p = $('panel');
+    if (p.getBoundingClientRect().top < 0 || window.innerWidth < 900) {
+      p.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+}
+
+function setAudience(aud) {
+  state.audience = aud;
+  save();
+  render(false);
+}
+
+function render(animate) {
+  var aud = state.audience;
+  var r = REGIONS[state.current];
+  var v = r[aud];
+
+  // audience toggle
+  var tb = $('audience').querySelectorAll('button');
+  for (var i = 0; i < tb.length; i++) {
+    var on = tb[i].getAttribute('data-aud') === aud;
+    tb[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    tb[i].textContent = UI.audience[tb[i].getAttribute('data-aud')];
+  }
+
+  // legend + hotspots
+  var legs = $('legend').querySelectorAll('.leg');
+  for (var j = 0; j < legs.length; j++) {
+    var id = legs[j].getAttribute('data-region');
+    var reg = REGIONS[id];
+    var vis = state.visited.indexOf(id) >= 0;
+    legs[j].querySelector('b').textContent = reg.name;
+    legs[j].querySelector('small').textContent = reg.tag[aud];
+    legs[j].classList.toggle('visited', vis);
+    legs[j].setAttribute('aria-pressed', id === state.current ? 'true' : 'false');
+    legs[j].setAttribute('aria-label', reg.name + (vis ? ', opened' : ''));
+    var g = $('hot-' + id);
+    if (g) {
+      g.classList.toggle('is-active', id === state.current);
+      g.classList.toggle('is-visited', vis);
+      g.setAttribute('aria-pressed', id === state.current ? 'true' : 'false');
+      g.setAttribute('aria-label', reg.name + (vis ? ', opened' : ''));
+    }
+  }
+
+  // progress
+  var dots = $('dots');
+  dots.innerHTML = '';
+  ORDER.forEach(function (id) {
+    var i = document.createElement('i');
+    if (state.visited.indexOf(id) >= 0) i.className = 'on';
+    dots.appendChild(i);
+  });
+  $('count').textContent = UI.count(state.visited.length, ORDER.length);
+
+  // panel
+  var panel = $('panel');
+  $('panel-h').textContent = r.name;
+  $('panel-tag').textContent = r.tag[aud];
+  var say = $('sayit');
+  if (aud === 'child') { say.innerHTML = UI.sayit + ': <b>' + r.say + '</b>'; say.style.display = ''; }
+  else { say.textContent = ''; say.style.display = 'none'; }
+
+  $('h-visual').textContent = UI.parts.visual[aud];
+  $('h-sensory').textContent = UI.parts.sensory[aud];
+  $('h-activity').textContent = UI.parts.activity[aud];
+  $('visual-text').textContent = v.visual;
+  $('diagram').innerHTML = r.diagram;
+  $('sensory-text').textContent = v.sensory;
+
+  var labels = UI.activityLabels[aud];
+  $('l-material').textContent = labels.material;
+  $('l-action').textContent = labels.action;
+  $('l-stop').textContent = labels.stop;
+  $('a-material').textContent = v.activity.material;
+  $('a-action').textContent = v.activity.action;
+  $('a-stop').textContent = v.activity.stop;
+
+  // body
+  var btn = $('body-btn');
+  btn.setAttribute('aria-pressed', state.bodyOn ? 'true' : 'false');
+  btn.textContent = state.bodyOn ? UI.bodyOff : UI.bodyOn;
+  var zones = $('body-art').querySelectorAll('[data-zone]');
+  for (var k = 0; k < zones.length; k++) {
+    var onZ = state.bodyOn && zones[k].getAttribute('data-zone') === r.body;
+    zones[k].classList.toggle('on', onZ);
+    zones[k].classList.toggle('pulse', onZ && !reduced);
+  }
+  $('where').innerHTML = state.bodyOn ? v.where : '';
+  $('body-title').textContent = state.bodyOn ? ('Body outline with the ' + r.body + ' area lit up') : 'Body outline';
+
+  // note + live status
+  $('note').innerHTML = NOTES[aud];
+  $('status').textContent = UI.showing(r.name, aud);
+
+  if (animate && !reduced) {
+    panel.classList.remove('swap');
+    void panel.offsetWidth;
+    panel.classList.add('swap');
+  }
+}
+
+function init() {
+  load();
+  buildLegend();
+  wireHotspots();
+
+  var tb = $('audience').querySelectorAll('button');
+  for (var i = 0; i < tb.length; i++) {
+    tb[i].addEventListener('click', function () { setAudience(this.getAttribute('data-aud')); });
+  }
+
+  $('body-btn').addEventListener('click', function () {
+    state.bodyOn = !state.bodyOn;
+    save();
+    render(false);
+  });
+
+  $('fresh').addEventListener('click', function () {
+    $('confirm').classList.add('show');
+    $('fresh').style.display = 'none';
+    $('fresh-yes').focus();
+  });
+  $('fresh-no').addEventListener('click', function () {
+    $('confirm').classList.remove('show');
+    $('fresh').style.display = '';
+    $('fresh').focus();
+  });
+  $('fresh-yes').addEventListener('click', function () {
+    clearSaved();
+    state = { audience: state.audience, current: 'amygdala', visited: [], bodyOn: false };
+    $('confirm').classList.remove('show');
+    $('fresh').style.display = '';
+    render(true);
+    $('status').textContent = UI.cleared;
+    $('fresh').focus();
+  });
+
+  render(false);
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art-Making Possibility Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+    --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+    --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+    --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+    --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+    --night:#1B2730; --night-2:#24333E;
+    --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+    --round:20px;
+    --line:rgba(43,58,66,.14);
+    --row:46px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Nunito", system-ui, sans-serif; font-weight:600;
+    font-size:17px; line-height:1.5; overflow-x:hidden;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:28px 16px 40px}
+  a{color:var(--sky-d)}
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible{
+    outline:3px solid var(--ink); outline-offset:3px; border-radius:6px;
+  }
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+  /* frame */
+  .chip{
+    display:inline-block; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    background:var(--sunny-100); color:var(--ink); padding:5px 11px; border-radius:999px;
+  }
+  h1{font-size:clamp(1.9rem, 4.6vw, 2.9rem); line-height:1.08; font-weight:900; margin:14px 0 8px; letter-spacing:-.01em}
+  .lede{font-size:1.1rem; margin:0 0 14px; max-width:62ch}
+  details.howto{margin:0 0 22px; max-width:62ch}
+  details.howto summary{cursor:pointer; font-weight:800; padding:6px 0; list-style:none; display:inline-flex; align-items:center; gap:8px}
+  details.howto summary::-webkit-details-marker{display:none}
+  details.howto summary svg{transition:transform .18s}
+  details.howto[open] summary svg{transform:rotate(90deg)}
+  details.howto ul{margin:6px 0 0; padding-left:20px}
+  details.howto li{margin:3px 0}
+  .intro{max-width:62ch; margin:0 0 26px}
+  .intro p{margin:0 0 10px}
+
+  h2{font-size:1.25rem; font-weight:900; margin:0 0 4px}
+  .sub{color:var(--ink-soft); font-size:.95rem; margin:0 0 14px}
+
+  /* buttons */
+  .btn{
+    font:inherit; font-weight:800; font-size:.92rem; color:var(--ink);
+    background:var(--card); border:2px solid var(--ink); border-radius:12px;
+    padding:8px 13px; cursor:pointer; line-height:1.2; display:inline-flex; align-items:center; gap:6px;
+    min-height:38px;
+  }
+  .btn:hover{background:var(--sunny-100)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--sunny); border-color:var(--sunny-d)}
+  .btn.primary:hover{background:var(--sunny-d)}
+  .btn.small{font-size:.82rem; padding:5px 9px; min-height:32px; border-radius:9px}
+  .btn.quiet{border-color:var(--line)}
+  .btn.quiet:hover{border-color:var(--ink)}
+  .btn[disabled]{opacity:.5; cursor:default}
+  .btn.on{background:var(--sunny-d); border-color:var(--sunny-d)}
+  .btn svg{width:16px; height:16px; flex:none}
+  .btn.danger{border-color:var(--coral-d); color:var(--coral-d)}
+  .btn.danger:hover{background:var(--coral-100)}
+  .btn.ok{border-color:var(--leaf-d); color:var(--leaf-d); background:var(--leaf-100)}
+
+  /* machine */
+  .machine{margin:0 0 22px}
+  .toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 14px}
+  .reels{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:14px}
+  .reel{
+    background:var(--card); border-radius:var(--round); box-shadow:var(--sh);
+    padding:14px 14px 12px; border:2px solid transparent; min-width:0;
+  }
+  .reel.locked{border-color:var(--sunny-d)}
+  .reel-head{display:flex; align-items:baseline; justify-content:space-between; gap:6px; margin:0 0 8px}
+  .reel-head h3{font-size:1rem; font-weight:900; margin:0}
+  .reel-head .count{font-size:.78rem; color:var(--ink-soft); font-weight:700; white-space:nowrap}
+  .window{
+    position:relative; background:var(--paper); border-radius:12px; overflow:hidden;
+    height:calc(var(--row) * 5); border:1px solid var(--line);
+  }
+  .window::before, .window::after{
+    content:""; position:absolute; left:0; right:0; height:var(--row); pointer-events:none; z-index:2;
+  }
+  .window::before{top:0; background:linear-gradient(var(--paper), rgba(251,247,239,0))}
+  .window::after{bottom:0; background:linear-gradient(rgba(251,247,239,0), var(--paper))}
+  .rows{margin:0; padding:0; list-style:none}
+  .rows li{
+    height:var(--row); display:flex; align-items:center; padding:0 12px; font-size:.9rem;
+    line-height:1.15; color:var(--ink-soft); overflow:hidden;
+  }
+  .rows li span{
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere;
+  }
+  .rows li.d2{opacity:.35}
+  .rows li.d1{opacity:.7}
+  .rows li.cur{
+    color:var(--ink); font-weight:900; background:var(--sunny-100);
+    box-shadow:inset 4px 0 0 var(--sunny-d);
+  }
+  .window.tick .rows li.cur{animation:tick .14s ease-out}
+  @keyframes tick{from{transform:translateY(-5px)} to{transform:none}}
+  .reel-ctl{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 0}
+  .reel-ctl .btn{flex:1 1 auto; justify-content:center}
+  .addown{margin:10px 0 0; border-top:1px solid var(--line); padding-top:10px}
+  .addown summary{cursor:pointer; font-size:.85rem; font-weight:800; color:var(--ink-soft); list-style:none; display:inline-flex; gap:6px; align-items:center}
+  .addown summary::-webkit-details-marker{display:none}
+  .addown form{display:flex; gap:6px; margin:8px 0 0; min-width:0}
+  .addown input{
+    font:inherit; font-size:.9rem; min-width:0; flex:1 1 60px; padding:6px 9px; border:2px solid var(--line);
+    border-radius:9px; background:var(--paper); color:var(--ink);
+  }
+  .addown input:focus{border-color:var(--ink); outline:none}
+  .mine{margin:8px 0 0; padding:0; list-style:none; font-size:.85rem}
+  .mine li{display:flex; justify-content:space-between; align-items:center; gap:6px; padding:3px 0}
+  .mine li span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .mine button{font:inherit; font-size:.78rem; font-weight:800; color:var(--coral-d); background:none; border:0; cursor:pointer; padding:2px 4px}
+  .hint{font-size:.82rem; color:var(--ink-soft); margin:6px 0 0}
+
+  /* combination */
+  .combo{
+    margin:18px 0 0; padding:14px 18px; background:var(--card); border-radius:14px; border:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; justify-content:space-between;
+  }
+  .combo .line{font-weight:900; font-size:1.05rem; min-width:0; overflow-wrap:anywhere}
+  .combo .line b{color:var(--ink)}
+  .combo .line i{font-style:normal; color:var(--sunny-d); font-weight:900; padding:0 8px}
+
+  /* invitation */
+  .invite{
+    background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:22px 22px 18px; margin:0 0 26px;
+  }
+  .invite h2{font-size:1.5rem; margin:0 0 2px}
+  .invite .for{color:var(--ink-soft); font-size:.92rem; margin:0 0 16px}
+  .invite .for b{font-weight:800; color:var(--ink)}
+  .sec{margin:0 0 14px}
+  .sec h3{
+    font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; font-weight:900; color:var(--ink-soft);
+    margin:0 0 3px;
+  }
+  .sec p{margin:0; max-width:70ch}
+  .sec ul{margin:0; padding-left:20px; max-width:70ch}
+  .sec li{margin:2px 0}
+  .safety{border-left:4px solid var(--coral); padding:6px 0 6px 12px; margin:0 0 14px}
+  .safety h3{color:var(--coral-d)}
+  .invite .actions{display:flex; flex-wrap:wrap; gap:8px; border-top:1px solid var(--line); padding-top:14px; margin-top:4px}
+  .note{font-size:.85rem; color:var(--ink-soft); margin:8px 0 0}
+
+  /* two column lower area */
+  .lower{display:grid; grid-template-columns:1fr; gap:22px; margin:0 0 30px}
+  @media (min-width:860px){ .lower{grid-template-columns:1.4fr 1fr} }
+
+  /* shelf */
+  .shelf-head{display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin:0 0 10px}
+  .shelf-list{margin:0; padding:0; list-style:none; display:grid; gap:10px}
+  .shelf-item{
+    background:var(--card); border-radius:14px; border:1px solid var(--line); padding:12px 14px;
+  }
+  .shelf-item h4{margin:0 0 2px; font-size:1rem; font-weight:900}
+  .shelf-item .meta{font-size:.85rem; color:var(--ink-soft); margin:0 0 8px; overflow-wrap:anywhere}
+  .shelf-item .row{display:flex; flex-wrap:wrap; gap:6px}
+  .empty{color:var(--ink-soft); font-size:.95rem; padding:14px; border:1px dashed var(--line); border-radius:14px}
+
+  /* timer */
+  .timer{background:var(--card); border-radius:var(--round); box-shadow:var(--sh); padding:18px 18px 16px; align-self:start}
+  .clock{font-size:clamp(2.6rem, 8vw, 3.6rem); font-weight:900; letter-spacing:.02em; line-height:1; margin:6px 0 12px; font-variant-numeric:tabular-nums}
+  .clock.done{color:var(--sunny-d)}
+  .clock.idle{color:var(--ink-soft); opacity:.55}
+  .timer .row{display:flex; flex-wrap:wrap; gap:8px}
+  .timer .state{font-size:.9rem; color:var(--ink-soft); margin:10px 0 0; min-height:1.4em}
+
+  /* materials note + footer */
+  .matnote{max-width:70ch; font-size:.92rem; color:var(--ink-soft); margin:0 0 24px; padding-left:12px; border-left:4px solid var(--coral)}
+  .matnote b{color:var(--ink)}
+  footer{border-top:1px solid var(--line); padding-top:16px; font-size:.9rem; color:var(--ink-soft)}
+  footer .sig{font-weight:800; color:var(--ink); margin:0 0 6px}
+  footer p{margin:0 0 6px}
+  .fresh{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 18px}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important}
+  }
+  @media (max-width:420px){
+    .invite{padding:18px 16px 14px}
+    .btn{font-size:.88rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="chip">Creative La'boratory</span>
+  <h1>The Art-Making Possibility Machine</h1>
+  <p class="lede">Spin four reels, lock what you like, and get a specific invitation to make something with real materials.</p>
+
+  <details class="howto">
+    <summary><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M5 3l6 5-6 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+    <ul>
+      <li>Spin all four reels, or spin one. Lock a reel to keep it while the others move.</li>
+      <li>Step moves one reel forward one item, so you can choose instead of chance.</li>
+      <li>Compose turns the combination into an invitation. Compose again for a different wording of the same four.</li>
+      <li>Save what you want to keep to the shelf. Add your own words to any reel.</li>
+      <li>Everything stays on this device. Start fresh clears it.</li>
+    </ul>
+  </details>
+
+  <div class="intro">
+    <p>These are invitations for making. They are not interpretations, and the machine does not know you. Refuse any part, swap a word, or set the whole thing down. The materials are ordinary. Most are already in a kitchen drawer.</p>
+  </div>
+
+  <section class="machine" aria-labelledby="reels-h">
+    <h2 id="reels-h">The reels</h2>
+    <p class="sub">Material, sensory quality, artistic operation, expressive constraint.</p>
+    <div class="toolbar">
+      <button class="btn primary" id="spinAll" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 0 1 9.4-3.9M13.5 8a5.5 5.5 0 0 1-9.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 1.5v3h-3M4 14.5v-3h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Spin all
+      </button>
+      <button class="btn" id="unlockAll" type="button">Unlock all</button>
+      <span class="hint" id="spinHint">Locked reels stay put.</span>
+    </div>
+    <div class="reels" id="reels"></div>
+
+    <div class="combo" aria-live="polite">
+      <div class="line" id="comboLine"></div>
+      <button class="btn primary" id="compose" type="button">Compose invitation</button>
+    </div>
+  </section>
+
+  <section class="invite" id="invite" aria-labelledby="invite-h" aria-live="polite">
+    <h2 id="invite-h">Loading</h2>
+  </section>
+
+  <div class="lower">
+    <section aria-labelledby="shelf-h">
+      <div class="shelf-head">
+        <div>
+          <h2 id="shelf-h">The shelf</h2>
+          <p class="sub" id="shelfCount">Nothing saved yet.</p>
+        </div>
+        <a class="btn" id="shelfJson" href="#" download="possibility-shelf.json">Download shelf as JSON</a>
+      </div>
+      <ul class="shelf-list" id="shelf"></ul>
+    </section>
+
+    <section class="timer" aria-labelledby="timer-h">
+      <h2 id="timer-h">Time</h2>
+      <p class="sub">Optional. It only counts down. No sound.</p>
+      <div class="clock idle" id="clock" aria-live="off">0:00</div>
+      <div class="row">
+        <button class="btn" type="button" data-min="5">5 minutes</button>
+        <button class="btn" type="button" data-min="12">12 minutes</button>
+        <button class="btn" type="button" data-min="25">25 minutes</button>
+        <button class="btn quiet" type="button" id="timerStop">Stop</button>
+      </div>
+      <p class="state" id="timerState" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <p class="matnote" id="matnote"></p>
+
+  <div class="fresh">
+    <button class="btn danger" id="startFresh" type="button">Start fresh</button>
+    <span class="hint" id="freshHint">Clears saved reels, additions, and the shelf on this device.</span>
+  </div>
+
+  <footer>
+    <p class="sig">Katy Wagner, MA, ATR-P, LMHCA • Beyond The Sun Therapy</p>
+    <p>This page is not therapy. If you are in crisis in the US, call or text 988.</p>
+    <p><a href="index.html">All experiences</a></p>
+  </footer>
+</div>
+
+<textarea id="clipFallback" class="sr" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+/* ============================================================
+   HOW TO EDIT THE CONTENT
+   Everything a person reads lives in the data objects below:
+     MATERIALS, QUALITIES, OPERATIONS, CONSTRAINTS, SAFETY, COPY.
+   - To add a material: add an object with name, noun ("the ..."),
+     act (one concrete handling instruction, lowercase), needs (list),
+     and optional pieces ("drops of the ink") for liquids and powders.
+     Set safety:true and add a line to SAFETY if it needs one.
+   - To add a sensory quality: name, attend (a noun phrase that follows
+     "notice"), push (an imperative, lowercase).
+   - To add an operation: name, how (two template functions that take
+     material m and quality q), begin (two lines), stop (two lines),
+     optional needs.
+   - To add a constraint: name, limit (two clauses), optional begin,
+     stop, needs.
+   Keep phrases lowercase where noted; the composer capitalizes.
+   Nothing below the line "LOGIC" needs changing to edit words.
+   ============================================================ */
+
+const COPY = {
+  comboJoin: ' + ',
+  needsIntro: '',
+  attribution: 'The Art-Making Possibility Machine. Katy Wagner, MA, ATR-P, LMHCA, Beyond The Sun Therapy.',
+  materialsNote: 'Materials note. Plaster gauze gives off heat as it sets and can burn if it encases a hand or limb, so use a barrier, never wrap it directly on skin, wear gloves, and avoid breathing the dry dust. India ink and most drawing inks stain skin and cloth and are not made for skin. Salt stings and dries broken skin, so rinse your hands after. Keep blades, pins, and small pieces away from young children.'
+};
+
+const SAFETY = {
+  'plaster gauze': 'Plaster gauze gives off heat as it sets and can burn if it encases a hand or limb. Use a barrier such as petroleum jelly, never wrap it directly on skin, wear gloves, and avoid breathing the dry dust.',
+  'ink': 'India ink and most drawing inks stain skin and cloth and are not made for skin. Keep it off cuts and off hands that will go near a mouth.',
+  'salt': 'Salt stings and dries broken skin. Rinse your hands after, and keep it out of eyes.'
+};
+
+const MATERIALS = [
+  { name:'tracing paper', noun:'the tracing paper', act:'lay it over something so the lines underneath show through', needs:['a few sheets of tracing paper','a pencil or pen','something underneath to trace, or to show through'] },
+  { name:'graphite', noun:'the graphite', act:'use the side of the stick, not the point', needs:['a graphite stick or a soft pencil, 4B or softer','paper with some tooth','a tissue or a finger for smudging'] },
+  { name:'wax', noun:'the wax', act:'press hard enough that it lays down a skin the water will refuse', needs:['a wax crayon or a candle stub','paper','a thin wash of ink or watercolor, if you want a resist'] },
+  { name:'thread', noun:'the thread', act:'pull it taut, then let it go slack', needs:['thread, string, or embroidery floss','a needle, or tape to anchor the ends','paper or cloth to stitch into'] },
+  { name:'cardboard', noun:'the cardboard', act:'work with the corrugation first, then against it', needs:['a flat piece of cardboard','a box cutter or sturdy scissors','something to cut on'] },
+  { name:'clay slip', noun:'the slip', pieces:'drips of the slip', act:'brush it thin and let it dry until it crazes', needs:['a spoonful of clay stirred with water to the thickness of cream','a brush, or your fingers','a surface that can get wet'] },
+  { name:'salt', noun:'the salt', pieces:'grains of the salt', act:'drop it into something wet and leave it alone while it pulls the water', needs:['table salt or coarse salt','wet paint, ink, or glue to hold it','a tray to catch what spills'], safety:true },
+  { name:'tape', noun:'the tape', pieces:'torn bits of the tape', act:'lay it down, then decide what it protects', needs:['masking tape or painter\'s tape','a surface it will peel back from','scissors, or tear it'] },
+  { name:'charcoal', noun:'the charcoal', act:'hold it loosely and let the stick break if it breaks', needs:['willow or compressed charcoal','paper','a kneaded eraser or a rag'] },
+  { name:'found fabric', noun:'the fabric', act:'fray the edge before you place it', needs:['a scrap of fabric you did not buy for this','scissors','glue, thread, or pins'] },
+  { name:'water-soluble pencil', noun:'the water-soluble pencil', pieces:'short marks of the water-soluble pencil', act:'draw dry, then touch water to the line and watch it give', needs:['a water-soluble graphite or colored pencil','a brush and a cup of water','paper that can take water'] },
+  { name:'aluminum foil', noun:'the foil', act:'emboss it from the back with a dull point', needs:['a length of kitchen foil','a dull pencil or a spoon handle','something soft underneath, like a folded towel'] },
+  { name:'tissue', noun:'the tissue', act:'wet it and let it wrinkle where it wants', needs:['tissue paper, any color','diluted glue or plain water','a soft brush'] },
+  { name:'plaster gauze', noun:'the plaster gauze', act:'dip, squeeze, and lay the strip before it sets', needs:['plaster-impregnated gauze strips','a bowl of warm water','an armature of wire, paper, or a bottle','gloves'], safety:true },
+  { name:'oil pastel', noun:'the oil pastel', act:'drag it until the stick warms and starts to slide', needs:['a few oil pastels','paper or cardboard','a scrap for wiping the stick'] },
+  { name:'ink', noun:'the ink', pieces:'drops of the ink', act:'load the tool fully and let it drip once before you touch down', needs:['drawing ink, India ink, or a fountain pen','a brush, a stick, or a dropper','paper'], safety:true },
+  { name:'newspaper', noun:'the newspaper', act:'tear along the grain first, then across it', needs:['a sheet of newspaper','water or glue','your hands'] },
+  { name:'wire', noun:'the wire', act:'bend it with your fingers and let the kinks stay', needs:['thin craft wire or a straightened paper clip','pliers, if you have them','a base to stand it on or pierce through'] }
+];
+
+const QUALITIES = [
+  { name:'translucency', attend:'where light comes through and where it stops', push:'thin the layer until something shows through it' },
+  { name:'grit', attend:'the resistance under your hand', push:'find the roughest patch and work there longest' },
+  { name:'weight', attend:'how much the material pulls on you', push:'add until it sags, then stop' },
+  { name:'warmth', attend:'the temperature where your hand has been', push:'hold the material until it takes your heat, then use it' },
+  { name:'smear', attend:'the trail it leaves when pushed sideways', push:'push it sideways on purpose' },
+  { name:'drag', attend:'the catch between tool and surface', push:'slow down until you feel it catch' },
+  { name:'tear', attend:'the edge that was not cut', push:'tear instead of cutting, every time' },
+  { name:'stickiness', attend:'what clings and what lets go', push:'let it catch on itself' },
+  { name:'echo', attend:'the fainter second copy of each mark', push:'repeat each mark once, fainter' },
+  { name:'flicker', attend:'where the eye cannot settle', push:'break every long stretch into short ones' },
+  { name:'slowness', attend:'how long one mark can take', push:'make each mark last a full breath' },
+  { name:'damp', attend:'where the surface is still wet', push:'work only while it is wet' },
+  { name:'hum', attend:'the even, low ground behind the marks', push:'fill the ground with one small mark until it goes quiet' },
+  { name:'pressure', attend:'how hard you are pressing', push:'change pressure, never direction' },
+  { name:'dryness', attend:'where nothing will move anymore', push:'wait until it is fully dry before you touch it again' }
+];
+
+const OPERATIONS = [
+  { name:'repetition',
+    how:[
+      (m,q)=>`Make one small mark or gesture with ${m.noun}. ${cap(m.act)}. Make it again beside the first, as close to the same as you can. Keep going until the row fills the width you have, then start the next row. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Choose the smallest unit ${m.noun} can make. Repeat it in a line, a grid, or a drift across the surface. Do not improve it as you go. Watch ${q.attend}. When the repeats start to change on their own, let them.`
+    ],
+    begin:['Make the first one badly, on purpose, so the second has something to answer.','Count ten repeats before you look at the whole.'],
+    stop:['Stop when the next repeat would be a decision instead of a repeat.','Stop at the first one that comes out different, and leave it.'] },
+  { name:'interruption',
+    how:[
+      (m,q)=>`Start a steady pass with ${m.noun} across the surface. ${cap(m.act)}. Every few seconds, stop it with something else, a gap, a torn edge, a mark that crosses it. Then pick the pass back up where it left off. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Set a flow going with ${m.noun} and let it run. Break it at least six times, each break a different kind. Lift the tool, change hands, cover a section, turn the surface. Watch ${q.attend} at each break.`
+    ],
+    begin:['Begin with the longest unbroken pass you can manage.','Decide what the first interruption will be before you make the first mark.'],
+    stop:['Stop on an interruption, not on the pass.','Stop when the breaks outnumber the stretches between them.'] },
+  { name:'erasure', needs:['an eraser, a rag, or a wet brush'],
+    how:[
+      (m,q)=>`Cover the surface with ${m.noun} first, more than feels sensible. ${cap(m.act)}. Then take it away. Rub, lift, scrape, peel, or wash, whatever the material allows. Work from what remains. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Make a full field with ${m.noun}. Now remove it one shape at a time. Each removal is the drawing. Keep ${q.attend} in view the whole way.`
+    ],
+    begin:['Begin by laying down more than you will keep.','Begin with the eraser, the rag, or the wet brush already in your other hand.'],
+    stop:['Stop while something is still left to take away.','Stop when the removed part is bigger than what remains.'] },
+  { name:'layering',
+    how:[
+      (m,q)=>`Put down a first layer with ${m.noun}, thin. ${cap(m.act)}. Let it set, dry, or settle. Add a second layer over part of it, not all. Then a third. Each layer hides something and shows something. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Build with ${m.noun} in at least four layers. Change one thing per layer, the direction, the pressure, the amount. Keep ${q.attend} as the thing you track between layers.`
+    ],
+    begin:['Begin with the layer you expect no one will see.','Begin with the last layer in mind, then put it off.'],
+    stop:['Stop when the first layer can still be found in one place.','Stop one layer earlier than you want to.'] },
+  { name:'folding',
+    how:[
+      (m,q)=>`Work on ${m.noun}, or on a surface it can go onto, and fold the whole thing before you finish. ${cap(m.act)}. Open it. Work into what the fold did. Fold it again on a different line. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Fold the surface first, at least three times, so it holds creases. Then use ${m.noun} only on the ridges, or only in the valleys. Let the crease be the line. Watch ${q.attend}.`
+    ],
+    begin:['Begin with one fold, then wait before the second.','Begin by folding something you did not plan to fold.'],
+    stop:['Stop when it opens flat again, or refuses to.','Stop at the fold that will not hold.'] },
+  { name:'cutting', needs:['scissors or a blade'],
+    how:[
+      (m,q)=>`Cut into ${m.noun}, or cut the surface it sits on. ${cap(m.act)}. Make the cuts first, before any other mark. Then let the material respond to the cut edges, around them, across them, through them. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Make one long cut and several short ones. Use ${m.noun} to connect them, cover them, or open them wider. Pay attention to ${q.attend} along each cut.`
+    ],
+    begin:['Begin with the cut you are least sure about.','Begin by cutting away a corner, so the surface is no longer a rectangle.'],
+    stop:['Stop when the piece is in two parts, or just before.','Stop when a cut goes somewhere you did not send it.'] },
+  { name:'rubbing', needs:['textured things to rub over, a grate, a coin, bark, a zipper'],
+    how:[
+      (m,q)=>`Lay a surface over something with texture. Rub ${m.noun} across the top so the texture comes up through it. ${cap(m.act)}. Move to a new texture and rub again, overlapping the first. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Rub ${m.noun} directly onto the surface with the side of your hand or a rag, not a tool. Rub until the material and the surface stop being separate. Watch ${q.attend}.`
+    ],
+    begin:['Begin with the texture closest to where you are sitting.','Begin with your other hand for the first rubbing.'],
+    stop:['Stop when the texture underneath is recognizable, then do one more.','Stop when your hand is warmer than the surface.'] },
+  { name:'pouring', needs:['something that pours, water, thinned glue, or thinned paint'],
+    how:[
+      (m,q)=>`Make ${m.noun} pourable, or pair it with something that pours. Pour from higher than feels safe. ${cap(m.act)}. Tilt the surface and let gravity do the next part. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Pour something wet onto the surface, then bring ${m.noun} into the wet. Do not steer. Watch ${q.attend} as the pour finds its edge.`
+    ],
+    begin:['Begin by protecting the table, then pour anyway.','Begin with a small pour to learn how it moves.'],
+    stop:['Stop when the pour stops.','Stop before the wet reaches the edge, or let it reach, and stop then.'] },
+  { name:'tracing', needs:['an edge or a shadow to follow'],
+    how:[
+      (m,q)=>`Find an edge in the room, a shadow, a crack, a cord, the outline of your own hand. Trace it with ${m.noun}. ${cap(m.act)}. Trace it again, slightly off. Trace the trace. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Trace something you cannot see all of, a shadow that moves or an object under a cloth. Use ${m.noun} for the parts you can follow. Leave gaps where you lose it. Watch ${q.attend}.`
+    ],
+    begin:['Begin by tracing the shadow of the tool itself.','Begin where the edge is clearest, then follow it into where it blurs.'],
+    stop:['Stop when the traced line no longer matches its source.','Stop when the shadow moves.'] },
+  { name:'binding', needs:['scraps or offcuts to bind'],
+    how:[
+      (m,q)=>`Gather several pieces, scraps, sheets, offcuts, and bind them together with ${m.noun} or with something it can hold. ${cap(m.act)}. Wrap, stitch, tie, or press. The binding is the work, more than what is bound. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Bind two things that do not belong together. Use ${m.noun} as the join. Make the join visible, more than it needs to be. Notice ${q.attend} at the join.`
+    ],
+    begin:['Begin by choosing the two things, then the binding.','Begin with one loose knot that can come undone.'],
+    stop:['Stop when the bound thing can be picked up in one hand.','Stop when it holds without you.'] },
+  { name:'scattering',
+    how:[
+      (m,q)=>`Scatter ${pieces(m)} across the surface from a height. ${cap(m.act)}. Fix some where they land. Leave the rest loose. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Scatter first, then respond. Drop ${pieces(m)}, or something they can carry, and work only around where they fall. Watch ${q.attend}.`
+    ],
+    begin:['Begin by throwing instead of placing.','Begin with a handful, never a pinch.'],
+    stop:['Stop when the scatter has a center you did not choose.','Stop before you tidy it.'] },
+  { name:'covering', needs:['a second material to cover with, or more of the first'],
+    how:[
+      (m,q)=>`Make something with ${m.noun}, anything, quick. Then cover most of it with another layer of the same material or with whatever is at hand. ${cap(m.act)}. Leave one window. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Cover an object with ${m.noun} until its shape is still there and its surface is gone. Keep ${q.attend} in mind as it disappears.`
+    ],
+    begin:['Begin with the thing you will cover, and make it carefully.','Begin by covering the corner you like least.'],
+    stop:['Stop when one part is still showing.','Stop when covering it has become the whole piece.'] },
+  { name:'reversing',
+    how:[
+      (m,q)=>`Make a mark with ${m.noun}, then do its opposite. Dark then light, thick then thin, press then lift. ${cap(m.act)}. Turn the surface upside down halfway through and keep going. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Work from the end. Decide what the last mark would be and make it first with ${m.noun}. Then work backward toward a beginning. Watch ${q.attend}.`
+    ],
+    begin:['Begin on the back of the surface.','Begin with your other hand, then switch.'],
+    stop:['Stop when you cannot tell which way is up.','Stop at the mark that undoes the first one.'] },
+  { name:'enlarging', needs:['more surface than you think you need'],
+    how:[
+      (m,q)=>`Make a mark with ${m.noun} smaller than a coin. ${cap(m.act)}. Make it again twice as big. Again, twice that. Keep doubling until the surface runs out, then keep going onto whatever is next to it. Pay attention to ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Take one small detail from anything near you and make it large, larger than your hand, with ${m.noun}. Only the detail. Notice ${q.attend} as it grows.`
+    ],
+    begin:['Begin so small you have to squint.','Begin with the biggest version and shrink it.'],
+    stop:['Stop when the mark is bigger than the surface.','Stop when you can no longer see the whole of it at once.'] },
+  { name:'piercing', needs:['a needle, a pin, or a sharp pencil'],
+    how:[
+      (m,q)=>`Pierce the surface many times with a needle, a pin, or a sharp pencil. Then bring ${m.noun} to the holes. ${cap(m.act)}. Let it go through, catch on, or fill them. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Make holes in a pattern you decide in advance. Use ${m.noun} only through or around the holes. Hold it up to the light. Watch ${q.attend}.`
+    ],
+    begin:['Begin with one hole and look through it.','Begin by piercing from the back so the burr faces you.'],
+    stop:['Stop when light comes through in more places than it does not.','Stop when the surface tears between two holes.'] }
+];
+
+const CONSTRAINTS = [
+  { name:'something that cannot be named',
+    limit:['Make something you could not label if asked. If a name for it arrives, change the piece until the name no longer fits.','No title, no subject. If you notice you are making a thing with a name, add one mark that takes the name away.'] },
+  { name:'no straight lines',
+    limit:['Every line curves, including the edges. If a straight one happens, go back and bend it.','Nothing ruled, nothing folded sharp, nothing cut square. Curve it or leave it out.'] },
+  { name:'only one hand',
+    limit:['Use one hand for everything, including opening, holding, and tearing. The other hand stays in your lap or your pocket.','One hand only. If the material needs two, find another way or let it fail.'] },
+  { name:'eyes closed for the first minute', needs:['a timer, or a slow count to sixty'],
+    limit:['For the first full minute your eyes are closed. Work by touch. Open them, look once, and continue from what is there.','Close your eyes before the first mark and keep them closed for one minute. Whatever the minute made stays.'] },
+  { name:'must fit in a pocket', needs:['a pocket you are wearing'],
+    limit:['The finished piece has to fit in a pocket you are wearing. Check the pocket before you start.','Make it small enough to carry out of the room without anyone seeing it.'] },
+  { name:'finished when the water boils', needs:['a pot or kettle of water and a stove'],
+    limit:['Put water on to boil before you start. When it boils, the piece is finished, whatever state it is in.','Fill a kettle or a pot and start it heating. The boil is the end. Do not turn it down.'],
+    stop:['Stop when the water boils. Not after.','The kettle decides. When it boils, put the tool down.'] },
+  { name:'no color until the end',
+    limit:['Work in black, white, and the material\'s own color. Color is allowed only in the last thirty seconds, once.','No color until you decide you are done. Then add color to one place and stop.'] },
+  { name:'something borrowed from a dream',
+    limit:['Take one object, place, or shape from a dream you remember, any dream, even a scrap. Use it once. Do not explain it.','One element comes from a dream. If no dream comes, borrow from one someone else told you.'] },
+  { name:'no fixing',
+    limit:['Nothing is corrected. Drips stay. Tears stay. What went wrong is the material now.','No eraser, no second try, no covering a mistake. Work next to it.'] },
+  { name:'start from the edge',
+    limit:['The first mark touches the edge of the surface. Move inward only as far as the edge lets you.','Begin at the border and work in. The center is the last place you reach, if you reach it.'],
+    begin:['Begin with the tool touching the edge before it touches anything else.','Begin at the corner nearest your other hand.'] },
+  { name:'leave one part untouched',
+    limit:['Choose an area before you start and mark its corners. Nothing enters it.','One part stays blank to the end. Decide the shape of the blank before the first mark.'] },
+  { name:'make it twice', needs:['a second surface'],
+    limit:['Make the whole thing, then make it again on a second surface from memory. Keep both. Do not compare them until both are done.','Two of everything. Each mark, each cut, each pour, done twice in two places.'],
+    stop:['Stop when the second one is done, whether or not it matches the first.','Stop the second one at the same point you stopped the first, even if it is not ready.'] },
+  { name:'only what is within arm\'s reach',
+    limit:['Nothing from another room. If the material is not within reach of where you are sitting, substitute what is.','Everything comes from arm\'s length. Stretch, but do not stand.'] },
+  { name:'no tool but your hands',
+    limit:['No brush, no pencil, no scissors. Fingers, palms, fists, and the material itself.','Hands only. If the material is a tool, hold it in your fist like a crayon, never like a pen.'] }
+];
+
+/* Generic shapes for items the person adds to a reel. */
+const GENERIC = {
+  material: (name)=>({ name, noun: /^(the|a|an|my|some)\s/i.test(name) ? name : 'the ' + name, act:'handle it the way it asks to be handled', needs:[name, 'a surface to work on'], custom:true }),
+  quality: (name)=>({ name, attend:`the ${name} of it`, push:`work until the ${name} is the main thing`, custom:true }),
+  operation: (name)=>({ name,
+    how:[
+      (m,q)=>`${cap(name)}, with ${m.noun}. ${cap(m.act)}. Let that be the only thing you do for the first few minutes. Notice ${q.attend}, and ${q.push}.`,
+      (m,q)=>`Use ${m.noun} and do one thing with it. ${cap(name)}. Do not add a second action until the first has run out. Watch ${q.attend}.`
+    ],
+    begin:['Begin before you are ready.','Begin with the smallest version of it.'],
+    stop:['Stop when the action starts to repeat itself.','Stop one move early.'], custom:true }),
+  constraint: (name)=>({ name, limit:[`${cap(name)}. Hold to it for the whole session.`, `${cap(name)}. If you break it, notice, and go back to it.`], custom:true })
+};
+
+const COLUMNS = [
+  { key:'material',   label:'Material',             base:MATERIALS },
+  { key:'quality',    label:'Sensory quality',      base:QUALITIES },
+  { key:'operation',  label:'Artistic operation',   base:OPERATIONS },
+  { key:'constraint', label:'Expressive constraint', base:CONSTRAINTS }
+];
+
+/* ============================================================
+   LOGIC
+   ============================================================ */
+const KEY = 'btsPossibilityMachine.v1';
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function pieces(m){ return m.pieces || ('small pieces of ' + m.noun); }
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function pick(arr, n){ return arr[((n % arr.length) + arr.length) % arr.length]; }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+let state = {
+  idx:{}, locked:{}, custom:{ material:[], quality:[], operation:[], constraint:[] },
+  shelf:[], gen:0, current:null, timer:{ endAt:null, total:null }
+};
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && typeof s === 'object'){
+        state.idx = s.idx || {};
+        state.locked = s.locked || {};
+        state.custom = Object.assign({ material:[], quality:[], operation:[], constraint:[] }, s.custom || {});
+        state.shelf = Array.isArray(s.shelf) ? s.shelf : [];
+        state.gen = s.gen || 0;
+        state.current = s.current || null;
+        state.timer = s.timer || { endAt:null, total:null };
+      }
+    }
+  }catch(e){}
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+}
+
+function itemsFor(col){
+  return col.base.concat(state.custom[col.key].map(n => GENERIC[col.key](n)));
+}
+function currentItem(col){
+  const items = itemsFor(col);
+  const i = ((state.idx[col.key] || 0) % items.length + items.length) % items.length;
+  return items[i];
+}
+function comboNames(){
+  const o = {};
+  COLUMNS.forEach(c => { o[c.key] = currentItem(c).name; });
+  return o;
+}
+
+/* ---------- reels ---------- */
+const reelsEl = document.getElementById('reels');
+const spinning = {};
+
+function buildReels(){
+  reelsEl.innerHTML = COLUMNS.map(c => `
+    <div class="reel" data-key="${c.key}">
+      <div class="reel-head">
+        <h3 id="h-${c.key}">${esc(c.label)}</h3>
+        <span class="count" data-count></span>
+      </div>
+      <div class="window" role="group" aria-labelledby="h-${c.key}">
+        <ul class="rows" data-rows aria-hidden="true"></ul>
+      </div>
+      <p class="sr" data-live aria-live="polite"></p>
+      <div class="reel-ctl">
+        <button class="btn primary small" type="button" data-act="spin">Spin</button>
+        <button class="btn small" type="button" data-act="back" aria-label="Step back on ${esc(c.label)}">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn small" type="button" data-act="step" aria-label="Step forward on ${esc(c.label)}">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Step
+        </button>
+        <button class="btn small" type="button" data-act="lock" aria-pressed="false">
+          <svg viewBox="0 0 16 16" aria-hidden="true" data-lock-icon><rect x="3" y="7" width="10" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span data-lock-text>Lock</span>
+        </button>
+      </div>
+      <details class="addown">
+        <summary>Add your own</summary>
+        <form data-add>
+          <label class="sr" for="add-${c.key}">Add to ${esc(c.label)}</label>
+          <input id="add-${c.key}" type="text" maxlength="60" placeholder="New ${esc(c.label.toLowerCase())}" autocomplete="off">
+          <button class="btn small" type="submit">Add</button>
+        </form>
+        <ul class="mine" data-mine></ul>
+      </details>
+    </div>`).join('');
+
+  reelsEl.querySelectorAll('.reel').forEach(reel => {
+    const key = reel.dataset.key;
+    const col = COLUMNS.find(c => c.key === key);
+    reel.querySelector('[data-act="spin"]').addEventListener('click', () => spinColumn(col));
+    reel.querySelector('[data-act="step"]').addEventListener('click', () => step(col, 1));
+    reel.querySelector('[data-act="back"]').addEventListener('click', () => step(col, -1));
+    reel.querySelector('[data-act="lock"]').addEventListener('click', () => toggleLock(col));
+    reel.querySelector('[data-add]').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = reel.querySelector('input');
+      const v = input.value.trim().replace(/\s+/g, ' ');
+      if(!v) return;
+      const exists = itemsFor(col).some(it => it.name.toLowerCase() === v.toLowerCase());
+      if(exists){ input.value=''; return; }
+      state.custom[key].push(v);
+      state.idx[key] = itemsFor(col).length - 1;
+      input.value = '';
+      save(); renderReel(col); renderCombo();
+    });
+    reel.querySelector('[data-mine]').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-rm]');
+      if(!b) return;
+      const i = Number(b.dataset.rm);
+      state.custom[key].splice(i, 1);
+      state.idx[key] = Math.min(state.idx[key] || 0, itemsFor(col).length - 1);
+      save(); renderReel(col); renderCombo();
+    });
+  });
+}
+
+function renderReel(col, tick){
+  const reel = reelsEl.querySelector(`.reel[data-key="${col.key}"]`);
+  const items = itemsFor(col);
+  const n = items.length;
+  const i = ((state.idx[col.key] || 0) % n + n) % n;
+  const rows = reel.querySelector('[data-rows]');
+  const offs = [-2,-1,0,1,2];
+  rows.innerHTML = offs.map(o => {
+    const it = items[((i + o) % n + n) % n];
+    const cls = o === 0 ? 'cur' : (Math.abs(o) === 2 ? 'd2' : 'd1');
+    return `<li class="${cls}"><span>${esc(it.name)}</span></li>`;
+  }).join('');
+  const win = reel.querySelector('.window');
+  if(tick && !reduceMotion){
+    win.classList.remove('tick'); void win.offsetWidth; win.classList.add('tick');
+  }
+  reel.querySelector('[data-count]').textContent = n + ' items';
+  reel.querySelector('[data-live]').textContent = col.label + ': ' + items[i].name;
+  const locked = !!state.locked[col.key];
+  reel.classList.toggle('locked', locked);
+  const lockBtn = reel.querySelector('[data-act="lock"]');
+  lockBtn.classList.toggle('on', locked);
+  lockBtn.setAttribute('aria-pressed', String(locked));
+  reel.querySelector('[data-lock-text]').textContent = locked ? 'Locked' : 'Lock';
+  reel.querySelector('[data-act="spin"]').disabled = locked || !!spinning[col.key];
+  reel.querySelector('[data-act="step"]').disabled = locked || !!spinning[col.key];
+  reel.querySelector('[data-act="back"]').disabled = locked || !!spinning[col.key];
+  const mine = reel.querySelector('[data-mine]');
+  mine.innerHTML = state.custom[col.key].map((nm, k) =>
+    `<li><span>${esc(nm)}</span><button type="button" data-rm="${k}" aria-label="Remove ${esc(nm)}">Remove</button></li>`).join('');
+}
+
+function step(col, dir){
+  if(state.locked[col.key] || spinning[col.key]) return;
+  const n = itemsFor(col).length;
+  state.idx[col.key] = (((state.idx[col.key] || 0) + dir) % n + n) % n;
+  save(); renderReel(col, true); renderCombo();
+}
+
+function toggleLock(col){
+  state.locked[col.key] = !state.locked[col.key];
+  save(); renderReel(col); renderCombo();
+}
+
+function spinColumn(col, done){
+  if(state.locked[col.key] || spinning[col.key]){ if(done) done(); return; }
+  const n = itemsFor(col).length;
+  if(reduceMotion || n < 2){
+    state.idx[col.key] = Math.floor(Math.random() * n);
+    save(); renderReel(col); renderCombo();
+    if(done) done();
+    return;
+  }
+  spinning[col.key] = true;
+  renderReel(col);
+  const ticks = 12 + Math.floor(Math.random() * n);
+  let i = 0;
+  const tick = () => {
+    state.idx[col.key] = ((state.idx[col.key] || 0) + 1) % n;
+    i++;
+    renderReel(col, true);
+    if(i < ticks){
+      const t = i / ticks;
+      setTimeout(tick, 40 + t * t * 230);
+    } else {
+      spinning[col.key] = false;
+      save(); renderReel(col); renderCombo();
+      if(done) done();
+    }
+  };
+  tick();
+}
+
+document.getElementById('spinAll').addEventListener('click', () => {
+  const btn = document.getElementById('spinAll');
+  const free = COLUMNS.filter(c => !state.locked[c.key] && !spinning[c.key]);
+  if(!free.length){
+    document.getElementById('spinHint').textContent = 'All four are locked. Unlock one to spin.';
+    return;
+  }
+  document.getElementById('spinHint').textContent = 'Locked reels stay put.';
+  btn.disabled = true;
+  let left = free.length;
+  free.forEach((c, k) => setTimeout(() => spinColumn(c, () => { if(--left === 0) btn.disabled = false; }), k * 90));
+});
+document.getElementById('unlockAll').addEventListener('click', () => {
+  state.locked = {}; save(); COLUMNS.forEach(c => renderReel(c)); renderCombo();
+});
+
+function renderCombo(){
+  const c = comboNames();
+  document.getElementById('comboLine').innerHTML =
+    COLUMNS.map(col => `<b>${esc(c[col.key])}</b>`).join('<i>' + esc(COPY.comboJoin.trim()) + '</i>');
+}
+
+/* ---------- composition ---------- */
+function resolve(col, name){
+  return itemsFor(col).find(it => it.name === name) || GENERIC[col.key](name);
+}
+
+function compose(names, gen){
+  const m = resolve(COLUMNS[0], names.material);
+  const q = resolve(COLUMNS[1], names.quality);
+  const op = resolve(COLUMNS[2], names.operation);
+  const c = resolve(COLUMNS[3], names.constraint);
+  const needs = [];
+  [].concat(m.needs || [], op.needs || [], c.needs || []).forEach(x => { if(!needs.includes(x)) needs.push(x); });
+  return {
+    id: uid(),
+    title: `${cap(op.name)} with ${m.name}`,
+    combo: names,
+    how: pick(op.how, gen)(m, q),
+    limit: pick(c.limit, gen + 1),
+    needs,
+    begin: c.begin ? pick(c.begin, gen) : pick(op.begin, gen),
+    stop: c.stop ? pick(c.stop, gen) : pick(op.stop, gen + 1),
+    safety: (m.safety && SAFETY[m.name]) || null,
+    savedAt: null
+  };
+}
+
+const inviteEl = document.getElementById('invite');
+let currentBlobUrl = null;
+
+function renderInvitation(){
+  const inv = state.current;
+  if(!inv){ inviteEl.innerHTML = '<h2>No invitation yet</h2><p>Spin the reels and press Compose.</p>'; return; }
+  const c = inv.combo;
+  inviteEl.innerHTML = `
+    <h2 id="invite-h">${esc(inv.title)}</h2>
+    <p class="for">${COLUMNS.map(col => `<b>${esc(c[col.key])}</b>`).join(esc(COPY.comboJoin))}</p>
+    <div class="sec"><h3>How</h3><p>${esc(inv.how)}</p></div>
+    <div class="sec"><h3>Within this limit</h3><p>${esc(inv.limit)}</p></div>
+    <div class="sec"><h3>What you'll need</h3><ul>${inv.needs.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>
+    <div class="sec"><h3>One way to begin</h3><p>${esc(inv.begin)}</p></div>
+    <div class="sec"><h3>One way to stop</h3><p>${esc(inv.stop)}</p></div>
+    ${inv.safety ? `<div class="sec safety"><h3>Materials note</h3><p>${esc(inv.safety)}</p></div>` : ''}
+    <div class="actions">
+      <button class="btn primary" type="button" id="saveInv">Save to shelf</button>
+      <button class="btn" type="button" id="copyInv">Copy as text</button>
+      <a class="btn" id="dlInv" href="#" download="invitation.json">Download as JSON</a>
+      <button class="btn quiet" type="button" id="recompose">Compose again</button>
+    </div>
+    <p class="note">Compose again keeps the same four and changes the wording. Spin to change the four.</p>`;
+  document.getElementById('saveInv').addEventListener('click', () => {
+    const already = state.shelf.find(s => s.id === inv.id);
+    const btn = document.getElementById('saveInv');
+    if(!already){
+      state.shelf.unshift(Object.assign({}, inv, { savedAt: new Date().toISOString() }));
+      save(); renderShelf();
+    }
+    btn.textContent = already ? 'Already on the shelf' : 'Saved';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Save to shelf'; btn.classList.remove('ok'); }, 1800);
+  });
+  document.getElementById('copyInv').addEventListener('click', (e) => copyText(invitationText(inv), e.currentTarget));
+  const a = document.getElementById('dlInv');
+  if(currentBlobUrl){ try{ URL.revokeObjectURL(currentBlobUrl); }catch(e){} }
+  currentBlobUrl = blobUrl(JSON.stringify(inv, null, 2));
+  a.href = currentBlobUrl;
+  a.download = 'invitation-' + slug(inv.title) + '.json';
+  document.getElementById('recompose').addEventListener('click', composeNow);
+}
+
+function composeNow(){
+  state.gen += 1;
+  state.current = compose(comboNames(), state.gen);
+  save(); renderInvitation();
+}
+document.getElementById('compose').addEventListener('click', () => {
+  composeNow();
+  const h = document.getElementById('invite-h');
+  if(h && !reduceMotion){ h.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  else if(h){ h.scrollIntoView(); }
+});
+
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+
+function invitationText(inv){
+  const c = inv.combo;
+  const lines = [
+    inv.title,
+    COLUMNS.map(col => c[col.key]).join(COPY.comboJoin),
+    '',
+    'How. ' + inv.how,
+    '',
+    'Within this limit. ' + inv.limit,
+    '',
+    'What you\'ll need.',
+    ...inv.needs.map(n => '- ' + n),
+    '',
+    'One way to begin. ' + inv.begin,
+    'One way to stop. ' + inv.stop
+  ];
+  if(inv.safety) lines.push('', 'Materials note. ' + inv.safety);
+  lines.push('', COPY.attribution);
+  return lines.join('\n');
+}
+
+function blobUrl(text){
+  try{ return URL.createObjectURL(new Blob([text], { type:'application/json' })); }catch(e){ return '#'; }
+}
+
+function copyText(text, btn){
+  const label = btn.textContent;
+  const done = (ok) => {
+    btn.textContent = ok ? 'Copied' : 'Could not copy';
+    btn.classList.toggle('ok', ok);
+    setTimeout(() => { btn.textContent = label; btn.classList.remove('ok'); }, 1800);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(() => done(true), () => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done){
+  const ta = document.getElementById('clipFallback');
+  ta.value = text; ta.classList.remove('sr'); ta.focus(); ta.select();
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){}
+  ta.classList.add('sr');
+  done(ok);
+}
+
+/* ---------- shelf ---------- */
+const shelfEl = document.getElementById('shelf');
+let shelfBlobUrl = null;
+
+function renderShelf(){
+  const n = state.shelf.length;
+  document.getElementById('shelfCount').textContent = n === 0 ? 'Nothing saved yet.' : (n === 1 ? 'One invitation.' : n + ' invitations.');
+  if(n === 0){
+    shelfEl.innerHTML = '<li class="empty">Saved invitations sit here. They stay on this device until you remove them or start fresh.</li>';
+  } else {
+    shelfEl.innerHTML = state.shelf.map(inv => `
+      <li class="shelf-item" data-id="${esc(inv.id)}">
+        <h4>${esc(inv.title)}</h4>
+        <p class="meta">${COLUMNS.map(col => esc(inv.combo[col.key])).join(esc(COPY.comboJoin))}</p>
+        <div class="row">
+          <button class="btn small" type="button" data-s="open">Show</button>
+          <button class="btn small" type="button" data-s="copy">Copy as text</button>
+          <button class="btn small danger" type="button" data-s="rm">Remove</button>
+        </div>
+      </li>`).join('');
+  }
+  const a = document.getElementById('shelfJson');
+  if(shelfBlobUrl){ try{ URL.revokeObjectURL(shelfBlobUrl); }catch(e){} }
+  shelfBlobUrl = blobUrl(JSON.stringify({ shelf: state.shelf, exportedAt: new Date().toISOString() }, null, 2));
+  a.href = shelfBlobUrl;
+  a.setAttribute('aria-disabled', n === 0 ? 'true' : 'false');
+}
+shelfEl.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-s]');
+  if(!b) return;
+  const li = b.closest('.shelf-item');
+  const inv = state.shelf.find(s => s.id === li.dataset.id);
+  if(!inv) return;
+  if(b.dataset.s === 'rm'){
+    if(b.dataset.armed){
+      state.shelf = state.shelf.filter(s => s.id !== inv.id);
+      save(); renderShelf();
+    } else {
+      b.dataset.armed = '1'; b.textContent = 'Remove for sure?';
+      setTimeout(() => { if(b.isConnected){ delete b.dataset.armed; b.textContent = 'Remove'; } }, 2500);
+    }
+  } else if(b.dataset.s === 'copy'){
+    copyText(invitationText(inv), b);
+  } else if(b.dataset.s === 'open'){
+    state.current = Object.assign({}, inv);
+    save(); renderInvitation();
+    const h = document.getElementById('invite-h');
+    if(h) h.scrollIntoView(reduceMotion ? undefined : { behavior:'smooth', block:'start' });
+  }
+});
+
+/* ---------- timer ---------- */
+const clockEl = document.getElementById('clock');
+const timerState = document.getElementById('timerState');
+let timerHandle = null;
+
+function fmt(ms){
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+function renderTimer(){
+  const t = state.timer;
+  clockEl.classList.remove('done'); clockEl.classList.remove('idle');
+  if(!t.endAt){
+    clockEl.textContent = '0:00'; clockEl.classList.add('idle');
+    timerState.textContent = '';
+    return;
+  }
+  const left = t.endAt - Date.now();
+  if(left <= 0){
+    clockEl.textContent = '0:00';
+    clockEl.classList.add('done');
+    timerState.textContent = 'Time is up. Stopping is allowed. So is carrying on.';
+    return;
+  }
+  clockEl.textContent = fmt(left);
+  timerState.textContent = (t.total / 60000) + ' minutes, counting down.';
+}
+function tickTimer(){
+  renderTimer();
+  if(state.timer.endAt && state.timer.endAt - Date.now() > 0){
+    timerHandle = setTimeout(tickTimer, 250);
+  } else {
+    timerHandle = null;
+  }
+}
+function startTimer(min){
+  if(timerHandle){ clearTimeout(timerHandle); timerHandle = null; }
+  state.timer = { endAt: Date.now() + min * 60000, total: min * 60000 };
+  save(); tickTimer();
+}
+document.querySelectorAll('.timer [data-min]').forEach(b => b.addEventListener('click', () => startTimer(Number(b.dataset.min))));
+document.getElementById('timerStop').addEventListener('click', () => {
+  if(timerHandle){ clearTimeout(timerHandle); timerHandle = null; }
+  state.timer = { endAt:null, total:null };
+  save(); renderTimer();
+});
+
+/* ---------- start fresh ---------- */
+document.getElementById('startFresh').addEventListener('click', (e) => {
+  const b = e.currentTarget;
+  if(!b.dataset.armed){
+    b.dataset.armed = '1'; b.textContent = 'Clear everything?';
+    document.getElementById('freshHint').textContent = 'Press again to clear. This cannot be undone.';
+    setTimeout(() => { delete b.dataset.armed; b.textContent = 'Start fresh'; document.getElementById('freshHint').textContent = 'Clears saved reels, additions, and the shelf on this device.'; }, 3000);
+    return;
+  }
+  try{ localStorage.removeItem(KEY); }catch(err){}
+  if(timerHandle){ clearTimeout(timerHandle); timerHandle = null; }
+  state = { idx:{}, locked:{}, custom:{ material:[], quality:[], operation:[], constraint:[] }, shelf:[], gen:0, current:null, timer:{ endAt:null, total:null } };
+  delete b.dataset.armed; b.textContent = 'Start fresh';
+  document.getElementById('freshHint').textContent = 'Cleared.';
+  init(true);
+});
+
+/* ---------- init ---------- */
+function init(fresh){
+  if(!fresh) load();
+  COLUMNS.forEach(c => {
+    if(typeof state.idx[c.key] !== 'number'){
+      state.idx[c.key] = Math.floor(Math.random() * itemsFor(c).length);
+    }
+  });
+  if(!state.current){
+    state.current = compose(comboNames(), state.gen);
+  }
+  save();
+  COLUMNS.forEach(c => renderReel(c));
+  renderCombo();
+  renderInvitation();
+  renderShelf();
+  document.getElementById('matnote').innerHTML = esc(COPY.materialsNote).replace(/^Materials note\./, '<b>Materials note.</b>');
+  if(timerHandle){ clearTimeout(timerHandle); timerHandle = null; }
+  tickTimer();
+}
+buildReels();
+init(false);
+</script>
+</body>
+</html>

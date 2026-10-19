@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build an Art Therapy Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#4FA3D1; --sky-d:#2F7FB0; --sky-100:#DCEBF3;
+  --sunny:#F4C542; --sunny-d:#E7A81E; --sunny-100:#FCEFC6;
+  --coral:#F08A78; --coral-d:#E0614C; --coral-100:#FBDBD3;
+  --leaf:#7BC47F; --leaf-d:#4E9E60; --leaf-100:#DDF0DE;
+  --paper:#FBF7EF; --card:#FFFFFF; --ink:#2B3A42; --ink-soft:#5A6B74;
+  --night:#1B2730; --night-2:#24333E;
+  --sh:0 12px 26px rgba(43,58,66,.12), 0 3px 7px rgba(43,58,66,.07);
+  --round:20px;
+  --line:rgba(43,58,66,.14);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Nunito",system-ui,sans-serif;font-weight:600;line-height:1.5;font-size:16px;overflow-x:hidden}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 16px 40px}
+a{color:var(--sky-d)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.chip{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sky-d);border:1.5px solid var(--sky-d);border-radius:999px;padding:3px 10px;background:var(--card)}
+h1{font-weight:900;font-size:clamp(1.75rem,3.6vw,2.6rem);line-height:1.08;margin:.45em 0 .3em;letter-spacing:-.01em}
+.lede{font-size:1.05rem;color:var(--ink-soft);max-width:62ch;margin:0 0 14px}
+details.howto{max-width:62ch;border-left:3px solid var(--sky);padding:4px 0 4px 14px;margin:0 0 6px}
+details.howto summary{cursor:pointer;font-weight:800;color:var(--sky-d);list-style:none;display:flex;align-items:center;gap:8px}
+details.howto summary::-webkit-details-marker{display:none}
+details.howto summary svg{width:14px;height:14px;transition:transform .2s}
+details.howto[open] summary svg{transform:rotate(90deg)}
+details.howto ol{margin:8px 0 0;padding-left:20px}
+details.howto li{margin:3px 0}
+
+.workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:22px}
+@media(min-width:960px){
+  .workspace{grid-template-columns:minmax(300px,390px) minmax(0,1fr);align-items:start}
+  .draft{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}
+}
+
+/* Left pane: choices */
+.choices h2{font-size:1.1rem;font-weight:900;margin:0 0 4px}
+.choices .pane-note{margin:0 0 10px;color:var(--ink-soft);font-size:.92rem}
+fieldset.choice{border:0;border-top:1.5px solid var(--line);padding:14px 0 6px;margin:0 0 6px;min-width:0}
+fieldset.choice legend{font-weight:900;font-size:1rem;padding:0 8px 0 0;float:left;width:100%;margin-bottom:4px}
+fieldset.choice legend::after{content:"";display:block;clear:both}
+.hint{margin:0 0 10px;font-size:.9rem;color:var(--ink-soft);clear:both}
+.opts{display:flex;flex-wrap:wrap;gap:8px;clear:both}
+.opts.stack{flex-direction:column}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:8px 12px 8px 10px;border:1.5px solid var(--sky-100);border-radius:12px;background:var(--card);cursor:pointer;font-size:.95rem;line-height:1.35;min-width:0;max-width:100%}
+.opt input{accent-color:var(--sky-d);margin:3px 0 0;flex:none;width:16px;height:16px;cursor:pointer}
+.opt .lbl{font-weight:800}
+.opt .note{display:block;font-weight:600;color:var(--ink-soft);font-size:.86rem;margin-top:1px}
+.opt:has(input:checked){border-color:var(--sky-d);background:var(--sky-100)}
+.opt:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:2px}
+.sub{margin:10px 0 0;clear:both}
+.sub .sublabel{display:block;font-weight:800;font-size:.9rem;margin:0 0 6px}
+.num{display:inline-flex;align-items:center;gap:6px}
+.num input{width:72px;padding:7px 10px;font:inherit;font-weight:800;border:1.5px solid var(--sky-100);border-radius:10px;background:var(--card);color:var(--ink)}
+.num button{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--sky-100);background:var(--card);font:inherit;font-weight:900;color:var(--sky-d);cursor:pointer}
+.num button:hover{background:var(--sky-100)}
+
+/* Right pane: draft */
+.draft{min-width:0}
+.draft-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
+.draft-head h2{font-size:1.1rem;font-weight:900;margin:0}
+.draft-head .live{font-size:.9rem;color:var(--ink-soft)}
+.doc-nav{display:flex;flex-wrap:wrap;gap:6px}
+.doc-nav button{font:inherit;font-weight:800;font-size:.85rem;padding:5px 10px;border-radius:999px;border:1.5px solid var(--sky-100);background:var(--card);color:var(--sky-d);cursor:pointer}
+.doc-nav button:hover{background:var(--sky-100)}
+.review{margin:0 0 14px;padding:10px 14px;border-left:3px solid var(--sky);font-size:.9rem;color:var(--ink-soft);background:rgba(255,255,255,.55);border-radius:0 12px 12px 0}
+.doc{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:18px 20px 16px;margin:0 0 16px;scroll-margin-top:8px;min-width:0}
+.doc-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 6px}
+.doc-head h3{font-size:1.2rem;font-weight:900;margin:0;flex:1 1 auto}
+.status{font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--sky-100);color:var(--sky-d)}
+.status.edited{background:var(--sunny-100);color:#7A5300}
+.doc-actions{display:flex;flex-wrap:wrap;gap:6px}
+.btn{font:inherit;font-weight:800;font-size:.88rem;padding:6px 12px;border-radius:10px;border:1.5px solid var(--sky-d);background:var(--card);color:var(--sky-d);cursor:pointer;line-height:1.3}
+.btn:hover{background:var(--sky-100)}
+.btn[aria-pressed="true"]{background:var(--sky-d);color:#fff}
+.btn.quiet{border-color:var(--line);color:var(--ink)}
+.btn.quiet:hover{background:var(--paper)}
+.btn.warn{border-color:var(--coral-d);color:#9E3A28}
+.btn.warn:hover{background:var(--coral-100)}
+.btn.ok{border-color:var(--leaf-d);color:#2E6B3C}
+.edited-note{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--sunny-100);border-radius:12px;padding:8px 12px;font-size:.9rem;margin:6px 0 10px}
+.edited-note[hidden]{display:none}
+.doc-body{font-size:.97rem}
+.doc-body h4{font-size:.8rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--sky-d);margin:16px 0 4px}
+.doc-body h4:first-child{margin-top:8px}
+.doc-body p{margin:0 0 8px}
+.doc-body ul{margin:0 0 8px;padding-left:20px}
+.doc-body li{margin:2px 0}
+.doc-body textarea{width:100%;min-height:360px;font:inherit;font-size:.93rem;line-height:1.5;padding:12px;border:1.5px solid var(--sky-d);border-radius:12px;color:var(--ink);background:var(--paper);resize:vertical}
+.copy-fallback{margin:8px 0 0}
+.copy-fallback textarea{width:100%;min-height:120px;font:inherit;font-size:.88rem;padding:10px;border:1.5px solid var(--line);border-radius:10px}
+
+/* Budget */
+.budget{width:100%;border-collapse:collapse;margin-top:8px;font-size:.95rem}
+.budget th{text-align:left;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:800;padding:6px 8px 6px 0;border-bottom:1.5px solid var(--line)}
+.budget td{padding:9px 8px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.budget td.cat{font-weight:800;white-space:nowrap}
+.budget td.desc{color:var(--ink-soft);font-size:.9rem}
+.budget td.desc input{width:100%;font:inherit;font-size:.9rem;padding:6px 8px;border:1.5px solid var(--sky-d);border-radius:8px;color:var(--ink);background:var(--paper)}
+.budget td.amt{text-align:right;white-space:nowrap}
+.budget td.amt input{width:150px;max-width:100%;font:inherit;font-weight:800;text-align:right;padding:7px 9px;border:1.5px solid var(--sky-100);border-radius:10px;background:var(--paper);color:var(--ink)}
+.budget td.amt input::placeholder{font-weight:600;color:var(--ink-soft);font-size:.85rem}
+.budget tfoot td{border-bottom:0;padding-top:12px;font-weight:900}
+.budget tfoot .count{font-weight:600;color:var(--ink-soft);font-size:.88rem;display:block}
+.budget tfoot td.total{font-size:1.05rem}
+@media(max-width:640px){
+  .budget thead{display:none}
+  .budget tr{display:grid;grid-template-columns:1fr;gap:4px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .budget td{border:0;padding:0}
+  .budget td.cat{white-space:normal}
+  .budget td.amt{text-align:left}
+  .budget td.amt input{width:100%;text-align:left}
+  .budget tfoot tr{border-bottom:0}
+}
+
+/* Export bar */
+.exports{background:var(--card);border-radius:var(--round);box-shadow:var(--sh);padding:16px 20px;margin:0 0 10px}
+.exports h3{font-size:1rem;font-weight:900;margin:0 0 8px}
+.exports .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.exports a.btn{text-decoration:none;display:inline-block}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--coral-100);border-radius:12px;padding:8px 12px;margin-top:10px;font-size:.92rem}
+.confirm[hidden]{display:none}
+.toast{font-size:.88rem;color:var(--leaf-d);font-weight:800;min-height:1.2em}
+
+footer{margin-top:28px;padding-top:14px;border-top:1.5px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:.9rem;color:var(--ink-soft)}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="chip">IndiATA</span>
+    <h1>Build an Art Therapy Program</h1>
+    <p class="lede">Make choices on the left and a program structure, staffing plan, job description, and budget framework assemble on the right, ready for review.</p>
+    <details class="howto">
+      <summary><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>How to use this</summary>
+      <ol>
+        <li>Pick a setting, who the program serves, and which services it offers.</li>
+        <li>Set staffing, supervision, access needs, and resources.</li>
+        <li>Read the four documents on the right. They rewrite as you choose.</li>
+        <li>Turn on Edit text to revise a document in your own words. Enter local figures in the budget.</li>
+        <li>Copy any document as text, or download the whole plan as JSON. Your work stays on this device.</li>
+      </ol>
+    </details>
+  </header>
+
+  <div class="workspace">
+    <section class="choices" aria-labelledby="choices-h">
+      <h2 id="choices-h">Choices</h2>
+      <p class="pane-note">Every choice has a default, so the draft is complete before you touch anything.</p>
+      <form id="form" autocomplete="off">
+        <fieldset class="choice"><legend>Setting</legend>
+          <div class="opts" id="opt-setting"></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Participant population</legend>
+          <p class="hint">Choose every group the program will serve.</p>
+          <div class="opts" id="opt-populations"></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Services</legend>
+          <p class="hint">Choose every service the program will offer.</p>
+          <div class="opts stack" id="opt-services"></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Staffing</legend>
+          <div class="sub"><span class="sublabel">Employment type</span><div class="opts" id="opt-staffType"></div></div>
+          <div class="sub"><span class="sublabel">Number of art therapists</span>
+            <div class="num"><button type="button" id="count-minus" aria-label="One fewer">&minus;</button><input type="number" id="count" min="1" max="12" step="1" value="1" aria-label="Number of art therapists"><button type="button" id="count-plus" aria-label="One more">+</button></div>
+          </div>
+          <div class="sub"><span class="sublabel">Credential required</span><div class="opts stack" id="opt-credential"></div></div>
+          <div class="sub"><span class="sublabel">State licensure for the role</span>
+            <p class="hint">Example in Indiana: LMHC, or LMHCA for an associate. Confirm with HR and state law.</p>
+            <div class="opts" id="opt-licensure"></div></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Supervision</legend>
+          <div class="sub"><span class="sublabel">Who supervises</span><div class="opts stack" id="opt-supervisor"></div></div>
+          <div class="sub"><span class="sublabel">Frequency</span><div class="opts" id="opt-frequency"></div></div>
+          <div class="sub"><span class="sublabel">Who pays</span><div class="opts" id="opt-funding"></div></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Accessibility needs</legend>
+          <p class="hint">Choose what the program must plan for.</p>
+          <div class="opts" id="opt-access"></div>
+        </fieldset>
+        <fieldset class="choice"><legend>Resources</legend>
+          <div class="sub"><span class="sublabel">Space</span><div class="opts" id="opt-space"></div></div>
+          <div class="sub"><span class="sublabel">Materials budget tier</span><div class="opts stack" id="opt-tier"></div></div>
+          <div class="sub"><span class="sublabel">Documentation and records</span><div class="opts stack" id="opt-records"></div></div>
+          <div class="sub"><span class="sublabel">Evaluation approach</span><div class="opts stack" id="opt-evaluation"></div></div>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="draft" aria-labelledby="draft-h" id="draft">
+      <div class="draft-head">
+        <div><h2 id="draft-h">Draft</h2><span class="live" id="live-note">Updates as you choose.</span></div>
+        <nav class="doc-nav" aria-label="Jump to a document">
+          <button type="button" data-jump="structure">Structure</button>
+          <button type="button" data-jump="staffing">Staffing</button>
+          <button type="button" data-jump="job">Job description</button>
+          <button type="button" data-jump="budget">Budget</button>
+        </nav>
+      </div>
+      <p class="review" id="review-note"></p>
+
+      <article class="doc" id="doc-structure" data-doc="structure">
+        <div class="doc-head"><h3>Program structure</h3><span class="status" data-status>Updates from choices</span>
+          <div class="doc-actions"><button type="button" class="btn" data-action="edit" aria-pressed="false">Edit text</button><button type="button" class="btn" data-action="copy">Copy as text</button></div></div>
+        <div class="edited-note" data-note hidden></div>
+        <div class="doc-body" data-body></div>
+      </article>
+
+      <article class="doc" id="doc-staffing" data-doc="staffing">
+        <div class="doc-head"><h3>Staffing plan</h3><span class="status" data-status>Updates from choices</span>
+          <div class="doc-actions"><button type="button" class="btn" data-action="edit" aria-pressed="false">Edit text</button><button type="button" class="btn" data-action="copy">Copy as text</button></div></div>
+        <div class="edited-note" data-note hidden></div>
+        <div class="doc-body" data-body></div>
+      </article>
+
+      <article class="doc" id="doc-job" data-doc="job">
+        <div class="doc-head"><h3>Job description</h3><span class="status" data-status>Updates from choices</span>
+          <div class="doc-actions"><button type="button" class="btn" data-action="edit" aria-pressed="false">Edit text</button><button type="button" class="btn" data-action="copy">Copy as text</button></div></div>
+        <div class="edited-note" data-note hidden></div>
+        <div class="doc-body" data-body></div>
+      </article>
+
+      <article class="doc" id="doc-budget" data-doc="budget">
+        <div class="doc-head"><h3>Budget framework</h3><span class="status" data-status>Updates from choices</span>
+          <div class="doc-actions"><button type="button" class="btn" data-action="edit" aria-pressed="false">Edit text</button><button type="button" class="btn" data-action="copy">Copy as text</button></div></div>
+        <div class="edited-note" data-note hidden></div>
+        <div class="doc-body" data-body></div>
+      </article>
+
+      <div class="exports">
+        <h3>Export and reset</h3>
+        <div class="row">
+          <button type="button" class="btn" id="copy-all">Copy whole plan as text</button>
+          <a class="btn" id="download-json" href="#" download="art-therapy-program-plan.json">Download as JSON</a>
+          <button type="button" class="btn warn" id="fresh">Start fresh</button>
+          <span class="toast" id="toast" aria-live="polite"></span>
+        </div>
+        <div class="confirm" id="fresh-confirm" hidden>
+          <span>Clear every choice, edit, and figure saved on this device?</span>
+          <button type="button" class="btn warn" id="fresh-yes">Yes, clear it</button>
+          <button type="button" class="btn quiet" id="fresh-no">Keep my work</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Prepared for IndiATA &bull; Katy Wagner, MA, ATR-P, LMHCA</span>
+    <a href="index.html">All experiences</a>
+  </footer>
+</div>
+
+<script>
+/* HOW TO EDIT THE CONTENT
+   Every word the page generates lives in the data objects below (COPY, SETTINGS,
+   POPULATIONS, SERVICES, STAFF_TYPES, CREDENTIALS, LICENSURE, SUPERVISORS,
+   FREQUENCIES, FUNDING, ACCESS, SPACES, TIERS, RECORDS, EVALUATION, BUDGET_CATEGORIES)
+   and in the four generator functions (genStructure, genStaffing, genJob, genBudgetRows).
+   - To change an option's wording, edit its "label" and "note" or other text fields.
+   - To add an option, copy a row and give it a new "id". Defaults are set in DEFAULTS.
+   - Generated text uses two markers: a line that starts with "## " becomes a heading,
+     a line that starts with "- " becomes a bullet. Everything else is a paragraph.
+   Nothing below the generators needs to change for wording edits. */
+
+var COPY = {
+  review: 'This is a draft for review by a credentialed art therapist and by HR and legal counsel. Credential and licensure requirements vary by state and must be confirmed before anything here is posted or signed.',
+  editedNote: 'Hand-edited. Choices no longer change this document.',
+  editedBudgetNote: 'Descriptions hand-edited. Choices no longer change the edited rows.',
+  regen: 'Regenerate from choices',
+  regenConfirm: 'Replace your edits with fresh text?',
+  yes: 'Yes, regenerate',
+  keep: 'Keep my edits',
+  copied: 'Copied.',
+  copyFail: 'Copy did not work in this browser. Select the text below and copy it.',
+  cleared: 'Cleared. Defaults restored.',
+  enterFigure: 'enter local figure',
+  totalLabel: 'Total of entered figures',
+  noCredentialWarning: 'These services are written as art therapy. Without an ATCB-credentialed art therapist on staff, rename them as art-based programming before this draft goes further.'
+};
+
+var SETTINGS = [
+  { id:'school', label:'School', phrase:'a school',
+    purpose:'support students’ regulation, expression, and access to learning',
+    referral:'Referrals come from the student support team, the school counselor, or a case conference, with caregiver consent on file before the first session. Students can also ask to be seen, and that request is routed the same way.',
+    not:'It is not a substitute for services written into an IEP or 504 plan, and it is not a disciplinary placement.',
+    reports:'the director of student services or the building principal' },
+  { id:'hospital', label:'Hospital or medical', phrase:'a hospital or medical setting',
+    purpose:'support patients and families through illness, procedures, hospitalization, and recovery',
+    referral:'Referrals come through the care team, usually a physician, nurse, child life specialist, or social worker, and are noted in the medical record. Bedside and unit-based sessions follow infection control rules for materials.',
+    not:'It is not medical treatment, and it does not replace psychiatry, psychology, child life, or social work.',
+    reports:'the manager of the department that houses the program, such as child life, psychiatry, or patient and family services' },
+  { id:'cmh', label:'Community mental health', phrase:'a community mental health center',
+    purpose:'give clients a way to work on treatment goals through art making, alongside or within their existing care',
+    referral:'Referrals come through intake or the treating clinician, and art therapy is written into the treatment plan with its own goals.',
+    not:'It does not replace a client’s primary therapist unless the art therapist holds that role by agreement, and it does not operate outside the treatment plan.',
+    reports:'the clinical director' },
+  { id:'library', label:'Library or community arts', phrase:'a library or community arts organization',
+    purpose:'offer facilitated art therapy groups and open studio time in a public, low-barrier setting',
+    referral:'People enter through open registration, partner referrals, or staff invitation. No diagnosis is required. The art therapist screens for fit and refers out when someone needs more than the program offers.',
+    not:'It is not clinical treatment, and participants are told so in plain words at the first session.',
+    reports:'the program or community engagement manager' },
+  { id:'older', label:'Older adult care', phrase:'an older adult care setting',
+    purpose:'support residents’ expression, memory, connection, and adjustment through art making',
+    referral:'Referrals come from activities staff, social services, nursing, or family, with consent from the resident or, where that applies, their representative.',
+    not:'It is not recreation programming, though it can sit alongside it, and it does not replace nursing, social work, or medical care.',
+    reports:'the director of social services or the activities director' },
+  { id:'residential', label:'Residential or inpatient', phrase:'a residential or inpatient program',
+    purpose:'give residents a way to work on treatment goals through art making within a structured milieu',
+    referral:'Referral is written into the treatment plan by the treatment team, and art therapy goals are reviewed at team meetings on the same schedule as other goals.',
+    not:'It is not milieu supervision, behavior management, or a reward or consequence.',
+    reports:'the clinical director' },
+  { id:'private', label:'Private practice', phrase:'a private practice',
+    purpose:'provide art therapy to clients who choose it, with clear scope and fit screening at intake',
+    referral:'Clients self-refer or are referred by physicians, schools, attorneys, adoption agencies, or other therapists. Intake screens for fit and names what the practice does not offer.',
+    not:'It is not a crisis service. Clients receive emergency and crisis contacts at intake, including 988.',
+    reports:'the practice owner or clinical director' },
+  { id:'nonprofit', label:'Nonprofit or shelter', phrase:'a nonprofit or shelter',
+    purpose:'offer art therapy to people in transition, on their terms and at no cost to them',
+    referral:'Case managers and advocates refer, and residents can ask directly. Consent is explained in plain words and in the person’s own language.',
+    not:'It is not a condition of housing or services, and whether someone takes part has no effect on their case.',
+    reports:'the program director' }
+];
+
+var POPULATIONS = [
+  { id:'children', label:'Children', note:'Caregiver consent and child assent. Sessions sized to developmental stage. Materials safe to explore with the whole body.' },
+  { id:'adolescents', label:'Adolescents', note:'Privacy limits explained up front, including what is and is not shared with caregivers and the setting.' },
+  { id:'adults', label:'Adults', note:'Voluntary participation and an intake that names what the program can and cannot do.' },
+  { id:'older', label:'Older adults', note:'Attention to grip, vision, hearing, and energy. Materials chosen for the person, not the age. Consent from the person or, where that applies, their representative.' },
+  { id:'families', label:'Families', note:'Includes adoptive, foster, and kinship families. Attention to origin, privacy, and who holds which parts of the story. No one is asked to share more than they choose.' },
+  { id:'staff', label:'Staff (for staff wellness)', note:'Wellness sessions kept separate from supervision and evaluation. Nothing identifying is reported to management.' },
+  { id:'mixed', label:'Mixed', note:'Grouping by goal and readiness rather than by diagnosis, with materials and agreements that fit everyone in the room.' }
+];
+
+var SERVICES = [
+  { id:'individual', label:'Individual art therapy',
+    desc:'Individual art therapy. One-to-one sessions with a treatment plan and goals reviewed at a set interval.',
+    format:'Individual sessions run 45 to 50 minutes, weekly or every two weeks.',
+    duty:'Provide individual art therapy with written treatment plans and goal reviews.' },
+  { id:'group', label:'Group art therapy',
+    desc:'Group art therapy. Closed or open groups with a consistent structure of check-in, art making, and reflection.',
+    format:'Groups run 60 to 90 minutes with four to eight participants.',
+    duty:'Plan and lead art therapy groups, including group agreements and screening for fit.' },
+  { id:'openstudio', label:'Open studio',
+    desc:'Open studio. Drop-in time with the art therapist present and a range of materials set out. Participants choose what to make, and no one is asked to explain their work.',
+    format:'Open studio runs in blocks of 90 minutes to two hours, with setup and cleanup time on both sides.',
+    duty:'Hold open studio time, set out materials, and keep the room workable for everyone in it.' },
+  { id:'family', label:'Family sessions',
+    desc:'Family sessions. Family members make art together or side by side. Used when the work is about connection, repair, or a shared transition such as adoption, placement, reunification, or loss.',
+    format:'Family sessions run 50 to 75 minutes, scheduled around caregivers’ availability.',
+    duty:'Provide family sessions with attention to consent, privacy, and each person’s pace.' },
+  { id:'consult', label:'Consultation to staff',
+    desc:'Consultation to staff. Scheduled time for staff to bring questions about a participant, a group, or how art materials are being used in their own programming.',
+    format:'Staff consultation is scheduled in 30 to 60 minute blocks.',
+    duty:'Consult with staff on participants, groups, and the use of art materials in their own work.' },
+  { id:'wellness', label:'Staff wellness sessions',
+    desc:'Staff wellness sessions. Art-based groups for staff, separate from supervision and performance review. Nothing identifying is shared with management.',
+    format:'Staff wellness sessions run 60 minutes, during paid time where the organization allows it.',
+    duty:'Lead staff wellness sessions with clear limits on what is reported and to whom.' },
+  { id:'design', label:'Program design',
+    desc:'Program design. The art therapist designs the program’s structure, materials plan, documentation, and evaluation, and revises them each cycle.',
+    format:'Program design time is set aside each cycle for planning, review, and revision.',
+    duty:'Design and revise the program’s structure, materials plan, documentation, and evaluation.' },
+  { id:'assessment', label:'Assessment',
+    desc:'Assessment. Art-based assessment within the art therapist’s scope, conducted by a credentialed art therapist, used to inform treatment planning. It is not the sole basis for diagnosis or placement.',
+    format:'Assessment, where used, happens after referral and before a treatment plan is set.',
+    duty:'Conduct art-based assessment within scope and document how it informs the plan.' }
+];
+
+var STAFF_TYPES = [
+  { id:'contract', label:'Contract', word:'contract', hours:'Contract staff work a set number of hours per week under a written agreement that names scope, documentation duties, and supervision.', schedule:'on a contract schedule set in the agreement' },
+  { id:'parttime', label:'Part-time', word:'part-time', hours:'Part-time staff hold a set weekly schedule, with benefits as HR policy provides.', schedule:'a part-time schedule' },
+  { id:'fulltime', label:'Full-time', word:'full-time', hours:'Full-time staff hold a full weekly schedule, with time protected for documentation, preparation, and supervision.', schedule:'a full-time schedule' }
+];
+
+var CREDENTIALS = [
+  { id:'atrp', label:'ATR-P', title:'Art Therapist', atcb:true,
+    note:'Provisional. Holds the qualifying master’s degree and practices under supervision while accruing post-graduate hours toward the ATR.' },
+  { id:'atr', label:'ATR', title:'Art Therapist', atcb:true,
+    note:'Registered. Has completed the required supervised post-graduate hours and holds ATCB registration.' },
+  { id:'atrbc', label:'ATR-BC', title:'Art Therapist', atcb:true,
+    note:'Board certified. Holds the ATR and has passed the ATCB board certification exam.' },
+  { id:'none', label:'No ATCB credential', title:'Art-Based Program Facilitator', atcb:false,
+    note:'The role is art-based programming. Title and describe it that way, and do not call the service art therapy.' }
+];
+
+var LICENSURE = [
+  { id:'required', label:'Required', text:'State licensure is required for this role.' },
+  { id:'preferred', label:'Preferred', text:'State licensure is preferred and may be required for billing or for certain duties.' },
+  { id:'not', label:'Not required', text:'State licensure is not required for this role as written.' }
+];
+
+var SUPERVISORS = [
+  { id:'atrbc', label:'An ATR-BC on staff or contracted', note:'A board-certified art therapist who meets ATCB supervisor requirements.' },
+  { id:'qualified', label:'A qualified supervisor', note:'A supervisor who meets ATCB and state requirements for the credential and license in question. Eligibility is confirmed in writing before hire.' },
+  { id:'tbd', label:'Not yet decided', note:'Supervision is required for an ATR-P and for an associate license. Name a supervisor before the role is posted.' }
+];
+
+var FREQUENCIES = [
+  { id:'weekly', label:'Weekly' },
+  { id:'biweekly', label:'Every two weeks' },
+  { id:'monthly', label:'Monthly' }
+];
+
+var FUNDING = [
+  { id:'employer', label:'Employer funds it', note:'Supervision is a program cost and appears in the budget.' },
+  { id:'shared', label:'Shared cost', note:'The split is written into the offer letter or contract.' },
+  { id:'employee', label:'Employee funds it', note:'Enter zero or the employer’s contribution in the budget line.' }
+];
+
+var ACCESS = [
+  { id:'physical', label:'Physical access', text:'Physical access. A step-free route, tables at wheelchair height, reachable storage, and a restroom nearby.' },
+  { id:'sensory', label:'Sensory considerations', text:'Sensory considerations. Control over light and sound, low-scent materials on hand, a quieter spot in the room, and no surprise textures. Materials are offered, never pressed into hands.' },
+  { id:'language', label:'Language access', text:'Language access. Interpreters or bilingual staff, consent and intake forms in the participant’s language, and visual instructions for each process.' },
+  { id:'materials', label:'Materials adaptation', text:'Materials adaptation. Built-up grips, larger tools, pre-cut collage, adaptive scissors, and choices that work with limited grip, low vision, or tremor.' },
+  { id:'transport', label:'Transportation', text:'Transportation. Sessions timed to available transit or the organization’s own transport, with a plan for missed rides.' },
+  { id:'scheduling', label:'Scheduling', text:'Scheduling. Evening or weekend sessions, flexible intake times, and a make-up policy that does not penalize caregivers.' }
+];
+
+var SPACES = [
+  { id:'studio', label:'Dedicated studio', phrase:'a dedicated studio that stays set up between sessions',
+    detail:'A room that stays set up, with a sink or wet area, a dry area, lockable storage, and wall or rack space for drying work.',
+    budget:'Dedicated studio. Furnishing, sink or wet-area fit-out, lockable storage, ventilation, and ongoing cleaning.' },
+  { id:'shared', label:'Shared room', phrase:'a shared room set up and cleared for each session',
+    detail:'A room used by others, which means setup and breakdown time each session, covered storage, and a cleaning agreement with the other users.',
+    budget:'Shared room. Storage units, rolling bins, cleaning supplies, and paid setup and breakdown time.' },
+  { id:'cart', label:'Mobile cart', phrase:'a mobile cart that travels to participants',
+    detail:'A cart that moves between rooms or sites, with a limited, portable material set and a plan for wet media, spills, and drying.',
+    budget:'Mobile cart. Cart, portable bins, drop cloths, water containers, and drying solutions for work in progress.' }
+];
+
+var TIERS = [
+  { id:'starter', label:'Starter',
+    note:'Dry media: paper in several weights, pencils, oil pastels, markers, scissors, glue sticks, collage sources, and portfolios for storing work.' },
+  { id:'standard', label:'Standard',
+    note:'Starter plus wet media: tempera, watercolor, brushes, air-dry clay, found and recycled materials, aprons, a drying rack, and individual supply kits.' },
+  { id:'full', label:'Full studio',
+    note:'Standard plus acrylics, canvas boards and wood panels, printmaking basics such as brayers and block printing, fibers and sewing supplies, wire and simple tools, and storage for works in progress.' }
+];
+
+var RECORDS = [
+  { id:'ehr', label:'Existing agency record system', text:'Art therapy notes are entered in the organization’s existing record system, using its templates and retention rules.' },
+  { id:'standalone', label:'Standalone secure system', text:'A separate secure records system holds art therapy notes, with access limited to the art therapist and those the policy names.' },
+  { id:'paper', label:'Paper records in locked storage', text:'Paper notes are kept in locked storage with a sign-out log and a retention schedule.' }
+];
+
+var EVALUATION = [
+  { id:'attendance', label:'Attendance and participation', text:'Attendance and participation counts, reported each cycle.' },
+  { id:'goals', label:'Goal-based review', text:'Treatment or program goals reviewed at set intervals, with progress noted in plain terms.' },
+  { id:'measures', label:'Pre and post measures', text:'Pre and post measures chosen with the art therapist and matched to the program’s stated purpose.' },
+  { id:'feedback', label:'Participant feedback', text:'Participant and caregiver feedback gathered each cycle, in words and, where people choose, in images.' }
+];
+
+var BUDGET_CATEGORIES = [
+  { id:'personnel', label:'Personnel' },
+  { id:'supervision', label:'Supervision' },
+  { id:'materials', label:'Materials' },
+  { id:'space', label:'Space' },
+  { id:'records', label:'Documentation and records' },
+  { id:'evaluation', label:'Evaluation' },
+  { id:'pd', label:'Professional development' },
+  { id:'insurance', label:'Insurance' }
+];
+
+var DEFAULTS = {
+  setting:'school',
+  populations:['children','adolescents'],
+  services:['individual','group','consult'],
+  staffType:'parttime',
+  count:1,
+  credential:'atr',
+  licensure:'preferred',
+  supervisor:'atrbc',
+  frequency:'biweekly',
+  funding:'employer',
+  access:['physical','sensory'],
+  space:'shared',
+  tier:'standard',
+  records:'ehr',
+  evaluation:'goals'
+};
+
+/* ---------- state ---------- */
+var STORE_KEY = 'bts-build-art-therapy-program-v1';
+var state = {
+  choices: JSON.parse(JSON.stringify(DEFAULTS)),
+  edits: { structure:null, staffing:null, job:null, budget:{} },
+  editing: { structure:false, staffing:false, job:false, budget:false },
+  amounts: {}
+};
+var confirming = {};
+
+function load(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    var saved = JSON.parse(raw);
+    if(saved && saved.choices){
+      state.choices = Object.assign({}, DEFAULTS, saved.choices);
+      state.edits = Object.assign({ structure:null, staffing:null, job:null, budget:{} }, saved.edits || {});
+      if(!state.edits.budget || typeof state.edits.budget !== 'object') state.edits.budget = {};
+      state.editing = Object.assign({ structure:false, staffing:false, job:false, budget:false }, saved.editing || {});
+      state.amounts = saved.amounts || {};
+    }
+  }catch(e){}
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+/* ---------- helpers ---------- */
+function byId(list, id){ for(var i=0;i<list.length;i++){ if(list[i].id===id) return list[i]; } return list[0]; }
+function picked(list, ids){ return list.filter(function(x){ return ids.indexOf(x.id) > -1; }); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+var WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+function numWord(n){ return WORDS[n] || String(n); }
+function joinList(items){
+  if(items.length===0) return '';
+  if(items.length===1) return items[0];
+  if(items.length===2) return items[0] + ' and ' + items[1];
+  return items.slice(0,-1).join(', ') + ', and ' + items[items.length-1];
+}
+function lower(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+
+function ctx(){
+  var c = state.choices;
+  var cred = byId(CREDENTIALS, c.credential);
+  return {
+    c:c,
+    setting: byId(SETTINGS, c.setting),
+    pops: picked(POPULATIONS, c.populations),
+    svcs: picked(SERVICES, c.services),
+    type: byId(STAFF_TYPES, c.staffType),
+    count: Math.max(1, Math.min(12, parseInt(c.count,10) || 1)),
+    cred: cred,
+    lic: byId(LICENSURE, c.licensure),
+    sup: byId(SUPERVISORS, c.supervisor),
+    freq: byId(FREQUENCIES, c.frequency),
+    fund: byId(FUNDING, c.funding),
+    access: picked(ACCESS, c.access),
+    space: byId(SPACES, c.space),
+    tier: byId(TIERS, c.tier),
+    rec: byId(RECORDS, c.records),
+    evalw: byId(EVALUATION, c.evaluation),
+    title: cred.title,
+    roleWord: cred.atcb ? 'art therapist' : 'facilitator',
+    svcWord: cred.atcb ? 'art therapy' : 'art-based programming'
+  };
+}
+
+function popPhrase(pops){
+  if(pops.length===0) return 'the people the organization names';
+  return joinList(pops.map(function(p){ return lower(p.label.replace(' (for staff wellness)','')); }));
+}
+
+/* ---------- generators ---------- */
+function genStructure(){
+  var x = ctx(), L = [];
+  L.push('## Purpose');
+  L.push('This program provides ' + x.svcWord + ' in ' + x.setting.phrase + '. Its purpose is to ' + x.setting.purpose + '.');
+  if(!x.cred.atcb) L.push('Because the role does not require an ATCB credential, the program is art-based programming. It is not art therapy and is not described as art therapy.');
+  L.push('## Who it serves');
+  L.push('The program serves ' + popPhrase(x.pops) + '.');
+  x.pops.forEach(function(p){ L.push('- ' + p.label.replace(' (for staff wellness)','') + '. ' + p.note); });
+  if(x.pops.length===0) L.push('No population is selected yet. Choose at least one on the left.');
+  L.push('## Services');
+  if(!x.cred.atcb && x.svcs.length) L.push(COPY.noCredentialWarning);
+  x.svcs.forEach(function(s){ L.push('- ' + s.desc); });
+  if(x.svcs.length===0) L.push('No service is selected yet. Choose at least one on the left.');
+  L.push('## How referrals enter');
+  L.push(x.setting.referral);
+  if(x.c.services.indexOf('assessment')>-1) L.push(byId(SERVICES,'assessment').format);
+  L.push('## Session format');
+  x.svcs.forEach(function(s){ if(s.id!=='assessment') L.push(s.format); });
+  L.push('Sessions take place in ' + x.space.phrase + '. Materials follow the ' + lower(x.tier.label) + ' tier and are set out across a range of media properties, from resistive (pencil, collage) to fluid (watercolor, wet clay), a convention from the Expressive Therapies Continuum, so the ' + x.roleWord + ' can match the material to what a participant can manage that day.');
+  if(x.access.length){
+    L.push('The program plans for these access provisions.');
+    x.access.forEach(function(a){ L.push('- ' + a.text); });
+  }
+  L.push('## What the program is not');
+  L.push(x.setting.not);
+  L.push('It does not interpret anyone’s artwork for them, assign fixed meanings to images, or use artwork as evidence of anything on its own. Participants own what they make, and the program keeps a written policy on storing, photographing, and returning work.');
+  return L.join('\n');
+}
+
+function genStaffing(){
+  var x = ctx(), L = [];
+  var plural = x.count > 1;
+  L.push('## Roles');
+  L.push(numWord(x.count).charAt(0).toUpperCase() + numWord(x.count).slice(1) + ' ' + x.type.word + ' ' + x.title + (plural ? 's' : '') + ' in ' + x.setting.phrase + ', providing ' + joinList(x.svcs.map(function(s){ return lower(s.label); })) + ' for ' + popPhrase(x.pops) + '.');
+  L.push('Administrative supervision comes from ' + x.setting.reports + '. Clinical supervision is separate and is described below.');
+  if(x.c.services.indexOf('design')>-1) L.push('Program design is part of the role, so the ' + x.title.toLowerCase() + ' holds the materials plan, documentation templates, and evaluation plan, and revises them each cycle.');
+  L.push('## Credentials');
+  L.push('Required credential: ' + x.cred.label + '. ' + x.cred.note);
+  if(x.cred.id==='atrp') L.push('An ATR-P needs supervised hours that count toward the ATR. Build those hours into the schedule and into the supervision line of the budget.');
+  L.push('State licensure: ' + lower(x.lic.label) + '. ' + x.lic.text + ' Confirm with HR and state law.');
+  L.push('## Supervision');
+  L.push('Supervisor: ' + lower(x.sup.label) + '. ' + x.sup.note);
+  L.push('Frequency: ' + lower(x.freq.label) + '.');
+  L.push('Cost: ' + lower(x.fund.label) + '. ' + x.fund.note);
+  L.push('An associate license, where one applies, carries its own supervision requirement. Confirm the supervisor meets it with the licensing board.');
+  L.push('## Hours');
+  L.push(x.type.hours);
+  L.push('Planning assumption, adjust locally. About 60 percent of paid hours in direct service, with the rest for documentation, material preparation and cleanup, supervision, team meetings, and evaluation.');
+  if(x.c.services.indexOf('openstudio')>-1) L.push('Open studio blocks count as direct service and need setup and cleanup time on both sides.');
+  if(x.c.access.indexOf('scheduling')>-1) L.push('Some hours fall in evenings or on weekends to meet the scheduling needs named in the program structure.');
+  if(x.space.id==='cart') L.push('Travel time between rooms or sites is paid time.');
+  return L.join('\n');
+}
+
+function genJob(){
+  var x = ctx(), L = [];
+  var next = { atrp:'ATR', atr:'ATR-BC', atrbc:null, none:'ATR-P, ATR, or ATR-BC' }[x.cred.id];
+  L.push('## Title');
+  L.push(x.title + ' (' + x.type.label + ')');
+  L.push('## Summary');
+  L.push('The ' + x.title + ' provides ' + joinList(x.svcs.map(function(s){ return lower(s.label); })) + ' for ' + popPhrase(x.pops) + ' in ' + x.setting.phrase + '. The role works ' + x.type.schedule + ' and reports to ' + x.setting.reports + '.');
+  L.push('## Responsibilities');
+  x.svcs.forEach(function(s){ L.push('- ' + s.duty); });
+  L.push('- Keep records as the program’s documentation policy requires. ' + x.rec.text);
+  L.push('- Select, prepare, and maintain materials and ' + x.space.phrase.replace(/^a /,'the ') + '.');
+  L.push('- Take part in ' + lower(x.freq.label) + ' clinical supervision.');
+  L.push('- Contribute to program evaluation. ' + x.evalw.text);
+  if(x.access.length) L.push('- Plan for the access needs the program names: ' + joinList(x.access.map(function(a){ return lower(a.label); })) + '.');
+  L.push('- Explain consent, privacy, and the limits of the program in plain words to every participant and, where it applies, their caregiver.');
+  L.push('## Qualifications');
+  if(x.cred.atcb){
+    L.push('- Master’s degree that meets ATCB education requirements for the ' + x.cred.label + ' credential.');
+    L.push('- Holds the ' + x.cred.label + (x.cred.id==='atrp' ? ', or is eligible to apply for it on hire.' : '.'));
+  } else {
+    L.push('- Bachelor’s degree or equivalent experience in studio art, art education, or a related field, with training in facilitating art-based groups.');
+  }
+  if(x.lic.id==='required') L.push('- Holds a current state license for the role. Confirm the license type with HR and state law.');
+  if(x.lic.id==='preferred') L.push('- State licensure preferred. Confirm the license type and whether it is required for billing with HR and state law.');
+  L.push('- Passes the background checks this setting requires.');
+  L.push('## Preferred qualifications');
+  if(next) L.push('- ' + next + ' credential.');
+  if(x.lic.id==='not') L.push('- State licensure, where it applies.');
+  x.pops.forEach(function(p){ L.push('- Experience with ' + lower(p.label.replace(' (for staff wellness)','')) + '.'); });
+  if(x.c.access.indexOf('language')>-1) L.push('- Fluency in a language participants use.');
+  if(x.c.populations.indexOf('families')>-1) L.push('- Training in adoption-competent practice.');
+  L.push('- Experience in ' + x.setting.phrase + '.');
+  L.push('## Reporting line');
+  L.push('Reports to ' + x.setting.reports + ', as proposed. Confirm against the organization’s chart. Clinical supervision is provided by ' + lower(x.sup.label) + ' and is separate from administrative supervision.');
+  L.push('## Working conditions');
+  L.push(x.space.detail);
+  L.push('Handles wet and dry art materials, including paints, clay, and adhesives, and sets up and cleans the workspace. Moves supply bins and furniture for setup.' + (x.space.id==='cart' ? ' Moves a loaded cart between rooms or sites.' : ''));
+  L.push('Works ' + x.type.schedule + '.' + (x.c.access.indexOf('scheduling')>-1 ? ' Some evening or weekend hours.' : ''));
+  L.push('Hourly rate or salary, benefits, and contract terms are set by the organization and are not stated in this draft.');
+  return L.join('\n');
+}
+
+function genBudgetRows(){
+  var x = ctx();
+  var plural = x.count > 1;
+  var desc = {
+    personnel: numWord(x.count).charAt(0).toUpperCase() + numWord(x.count).slice(1) + ' ' + x.type.word + ' ' + x.title + (plural ? 's' : '') + '. Salary or contract rate, plus payroll costs and benefits as HR policy provides.',
+    supervision: x.freq.label + ' clinical supervision by ' + lower(x.sup.label) + '. ' + x.fund.note,
+    materials: x.tier.label + ' tier. ' + x.tier.note,
+    space: x.space.budget,
+    records: x.rec.text + ' Includes storage for artwork, which is part of the record.',
+    evaluation: x.evalw.text,
+    pd: 'Continuing education to maintain the ' + (x.cred.atcb ? x.cred.label + ' credential' : 'role’s training') + (x.lic.id==='required' ? ' and the license' : '') + ', plus association membership such as IndiATA.',
+    insurance: 'Professional liability coverage for the ' + x.title.toLowerCase() + (plural ? 's' : '') + ', confirmed with the organization’s carrier' + (x.space.id==='cart' ? ', including coverage for off-site work.' : '.')
+  };
+  return BUDGET_CATEGORIES.map(function(cat){
+    var edited = state.edits.budget && typeof state.edits.budget[cat.id] === 'string';
+    return { id:cat.id, label:cat.label, desc: edited ? state.edits.budget[cat.id] : desc[cat.id], edited:edited, amount: state.amounts[cat.id] || '' };
+  });
+}
+
+function parseAmount(s){
+  if(typeof s !== 'string') return null;
+  var n = Number(s.replace(/[^0-9.\-]/g,''));
+  if(s.trim()==='' || isNaN(n)) return null;
+  return n;
+}
+function fmt(n){ var cents = Math.abs(n % 1) > 0; return '$' + n.toLocaleString('en-US', { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: 2 }); }
+function budgetTotals(rows){
+  var total = 0, count = 0;
+  rows.forEach(function(r){ var n = parseAmount(r.amount); if(n!==null){ total += n; count++; } });
+  return { total:total, count:count };
+}
+
+/* ---------- document text (what gets copied) ---------- */
+var GEN = { structure:genStructure, staffing:genStaffing, job:genJob };
+var TITLES = { structure:'Program structure', staffing:'Staffing plan', job:'Job description', budget:'Budget framework' };
+
+function docText(key){
+  if(key==='budget'){
+    var rows = genBudgetRows(), t = budgetTotals(rows), L = [];
+    rows.forEach(function(r){
+      var n = parseAmount(r.amount);
+      L.push('## ' + r.label);
+      L.push(r.desc);
+      L.push('Amount: ' + (n===null ? 'not entered' : fmt(n)));
+    });
+    L.push('## ' + COPY.totalLabel);
+    L.push(fmt(t.total) + ' from ' + t.count + ' of ' + rows.length + ' categories. Categories without a figure are not counted.');
+    return L.join('\n');
+  }
+  return typeof state.edits[key] === 'string' ? state.edits[key] : GEN[key]();
+}
+function docExport(key){
+  return TITLES[key].toUpperCase() + '\n' + docText(key).replace(/^## /gm,'\n') + '\n\n' + COPY.review;
+}
+function planExport(){
+  return ['structure','staffing','job','budget'].map(docExport).join('\n\n----------\n\n');
+}
+function planJSON(){
+  var rows = genBudgetRows();
+  return JSON.stringify({
+    tool:'Build an Art Therapy Program',
+    exported: new Date().toISOString(),
+    note: COPY.review,
+    choices: state.choices,
+    handEdited: { structure: typeof state.edits.structure==='string', staffing: typeof state.edits.staffing==='string', job: typeof state.edits.job==='string', budgetRows: Object.keys(state.edits.budget||{}) },
+    documents: {
+      programStructure: docText('structure'),
+      staffingPlan: docText('staffing'),
+      jobDescription: docText('job'),
+      budgetFramework: { rows: rows.map(function(r){ return { category:r.label, description:r.desc, amountEntered:r.amount, amount: parseAmount(r.amount) }; }), totals: budgetTotals(rows) }
+    }
+  }, null, 2);
+}
+
+/* ---------- rendering ---------- */
+function renderText(text){
+  var lines = text.split('\n'), out = [], inList = false;
+  lines.forEach(function(raw){
+    var line = raw.trim();
+    if(!line){ return; }
+    if(line.indexOf('- ')===0){
+      if(!inList){ out.push('<ul>'); inList = true; }
+      out.push('<li>' + esc(line.slice(2)) + '</li>');
+      return;
+    }
+    if(inList){ out.push('</ul>'); inList = false; }
+    if(line.indexOf('## ')===0){ out.push('<h4>' + esc(line.slice(3)) + '</h4>'); }
+    else { out.push('<p>' + esc(line) + '</p>'); }
+  });
+  if(inList) out.push('</ul>');
+  return out.join('');
+}
+
+function docEl(key){ return document.querySelector('.doc[data-doc="' + key + '"]'); }
+
+function renderDoc(key){
+  var el = docEl(key), body = el.querySelector('[data-body]'), status = el.querySelector('[data-status]');
+  var note = el.querySelector('[data-note]'), editBtn = el.querySelector('[data-action="edit"]');
+  var editing = !!state.editing[key];
+  editBtn.setAttribute('aria-pressed', editing ? 'true' : 'false');
+  editBtn.textContent = editing ? 'Done editing' : 'Edit text';
+  var isEdited = key==='budget' ? Object.keys(state.edits.budget||{}).length > 0 : typeof state.edits[key] === 'string';
+  status.textContent = isEdited ? 'Hand-edited' : 'Updates from choices';
+  status.className = 'status' + (isEdited ? ' edited' : '');
+  if(isEdited){
+    note.hidden = false;
+    if(confirming[key]){
+      note.innerHTML = '<span>' + esc(COPY.regenConfirm) + '</span><button type="button" class="btn" data-action="regen-yes">' + esc(COPY.yes) + '</button><button type="button" class="btn quiet" data-action="regen-no">' + esc(COPY.keep) + '</button>';
+    } else {
+      note.innerHTML = '<span>' + esc(key==='budget' ? COPY.editedBudgetNote : COPY.editedNote) + '</span><button type="button" class="btn quiet" data-action="regen">' + esc(COPY.regen) + '</button>';
+    }
+  } else { note.hidden = true; note.innerHTML = ''; }
+
+  if(key==='budget'){ renderBudget(body, editing); return; }
+  var text = docText(key);
+  if(editing){
+    body.innerHTML = '<label class="sr" for="ta-' + key + '">Edit ' + esc(TITLES[key]) + '</label><textarea id="ta-' + key + '" spellcheck="true"></textarea>';
+    body.querySelector('textarea').value = text;
+  } else {
+    body.innerHTML = renderText(text);
+  }
+}
+
+function renderBudget(body, editing){
+  var rows = genBudgetRows(), t = budgetTotals(rows);
+  var h = '<table class="budget"><thead><tr><th scope="col">Category</th><th scope="col">What it covers</th><th scope="col">Amount</th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    h += '<tr><td class="cat">' + esc(r.label) + '</td><td class="desc">' +
+      (editing ? '<input type="text" data-desc="' + r.id + '" value="' + esc(r.desc) + '" aria-label="Description for ' + esc(r.label) + '">' : esc(r.desc)) +
+      '</td><td class="amt"><input type="text" inputmode="decimal" data-amt="' + r.id + '" value="' + esc(r.amount) + '" placeholder="' + esc(COPY.enterFigure) + '" aria-label="Amount for ' + esc(r.label) + '"></td></tr>';
+  });
+  h += '</tbody><tfoot><tr><td class="cat" colspan="2">' + esc(COPY.totalLabel) + '<span class="count" data-count></span></td><td class="amt total" data-total></td></tr></tfoot></table>';
+  body.innerHTML = h;
+  updateTotals(body, t, rows.length);
+}
+function updateTotals(body, t, n){
+  body.querySelector('[data-total]').textContent = fmt(t.total);
+  body.querySelector('[data-count]').textContent = t.count + ' of ' + n + ' categories entered';
+}
+
+function renderAll(){
+  ['structure','staffing','job','budget'].forEach(renderDoc);
+}
+
+/* ---------- controls ---------- */
+function makeOpts(containerId, list, name, type, showNote){
+  var c = document.getElementById(containerId), h = '';
+  list.forEach(function(o){
+    h += '<label class="opt"><input type="' + type + '" name="' + name + '" value="' + o.id + '"><span><span class="lbl">' + esc(o.label) + '</span>' +
+      (showNote && o.note ? '<span class="note">' + esc(o.note) + '</span>' : '') + '</span></label>';
+  });
+  c.innerHTML = h;
+}
+function buildControls(){
+  makeOpts('opt-setting', SETTINGS, 'setting', 'radio', false);
+  makeOpts('opt-populations', POPULATIONS, 'populations', 'checkbox', false);
+  makeOpts('opt-services', SERVICES, 'services', 'checkbox', false);
+  makeOpts('opt-staffType', STAFF_TYPES, 'staffType', 'radio', false);
+  makeOpts('opt-credential', CREDENTIALS, 'credential', 'radio', true);
+  makeOpts('opt-licensure', LICENSURE, 'licensure', 'radio', false);
+  makeOpts('opt-supervisor', SUPERVISORS, 'supervisor', 'radio', true);
+  makeOpts('opt-frequency', FREQUENCIES, 'frequency', 'radio', false);
+  makeOpts('opt-funding', FUNDING, 'funding', 'radio', false);
+  makeOpts('opt-access', ACCESS, 'access', 'checkbox', false);
+  makeOpts('opt-space', SPACES, 'space', 'radio', false);
+  makeOpts('opt-tier', TIERS, 'tier', 'radio', true);
+  makeOpts('opt-records', RECORDS, 'records', 'radio', false);
+  makeOpts('opt-evaluation', EVALUATION, 'evaluation', 'radio', false);
+}
+function syncControls(){
+  var form = document.getElementById('form');
+  var c = state.choices;
+  Array.prototype.forEach.call(form.querySelectorAll('input[type="radio"]'), function(inp){ inp.checked = c[inp.name] === inp.value; });
+  Array.prototype.forEach.call(form.querySelectorAll('input[type="checkbox"]'), function(inp){ inp.checked = (c[inp.name] || []).indexOf(inp.value) > -1; });
+  document.getElementById('count').value = c.count;
+}
+function readControls(){
+  var form = document.getElementById('form');
+  var c = state.choices;
+  Array.prototype.forEach.call(form.querySelectorAll('input[type="radio"]:checked'), function(inp){ c[inp.name] = inp.value; });
+  ['populations','services','access'].forEach(function(name){
+    c[name] = Array.prototype.map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function(inp){ return inp.value; });
+  });
+  var n = parseInt(document.getElementById('count').value, 10);
+  c.count = isNaN(n) ? 1 : Math.max(1, Math.min(12, n));
+}
+
+/* ---------- copy / download ---------- */
+var toastTimer = null;
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.textContent = ''; }, 2200);
+}
+function copyText(text, btn, hostEl){
+  function ok(){
+    var old = btn.textContent; btn.textContent = COPY.copied;
+    setTimeout(function(){ btn.textContent = old; }, 1600);
+  }
+  function fallback(){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    var done = false;
+    try{ done = document.execCommand('copy'); }catch(e){ done = false; }
+    document.body.removeChild(ta);
+    if(done){ ok(); return; }
+    var box = hostEl.querySelector('.copy-fallback');
+    if(!box){ box = document.createElement('div'); box.className = 'copy-fallback'; hostEl.appendChild(box); }
+    box.innerHTML = '<p>' + esc(COPY.copyFail) + '</p><textarea aria-label="Text to copy"></textarea>';
+    var t2 = box.querySelector('textarea'); t2.value = text; t2.focus(); t2.select();
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, fallback);
+  } else { fallback(); }
+}
+var lastBlobUrl = null;
+function prepareDownload(a){
+  try{
+    var blob = new Blob([planJSON()], { type:'application/json' });
+    if(lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+    lastBlobUrl = URL.createObjectURL(blob);
+    a.href = lastBlobUrl;
+  }catch(e){}
+}
+
+/* ---------- events ---------- */
+function onChoiceChange(){
+  readControls();
+  save();
+  renderAll();
+}
+
+function init(){
+  load();
+  buildControls();
+  syncControls();
+  document.getElementById('review-note').textContent = COPY.review;
+  renderAll();
+
+  var form = document.getElementById('form');
+  form.addEventListener('change', onChoiceChange);
+  form.addEventListener('submit', function(e){ e.preventDefault(); });
+  document.getElementById('count').addEventListener('input', onChoiceChange);
+  document.getElementById('count-minus').addEventListener('click', function(){
+    var inp = document.getElementById('count'); inp.value = Math.max(1, (parseInt(inp.value,10)||1) - 1); onChoiceChange();
+  });
+  document.getElementById('count-plus').addEventListener('click', function(){
+    var inp = document.getElementById('count'); inp.value = Math.min(12, (parseInt(inp.value,10)||1) + 1); onChoiceChange();
+  });
+
+  var draft = document.getElementById('draft');
+  draft.addEventListener('click', function(e){
+    var btn = e.target.closest('button'); if(!btn) return;
+    var jump = btn.getAttribute('data-jump');
+    if(jump){ var target = docEl(jump); target.scrollIntoView({ block:'start' }); target.querySelector('h3').setAttribute('tabindex','-1'); target.querySelector('h3').focus({ preventScroll:true }); return; }
+    var doc = btn.closest('.doc'); if(!doc) return;
+    var key = doc.getAttribute('data-doc'), action = btn.getAttribute('data-action');
+    if(action==='edit'){
+      if(state.editing[key] && key!=='budget'){
+        var ta = doc.querySelector('textarea');
+        if(ta && ta.value !== GEN[key]()) state.edits[key] = ta.value; else state.edits[key] = null;
+      }
+      state.editing[key] = !state.editing[key];
+      save(); renderDoc(key);
+      if(state.editing[key]){ var field = doc.querySelector('textarea, input[data-desc]'); if(field) field.focus(); }
+    } else if(action==='copy'){
+      copyText(docExport(key), btn, doc);
+    } else if(action==='regen'){
+      confirming[key] = true; renderDoc(key);
+    } else if(action==='regen-no'){
+      confirming[key] = false; renderDoc(key);
+    } else if(action==='regen-yes'){
+      confirming[key] = false;
+      if(key==='budget') state.edits.budget = {}; else state.edits[key] = null;
+      save(); renderDoc(key);
+    }
+  });
+  draft.addEventListener('input', function(e){
+    var t = e.target;
+    var doc = t.closest('.doc'); if(!doc) return;
+    var key = doc.getAttribute('data-doc');
+    if(t.tagName==='TEXTAREA' && t.id==='ta-' + key){
+      state.edits[key] = (t.value === GEN[key]()) ? null : t.value;
+      save();
+      var status = doc.querySelector('[data-status]');
+      var isEdited = typeof state.edits[key] === 'string';
+      status.textContent = isEdited ? 'Hand-edited' : 'Updates from choices';
+      status.className = 'status' + (isEdited ? ' edited' : '');
+      return;
+    }
+    if(t.hasAttribute('data-amt')){
+      state.amounts[t.getAttribute('data-amt')] = t.value;
+      save();
+      var rows = genBudgetRows();
+      updateTotals(doc.querySelector('[data-body]'), budgetTotals(rows), rows.length);
+      return;
+    }
+    if(t.hasAttribute('data-desc')){
+      state.edits.budget[t.getAttribute('data-desc')] = t.value;
+      save();
+      var st = doc.querySelector('[data-status]');
+      st.textContent = 'Hand-edited'; st.className = 'status edited';
+      return;
+    }
+  });
+
+  document.getElementById('copy-all').addEventListener('click', function(e){
+    copyText(planExport(), e.currentTarget, document.querySelector('.exports'));
+  });
+  var dl = document.getElementById('download-json');
+  dl.addEventListener('click', function(){ prepareDownload(dl); });
+  prepareDownload(dl);
+
+  var fresh = document.getElementById('fresh'), conf = document.getElementById('fresh-confirm');
+  fresh.addEventListener('click', function(){ conf.hidden = false; document.getElementById('fresh-yes').focus(); });
+  document.getElementById('fresh-no').addEventListener('click', function(){ conf.hidden = true; fresh.focus(); });
+  document.getElementById('fresh-yes').addEventListener('click', function(){
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    state = { choices: JSON.parse(JSON.stringify(DEFAULTS)), edits:{ structure:null, staffing:null, job:null, budget:{} }, editing:{ structure:false, staffing:false, job:false, budget:false }, amounts:{} };
+    confirming = {};
+    conf.hidden = true;
+    syncControls(); renderAll(); toast(COPY.cleared); fresh.focus();
+  });
+}
+init();
+</script>
+</body>
+</html>

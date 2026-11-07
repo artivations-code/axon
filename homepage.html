@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IndiATA homepage block test</title></head>
+<body style="background:#fff;padding:2rem">
+
+<!-- ==== PASTE FROM HERE ==== -->
+<!-- =========================================================
+IndiATA Homepage v4.2 | Complete Squarespace 7.1 Code Block
+Replace the entire previous homepage Code Block with this file.
+All styles, content, the original 92-county map, and scripts included.
+========================================================= -->
+<div id="iv4-home">
+<style>
+/* Squarespace 7.1: complete, single full-width Code Block */
+#iv4-home,#iv4-home *{box-sizing:border-box}
+#iv4-home [hidden]{display:none!important}
+section.page-section:has(#iv4-home)>.content-wrapper{padding-top:0!important;padding-bottom:0!important}
+.sqs-block:has(#iv4-home){padding-top:0!important;padding-bottom:0!important}
+#iv4-home{
+  --ink:#202224;--white:#FFFFFF;--paper:#F4F6F6;--line:#CCD3D3;
+  --slate:#44697D;--sage:#879637;--plum:#885E80;
+  --teal:#008478;--magenta:#AE0055;--tangerine:#CF7600;
+  --font:"Helvetica Neue",Frutiger,"Arial Nova",Helvetica,Arial,sans-serif;
+  --page:1360px;--gutter:clamp(20px,4.2vw,62px);
+  font-family:var(--font);font-size:17px;line-height:1.55;
+  color:var(--ink);background:var(--white);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  position:relative;left:50%;width:100vw;max-width:100vw;margin-left:-50vw;
+  overflow:clip;isolation:isolate;
+}
+#iv4-home h1,#iv4-home h2,#iv4-home h3,#iv4-home p{margin:0;padding:0}
+#iv4-home h1,#iv4-home h2,#iv4-home h3{font-family:var(--font);text-wrap:balance}
+#iv4-home a{color:inherit}
+#iv4-home button,#iv4-home select{font:inherit}
+#iv4-home button{cursor:pointer}
+#iv4-home :is(a,button,select,svg[tabindex]):focus-visible{outline:3px solid var(--teal);outline-offset:4px}
+#iv4-home .iv4-wrap{max-width:var(--page);margin-inline:auto;padding-inline:var(--gutter)}
+#iv4-home .iv4-kicker{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;line-height:1.4}
+#iv4-home .iv4-sectionhead{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:clamp(22px,3vw,42px)}
+#iv4-home .iv4-sectionhead>p:last-child{max-width:440px;font-size:17px;line-height:1.55}
+#iv4-home .iv4-sectiontitle{font-size:clamp(31px,3.5vw,52px);line-height:1.04;letter-spacing:-.035em;font-weight:850;margin-top:10px}
+#iv4-home .iv4-link{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;
+  border:2px solid currentColor;text-decoration:none;font-weight:800;font-size:15px;line-height:1.25;
+  transition:color .22s,background .22s,transform .22s}
+#iv4-home .iv4-link:hover{transform:translateY(-2px)}
+#iv4-home .iv4-link--dark{background:var(--ink);border-color:var(--ink);color:var(--white)}
+#iv4-home .iv4-link--dark:hover{background:var(--slate);border-color:var(--slate)}
+#iv4-home .iv4-link--light{border-color:var(--white);color:var(--white)}
+#iv4-home .iv4-link--light:hover{color:var(--ink);background:var(--white)}
+#iv4-home .iv4-link--white{background:var(--white);border-color:var(--white);color:var(--magenta)}
+#iv4-home .iv4-link--white:hover{background:var(--ink);border-color:var(--ink);color:var(--white)}
+#iv4-home .iv4-sr{position:absolute!important;height:1px!important;width:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+#iv4-home section[id]{scroll-margin-top:100px}
+/* HERO: editorial typographic hierarchy + original data graphic */
+#iv4-home .iv4-hero{position:relative;padding:clamp(34px,4.4vw,76px) 0 clamp(35px,5vw,72px)}
+#iv4-home .iv4-hero:before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+  background:linear-gradient(90deg,var(--slate) 0 27%,var(--sage) 27% 49%,var(--plum) 49% 68%,var(--teal) 68% 85%,var(--magenta) 85%)}
+#iv4-home .iv4-hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(28px,5vw,88px);align-items:center}
+#iv4-home .iv4-hero-copy{padding-block:16px;min-width:0}
+#iv4-home .iv4-est{display:flex;align-items:center;gap:14px;color:var(--slate)}
+#iv4-home .iv4-est:before{content:"";width:28px;height:3px;background:currentColor}
+#iv4-home .iv4-hero h1{font-weight:850;letter-spacing:-.052em;line-height:.985;
+  font-size:clamp(48px,5.6vw,85px);max-width:13ch;margin-top:22px}
+#iv4-home .iv4-hero h1 em{color:var(--slate);font-style:normal}
+#iv4-home .iv4-mission{margin-top:clamp(22px,2.8vw,38px);font-size:clamp(18px,1.65vw,23px);max-width:51ch;line-height:1.5}
+#iv4-home .iv4-aata{margin-top:14px;color:#4F585A;font-size:15px}
+#iv4-home .iv4-aata a{text-underline-offset:3px}
+#iv4-home .iv4-hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+#iv4-home .iv4-hero-actions .iv4-link:nth-child(2){border-color:var(--sage)}
+#iv4-home .iv4-hero-actions .iv4-link:nth-child(2):hover{background:var(--sage);color:var(--ink)}
+#iv4-home .iv4-hero-actions .iv4-link:nth-child(3){border-color:var(--plum)}
+#iv4-home .iv4-hero-actions .iv4-link:nth-child(3):hover{background:var(--plum);color:var(--white)}
+/* map: two functional layers, accessible dropdown, meaningful selected content */
+#iv4-home .iv4-map-panel{padding:clamp(20px,2.5vw,34px);background:var(--paper);border-top:5px solid var(--slate);min-width:0}
+#iv4-home .iv4-map-top{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:12px}
+#iv4-home .iv4-map-top strong{font-size:clamp(22px,2.2vw,31px);line-height:1.08;font-weight:850;display:block;letter-spacing:-.03em}
+#iv4-home .iv4-map-top small{font-size:13px;display:block;margin-top:8px;color:#4F585A;font-weight:600}
+#iv4-home .iv4-map-index{border-left:2px solid var(--slate);padding-left:12px;flex:none;text-align:left}
+#iv4-home .iv4-map-index b{display:block;font-size:37px;line-height:1;font-weight:850;letter-spacing:-.04em;color:var(--slate)}
+#iv4-home .iv4-map-index span{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+#iv4-home .iv4-map-switch{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #92A4AD;margin:18px 0 8px}
+#iv4-home .iv4-map-switch button{border:0;background:transparent;color:var(--ink);font-size:14px;font-weight:800;padding:10px 7px;line-height:1.3}
+#iv4-home .iv4-map-switch button[aria-pressed="true"]{background:var(--slate);color:var(--white)}
+#iv4-home .iv4-map-switch button+button{border-left:1px solid #92A4AD}
+#iv4-home .iv4-map-shell{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:12px;align-items:center}
+#iv4-home .iv4-map-graphic{min-width:0;position:relative}
+#iv4-home .iv4-in{display:block;width:100%;height:auto;max-height:380px;margin:auto;overflow:visible;cursor:crosshair}
+#iv4-home .iv4-state{fill:var(--white);stroke:var(--slate);stroke-width:1.8;stroke-linejoin:round}
+#iv4-home .iv4-county-boundaries path{fill:transparent;stroke:#9FB2B8;stroke-width:1.1;stroke-linejoin:round;cursor:pointer;transition:fill .25s,stroke .25s}
+#iv4-home .iv4-county-boundaries path.iv4-selected{fill:rgba(0,132,120,.24);stroke:var(--teal);stroke-width:2.2}
+#iv4-home .iv4-county-points circle{fill:var(--slate);stroke:var(--white);stroke-width:1.4;cursor:pointer;transition:opacity .25s,fill .25s}
+#iv4-home .iv4-program-points .iv4-program rect{fill:var(--plum);stroke:var(--white);stroke-width:2.3;cursor:pointer}
+#iv4-home .iv4-program-points .iv4-program{cursor:pointer;transform-box:fill-box;transform-origin:center}
+#iv4-home .iv4-program-points .iv4-program.iv4-selected rect{fill:var(--plum);stroke:var(--ink);stroke-width:2.5}
+#iv4-home .iv4-map-panel[data-layer="county"] .iv4-program-points{opacity:.35}
+#iv4-home .iv4-map-panel[data-layer="county"] :is(.iv4-legend-diamond,.iv4-legend-triangle){opacity:.35}
+#iv4-home .iv4-map-panel[data-layer="program"] .iv4-legend-dot{opacity:.12}
+#iv4-home .iv4-map-panel[data-layer="program"] .iv4-county-points{opacity:.12;pointer-events:none}
+#iv4-home .iv4-map-panel[data-layer="program"] .iv4-county-boundaries{opacity:.65;pointer-events:none}
+#iv4-home .iv4-map-panel[data-layer="program"] .iv4-program-points .iv4-program rect{fill:var(--plum)}
+#iv4-home .iv4-map-details{align-self:center;min-width:0}
+#iv4-home .iv4-map-details .iv4-kicker{color:var(--slate);margin-bottom:8px}
+#iv4-home .iv4-map-detail-title{font-size:clamp(20px,1.9vw,27px);line-height:1.12;letter-spacing:-.02em;font-weight:850;overflow-wrap:normal;word-break:normal}
+#iv4-home .iv4-map-detail-text{font-size:15px;line-height:1.5;margin-top:9px;min-height:42px}
+#iv4-home .iv4-map-controls{margin-top:17px}
+#iv4-home .iv4-map-controls label{display:block;font-size:13px;line-height:1.3;font-weight:800;margin-bottom:5px}
+#iv4-home .iv4-map-controls select{display:block;width:100%;min-width:0;max-width:100%;border:1px solid #758A93;border-radius:0;padding:10px 12px;
+  background:var(--white);color:var(--ink);font-size:14px;line-height:1.2;min-height:42px}
+#iv4-home .iv4-map-instructions{font-size:12px;line-height:1.5;color:#485659;margin-top:12px}
+#iv4-home .iv4-map-caption{border-top:1px solid #B7C7CA;padding-top:14px;margin-top:18px}
+#iv4-home .iv4-map-caption>strong{display:block;font-size:15px;line-height:1.45;font-weight:850}
+#iv4-home .iv4-map-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:9px;font-size:12px;font-weight:700}
+#iv4-home .iv4-legend-item{display:inline-flex;align-items:center;gap:8px}
+#iv4-home .iv4-legend-dot{height:9px;width:9px;display:inline-block;background:var(--slate);border-radius:50%}
+#iv4-home .iv4-legend-diamond{height:10px;width:10px;display:inline-block;background:var(--plum);transform:rotate(45deg)}
+#iv4-home .iv4-map-source{font-size:12px;line-height:1.55;color:#435154;margin-top:11px}
+#iv4-home .iv4-map-source a{text-underline-offset:2px}
+/* Tangerine role notice MUST remain a separate site clarification. */
+#iv4-home .iv4-scope{background:var(--tangerine);color:var(--white)}
+#iv4-home .iv4-scope-inner{display:grid;grid-template-columns:180px minmax(0,1fr);gap:clamp(20px,4vw,58px);align-items:center;padding-block:23px}
+#iv4-home .iv4-scope .iv4-kicker{border-right:2px solid var(--white);padding-right:12px}
+#iv4-home .iv4-scope p:last-child{font-size:clamp(19px,1.8vw,23px);font-weight:800;line-height:1.4;max-width:900px}
+/* definition: essential content, designed for reading */
+#iv4-home .iv4-definition{padding-block:clamp(55px,6.3vw,92px);background:var(--white)}
+#iv4-home .iv4-definition-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,6vw,102px)}
+#iv4-home .iv4-definition .iv4-kicker{color:var(--teal)}
+#iv4-home .iv4-definition .iv4-sectiontitle{max-width:14ch}
+#iv4-home .iv4-definition-lede{font-size:clamp(20px,2vw,26px);line-height:1.5;max-width:48ch;margin-top:25px}
+#iv4-home .iv4-definition-aside{border-left:4px solid var(--teal);padding-left:clamp(19px,2.4vw,35px)}
+#iv4-home .iv4-definition-aside h3{font-size:21px;line-height:1.2;font-weight:850;margin-bottom:9px}
+#iv4-home .iv4-definition-aside p{font-size:16px;line-height:1.63;margin-bottom:15px}
+#iv4-home .iv4-definition-aside .iv4-distinction{font-weight:750;border-top:1px solid var(--line);padding-top:16px}
+#iv4-home .iv4-definition-aside .iv4-credentials{padding-top:16px;border-top:1px solid var(--line)}
+#iv4-home .iv4-definition-aside a{text-underline-offset:3px}
+#iv4-home .iv4-definition-aside>.iv4-link{margin-top:5px;font-size:14px;text-decoration:none}
+/* pathways: one primary destination + five compact editorial rows */
+#iv4-home .iv4-paths{background:var(--paper);padding-block:clamp(52px,6.5vw,96px)}
+#iv4-home .iv4-paths .iv4-kicker{color:var(--plum)}
+#iv4-home .iv4-paths-grid{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(16px,2vw,26px);align-items:stretch}
+#iv4-home .iv4-feature-path{position:relative;display:flex;flex-direction:column;min-height:500px;
+  background:var(--slate);color:var(--white);padding:clamp(26px,3vw,44px);text-decoration:none;overflow:hidden}
+#iv4-home .iv4-feature-path>.iv4-feature-no{display:block;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+#iv4-home .iv4-feature-path h3{font-size:clamp(32px,3.3vw,48px);line-height:1.04;letter-spacing:-.04em;font-weight:850;margin-top:30px;max-width:11ch}
+#iv4-home .iv4-feature-path p{font-size:17px;line-height:1.55;margin-top:16px;max-width:32ch}
+#iv4-home .iv4-feature-path .iv4-feature-cta{font-size:16px;font-weight:850;align-self:start;margin-top:auto;padding:12px 0 7px;border-bottom:3px solid var(--white);position:relative;z-index:1}
+#iv4-home .iv4-feature-path:hover,#iv4-home .iv4-feature-path:focus-visible{background:#35586B}
+#iv4-home .iv4-secondary-paths{display:flex;flex-direction:column;border-top:1px solid #AAB4B5}
+#iv4-home .iv4-path-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(12px,2.2vw,26px);
+  align-items:center;flex:1;padding:18px 15px 18px 0;border-bottom:1px solid #AAB4B5;text-decoration:none;
+  box-shadow:inset 0 0 0 transparent;transition:background .2s,padding .2s}
+#iv4-home .iv4-path-row:hover{background:var(--white);padding-left:12px}
+#iv4-home .iv4-path-row .iv4-path-audience{font-size:11px;letter-spacing:.105em;text-transform:uppercase;font-weight:850;color:var(--path-color)}
+#iv4-home .iv4-path-row h3{font-size:clamp(19px,2vw,24px);line-height:1.15;letter-spacing:-.018em;font-weight:850;margin-top:4px}
+#iv4-home .iv4-path-row p{font-size:14px;line-height:1.5;margin-top:5px;max-width:57ch;color:#394244}
+#iv4-home .iv4-path-cta{justify-self:end;font-size:13px;font-weight:850;white-space:nowrap;border-bottom:2px solid var(--path-color);padding-bottom:4px;color:var(--path-color)}
+/* advocacy: campaign architecture, preserves verified Senate history and request */
+#iv4-home .iv4-advocacy{background:var(--magenta);color:var(--white);padding-block:clamp(50px,5.8vw,85px)}
+#iv4-home .iv4-advocacy-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:clamp(32px,5vw,70px);align-items:center}
+#iv4-home .iv4-advocacy .iv4-kicker{color:var(--white)}
+#iv4-home .iv4-advocacy h2{font-size:clamp(34px,4.4vw,62px);line-height:1.03;font-weight:850;letter-spacing:-.035em;margin-top:12px;max-width:15ch}
+#iv4-home .iv4-advocacy-lede{font-size:18px;line-height:1.56;max-width:62ch;margin-top:23px}
+#iv4-home .iv4-advocacy-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+#iv4-home .iv4-vote{border-left:2px solid rgba(255,255,255,.8);padding-left:clamp(22px,3vw,46px)}
+#iv4-home .iv4-vote strong{font-size:clamp(86px,11vw,154px);letter-spacing:-.075em;line-height:.98;font-weight:900;display:block;margin:8px 0 16px}
+#iv4-home .iv4-vote p:last-child{font-size:16px;line-height:1.55;max-width:28ch}
+/* events: compact calendar cards + direct links, live calendar if available */
+#iv4-home .iv4-events{background:var(--slate);color:var(--white);padding-block:clamp(52px,5.8vw,80px)}
+#iv4-home .iv4-events .iv4-sectionhead{margin-bottom:16px}
+#iv4-home .iv4-events .iv4-sectiontitle{font-size:clamp(32px,3.5vw,48px)}
+#iv4-home .iv4-events .iv4-meeting-note{font-size:16px;line-height:1.55;max-width:65ch;opacity:.93;margin-bottom:22px}
+#iv4-home .iv4-event-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;list-style:none;padding:0;margin:0;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.34)}
+#iv4-home .iv4-event-grid li{background:var(--slate);min-width:0;display:flex}
+#iv4-home .iv4-event-grid li>a{flex:1 1 auto}
+#iv4-home .iv4-event-grid[hidden]{display:none}
+#iv4-home .iv4-event-grid a{display:flex;flex-direction:column;text-decoration:none;color:var(--white);padding:22px;min-height:204px;transition:background .2s}
+#iv4-home .iv4-event-grid a:hover{background:#365B70}
+#iv4-home .iv4-date b{font-size:clamp(40px,4.2vw,62px);line-height:.98;letter-spacing:-.05em;font-weight:850;display:block}
+#iv4-home .iv4-date span{display:block;font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-top:7px}
+#iv4-home .iv4-event-grid h3{font-size:21px;line-height:1.15;font-weight:850;margin-top:22px}
+#iv4-home .iv4-event-grid p{font-size:14px;line-height:1.45;opacity:.94;margin-top:5px}
+#iv4-home .iv4-calendar-action{font-size:15px;line-height:1.2;border:2px solid var(--white);text-decoration:none;padding:12px 18px;font-weight:850;align-self:end}
+#iv4-home .iv4-calendar-action:hover{background:var(--white);color:var(--slate)}
+#iv4-home .iv4-event-empty{font-size:17px;line-height:1.5;margin-top:16px}
+#iv4-home .iv4-event-empty a{text-underline-offset:3px}
+/* Statewide initiatives: two distinct, meaningful ways to participate */
+#iv4-home .iv4-statewide{padding-block:clamp(56px,6.6vw,98px)}
+#iv4-home .iv4-statewide .iv4-kicker{color:var(--teal)}
+#iv4-home .iv4-statewide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.4vw,34px)}
+#iv4-home .iv4-initiative{display:flex;flex-direction:column;position:relative;min-height:316px;
+  padding:clamp(25px,3vw,44px);border:1px solid var(--line);border-top:5px solid var(--acc);overflow:hidden}
+#iv4-home .iv4-initiative:after{content:"";position:absolute;right:-110px;top:-112px;width:220px;height:220px;
+  border:1px solid var(--acc);transform:rotate(27deg);opacity:.28;pointer-events:none}
+#iv4-home .iv4-initiative .iv4-tag{color:var(--acc)}
+#iv4-home .iv4-initiative h3{font-size:clamp(27px,2.75vw,36px);line-height:1.12;font-weight:850;letter-spacing:-.03em;margin-top:18px}
+#iv4-home .iv4-initiative p:not(.iv4-tag){font-size:16px;line-height:1.6;margin-top:14px;max-width:55ch}
+#iv4-home .iv4-initiative a{align-self:start;margin-top:auto;border-bottom:3px solid var(--acc);text-decoration:none;font-weight:850;font-size:16px;padding:20px 0 5px}
+#iv4-home .iv4-initiative a:hover{color:var(--acc)}
+/* responsive */
+@media(max-width:1080px){
+  #iv4-home .iv4-hero-grid{gap:34px}
+  #iv4-home .iv4-map-shell{grid-template-columns:minmax(0,.78fr) minmax(0,1fr)}
+  #iv4-home .iv4-feature-path{min-height:550px}
+  #iv4-home .iv4-path-row{grid-template-columns:minmax(0,1fr) auto}
+}
+@media(max-width:850px){
+  #iv4-home .iv4-hero-grid{grid-template-columns:1fr}
+  #iv4-home .iv4-hero h1{max-width:15ch}
+  #iv4-home .iv4-map-panel{max-width:720px}
+  #iv4-home .iv4-map-shell{grid-template-columns:minmax(0,.75fr) minmax(0,1fr)}
+  #iv4-home .iv4-definition-grid{grid-template-columns:1fr;gap:30px}
+  #iv4-home .iv4-paths-grid{grid-template-columns:1fr}
+  #iv4-home .iv4-feature-path{min-height:255px}
+  #iv4-home .iv4-feature-path h3{margin-top:17px;max-width:17ch}
+  #iv4-home .iv4-feature-path .iv4-feature-cta{margin-top:28px}
+  #iv4-home .iv4-advocacy-grid{grid-template-columns:1fr .65fr;gap:20px}
+  #iv4-home .iv4-event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #iv4-home .iv4-event-grid a{min-height:178px}
+}
+@media(max-width:650px){
+  #iv4-home{font-size:16px}
+  #iv4-home .iv4-hero{padding-block:35px 40px}
+  #iv4-home .iv4-hero h1{font-size:clamp(43px,10vw,63px);max-width:13ch;margin-top:18px}
+  #iv4-home .iv4-mission{font-size:18px;margin-top:23px}
+  #iv4-home .iv4-hero-actions{gap:9px}
+  #iv4-home .iv4-hero-actions .iv4-link{padding:11px 13px}
+  #iv4-home .iv4-map-panel{padding:18px}
+  #iv4-home .iv4-map-shell{grid-template-columns: minmax(0,.77fr) minmax(0,1fr);gap:12px}
+  #iv4-home .iv4-map-top strong{font-size:23px}
+  #iv4-home .iv4-map-index b{font-size:30px}
+  #iv4-home .iv4-map-detail-title{font-size:20px}
+  #iv4-home .iv4-map-detail-text{font-size:13px}
+  #iv4-home .iv4-map-controls select{font-size:13px;padding:9px 7px}
+  #iv4-home .iv4-map-legend{gap:6px}
+  #iv4-home .iv4-scope-inner{grid-template-columns:1fr;gap:10px;padding-block:23px}
+  #iv4-home .iv4-scope .iv4-kicker{border-right:0;border-bottom:2px solid var(--white);padding:0 0 7px;display:inline-block;justify-self:start}
+  #iv4-home .iv4-scope p:last-child{font-size:20px}
+  #iv4-home .iv4-sectionhead{display:block}
+  #iv4-home .iv4-sectionhead>p:last-child{margin-top:14px}
+  #iv4-home .iv4-definition{padding-block:48px}
+  #iv4-home .iv4-definition-lede{font-size:20px;margin-top:18px}
+  #iv4-home .iv4-paths{padding-block:52px}
+  #iv4-home .iv4-feature-path{min-height:275px;padding:26px}
+  #iv4-home .iv4-feature-path h3{font-size:34px}
+  #iv4-home .iv4-path-row{grid-template-columns:minmax(0,1fr);gap:12px;padding:18px 4px 18px 0}
+  #iv4-home .iv4-path-row p{font-size:14px}
+  #iv4-home .iv4-path-cta{grid-column:1;justify-self:start;margin-top:4px}
+  #iv4-home .iv4-advocacy-grid{grid-template-columns:1fr}
+  #iv4-home .iv4-advocacy h2{font-size:39px}
+  #iv4-home .iv4-advocacy-lede{font-size:17px}
+  #iv4-home .iv4-vote{border-left:0;border-top:2px solid rgba(255,255,255,.7);padding:22px 0 0}
+  #iv4-home .iv4-vote strong{font-size:82px;margin:8px 0}
+  #iv4-home .iv4-vote p:last-child{max-width:45ch}
+  #iv4-home .iv4-events .iv4-sectionhead{display:flex;align-items:center}
+  #iv4-home .iv4-event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #iv4-home .iv4-event-grid a{min-height:180px;padding:16px}
+  #iv4-home .iv4-event-grid h3{margin-top:14px;font-size:19px}
+  #iv4-home .iv4-calendar-action{font-size:13px;padding:10px 11px;white-space:nowrap}
+  #iv4-home .iv4-statewide-grid{grid-template-columns:1fr}
+  #iv4-home .iv4-initiative{min-height:250px}
+}
+@media(max-width:390px){
+  #iv4-home .iv4-map-shell{grid-template-columns:1fr}
+  #iv4-home .iv4-in{max-height:270px}
+  #iv4-home .iv4-map-details{border-top:1px solid var(--line);padding-top:13px}
+  #iv4-home .iv4-map-switch button{font-size:12px}
+  #iv4-home .iv4-events .iv4-sectionhead{display:block}
+  #iv4-home .iv4-calendar-action{margin-top:15px;display:inline-flex}
+  #iv4-home .iv4-event-grid{grid-template-columns:1fr}
+  #iv4-home .iv4-event-grid a{min-height:150px}
+}
+@media(prefers-reduced-motion:reduce){#iv4-home *,#iv4-home *:before,#iv4-home *:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* contrast (Katy 2026-10-29): the small labels meet WCAG AA 4.5:1 */
+#iv4-home .iv4-scope .iv4-kicker{color:var(--ink)}
+#iv4-home .iv4-scope a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+/* undergraduate pre-art therapy programs: teal triangles (Katy 2026-10-30) */
+#iv4-home .iv4-program-points .iv4-ug path{fill:var(--teal);stroke:var(--white);stroke-width:2.2;stroke-linejoin:round;cursor:pointer}
+#iv4-home .iv4-program-points .iv4-ug.iv4-selected path{stroke:var(--ink);stroke-width:2.6}
+#iv4-home .iv4-legend-triangle{height:11px;width:12px;display:inline-block;background:var(--teal);clip-path:polygon(50% 0,100% 100%,0 100%)}
+/* Indiana Data row, fact sheet, survey note (Katy 2026-10-31) */
+#iv4-home .iv4-need{margin-top:clamp(30px,4vw,48px);padding-top:clamp(22px,3vw,30px);border-top:1px solid rgba(255,255,255,.45)}
+#iv4-home .iv4-need .iv4-kicker{margin:0 0 18px}
+/* Also Scheduled: every later date, one line per event type (Katy 2026-10-31) */
+#iv4-home .iv4-event-more{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.34)}
+#iv4-home .iv4-event-more-label{margin:0 0 8px}
+#iv4-home .iv4-event-more-list{font-size:16px;line-height:1.8;max-width:none}
+#iv4-home .iv4-event-more-lead{font-weight:800}
+#iv4-home .iv4-event-more-list a{color:var(--white);white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+#iv4-home .iv4-event-more-list a:hover{text-decoration-thickness:2px}
+#iv4-home .iv4-event-more-list+.iv4-event-more-list{margin-top:4px}
+#iv4-home .iv4-event-grid p.iv4-event-note{font-weight:700;opacity:1;margin-top:10px}
+#iv4-home .iv4-need ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px clamp(24px,3vw,44px)}
+#iv4-home .iv4-need li b{display:block;white-space:nowrap;font-size:clamp(32px,3.2vw,46px);line-height:1;font-weight:900;letter-spacing:-.04em;margin-bottom:10px}
+#iv4-home .iv4-need li span{display:block;font-size:15px;line-height:1.5;max-width:34ch}
+#iv4-home .iv4-need-source{margin-top:18px;font-size:13px;line-height:1.5}
+#iv4-home .iv4-need-source a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700}
+#iv4-home .iv4-survey-note{margin-top:14px;color:#4F585A;font-size:15px}
+#iv4-home .iv4-survey-note a{color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-color:var(--sage)}
+@media (max-width:700px){#iv4-home .iv4-need ul{grid-template-columns:minmax(0,1fr);gap:14px}#iv4-home .iv4-need li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:baseline}#iv4-home .iv4-need li b{font-size:28px;margin:0}}
+#iv4-home .iv4-path-row[style*="var(--teal)"] :is(.iv4-path-audience,.iv4-path-cta){color:#007D72}
+
+/* v4.2: retain readable controls and event titles on smaller screens. */
+#iv4-home .iv4-meeting-note a{text-decoration:underline;text-underline-offset:3px}
+#iv4-home .iv4-event-grid h3{word-break:normal;overflow-wrap:normal;hyphens:none}
+@media(max-width:540px){
+  #iv4-home .iv4-map-shell{grid-template-columns:minmax(0,1fr)}
+  #iv4-home .iv4-in{max-height:330px}
+  #iv4-home .iv4-map-details{border-top:1px solid var(--line);padding-top:15px}
+  #iv4-home .iv4-map-detail-title{font-size:22px}
+  #iv4-home .iv4-map-detail-text{font-size:15px}
+  #iv4-home .iv4-map-controls select{font-size:16px;min-height:44px}
+  #iv4-home .iv4-map-legend{gap:9px 14px}
+}
+</style>
+<div id="iv4-main">
+<section class="iv4-hero" aria-labelledby="iv4-title">
+  <div class="iv4-wrap iv4-hero-grid">
+    <div class="iv4-hero-copy">
+      <p class="iv4-kicker iv4-est">Established 2011</p>
+      <h1 id="iv4-title">Indiana's Professional Association for <em>Art Therapists</em></h1>
+      <p class="iv4-mission">IndiATA advances art therapy in Indiana through professional connection, education, advocacy, public understanding, student engagement, and statewide chapter leadership.</p>
+      <p class="iv4-aata">Indiana chapter of the <a href="https://arttherapy.org/chapters/" target="_blank" rel="noopener noreferrer">American Art Therapy Association (AATA)</a>.</p>
+      <div class="iv4-hero-actions" aria-label="Primary actions">
+        <a class="iv4-link iv4-link--dark" href="/directory">Art Therapist Directory</a>
+        <a class="iv4-link" href="/membership">Join IndiATA</a>
+        <a class="iv4-link" href="/contact">Contact IndiATA</a>
+      </div>
+      <p class="iv4-survey-note"><b>2026 Membership Survey:</b> <a href="/membership#survey">share your perspective by December 1</a></p>
+    </div>
+    <div class="iv4-map-panel" id="iv4-map-panel" data-layer="county">
+      <div class="iv4-map-top">
+        <div><strong>Art Therapy Across Indiana</strong><small>Explore county designations and art therapy education.</small></div>
+        <div class="iv4-map-index" aria-label="92 Indiana counties"><b>92</b><span>Counties</span></div>
+      </div>
+      <div class="iv4-map-switch" role="group" aria-label="Map information layer">
+        <button type="button" data-layer-button="county" aria-pressed="true" aria-controls="iv4-map iv4-map-status">County designations</button>
+        <button type="button" data-layer-button="program" aria-pressed="false" aria-controls="iv4-map iv4-map-status">Art therapy programs</button>
+      </div>
+      <div class="iv4-map-shell" id="iv4-map">
+        <div class="iv4-map-graphic"><svg class="iv4-in" viewBox="0 0 520 809" role="group" tabindex="0" aria-label="Interactive Indiana county and art therapy education map" aria-describedby="iv4-map-instructions">
+<path class="iv4-state" d="M78.1,524.9L88.4,512.8L84.1,504.6L83.0,500.2L87.9,488.7L95.0,487.1L94.4,381.5L95.5,263.9L95.5,67.4L96.1,20.4L104.2,27.3L110.8,23.9L114.6,26.5L111.3,33.3L126.0,37.2L141.8,37.0L157.1,32.8L185.9,19.9L202.3,10.0L359.1,10.3L508.4,10.0L508.4,55.5L508.9,76.1L508.9,296.8L507.8,332.7L507.8,357.2L507.3,374.7L507.3,443.8L506.7,452.8L506.2,495.6L506.2,535.2L495.8,542.9L497.5,550.0L504.6,563.6L498.6,570.1L498.6,575.7L509.5,577.5L510.0,584.3L504.6,589.6L507.8,597.1L495.8,596.6L475.1,603.0L452.8,617.8L448.5,617.1L439.7,608.0L428.3,608.3L416.9,608.0L410.3,613.6L415.8,646.9L413.1,650.1L407.1,653.7L403.2,661.1L386.9,666.9L382.0,678.6L376.6,694.3L366.2,700.9L359.1,696.8L353.1,699.0L349.9,709.7L342.2,718.2L341.7,736.8L339.0,748.7L335.7,752.2L327.5,753.9L322.1,755.8L319.9,761.9L312.8,752.1L300.8,751.9L286.7,742.5L286.1,726.6L276.9,718.1L270.3,715.5L270.9,721.3L278.0,723.3L277.4,727.6L270.3,727.9L266.0,732.9L257.3,729.8L261.6,736.8L258.4,743.9L252.9,744.7L247.5,748.3L247.5,761.4L250.2,767.9L237.7,769.4L236.6,780.1L227.9,785.0L229.5,772.3L224.1,770.6L218.6,774.8L213.2,771.1L206.6,756.0L203.4,754.1L197.4,756.3L189.7,765.1L178.8,767.7L168.5,774.8L165.8,791.3L162.0,795.9L156.0,796.4L151.6,785.9L141.8,783.7L129.8,774.0L117.8,766.5L106.9,765.5L99.3,771.8L91.7,768.5L88.4,760.2L84.1,759.2L80.3,770.4L86.3,781.3L79.2,788.1L73.2,787.6L74.8,774.8L69.4,774.1L49.2,778.2L43.2,769.4L35.1,773.3L32.9,779.4L38.3,791.0L31.8,799.0L19.3,793.5L13.3,793.2L11.1,787.4L17.6,788.9L10.0,775.3L22.0,774.7L13.8,769.7L22.0,758.3L22.5,748.1L18.2,743.7L28.5,740.5L29.6,734.0L23.1,737.3L35.1,724.9L27.4,714.7L25.8,708.4L25.8,703.1L30.2,706.3L35.1,694.8L37.8,700.7L41.6,693.8L45.9,699.4L53.0,682.0L57.4,680.5L62.3,671.9L63.4,659.8L76.4,652.6L76.4,641.4L81.4,627.3L85.2,621.9L92.8,619.9L100.4,606.9L99.9,599.8L94.4,585.2L91.7,583.8L95.5,574.3L97.7,565.0L87.9,558.2L88.4,544.7L79.7,535.4L78.1,524.9Z"/>
+<g class="iv4-county-boundaries">
+<path data-name="Adams County" data-label="Adams County" d="M467.5,176.7L508.9,175.7L508.9,245.0L468.6,245.9L467.5,176.7Z"><title>Adams County</title></path>
+<path data-name="Allen County" data-label="Allen County" d="M432.1,108.2L508.9,106.9L508.9,175.7L427.8,176.9L428.3,159.4L427.8,125.0L432.1,125.0L432.1,108.2Z"><title>Allen County</title></path>
+<path data-name="Bartholomew County" data-label="Bartholomew County" d="M314.5,488.0L374.9,486.8L374.9,530.1L357.5,530.5L357.5,542.5L348.2,548.0L315.0,549.0L314.5,488.0Z"><title>Bartholomew County</title></path>
+<path data-name="Benton County" data-label="Benton County" d="M95.5,263.9L95.5,212.5L160.3,212.5L161.4,264.2L95.5,263.9Z"><title>Benton County</title></path>
+<path data-name="Blackford County" data-label="Blackford County" d="M411.4,246.0L448.5,246.0L447.4,283.2L411.4,283.2L411.4,246.0Z"><title>Blackford County</title></path>
+<path data-name="Boone County" data-label="Boone County" d="M221.9,322.8L290.5,322.5L291.0,372.8L221.9,373.5L221.9,322.8Z"><title>Boone County</title></path>
+<path data-name="Brown County" data-label="Brown County" d="M269.3,488.8L314.5,488.0L315.0,546.1L270.9,546.4L270.9,506.3L269.3,488.8Z"><title>Brown County</title></path>
+<path data-name="Carroll County" data-label="Carroll County" d="M238.8,212.7L247.5,212.7L247.5,221.2L270.3,221.2L270.3,272.9L221.9,272.7L221.9,247.0L210.4,247.0L209.9,226.8L214.8,223.4L211.5,220.2L213.2,212.7L238.8,212.7Z"><title>Carroll County</title></path>
+<path data-name="Cass County" data-label="Cass County" d="M238.8,178.1L301.4,178.2L301.9,246.9L270.3,247.2L270.3,221.2L247.5,221.2L247.5,212.7L238.8,212.7L238.8,178.1Z"><title>Cass County</title></path>
+<path data-name="Clark County" data-label="Clark County" d="M328.1,671.2L328.1,657.2L333.5,654.5L345.0,654.2L350.4,642.8L358.6,634.1L403.8,633.8L406.5,637.9L414.1,637.9L415.8,646.9L413.1,650.1L407.1,653.7L403.2,661.1L386.9,666.9L376.6,694.3L366.2,700.9L359.1,696.8L358.0,688.0L363.5,684.6L356.4,673.9L332.4,674.1L328.1,671.2Z"><title>Clark County</title></path>
+<path data-name="Clay County" data-label="Clay County" d="M139.1,504.8L139.1,453.0L145.1,453.2L145.1,436.0L173.4,436.3L173.4,462.3L184.8,462.3L184.3,488.3L167.4,488.3L167.4,522.8L139.1,522.0L139.1,504.8Z"><title>Clay County</title></path>
+<path data-name="Clinton County" data-label="Clinton County" d="M221.9,315.9L221.9,272.7L280.2,272.9L280.2,281.4L290.5,284.3L290.5,322.5L221.9,322.8L221.9,315.9Z"><title>Clinton County</title></path>
+<path data-name="Crawford County" data-label="Crawford County" d="M224.1,675.8L280.2,675.9L280.2,670.2L288.3,670.2L290.0,684.8L284.5,684.4L288.9,696.2L285.6,698.5L283.4,713.8L276.9,718.1L270.3,715.5L270.9,721.3L278.0,723.3L277.4,727.6L270.3,727.9L266.0,732.9L257.3,729.8L257.3,713.0L240.4,712.8L240.9,701.1L224.1,701.8L224.1,675.8Z"><title>Crawford County</title></path>
+<path data-name="Daviess County" data-label="Daviess County" d="M160.3,575.0L190.3,575.0L190.3,592.2L187.0,592.2L187.0,653.8L184.3,656.4L176.7,652.3L164.7,652.0L159.2,647.6L152.7,651.8L148.9,646.2L138.5,646.0L136.9,628.9L139.1,628.9L133.1,617.1L138.5,605.4L139.1,591.8L142.9,594.0L149.4,586.4L152.7,588.1L155.4,578.7L160.3,575.0Z"><title>Daviess County</title></path>
+<path data-name="Dearborn County" data-label="Dearborn County" d="M458.8,566.3L469.2,495.3L506.2,495.6L506.2,535.2L495.8,542.9L497.5,550.0L486.0,557.0L479.5,556.6L470.2,566.2L464.2,568.9L458.8,566.3Z"><title>Dearborn County</title></path>
+<path data-name="Decatur County" data-label="Decatur County" d="M374.9,486.8L383.1,486.8L383.6,466.4L433.7,466.4L433.7,502.9L392.9,529.8L374.9,530.1L374.9,486.8Z"><title>Decatur County</title></path>
+<path data-name="DeKalb County" data-label="DeKalb County" d="M449.5,56.4L508.4,55.5L508.9,106.9L450.1,108.2L449.5,56.4Z"><title>DeKalb County</title></path>
+<path data-name="Delaware County" data-label="Delaware County" d="M391.3,283.2L445.7,283.2L446.3,343.0L391.8,343.0L391.3,283.2Z"><title>Delaware County</title></path>
+<path data-name="Dubois County" data-label="Dubois County" d="M164.7,652.0L176.7,652.3L184.3,656.4L187.0,653.8L194.1,655.9L200.1,649.8L223.5,649.8L224.1,704.8L207.2,704.6L207.2,713.3L164.1,713.5L164.7,652.0Z"><title>Dubois County</title></path>
+<path data-name="Elkhart County" data-label="Elkhart County" d="M317.7,10.0L378.7,10.3L379.8,74.1L318.3,74.2L317.7,10.0Z"><title>Elkhart County</title></path>
+<path data-name="Fayette County" data-label="Fayette County" d="M433.2,400.3L451.2,400.1L450.6,414.6L473.5,414.6L473.5,452.0L433.7,452.1L433.2,400.3Z"><title>Fayette County</title></path>
+<path data-name="Floyd County" data-label="Floyd County" d="M322.1,671.2L328.1,671.2L332.4,674.1L356.4,673.9L363.5,684.6L358.0,688.0L359.1,696.8L353.1,699.0L349.9,709.7L342.2,718.2L333.5,717.1L334.1,702.3L328.6,699.4L322.1,688.5L322.1,671.2Z"><title>Floyd County</title></path>
+<path data-name="Fountain County" data-label="Fountain County" d="M114.0,333.0L109.1,325.7L111.9,320.3L121.1,316.5L138.0,297.2L155.4,290.9L161.4,285.8L161.4,367.5L111.9,367.7L109.7,353.1L112.4,346.6L114.0,333.0Z"><title>Fountain County</title></path>
+<path data-name="Franklin County" data-label="Franklin County" d="M433.7,452.1L473.5,452.0L506.7,452.8L506.2,495.6L445.7,495.0L433.7,502.9L433.7,452.1Z"><title>Franklin County</title></path>
+<path data-name="Fulton County" data-label="Fulton County" d="M256.2,126.6L315.6,126.2L315.6,143.7L324.3,143.4L324.3,152.2L335.7,151.9L335.2,160.6L301.9,161.2L301.4,178.2L256.2,178.2L256.2,126.6Z"><title>Fulton County</title></path>
+<path data-name="Gibson County" data-label="Gibson County" d="M25.8,703.1L30.2,706.3L35.1,694.8L37.8,700.7L41.6,693.8L45.9,699.4L53.0,682.0L57.4,680.5L62.3,671.9L84.6,664.7L88.4,656.7L100.4,655.7L105.3,648.2L105.3,661.7L108.0,667.6L113.5,667.6L113.5,679.5L127.6,678.3L127.6,714.0L104.8,714.0L104.8,721.1L71.0,720.4L71.0,714.2L54.1,713.8L54.1,708.6L25.8,708.4L25.8,703.1Z"><title>Gibson County</title></path>
+<path data-name="Grant County" data-label="Grant County" d="M347.7,229.4L410.9,229.0L411.4,283.2L348.2,283.4L347.7,229.4Z"><title>Grant County</title></path>
+<path data-name="Greene County" data-label="Greene County" d="M139.1,522.0L167.4,522.8L223.5,523.2L223.5,574.8L160.3,575.0L139.1,574.3L139.1,522.0Z"><title>Greene County</title></path>
+<path data-name="Hamilton County" data-label="Hamilton County" d="M290.5,315.5L348.2,315.0L348.2,372.3L291.0,372.8L290.5,315.5Z"><title>Hamilton County</title></path>
+<path data-name="Hancock County" data-label="Hancock County" d="M336.8,372.6L348.2,372.3L348.2,369.4L391.8,369.0L391.3,383.3L388.5,383.3L388.5,400.5L383.1,400.5L383.1,417.8L334.6,418.2L334.1,386.7L336.8,384.0L336.8,372.6Z"><title>Hancock County</title></path>
+<path data-name="Harrison County" data-label="Harrison County" d="M288.3,670.2L322.1,671.2L322.1,688.5L328.6,699.4L334.1,702.3L333.5,717.1L342.2,718.2L341.7,736.8L339.0,748.7L335.7,752.2L322.1,755.8L319.9,761.9L312.8,752.1L300.8,751.9L286.7,742.5L286.1,726.6L276.9,718.1L283.4,713.8L285.6,698.5L288.9,696.2L284.5,684.4L290.0,684.8L288.3,670.2Z"><title>Harrison County</title></path>
+<path data-name="Hendricks County" data-label="Hendricks County" d="M221.9,373.5L278.0,373.3L277.4,413.7L278.0,431.1L256.7,431.4L256.7,437.2L227.3,437.0L230.0,431.4L223.0,431.4L223.0,385.0L221.9,385.0L221.9,373.5Z"><title>Hendricks County</title></path>
+<path data-name="Henry County" data-label="Henry County" d="M391.8,369.0L391.8,343.0L446.3,343.0L448.5,357.3L448.5,383.2L445.7,383.3L445.2,400.1L388.5,400.5L388.5,383.3L391.3,383.3L391.8,369.0Z"><title>Henry County</title></path>
+<path data-name="Howard County" data-label="Howard County" d="M270.3,247.2L347.7,246.4L348.2,277.8L290.5,278.5L290.5,284.3L280.2,281.4L280.2,272.9L270.3,272.9L270.3,247.2Z"><title>Howard County</title></path>
+<path data-name="Huntington County" data-label="Huntington County" d="M381.5,160.0L428.3,159.4L427.8,176.9L428.3,228.9L382.0,229.0L381.5,160.0Z"><title>Huntington County</title></path>
+<path data-name="Jackson County" data-label="Jackson County" d="M279.1,546.4L315.0,546.1L315.0,549.0L348.2,548.0L357.5,542.5L358.0,594.2L351.5,607.3L344.4,608.6L329.7,601.8L323.2,604.2L313.4,598.8L306.8,603.0L299.2,598.8L285.6,602.7L284.5,557.8L279.1,557.8L279.1,546.4Z"><title>Jackson County</title></path>
+<path data-name="Jasper County" data-label="Jasper County" d="M133.6,117.2L142.4,112.6L146.2,107.9L155.4,103.8L166.3,107.2L180.5,117.1L185.9,113.7L185.9,177.7L177.2,177.9L177.8,192.5L160.3,192.5L160.3,212.5L134.7,212.5L134.7,177.9L133.6,177.9L133.6,117.2Z"><title>Jasper County</title></path>
+<path data-name="Jay County" data-label="Jay County" d="M445.7,283.2L447.4,283.2L448.5,246.0L508.9,245.0L508.9,296.8L445.7,297.5L445.7,283.2Z"><title>Jay County</title></path>
+<path data-name="Jefferson County" data-label="Jefferson County" d="M375.5,592.5L386.4,590.8L386.4,585.0L391.8,585.0L391.8,579.2L397.3,579.2L397.3,573.5L447.9,573.1L448.5,617.1L439.7,608.0L416.9,608.0L410.3,613.6L414.1,637.9L406.5,637.9L403.8,633.8L392.4,634.0L392.4,619.7L386.9,619.5L386.4,613.9L380.9,613.7L375.5,608.1L375.5,592.5Z"><title>Jefferson County</title></path>
+<path data-name="Jennings County" data-label="Jennings County" d="M374.9,530.1L392.9,529.8L412.0,517.4L411.4,573.3L397.3,573.5L397.3,579.2L391.8,579.2L391.8,585.0L386.4,585.0L386.4,590.8L375.5,592.5L367.8,589.3L358.0,594.2L357.5,530.5L374.9,530.1Z"><title>Jennings County</title></path>
+<path data-name="Johnson County" data-label="Johnson County" d="M289.4,430.7L334.6,429.7L334.1,480.2L334.6,487.3L288.9,488.5L289.4,430.7Z"><title>Johnson County</title></path>
+<path data-name="Knox County" data-label="Knox County" d="M76.4,641.4L81.4,627.3L85.2,621.9L92.8,619.9L100.4,606.9L99.9,599.8L94.4,585.2L91.7,583.8L95.5,574.3L96.1,575.3L139.1,575.5L139.1,574.3L160.3,575.0L155.4,578.7L152.7,588.1L149.4,586.4L142.9,594.0L139.1,591.8L138.5,605.4L133.1,617.1L139.1,628.9L136.9,628.9L138.5,646.0L129.8,653.0L121.7,646.4L112.9,649.8L105.3,648.2L100.4,655.7L88.4,656.7L84.6,664.7L62.3,671.9L63.4,659.8L76.4,652.6L76.4,641.4Z"><title>Knox County</title></path>
+<path data-name="Kosciusko County" data-label="Kosciusko County" d="M315.6,126.2L318.8,126.2L318.3,74.2L379.8,74.1L379.8,125.2L374.9,125.2L374.9,151.2L324.3,152.2L324.3,143.4L315.6,143.7L315.6,126.2Z"><title>Kosciusko County</title></path>
+<path data-name="LaGrange County" data-label="LaGrange County" d="M378.7,10.3L449.0,10.2L449.5,56.4L379.8,56.9L378.7,10.3Z"><title>LaGrange County</title></path>
+<path data-name="Lake County" data-label="Lake County" d="M95.5,101.4L96.1,20.4L104.2,27.3L110.8,23.9L114.6,26.5L111.3,33.3L126.0,37.2L141.8,37.0L142.4,112.6L133.6,117.2L126.0,123.7L112.4,128.3L108.6,126.1L95.5,127.6L95.5,101.4Z"><title>Lake County</title></path>
+<path data-name="LaPorte County" data-label="LaPorte County" d="M185.9,19.9L202.3,10.0L247.5,10.2L247.5,31.8L253.5,31.9L253.5,47.6L250.7,57.7L247.5,57.6L247.5,74.7L229.5,74.9L220.8,80.9L214.8,96.8L208.3,104.0L195.2,108.0L185.9,113.7L185.9,19.9Z"><title>LaPorte County</title></path>
+<path data-name="Lawrence County" data-label="Lawrence County" d="M223.5,574.8L223.5,557.5L284.5,557.8L285.6,602.7L280.2,608.8L280.2,617.8L223.5,618.0L223.5,574.8Z"><title>Lawrence County</title></path>
+<path data-name="Madison County" data-label="Madison County" d="M348.2,315.0L348.2,283.4L391.3,283.2L391.8,369.0L348.2,369.4L348.2,315.0Z"><title>Madison County</title></path>
+<path data-name="Marion County" data-label="Marion County" d="M278.0,373.3L336.8,372.6L336.8,384.0L334.1,386.7L334.6,429.7L278.0,431.1L277.4,413.7L278.0,373.3Z"><title>Marion County</title></path>
+<path data-name="Marshall County" data-label="Marshall County" d="M318.3,65.7L318.8,126.2L256.2,126.6L256.2,66.2L318.3,65.7Z"><title>Marshall County</title></path>
+<path data-name="Martin County" data-label="Martin County" d="M190.3,575.0L223.5,574.8L223.5,649.8L200.1,649.8L194.1,655.9L187.0,653.8L187.0,592.2L190.3,592.2L190.3,575.0Z"><title>Martin County</title></path>
+<path data-name="Miami County" data-label="Miami County" d="M301.4,178.2L301.9,161.2L335.2,160.6L336.3,229.5L347.7,229.4L347.7,246.4L301.9,246.9L301.4,178.2Z"><title>Miami County</title></path>
+<path data-name="Monroe County" data-label="Monroe County" d="M231.7,487.5L231.7,488.7L269.3,488.8L270.9,506.3L270.9,546.4L279.1,546.4L279.1,557.8L223.5,557.5L223.0,489.5L231.7,487.5Z"><title>Monroe County</title></path>
+<path data-name="Montgomery County" data-label="Montgomery County" d="M161.4,315.7L221.9,315.9L221.9,385.0L161.4,384.5L161.4,315.7Z"><title>Montgomery County</title></path>
+<path data-name="Morgan County" data-label="Morgan County" d="M227.3,437.0L256.7,437.2L256.7,431.4L289.4,430.7L288.9,488.5L231.7,488.7L231.1,463.0L223.0,463.0L223.0,452.8L229.0,444.2L227.3,437.0Z"><title>Morgan County</title></path>
+<path data-name="Newton County" data-label="Newton County" d="M95.5,127.6L108.6,126.1L112.4,128.3L126.0,123.7L133.6,117.2L133.6,177.9L134.7,177.9L134.7,212.5L95.5,212.5L95.5,127.6Z"><title>Newton County</title></path>
+<path data-name="Noble County" data-label="Noble County" d="M379.8,56.9L449.5,56.4L450.1,108.2L397.3,107.7L397.8,102.1L379.8,102.1L379.8,56.9Z"><title>Noble County</title></path>
+<path data-name="Ohio County" data-label="Ohio County" d="M458.3,569.9L458.8,566.3L464.2,568.9L470.2,566.2L479.5,556.6L486.0,557.0L497.5,550.0L504.6,563.6L498.6,570.1L498.6,575.7L457.7,575.2L458.3,569.9Z"><title>Ohio County</title></path>
+<path data-name="Orange County" data-label="Orange County" d="M223.5,618.0L280.2,617.8L280.2,675.9L224.1,675.8L223.5,618.0Z"><title>Orange County</title></path>
+<path data-name="Owen County" data-label="Owen County" d="M184.8,462.3L231.1,463.0L231.7,487.5L223.0,489.5L223.5,523.2L167.4,522.8L167.4,488.3L184.3,488.3L184.8,462.3Z"><title>Owen County</title></path>
+<path data-name="Parke County" data-label="Parke County" d="M111.9,367.7L161.4,367.5L161.4,384.5L173.9,384.7L173.4,436.3L117.3,435.8L115.7,426.8L117.8,418.7L118.4,399.3L116.8,391.1L121.7,385.5L119.5,379.9L109.7,371.8L111.9,367.7Z"><title>Parke County</title></path>
+<path data-name="Perry County" data-label="Perry County" d="M203.4,754.1L209.9,754.3L208.3,744.2L211.0,735.2L205.0,725.5L207.2,713.3L207.2,704.6L224.1,704.8L224.1,701.8L240.9,701.1L240.4,712.8L257.3,713.0L257.3,729.8L261.6,736.8L258.4,743.9L252.9,744.7L247.5,748.3L247.5,761.4L250.2,767.9L237.7,769.4L236.6,780.1L227.9,785.0L229.5,772.3L224.1,770.6L218.6,774.8L213.2,771.1L206.6,756.0L203.4,754.1Z"><title>Perry County</title></path>
+<path data-name="Pike County" data-label="Pike County" d="M105.3,648.2L112.9,649.8L121.7,646.4L129.8,653.0L138.5,646.0L148.9,646.2L152.7,651.8L159.2,647.6L164.7,652.0L164.1,707.9L130.4,708.0L127.6,705.2L127.6,678.3L113.5,679.5L113.5,667.6L108.0,667.6L105.3,661.7L105.3,648.2Z"><title>Pike County</title></path>
+<path data-name="Porter County" data-label="Porter County" d="M141.8,37.0L157.1,32.8L185.9,19.9L185.9,113.7L180.5,117.1L166.3,107.2L155.4,103.8L146.2,107.9L142.4,112.6L141.8,37.0Z"><title>Porter County</title></path>
+<path data-name="Posey County" data-label="Posey County" d="M25.8,708.4L54.1,708.6L54.1,713.8L71.0,714.2L71.0,720.4L69.9,729.1L69.4,774.1L49.2,778.2L43.2,769.4L35.1,773.3L32.9,779.4L38.3,791.0L31.8,799.0L19.3,793.5L13.3,793.2L11.1,787.4L17.6,788.9L10.0,775.3L22.0,774.7L13.8,769.7L22.0,758.3L22.5,748.1L18.2,743.7L28.5,740.5L29.6,734.0L23.1,737.3L35.1,724.9L27.4,714.7L25.8,708.4Z"><title>Posey County</title></path>
+<path data-name="Pulaski County" data-label="Pulaski County" d="M185.9,126.4L256.2,126.6L256.2,178.2L185.9,177.7L185.9,126.4Z"><title>Pulaski County</title></path>
+<path data-name="Putnam County" data-label="Putnam County" d="M173.4,436.3L173.9,384.7L223.0,385.0L223.0,431.4L230.0,431.4L227.3,437.0L229.0,444.2L223.0,452.8L223.0,463.0L173.4,462.3L173.4,436.3Z"><title>Putnam County</title></path>
+<path data-name="Randolph County" data-label="Randolph County" d="M445.7,297.5L508.9,296.8L507.8,357.2L448.5,357.3L446.3,343.0L445.7,297.5Z"><title>Randolph County</title></path>
+<path data-name="Ripley County" data-label="Ripley County" d="M412.0,517.4L445.7,495.0L469.2,495.3L458.3,569.9L448.5,570.2L447.9,573.1L411.4,573.3L412.0,517.4Z"><title>Ripley County</title></path>
+<path data-name="Rush County" data-label="Rush County" d="M388.5,400.5L433.2,400.3L433.7,466.4L383.6,466.4L383.1,400.5L388.5,400.5Z"><title>Rush County</title></path>
+<path data-name="St. Joseph County" data-label="St. Joseph County" d="M247.5,10.2L317.7,10.0L318.3,65.7L256.2,66.2L256.2,74.7L247.5,74.7L247.5,57.6L250.7,57.7L253.5,47.6L253.5,31.9L247.5,31.8L247.5,10.2Z"><title>St. Joseph County</title></path>
+<path data-name="Scott County" data-label="Scott County" d="M344.4,608.6L351.5,607.3L358.0,594.2L367.8,589.3L375.5,592.5L375.5,608.1L380.9,613.7L386.4,613.9L386.9,619.5L392.4,619.7L392.4,634.0L358.6,634.1L350.4,642.8L344.4,640.1L344.4,608.6Z"><title>Scott County</title></path>
+<path data-name="Shelby County" data-label="Shelby County" d="M334.6,429.7L334.6,418.2L383.1,417.8L383.6,466.4L383.1,486.8L334.6,487.3L334.1,480.2L334.6,429.7Z"><title>Shelby County</title></path>
+<path data-name="Spencer County" data-label="Spencer County" d="M172.9,713.7L207.2,713.3L205.0,725.5L211.0,735.2L208.3,744.2L209.9,754.3L203.4,754.1L197.4,756.3L189.7,765.1L178.8,767.7L168.5,774.8L165.8,791.3L162.0,795.9L156.0,796.4L151.6,785.9L141.8,783.7L134.7,777.9L134.7,768.7L147.8,751.7L152.2,749.2L152.2,743.2L162.0,744.1L164.7,730.5L172.9,730.5L172.9,713.7Z"><title>Spencer County</title></path>
+<path data-name="Starke County" data-label="Starke County" d="M185.9,113.7L195.2,108.0L208.3,104.0L214.8,96.8L220.8,80.9L229.5,74.9L256.2,74.7L256.2,126.6L185.9,126.4L185.9,113.7Z"><title>Starke County</title></path>
+<path data-name="Steuben County" data-label="Steuben County" d="M449.0,10.2L508.4,10.0L508.4,55.5L449.5,56.4L449.0,10.2Z"><title>Steuben County</title></path>
+<path data-name="Sullivan County" data-label="Sullivan County" d="M78.1,524.9L88.4,512.8L84.1,504.6L139.1,504.8L139.1,575.5L96.1,575.3L95.5,574.3L97.7,565.0L87.9,558.2L88.4,544.7L79.7,535.4L78.1,524.9Z"><title>Sullivan County</title></path>
+<path data-name="Switzerland County" data-label="Switzerland County" d="M458.3,569.9L457.7,575.2L498.6,575.7L509.5,577.5L510.0,584.3L504.6,589.6L507.8,597.1L495.8,596.6L475.1,603.0L452.8,617.8L448.5,617.1L447.9,573.1L448.5,570.2L458.3,569.9Z"><title>Switzerland County</title></path>
+<path data-name="Tippecanoe County" data-label="Tippecanoe County" d="M160.9,246.9L221.9,247.0L221.9,315.9L161.4,315.7L160.9,246.9Z"><title>Tippecanoe County</title></path>
+<path data-name="Tipton County" data-label="Tipton County" d="M348.2,277.8L348.2,315.0L290.5,315.5L290.5,278.5L348.2,277.8Z"><title>Tipton County</title></path>
+<path data-name="Union County" data-label="Union County" d="M473.5,414.6L473.5,411.9L507.3,412.4L506.7,452.8L473.5,452.0L473.5,414.6Z"><title>Union County</title></path>
+<path data-name="Vanderburgh County" data-label="Vanderburgh County" d="M71.0,720.4L104.8,721.1L103.7,747.0L106.9,747.0L106.9,765.5L99.3,771.8L91.7,768.5L88.4,760.2L84.1,759.2L80.3,770.4L86.3,781.3L79.2,788.1L73.2,787.6L74.8,774.8L69.4,774.1L69.9,729.1L71.0,720.4Z"><title>Vanderburgh County</title></path>
+<path data-name="Vermillion County" data-label="Vermillion County" d="M95.0,328.9L101.0,333.0L114.0,333.0L112.4,346.6L109.7,353.1L111.9,367.7L109.7,371.8L119.5,379.9L121.7,385.5L116.8,391.1L118.4,399.3L117.8,418.7L115.7,426.8L117.3,435.8L95.0,435.8L94.4,381.5L95.0,328.9Z"><title>Vermillion County</title></path>
+<path data-name="Vigo County" data-label="Vigo County" d="M95.0,461.7L95.0,435.8L145.1,436.0L145.1,453.2L139.1,453.0L139.1,504.8L84.1,504.6L83.0,500.2L87.9,488.7L95.0,487.1L95.0,461.7Z"><title>Vigo County</title></path>
+<path data-name="Wabash County" data-label="Wabash County" d="M335.7,151.9L374.9,151.2L375.5,160.0L381.5,160.0L382.0,229.0L336.3,229.5L335.2,160.6L335.7,151.9Z"><title>Wabash County</title></path>
+<path data-name="Warren County" data-label="Warren County" d="M95.5,263.9L161.4,264.2L161.4,285.8L155.4,290.9L138.0,297.2L121.1,316.5L111.9,320.3L109.1,325.7L114.0,333.0L101.0,333.0L95.0,328.9L95.5,263.9Z"><title>Warren County</title></path>
+<path data-name="Warrick County" data-label="Warrick County" d="M104.8,721.1L104.8,714.0L127.6,714.0L127.6,705.2L130.4,708.0L164.1,707.9L164.1,713.5L172.9,713.7L172.9,730.5L164.7,730.5L162.0,744.1L152.2,743.2L152.2,749.2L147.8,751.7L134.7,768.7L134.7,777.9L129.8,774.0L117.8,766.5L106.9,765.5L106.9,747.0L103.7,747.0L104.8,721.1Z"><title>Warrick County</title></path>
+<path data-name="Washington County" data-label="Washington County" d="M285.6,602.7L299.2,598.8L306.8,603.0L313.4,598.8L323.2,604.2L329.7,601.8L344.4,608.6L344.4,640.1L350.4,642.8L345.0,654.2L333.5,654.5L328.1,657.2L328.1,671.2L280.2,670.2L280.2,608.8L285.6,602.7Z"><title>Washington County</title></path>
+<path data-name="Wayne County" data-label="Wayne County" d="M448.5,357.3L507.8,357.2L507.3,412.4L473.5,411.9L473.5,414.6L450.6,414.6L451.2,400.1L445.2,400.1L445.7,383.3L448.5,383.2L448.5,357.3Z"><title>Wayne County</title></path>
+<path data-name="Wells County" data-label="Wells County" d="M410.9,229.0L428.3,228.9L427.8,176.9L467.5,176.7L468.6,245.9L411.4,246.0L410.9,229.0Z"><title>Wells County</title></path>
+<path data-name="White County" data-label="White County" d="M185.9,177.7L238.8,178.1L238.8,212.7L213.2,212.7L211.5,220.2L214.8,223.4L209.9,226.8L210.4,247.0L160.9,246.9L160.3,192.5L177.8,192.5L177.2,177.9L185.9,177.7Z"><title>White County</title></path>
+<path data-name="Whitley County" data-label="Whitley County" d="M379.8,102.1L397.8,102.1L397.3,107.7L432.1,108.2L432.1,125.0L427.8,125.0L428.3,159.4L375.5,160.0L374.9,125.2L379.8,125.2L379.8,102.1Z"><title>Whitley County</title></path>
+</g><g class="iv4-county-points">
+<circle class="iv4-county" cx="488.7" cy="210.7" r="4.2" data-name="Adams County" data-label="Adams County  -  designated geographic mental health provider shortage area"><title>Adams County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="468.1" cy="142.3" r="4.2" data-name="Allen County" data-label="Allen County  -  designated geographic mental health provider shortage area"><title>Allen County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="342.7" cy="515.3" r="4.2" data-name="Bartholomew County" data-label="Bartholomew County  -  designated geographic mental health provider shortage area"><title>Bartholomew County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="127.7" cy="239.4" r="4.2" data-name="Benton County" data-label="Benton County  -  designated geographic mental health provider shortage area"><title>Benton County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="429.9" cy="264.7" r="4.2" data-name="Blackford County" data-label="Blackford County  -  designated geographic mental health provider shortage area"><title>Blackford County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="256.1" cy="348.2" r="4.2" data-name="Boone County" data-label="Boone County  -  designated low-income population mental health provider shortage area"><title>Boone County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="292.3" cy="517.4" r="4.2" data-name="Brown County" data-label="Brown County  -  designated geographic mental health provider shortage area"><title>Brown County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="241.5" cy="242.5" r="4.2" data-name="Carroll County" data-label="Carroll County  -  designated geographic mental health provider shortage area"><title>Carroll County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="273.3" cy="209.1" r="4.2" data-name="Cass County" data-label="Cass County  -  designated geographic mental health provider shortage area"><title>Cass County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="371.1" cy="659.6" r="4.2" data-name="Clark County" data-label="Clark County  -  designated geographic mental health provider shortage area"><title>Clark County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="157.9" cy="478.1" r="4.2" data-name="Clay County" data-label="Clay County  -  designated geographic mental health provider shortage area"><title>Clay County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="254.8" cy="297.7" r="4.2" data-name="Clinton County" data-label="Clinton County  -  designated low-income population mental health provider shortage area"><title>Clinton County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="260.3" cy="696.6" r="4.2" data-name="Crawford County" data-label="Crawford County  -  designated geographic mental health provider shortage area"><title>Crawford County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="163.8" cy="616.2" r="4.2" data-name="Daviess County" data-label="Daviess County  -  designated geographic mental health provider shortage area"><title>Daviess County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="482.6" cy="528.2" r="4.2" data-name="Dearborn County" data-label="Dearborn County  -  designated geographic mental health provider shortage area"><title>Dearborn County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="403.1" cy="495.5" r="4.2" data-name="Decatur County" data-label="Decatur County  -  designated geographic mental health provider shortage area"><title>Decatur County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="478.6" cy="82.0" r="4.2" data-name="DeKalb County" data-label="DeKalb County  -  designated geographic mental health provider shortage area"><title>DeKalb County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="418.4" cy="313.2" r="4.2" data-name="Delaware County" data-label="Delaware County  -  designated geographic mental health provider shortage area"><title>Delaware County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="194.7" cy="680.0" r="4.2" data-name="Dubois County" data-label="Dubois County  -  designated geographic mental health provider shortage area"><title>Dubois County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="347.9" cy="41.6" r="4.2" data-name="Elkhart County" data-label="Elkhart County  -  designated geographic mental health provider shortage area"><title>Elkhart County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="450.9" cy="429.5" r="4.2" data-name="Fayette County" data-label="Fayette County  -  designated geographic mental health provider shortage area"><title>Fayette County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="340.6" cy="690.9" r="4.2" data-name="Floyd County" data-label="Floyd County  -  designated geographic mental health provider shortage area"><title>Floyd County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="139.8" cy="334.3" r="4.2" data-name="Fountain County" data-label="Fountain County  -  designated geographic mental health provider shortage area"><title>Fountain County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="468.8" cy="475.0" r="4.2" data-name="Franklin County" data-label="Franklin County  -  designated geographic mental health provider shortage area"><title>Franklin County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="287.0" cy="150.5" r="4.2" data-name="Fulton County" data-label="Fulton County  -  designated geographic mental health provider shortage area"><title>Fulton County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="87.4" cy="691.1" r="4.2" data-name="Gibson County" data-label="Gibson County  -  designated geographic mental health provider shortage area"><title>Gibson County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="379.6" cy="256.2" r="4.2" data-name="Grant County" data-label="Grant County  -  designated geographic mental health provider shortage area"><title>Grant County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="174.8" cy="546.7" r="4.2" data-name="Greene County" data-label="Greene County  -  designated geographic mental health provider shortage area"><title>Greene County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="323.9" cy="347.7" r="4.2" data-name="Hamilton County" data-label="Hamilton County  -  designated low-income population mental health provider shortage area"><title>Hamilton County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="361.7" cy="393.3" r="4.2" data-name="Hancock County" data-label="Hancock County  -  designated low-income population mental health provider shortage area"><title>Hancock County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="311.5" cy="717.0" r="4.2" data-name="Harrison County" data-label="Harrison County  -  designated geographic mental health provider shortage area"><title>Harrison County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="249.9" cy="403.9" r="4.2" data-name="Hendricks County" data-label="Hendricks County  -  designated low-income population mental health provider shortage area"><title>Hendricks County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="418.7" cy="372.2" r="4.2" data-name="Henry County" data-label="Henry County  -  designated geographic mental health provider shortage area"><title>Henry County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="309.9" cy="262.6" r="4.2" data-name="Howard County" data-label="Howard County  -  designated low-income population mental health provider shortage area"><title>Howard County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="406.4" cy="194.8" r="4.2" data-name="Huntington County" data-label="Huntington County  -  designated geographic mental health provider shortage area"><title>Huntington County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="320.8" cy="573.5" r="4.2" data-name="Jackson County" data-label="Jackson County  -  designated geographic mental health provider shortage area"><title>Jackson County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="157.5" cy="156.9" r="4.2" data-name="Jasper County" data-label="Jasper County  -  designated geographic mental health provider shortage area"><title>Jasper County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="478.6" cy="272.2" r="4.2" data-name="Jay County" data-label="Jay County  -  designated geographic mental health provider shortage area"><title>Jay County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="412.2" cy="598.8" r="4.2" data-name="Jefferson County" data-label="Jefferson County  -  designated geographic mental health provider shortage area"><title>Jefferson County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="383.7" cy="556.8" r="4.2" data-name="Jennings County" data-label="Jennings County  -  designated geographic mental health provider shortage area"><title>Jennings County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="312.9" cy="457.9" r="4.2" data-name="Johnson County" data-label="Johnson County  -  designated low-income population mental health provider shortage area"><title>Johnson County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="111.7" cy="617.7" r="4.2" data-name="Knox County" data-label="Knox County  -  designated geographic mental health provider shortage area"><title>Knox County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="348.2" cy="112.1" r="4.2" data-name="Kosciusko County" data-label="Kosciusko County  -  designated geographic mental health provider shortage area"><title>Kosciusko County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="414.1" cy="33.4" r="4.2" data-name="LaGrange County" data-label="LaGrange County  -  designated geographic mental health provider shortage area"><title>LaGrange County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="118.7" cy="67.0" r="4.2" data-name="Lake County" data-label="Lake County  -  designated low-income population mental health provider shortage area"><title>Lake County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="214.2" cy="51.8" r="4.2" data-name="LaPorte County" data-label="LaPorte County  -  designated geographic mental health provider shortage area"><title>LaPorte County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="253.2" cy="587.7" r="4.2" data-name="Lawrence County" data-label="Lawrence County  -  designated low-income population mental health provider shortage area"><title>Lawrence County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="369.3" cy="325.4" r="4.2" data-name="Madison County" data-label="Madison County  -  designated low-income population mental health provider shortage area"><title>Madison County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="306.6" cy="401.2" r="4.2" data-name="Marion County" data-label="Marion County  -  designated low-income population mental health provider shortage area"><title>Marion County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="286.4" cy="96.1" r="4.2" data-name="Marshall County" data-label="Marshall County  -  designated geographic mental health provider shortage area"><title>Marshall County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="205.6" cy="614.3" r="4.2" data-name="Martin County" data-label="Martin County  -  designated geographic mental health provider shortage area"><title>Martin County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="320.5" cy="205.4" r="4.2" data-name="Miami County" data-label="Miami County  -  designated geographic mental health provider shortage area"><title>Miami County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="247.8" cy="524.2" r="4.2" data-name="Monroe County" data-label="Monroe County  -  designated low-income population mental health provider shortage area"><title>Monroe County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="191.8" cy="350.3" r="4.2" data-name="Montgomery County" data-label="Montgomery County  -  designated geographic mental health provider shortage area"><title>Montgomery County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="259.3" cy="460.6" r="4.2" data-name="Morgan County" data-label="Morgan County  -  designated low-income population mental health provider shortage area"><title>Morgan County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="114.5" cy="167.9" r="4.2" data-name="Newton County" data-label="Newton County  -  designated geographic mental health provider shortage area"><title>Newton County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="415.7" cy="80.4" r="4.2" data-name="Noble County" data-label="Noble County  -  designated geographic mental health provider shortage area"><title>Noble County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="484.4" cy="567.8" r="4.2" data-name="Ohio County" data-label="Ohio County  -  designated geographic mental health provider shortage area"><title>Ohio County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="253.0" cy="645.6" r="4.2" data-name="Orange County" data-label="Orange County  -  designated geographic mental health provider shortage area"><title>Orange County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="199.9" cy="493.3" r="4.2" data-name="Owen County" data-label="Owen County  -  designated low-income population mental health provider shortage area"><title>Owen County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="145.6" cy="402.9" r="4.2" data-name="Parke County" data-label="Parke County  -  designated geographic mental health provider shortage area"><title>Parke County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="232.2" cy="737.7" r="4.2" data-name="Perry County" data-label="Perry County  -  designated geographic mental health provider shortage area"><title>Perry County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="140.2" cy="675.1" r="4.2" data-name="Pike County" data-label="Pike County  -  designated geographic mental health provider shortage area"><title>Pike County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="164.7" cy="59.6" r="4.2" data-name="Porter County" data-label="Porter County  -  designated geographic mental health provider shortage area"><title>Porter County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="43.7" cy="748.4" r="4.2" data-name="Posey County" data-label="Posey County  -  designated geographic mental health provider shortage area"><title>Posey County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="222.1" cy="151.5" r="4.2" data-name="Pulaski County" data-label="Pulaski County  -  designated geographic mental health provider shortage area"><title>Pulaski County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="197.7" cy="424.4" r="4.2" data-name="Putnam County" data-label="Putnam County  -  designated low-income population mental health provider shortage area"><title>Putnam County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="478.1" cy="325.8" r="4.2" data-name="Randolph County" data-label="Randolph County  -  designated geographic mental health provider shortage area"><title>Randolph County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="439.4" cy="536.2" r="4.2" data-name="Ripley County" data-label="Ripley County  -  designated geographic mental health provider shortage area"><title>Ripley County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="408.2" cy="432.9" r="4.2" data-name="Rush County" data-label="Rush County  -  designated geographic mental health provider shortage area"><title>Rush County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="283.5" cy="38.2" r="4.2" data-name="St. Joseph County" data-label="St. Joseph County  -  designated low-income population mental health provider shortage area"><title>St. Joseph County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="364.9" cy="619.4" r="4.2" data-name="Scott County" data-label="Scott County  -  designated geographic mental health provider shortage area"><title>Scott County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="358.8" cy="452.4" r="4.2" data-name="Shelby County" data-label="Shelby County  -  designated low-income population mental health provider shortage area"><title>Shelby County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="173.9" cy="751.9" r="4.2" data-name="Spencer County" data-label="Spencer County  -  designated geographic mental health provider shortage area"><title>Spencer County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="229.4" cy="104.2" r="4.2" data-name="Starke County" data-label="Starke County  -  designated geographic mental health provider shortage area"><title>Starke County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="478.6" cy="33.2" r="4.2" data-name="Steuben County" data-label="Steuben County  -  designated geographic mental health provider shortage area"><title>Steuben County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="112.4" cy="538.4" r="4.2" data-name="Sullivan County" data-label="Sullivan County  -  designated geographic mental health provider shortage area"><title>Sullivan County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="474.5" cy="590.5" r="4.2" data-name="Switzerland County" data-label="Switzerland County  -  designated geographic mental health provider shortage area"><title>Switzerland County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="191.6" cy="281.3" r="4.2" data-name="Tippecanoe County" data-label="Tippecanoe County  -  designated geographic mental health provider shortage area"><title>Tippecanoe County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="318.7" cy="296.9" r="4.2" data-name="Tipton County" data-label="Tipton County  -  designated low-income population mental health provider shortage area"><title>Tipton County  -  designated low-income population mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="490.3" cy="432.8" r="4.2" data-name="Union County" data-label="Union County  -  designated geographic mental health provider shortage area"><title>Union County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="86.5" cy="749.9" r="4.2" data-name="Vanderburgh County" data-label="Vanderburgh County  -  designated geographic mental health provider shortage area"><title>Vanderburgh County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="105.4" cy="387.1" r="4.2" data-name="Vermillion County" data-label="Vermillion County  -  designated geographic mental health provider shortage area"><title>Vermillion County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="116.2" cy="470.8" r="4.2" data-name="Vigo County" data-label="Vigo County  -  designated geographic mental health provider shortage area"><title>Vigo County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="358.3" cy="191.3" r="4.2" data-name="Wabash County" data-label="Wabash County  -  designated geographic mental health provider shortage area"><title>Wabash County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="118.6" cy="288.5" r="4.2" data-name="Warren County" data-label="Warren County  -  designated geographic mental health provider shortage area"><title>Warren County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="134.2" cy="734.5" r="4.2" data-name="Warrick County" data-label="Warrick County  -  designated geographic mental health provider shortage area"><title>Warrick County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="311.3" cy="635.0" r="4.2" data-name="Washington County" data-label="Washington County  -  designated geographic mental health provider shortage area"><title>Washington County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="478.0" cy="385.3" r="4.2" data-name="Wayne County" data-label="Wayne County  -  designated geographic mental health provider shortage area"><title>Wayne County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="446.6" cy="212.7" r="4.2" data-name="Wells County" data-label="Wells County  -  designated geographic mental health provider shortage area"><title>Wells County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="196.1" cy="209.7" r="4.2" data-name="White County" data-label="White County  -  designated geographic mental health provider shortage area"><title>White County  -  designated geographic mental health provider shortage area</title></circle>
+<circle class="iv4-county" cx="402.8" cy="133.4" r="4.2" data-name="Whitley County" data-label="Whitley County  -  designated geographic mental health provider shortage area"><title>Whitley County  -  designated geographic mental health provider shortage area</title></circle>
+</g>
+<g class="iv4-program-points">
+<g class="iv4-program" transform="translate(106.4,456.8)" data-label="Saint Mary-of-the-Woods College - CAAHEP-accredited graduate art therapy program"><rect x="-8" y="-8" width="16" height="16" rx="1.5" transform="rotate(45)"/><title>Saint Mary-of-the-Woods College - CAAHEP-accredited graduate art therapy program</title></g>
+<g class="iv4-program" transform="translate(296.3,389.8)" data-label="Herron School of Art + Design (IU Indianapolis) - CAAHEP-accredited graduate art therapy program"><rect x="-8" y="-8" width="16" height="16" rx="1.5" transform="rotate(45)"/><title>Herron School of Art + Design (IU Indianapolis) - CAAHEP-accredited graduate art therapy program</title></g>
+<g class="iv4-program" transform="translate(310.0,418.7)" data-label="University of Indianapolis - CAAHEP-accredited graduate art therapy program"><rect x="-8" y="-8" width="16" height="16" rx="1.5" transform="rotate(45)"/><title>University of Indianapolis - CAAHEP-accredited graduate art therapy program</title></g>
+<g class="iv4-program iv4-ug" transform="translate(320.5,461.0)" data-label="Franklin College - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy concentration in the Art Studio major · Franklin"><path d="M0,-11L10,7L-10,7Z"/><title>Franklin College - Undergraduate pre-art therapy program: Pre-Art Therapy concentration in the Art Studio major</title></g> <g class="iv4-program iv4-ug" transform="translate(353.5,48.5)" data-label="Goshen College - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy concentration in the Art major · Goshen"><path d="M0,-11L10,7L-10,7Z"/><title>Goshen College - Undergraduate pre-art therapy program: Pre-Art Therapy concentration in the Art major</title></g> <g class="iv4-program iv4-ug" transform="translate(316.0,380.0)" data-label="Herron School of Art + Design (IU Indianapolis) - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Undergraduate Certificate in Pre-Art Therapy · Indianapolis"><path d="M0,-11L10,7L-10,7Z"/><title>Herron School of Art + Design (IU Indianapolis) - Undergraduate pre-art therapy program: Undergraduate Certificate in Pre-Art Therapy</title></g> <g class="iv4-program iv4-ug" transform="translate(403.5,180.5)" data-label="Huntington University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Art Therapy minor · Huntington"><path d="M0,-11L10,7L-10,7Z"/><title>Huntington University - Undergraduate pre-art therapy program: Art Therapy minor</title></g> <g class="iv4-program iv4-ug" transform="translate(307.0,267.0)" data-label="Indiana University Kokomo - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy cognate in the B.A. in Art and Design · Kokomo"><path d="M0,-11L10,7L-10,7Z"/><title>Indiana University Kokomo - Undergraduate pre-art therapy program: Pre-Art Therapy cognate in the B.A. in Art and Design</title></g> <g class="iv4-program iv4-ug" transform="translate(378.0,255.0)" data-label="Indiana Wesleyan University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="B.S. in Pre-Art Therapy · Marion"><path d="M0,-11L10,7L-10,7Z"/><title>Indiana Wesleyan University - Undergraduate pre-art therapy program: B.S. in Pre-Art Therapy</title></g> <g class="iv4-program iv4-ug" transform="translate(363.0,158.5)" data-label="Manchester University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy concentration in the B.A. in Art · North Manchester"><path d="M0,-11L10,7L-10,7Z"/><title>Manchester University - Undergraduate pre-art therapy program: Pre-Art Therapy concentration in the B.A. in Art</title></g> <g class="iv4-program iv4-ug" transform="translate(322.0,400.0)" data-label="Marian University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Specialization in Art Therapy in the B.A. in Art and Design · Indianapolis"><path d="M0,-11L10,7L-10,7Z"/><title>Marian University - Undergraduate pre-art therapy program: Specialization in Art Therapy in the B.A. in Art and Design</title></g> <g class="iv4-program iv4-ug" transform="translate(128.0,461.0)" data-label="Saint Mary-of-the-Woods College - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy B.A. and minor · Saint Mary-of-the-Woods"><path d="M0,-11L10,7L-10,7Z"/><title>Saint Mary-of-the-Woods College - Undergraduate pre-art therapy program: Pre-Art Therapy B.A. and minor</title></g> <g class="iv4-program iv4-ug" transform="translate(404.0,267.5)" data-label="Taylor University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy major, B.A. or B.S. · Upland"><path d="M0,-11L10,7L-10,7Z"/><title>Taylor University - Undergraduate pre-art therapy program: Pre-Art Therapy major, B.A. or B.S.</title></g> <g class="iv4-program iv4-ug" transform="translate(94.5,760.0)" data-label="University of Evansville - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="B.S. in Art Therapy and Art Therapy minor · Evansville"><path d="M0,-11L10,7L-10,7Z"/><title>University of Evansville - Undergraduate pre-art therapy program: B.S. in Art Therapy and Art Therapy minor</title></g> <g class="iv4-program iv4-ug" transform="translate(288.0,418.5)" data-label="University of Indianapolis - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy B.S., with or without Studio Art · Indianapolis"><path d="M0,-11L10,7L-10,7Z"/><title>University of Indianapolis - Undergraduate pre-art therapy program: Pre-Art Therapy B.S., with or without Studio Art</title></g> <g class="iv4-program iv4-ug" transform="translate(96.5,620.5)" data-label="Vincennes University - Undergraduate pre-art therapy program" data-kicker="Undergraduate pre-art therapy program" data-text="Pre-Art Therapy concentration, A.S. transfer degree · Vincennes"><path d="M0,-11L10,7L-10,7Z"/><title>Vincennes University - Undergraduate pre-art therapy program: Pre-Art Therapy concentration, A.S. transfer degree</title></g> </g>
+</svg></div>
+        <div class="iv4-map-details">
+          <div id="iv4-map-status" aria-live="polite" aria-atomic="true">
+            <p class="iv4-kicker" id="iv4-detail-kicker">Indiana counties</p>
+            <h2 class="iv4-map-detail-title" id="iv4-detail-title">Explore the Map</h2>
+            <p class="iv4-map-detail-text" id="iv4-detail-text">Select a county on the map or from the county list.</p>
+          </div>
+          <div class="iv4-map-controls" id="iv4-county-controls">
+            <label for="iv4-county-select">Select a county</label>
+            <select id="iv4-county-select" aria-controls="iv4-map-status"><option value="">Choose an Indiana county</option></select>
+          </div>
+          <div class="iv4-map-controls" id="iv4-program-controls" hidden>
+            <label for="iv4-program-select">Select a program</label>
+            <select id="iv4-program-select" aria-controls="iv4-map-status"><option value="">Choose an art therapy program</option></select>
+          </div>
+        </div>
+      </div>
+      <p class="iv4-map-instructions" id="iv4-map-instructions">Tap a marker or use the county or program list. Keyboard: focus the map, use arrow keys to move between markers, and press Escape to clear a selection.</p>
+      <div class="iv4-map-caption">
+        <strong>All 92 Indiana counties contain federally designated mental health provider shortage areas.</strong>
+        <div class="iv4-map-legend">
+          <span class="iv4-legend-item"><i class="iv4-legend-dot" aria-hidden="true"></i>Indiana county</span>
+          <span class="iv4-legend-item"><i class="iv4-legend-diamond" aria-hidden="true"></i>CAAHEP-accredited graduate art therapy program</span> <span class="iv4-legend-item"><i class="iv4-legend-triangle" aria-hidden="true"></i>Undergraduate pre-art therapy program</span>
+        </div>
+        <p class="iv4-map-source">County designations include whole-county and low-income-population shortage areas. Graduate programs: Saint Mary-of-the-Woods College; Herron School of Art + Design at IU Indianapolis; University of Indianapolis. Undergraduate pre-art therapy programs: Franklin College; Goshen College; Herron School of Art + Design at IU Indianapolis; Huntington University; Indiana University Kokomo; Indiana Wesleyan University; Manchester University; Marian University; Saint Mary-of-the-Woods College; Taylor University; University of Evansville; University of Indianapolis; Vincennes University.</p>
+        <p class="iv4-map-source">Sources: <a href="https://data.hrsa.gov/data/download" target="_blank" rel="noopener noreferrer">HRSA shortage-area data</a>, Oct 26, 2026; <a href="https://www.caahep.org/students/find-an-accredited-program" target="_blank" rel="noopener noreferrer">CAAHEP program directory</a>, Oct 2026; undergraduate programs: each institution&#39;s 2026&#8211;2027 catalog or program page, Oct 2026. Indiana boundary: U.S. Census Bureau.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="iv4-scope" aria-label="IndiATA association role">
+  <div class="iv4-wrap iv4-scope-inner">
+    <p class="iv4-kicker">About our role</p>
+    <p>Seeking art therapy? <a href="/directory">Use our directory</a> — we are not a service provider. IndiATA does not provide therapy or match people with individual therapists. We are Indiana's professional association for art therapists.</p>
+  </div>
+</section>
+<section class="iv4-definition" id="iv4-art-therapy" aria-labelledby="iv4-definition-title">
+  <div class="iv4-wrap iv4-definition-grid">
+    <div>
+      <p class="iv4-kicker">Understanding the Profession</p>
+      <h2 class="iv4-sectiontitle" id="iv4-definition-title">What Is Art Therapy?</h2>
+      <p class="iv4-definition-lede">Art therapy is a distinct, master's-level mental health profession. It integrates artmaking and creative processes with psychological theory, clinical assessment, and psychotherapy within a therapeutic relationship.</p>
+    </div>
+    <div class="iv4-definition-aside">
+      <h3>Clinical Practice</h3>
+      <p>Art therapists use specialized graduate education and supervised clinical training to assess needs, establish treatment goals, and work collaboratively with clients through artmaking, images, and meaning-making.</p>
+      <p class="iv4-distinction">Using art materials within another profession or activity does not, by itself, constitute art therapy.</p>
+      <p class="iv4-credentials"><strong>National art therapy credentials:</strong> ATR-P, ATR, ATR-BC, and ATCS are issued by the Art Therapy Credentials Board (ATCB). <a href="https://atcbregistry.com/" target="_blank" rel="noopener noreferrer">Verify current ATCB credentials</a>.</p>
+      <a href="/art-therapy-indiana" class="iv4-link">Learn More About Art Therapy</a>
+    </div>
+  </div>
+</section>
+<section class="iv4-paths" id="iv4-find" aria-labelledby="iv4-paths-title">
+  <div class="iv4-wrap">
+    <div class="iv4-sectionhead">
+      <div><p class="iv4-kicker">Start Here</p><h2 id="iv4-paths-title" class="iv4-sectiontitle">What Brings You to IndiATA?</h2></div>
+      <p>Six pathways into Indiana's art therapy community. Choose the one that best matches what you need.</p>
+    </div>
+    <div class="iv4-paths-grid">
+      <a href="/directory" class="iv4-feature-path">
+        <span class="iv4-feature-no">Public + Art Therapists + Referral Sources</span>
+        <h3>Art Therapist Directory</h3>
+        <p>Search Indiana's statewide directory, verify professional credentials, or find information for art therapists who want to join or update the directory.</p>
+        <span class="iv4-feature-cta">Open the Directory</span>
+      </a>
+      <div class="iv4-secondary-paths">
+        <a href="/membership" class="iv4-path-row" style="--path-color:#627022">
+          <span class="iv4-path-content"><span class="iv4-path-audience">Art Therapists</span><h3>Grow in Practice</h3><p>Connect with Indiana colleagues, professional resources, opportunities, statewide initiatives, and professional community.</p></span><span class="iv4-path-cta">Explore</span>
+        </a>
+        <a href="/graduate-programs" class="iv4-path-row" style="--path-color:var(--plum)">
+          <span class="iv4-path-content"><span class="iv4-path-audience">Students + Prospective Students</span><h3>Enter the Field</h3><p>Explore Indiana graduate art therapy programs, professional preparation, and pathways into the field.</p></span><span class="iv4-path-cta">Explore</span>
+        </a>
+        <a href="/art-therapy-indiana" class="iv4-path-row" style="--path-color:var(--teal)">
+          <span class="iv4-path-content"><span class="iv4-path-audience">Employers + Organizations</span><h3>Build Partnerships</h3><p>Connect with IndiATA around workforce development, referrals, employment, professional collaboration, and interdisciplinary relationships.</p></span><span class="iv4-path-cta">Explore</span>
+        </a>
+        <a href="/advocacy" class="iv4-path-row" style="--path-color:var(--magenta)">
+          <span class="iv4-path-content"><span class="iv4-path-audience">Legislators + Public Officials</span><h3>Art Therapy + Public Policy</h3><p>Find information about the profession, professional credentials, workforce considerations, and art therapy licensure advocacy in Indiana.</p></span><span class="iv4-path-cta">Explore</span>
+        </a>
+        <a href="/opportunities" class="iv4-path-row" style="--path-color:var(--ink)">
+          <span class="iv4-path-content"><span class="iv4-path-audience">Collaborators + Organizations</span><h3>Opportunities</h3><p>Find or share jobs, exhibitions, research opportunities, presentations, partnerships, calls for participation, and community opportunities relevant to art therapy in Indiana.</p></span><span class="iv4-path-cta">Explore</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="iv4-advocacy" id="iv4-advocacy" aria-labelledby="iv4-advocacy-title">
+  <div class="iv4-wrap iv4-advocacy-grid">
+    <div>
+      <p class="iv4-kicker">For Legislators / 2027 Session</p>
+      <h2 id="iv4-advocacy-title">Sponsor the Next Art Therapy Licensure Bill</h2>
+      <p class="iv4-advocacy-lede">IndiATA is pursuing an art therapy-specific license for Indiana and is seeking an author and sponsor, plus coauthors and cosponsors, for the 2027 legislative session.</p>
+      <div class="iv4-advocacy-actions">
+        <a class="iv4-link iv4-link--white" href="mailto:indiana.art.therapy@gmail.com?subject=Art%20Therapy%20Licensure%20Bill%20Sponsorship">Talk with IndiATA About Sponsoring</a>
+        <a class="iv4-link iv4-link--light" href="/advocacy">Legislative History</a>
+        <a class="iv4-link iv4-link--light" href="https://iga.in.gov/information/find-legislators" target="_blank" rel="noopener noreferrer">Find Your Legislator</a>
+        <a class="iv4-link iv4-link--light" href="/s/IndiATA-Art-Therapy-Licensure-Fact-Sheet.pdf" target="_blank" rel="noopener noreferrer">Legislator Fact Sheet (PDF)</a>
+      </div>
+    </div>
+    <div class="iv4-vote">
+      <p class="iv4-kicker">SB 338 / 2023</p>
+      <strong>47-2</strong>
+      <p>SB 338 passed the Indiana Senate 47-2, was referred to House Public Health, and did not become law.</p>
+    </div>
+  </div>
+  <div class="iv4-wrap iv4-need" aria-labelledby="iv4-need-title">
+    <p class="iv4-kicker" id="iv4-need-title">Indiana Data</p>
+    <ul>
+      <li><b>25.31%</b><span>of Indiana adults had a diagnosable mental illness in the past year</span></li>
+      <li><b>6.78%</b><span>of Indiana adults had a serious mental illness, above the U.S. rate of 5.62%</span></li>
+      <li><b>47.0%</b><span>of Indiana high school students felt so sad or hopeless for two weeks or more that they stopped usual activities, compared with 39.7% nationally</span></li>
+    </ul>
+    <p class="iv4-need-source">SAMHSA National Survey on Drug Use and Health, 2023&#8211;2024; CDC Youth Risk Behavior Survey, 2023. <a href="/advocacy#indiata-need">All Indiana data and sources</a></p>
+  </div>
+
+</section>
+<section class="iv4-events" id="iv4-events" aria-labelledby="iv4-events-title">
+  <div class="iv4-wrap">
+    <div class="iv4-sectionhead">
+      <div><p class="iv4-kicker">Coming Up</p><h2 class="iv4-sectiontitle" id="iv4-events-title">Events + Member Meetings</h2></div>
+      <a class="iv4-calendar-action" href="/events">Full Calendar</a>
+    </div>
+    <p class="iv4-meeting-note">View upcoming board meetings, member meetings, and other events on the IndiATA calendar. For participation information, <a href="/contact">contact IndiATA</a>.</p>
+    <ul class="iv4-event-grid" id="iv4-event-list">
+      <li data-start="2026-11-08T15:30:00-05:00" data-end="2026-11-08T16:30:00-05:00"><a href="/events/2026/11/8/board-meeting"><span class="iv4-date"><b>8</b><span>Nov 2026</span></span><h3>Board Meeting</h3><p>Sunday, 3:30 to 4:30 p.m. Eastern</p></a></li>
+      <li data-start="2026-12-13T15:30:00-05:00" data-end="2026-12-13T16:30:00-05:00"><a href="/events/2026/12/13/board-meeting"><span class="iv4-date"><b>13</b><span>Dec 2026</span></span><h3>Board Meeting</h3><p>Sunday, 3:30 to 4:30 p.m. Eastern</p></a></li>
+      <li data-start="2027-01-10T15:00:00-05:00" data-end="2027-01-10T16:00:00-05:00"><a href="/events/2027/1/10/board-meeting"><span class="iv4-date"><b>10</b><span>Jan 2027</span></span><h3>Board Meeting</h3><p>Sunday, 3:00 to 4:00 p.m. Eastern</p></a></li>
+      <li data-start="2027-02-21T15:00:00-05:00" data-end="2027-02-21T16:00:00-05:00"><a href="/events/2027/2/21/board-meeting"><span class="iv4-date"><b>21</b><span>Feb 2027</span></span><h3>Board Meeting</h3><p>Sunday, 3:00 to 4:00 p.m. Eastern</p></a></li>
+    </ul>
+    <div class="iv4-event-more" id="iv4-event-more">
+      <p class="iv4-kicker iv4-event-more-label">Also Scheduled</p>
+      <p class="iv4-event-more-list"><span class="iv4-event-more-lead">Board Meetings: </span><a href="/events/2027/3/14/board-meeting" data-end="2027-03-14T16:00:00-04:00" data-start="2027-03-14T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, March 14, 2027">Mar 14, 2027</a> · <a href="/events/2027/4/11/board-meeting" data-end="2027-04-11T16:00:00-04:00" data-start="2027-04-11T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, April 11, 2027">Apr 11, 2027</a> · <a href="/events/2027/5/16/board-meeting" data-end="2027-05-16T16:00:00-04:00" data-start="2027-05-16T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, May 16, 2027">May 16, 2027</a> · <a href="/events/2027/6/13/board-meeting" data-end="2027-06-13T16:00:00-04:00" data-start="2027-06-13T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, June 13, 2027">Jun 13, 2027</a> · <a href="/events/2027/7/11/board-meeting" data-end="2027-07-11T16:00:00-04:00" data-start="2027-07-11T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, July 11, 2027">Jul 11, 2027</a> · <a href="/events/2027/8/8/board-meeting-board-election" data-end="2027-08-08T16:00:00-04:00" data-start="2027-08-08T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, August 8, 2027">Aug 8, 2027</a> · <a href="/events/2027/9/12/board-meeting" data-end="2027-09-12T16:00:00-04:00" data-start="2027-09-12T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, September 12, 2027">Sep 12, 2027</a> · <a href="/events/2027/10/17/board-meeting" data-end="2027-10-17T16:00:00-04:00" data-start="2027-10-17T15:00:00-04:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, October 17, 2027">Oct 17, 2027</a> · <a href="/events/2027/11/14/board-meeting" data-end="2027-11-14T16:00:00-05:00" data-start="2027-11-14T15:00:00-05:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, November 14, 2027">Nov 14, 2027</a> · <a href="/events/2027/12/12/board-meeting" data-end="2027-12-12T16:00:00-05:00" data-start="2027-12-12T15:00:00-05:00" data-title="Board Meeting" aria-label="Board Meeting, Sunday, December 12, 2027">Dec 12, 2027</a></p>
+      <p class="iv4-event-more-list"><span class="iv4-event-more-lead">Annual All Member Meeting + Election Nominations: </span><a href="/events/2027/8/15/annual-membership-meeting-election-nominations" data-end="2027-08-15T16:00:00-04:00" data-start="2027-08-15T15:00:00-04:00" data-title="Annual All Member Meeting + Election Nominations" aria-label="Annual All Member Meeting + Election Nominations, Sunday, August 15, 2027">Aug 15, 2027</a><span class="iv4-event-more-note"> — Nominate yourself or a peer for the 2028 &amp; 2029 Board of Directors.</span></p>
+    </div>
+    <p class="iv4-event-empty" id="iv4-event-empty" hidden>New dates and events are posted on the <a href="/events">IndiATA calendar</a>.</p>
+  </div>
+</section>
+<section class="iv4-statewide" id="iv4-statewide" aria-labelledby="iv4-statewide-title">
+  <div class="iv4-wrap">
+    <div class="iv4-sectionhead">
+      <div><p class="iv4-kicker">Statewide Initiatives</p><h2 class="iv4-sectiontitle" id="iv4-statewide-title">Connect Across Indiana</h2></div>
+      <p>IndiATA is developing opportunities for regional professional connection and community collaboration across Indiana.</p>
+    </div>
+    <div class="iv4-statewide-grid">
+      <article class="iv4-initiative" style="--acc:var(--teal)">
+        <p class="iv4-tag iv4-kicker">Initiative</p>
+        <h3>Regional Meet-Ups</h3>
+        <p>Local gatherings can strengthen professional relationships, broaden participation, and create ongoing points of connection throughout Indiana.</p>
+        <a href="mailto:indiana.art.therapy@gmail.com?subject=Regional%20Meet-Up%20Interest">Start a Regional Connection</a>
+      </article>
+      <article class="iv4-initiative" style="--acc:var(--magenta)">
+        <p class="iv4-tag iv4-kicker">Building Now</p>
+        <h3>Creating Space Across Indiana</h3>
+        <p>IndiATA is building a statewide network of practices, studios, workplaces, universities, galleries, museums, community organizations, cultural venues, and other settings that can make room for artmaking, regional gatherings, professional connection, learning, collaboration, visibility, and local initiatives.</p>
+        <a href="mailto:indiana.art.therapy@gmail.com?subject=Creating%20Space%20Across%20Indiana">Have a Space to Share?</a>
+      </article>
+    </div>
+  </div>
+</section>
+</div>
+<script>
+(function(){
+  'use strict';
+  var root=document.getElementById('iv4-home');
+  if(!root||root.dataset.initialized==='1')return;
+  root.dataset.initialized='1';
+  var now=Date.now();
+  var surveyNote=root.querySelector('.iv4-survey-note');
+  if(surveyNote&&now>Date.parse('2026-12-02T05:00:00Z'))surveyNote.remove();
+  var list=root.querySelector('#iv4-event-list');
+  var empty=root.querySelector('#iv4-event-empty');
+  var more=root.querySelector('#iv4-event-more');
+
+  function ms(x){
+    if(x===null||x===undefined||x==='')return NaN;
+    if(typeof x==='number')return x<1e11?x*1000:x;
+    return Date.parse(x);
+  }
+  function dateText(x,opts){
+    var options=Object.assign({},opts,{timeZone:'America/Indiana/Indianapolis'});
+    return new Intl.DateTimeFormat('en-US',options).format(new Date(x));
+  }
+  function renderEmpty(){
+    var hasCards=!!(list&&list.children.length);
+    var hasLater=!!(more&&!more.hidden&&more.querySelector('.iv4-event-more-list a'));
+    if(empty)empty.hidden=hasCards||hasLater;
+    if(list)list.hidden=!hasCards;
+  }
+  function normalizeUrl(value){
+    try{
+      var u=new URL(value||'/events',window.location.origin);
+      if(u.origin!==window.location.origin||!/^\/events\//.test(u.pathname))return '/events';
+      return u.pathname+u.search+u.hash;
+    }catch(e){return '/events';}
+  }
+  function eventTimes(ev){
+    if(!ev||typeof ev!=='object')return {start:NaN,end:NaN};
+    return {
+      start:ms(ev.startDate||ev.start||ev.startDateTime),
+      end:ms(ev.endDate||ev.end||ev.endDateTime)
+    };
+  }
+
+  // Keep supplied fallback dates when the calendar cannot be read.
+  if(list){
+    Array.prototype.slice.call(list.children).forEach(function(li){
+      var end=ms(li.getAttribute('data-end'));
+      var start=ms(li.getAttribute('data-start'));
+      if(Number.isFinite(end)?end<=now:(Number.isFinite(start)&&start<=now))li.remove();
+    });
+  }
+  if(more){
+    Array.prototype.slice.call(more.querySelectorAll('a[data-end]')).forEach(function(a){
+      var end=ms(a.getAttribute('data-end'));
+      if(!Number.isFinite(end)||end>now)return;
+      var separator=a.previousSibling;
+      if(!(separator&&separator.nodeType===3))separator=a.nextSibling;
+      if(separator&&separator.nodeType===3&&/·/.test(separator.nodeValue))separator.remove();
+      a.remove();
+    });
+    Array.prototype.slice.call(more.querySelectorAll('.iv4-event-more-list')).forEach(function(p){
+      var links=p.querySelectorAll('a[data-end]');
+      if(!links.length){p.remove();return;}
+      var lead=p.querySelector('.iv4-event-more-lead');
+      if(lead&&links.length===1)lead.textContent=lead.textContent.replace(/s: $/,': ');
+      var title=lead?lead.textContent.replace(/:\s*$/,'').trim():'IndiATA Event';
+      Array.prototype.forEach.call(links,function(a){
+        var end=ms(a.getAttribute('data-end'));
+        if(Number.isFinite(end)){
+          var year=dateText(end,{year:'numeric'});
+          if(a.textContent.indexOf(year)<0)a.textContent=a.textContent.trim()+', '+year;
+        }
+        a.setAttribute('aria-label',title+' — '+a.textContent.trim());
+      });
+    });
+    more.hidden=!more.querySelector('.iv4-event-more-list a');
+  }
+  renderEmpty();
+
+  // Promote verified fallback dates only when their start, end, and title are supplied.
+  // Older copies without that metadata keep their original compact schedule.
+  if(list){
+    var fallbackCards=Array.prototype.slice.call(list.children);
+    var fallbackLinks=more?Array.prototype.slice.call(more.querySelectorAll('.iv4-event-more-list a[data-end]')):[];
+    var canPromote=fallbackCards.every(function(li){
+      return Number.isFinite(ms(li.getAttribute('data-start')))&&li.querySelector('a')&&li.querySelector('h3');
+    })&&fallbackLinks.every(function(a){
+      return Number.isFinite(ms(a.getAttribute('data-start')))&&Number.isFinite(ms(a.getAttribute('data-end')))&&a.getAttribute('data-title');
+    });
+    if(canPromote){
+      var fallbackEvents=fallbackCards.map(function(li){
+        var a=li.querySelector('a'),note=li.querySelector('.iv4-event-note');
+        return {node:li,when:ms(li.getAttribute('data-start')),end:ms(li.getAttribute('data-end')),
+          title:li.querySelector('h3').textContent.trim(),url:normalizeUrl(a.getAttribute('href')),note:note?note.textContent.trim():''};
+      });
+      fallbackLinks.forEach(function(a){
+        var row=a.closest('.iv4-event-more-list');
+        var note=row&&row.querySelector('.iv4-event-more-note');
+        var event=eventNode({startDate:ms(a.getAttribute('data-start')),endDate:ms(a.getAttribute('data-end')),
+          title:a.getAttribute('data-title'),fullUrl:a.getAttribute('href')},
+          note?note.textContent.replace(/^\s*[—–-]\s*/,'').trim():'');
+        if(event)fallbackEvents.push(event);
+      });
+      fallbackEvents.sort(function(a,b){return a.when-b.when;});
+      list.replaceChildren();
+      fallbackEvents.slice(0,4).forEach(function(e){list.appendChild(e.node);});
+      renderMore(fallbackEvents.slice(4));
+      renderEmpty();
+    }
+  }
+
+  function renderMore(rest){
+    if(!more)return;
+    Array.prototype.slice.call(more.querySelectorAll('.iv4-event-more-list')).forEach(function(p){p.remove();});
+    if(!rest.length){more.hidden=true;return;}
+    var groups=[],byTitle=Object.create(null);
+    rest.forEach(function(e){
+      var group=byTitle[e.title];
+      if(!group){group=byTitle[e.title]={title:e.title,events:[]};groups.push(group);}
+      group.events.push(e);
+    });
+    groups.sort(function(a,b){return b.events.length-a.events.length||a.events[0].when-b.events[0].when;});
+    groups.forEach(function(group){
+      var line=document.createElement('p');line.className='iv4-event-more-list';
+      var lead=document.createElement('span');lead.className='iv4-event-more-lead';
+      lead.textContent=(group.events.length>1&&!/s$/.test(group.title)?group.title+'s':group.title)+': ';
+      line.appendChild(lead);
+      group.events.forEach(function(e,i){
+        if(i)line.appendChild(document.createTextNode(' · '));
+        var a=document.createElement('a');a.href=e.url;
+        a.setAttribute('data-start',new Date(e.when).toISOString());
+        if(Number.isFinite(e.end))a.setAttribute('data-end',new Date(e.end).toISOString());
+        a.setAttribute('data-title',e.title);
+        a.textContent=dateText(e.when,{month:'short',day:'numeric',year:'numeric'});
+        a.setAttribute('aria-label',e.title+' — '+dateText(e.when,{weekday:'long',month:'long',day:'numeric',year:'numeric'}));
+        line.appendChild(a);
+      });
+      var note=group.events.length===1?group.events[0].note:'';
+      if(note){var n=document.createElement('span');n.className='iv4-event-more-note';n.textContent=' — '+note;line.appendChild(n);}
+      more.appendChild(line);
+    });
+    more.hidden=false;
+  }
+  function eventNode(ev,plainNote){
+    var times=eventTimes(ev),start=times.start,end=times.end;
+    var hasEnd=Number.isFinite(end)&&end>=start;
+    if(!Number.isFinite(start)||(hasEnd?end<=now:start<=now))return null;
+    var li=document.createElement('li');
+    li.setAttribute('data-start',new Date(start).toISOString());
+    if(hasEnd)li.setAttribute('data-end',new Date(end).toISOString());
+    var a=document.createElement('a');a.href=normalizeUrl(ev.fullUrl||ev.url);
+    var date=document.createElement('span');date.className='iv4-date';
+    var day=document.createElement('b');day.textContent=dateText(start,{day:'numeric'});
+    var month=document.createElement('span');month.textContent=dateText(start,{month:'short',year:'numeric'});
+    date.appendChild(day);date.appendChild(month);
+    var title=String(ev.title||'IndiATA Event');
+    var h=document.createElement('h3');h.textContent=title;
+    var p=document.createElement('p');
+    var sameDay=!hasEnd||dateText(start,{year:'numeric',month:'2-digit',day:'2-digit'})===dateText(end,{year:'numeric',month:'2-digit',day:'2-digit'});
+    if(!sameDay){
+      p.textContent=dateText(start,{month:'short',day:'numeric',year:'numeric'})+' to '+dateText(end,{month:'short',day:'numeric',year:'numeric'});
+    }else{
+      p.textContent=dateText(start,{weekday:'long'})+', '+dateText(start,{hour:'numeric',minute:'2-digit'})+
+        (hasEnd&&end>start?' to '+dateText(end,{hour:'numeric',minute:'2-digit'}):'')+' Eastern';
+    }
+    a.appendChild(date);a.appendChild(h);a.appendChild(p);
+    var note=typeof plainNote==='string'?plainNote:'';
+    if(ev.excerpt&&typeof DOMParser==='function'){try{
+      var doc=new DOMParser().parseFromString(String(ev.excerpt),'text/html');
+      Array.prototype.forEach.call(doc.body.querySelectorAll('script,style,template'),function(x){x.remove();});
+      Array.prototype.forEach.call(doc.body.querySelectorAll('br,p,li,div,h1,h2,h3,h4'),function(x){x.after(' ');});
+      note=doc.body.textContent.replace(/\s+/g,' ').trim();
+    }catch(e){}}
+    if(note){var n=document.createElement('p');n.className='iv4-event-note';n.textContent=note;a.appendChild(n);}
+    li.appendChild(a);
+    return {node:li,when:start,end:hasEnd?end:NaN,title:title,url:a.getAttribute('href'),note:note};
+  }
+  function calendarItems(data){
+    if(!data||typeof data!=='object')return null;
+    if(Array.isArray(data.upcoming))return data.upcoming;
+    if(Array.isArray(data.items))return data.items;
+    if(Array.isArray(data.events))return data.events;
+    if(data.collection&&Array.isArray(data.collection.items))return data.collection.items;
+    return null;
+  }
+  if(list&&typeof fetch==='function'){
+    fetch('/events?view=list&format=json',{credentials:'same-origin'})
+      .then(function(r){if(!r.ok)throw Error('Events unavailable');return r.json();})
+      .then(function(data){
+        var arr=calendarItems(data);
+        if(arr===null)throw Error('Calendar response not recognized');
+        // A recognized empty calendar clears stale dates; an unreadable response does not.
+        if(arr.length&&!arr.some(function(ev){return Number.isFinite(eventTimes(ev).start);}))throw Error('Calendar dates not recognized');
+        var upcoming=arr.map(eventNode).filter(Boolean).sort(function(a,b){return a.when-b.when;});
+        list.replaceChildren();
+        upcoming.slice(0,4).forEach(function(e){list.appendChild(e.node);});
+        renderMore(upcoming.slice(4));
+        renderEmpty();
+      }).catch(function(){/* Retain the supplied future dates and direct calendar link. */});
+  }
+
+  // Map geometry and all county/program data remain in the original SVG.
+  var panel=root.querySelector('#iv4-map-panel');
+  var svg=panel&&panel.querySelector('svg');
+  var countySelect=root.querySelector('#iv4-county-select');
+  var programSelect=root.querySelector('#iv4-program-select');
+  var countyControls=root.querySelector('#iv4-county-controls');
+  var programControls=root.querySelector('#iv4-program-controls');
+  var detailKicker=root.querySelector('#iv4-detail-kicker');
+  var detailTitle=root.querySelector('#iv4-detail-title');
+  var detailText=root.querySelector('#iv4-detail-text');
+  if(!panel||!svg||!detailKicker||!detailTitle||!detailText)return;
+  var countyPoints=Array.prototype.slice.call(svg.querySelectorAll('.iv4-county-points circle[data-label]'));
+  var programs=Array.prototype.slice.call(svg.querySelectorAll('.iv4-program-points .iv4-program[data-label]'));
+  var shapes=Array.prototype.slice.call(svg.querySelectorAll('.iv4-county-boundaries path'));
+  var selected=null,selectedShape=null;
+  var names=countyPoints.map(function(el){return el.getAttribute('data-name');}).filter(Boolean).sort();
+  if(countySelect)names.forEach(function(name){var o=document.createElement('option');o.value=name;o.textContent=name;countySelect.appendChild(o);});
+  if(programSelect)programs.forEach(function(el,i){
+    var o=document.createElement('option');o.value=String(i);o.textContent=el.getAttribute('data-label');programSelect.appendChild(o);
+  });
+  var countyByName=Object.create(null);
+  countyPoints.forEach(function(el){countyByName[el.getAttribute('data-name')]=el;});
+  var shapeByName=Object.create(null);
+  shapes.forEach(function(el){shapeByName[el.getAttribute('data-name')]=el;});
+  function clearSelected(){
+    if(selected)selected.classList.remove('iv4-selected');
+    if(selectedShape)selectedShape.classList.remove('iv4-selected');
+    selected=null;selectedShape=null;
+  }
+  function displayLayer(layer){
+    var isProgram=layer==='program';
+    panel.dataset.layer=isProgram?'program':'county';
+    Array.prototype.forEach.call(root.querySelectorAll('[data-layer-button]'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-layer-button')===panel.dataset.layer));});
+    clearSelected();
+    detailKicker.textContent=isProgram?'Indiana art therapy education':'Indiana counties';
+    detailTitle.textContent=isProgram?'Graduate + Undergraduate Programs':'Explore the Map';
+    detailText.textContent=isProgram?
+      (programSelect?'Select a diamond or triangle on the map, or choose a program from the list.':'Select a diamond for a graduate art therapy program or a triangle for an undergraduate pre-art therapy program.'):
+      'Select a county on the map or from the county list.';
+    if(countySelect){countySelect.disabled=isProgram;countySelect.value='';}
+    if(programSelect){programSelect.disabled=!isProgram;programSelect.value='';}
+    if(countyControls)countyControls.hidden=isProgram;
+    if(programControls)programControls.hidden=!isProgram;
+  }
+  function selectMarker(el){
+    if(!el)return;
+    var isProgram=el.classList.contains('iv4-program');
+    if(panel.dataset.layer!==(isProgram?'program':'county'))displayLayer(isProgram?'program':'county');
+    clearSelected();selected=el;selected.classList.add('iv4-selected');
+    var name=el.getAttribute('data-name');
+    var label=el.getAttribute('data-label')||name||'';
+    if(!isProgram&&name){
+      selectedShape=shapeByName[name]||null;
+      if(selectedShape)selectedShape.classList.add('iv4-selected');
+      if(countySelect)countySelect.value=name;
+    }
+    if(isProgram&&programSelect)programSelect.value=String(programs.indexOf(el));
+    detailKicker.textContent=isProgram?(el.getAttribute('data-kicker')||'CAAHEP-accredited graduate art therapy program'):'Mental health provider shortage designation';
+    detailTitle.textContent=isProgram?label.split(' - ')[0]:name;
+    detailText.textContent=isProgram?(el.getAttribute('data-text')||'Graduate art therapy program identified on the Indiana map.'):
+      (label.indexOf('low-income')>=0?'Designation for the county\'s low-income population.':'Geographic mental health provider shortage area designation.');
+  }
+  Array.prototype.forEach.call(root.querySelectorAll('[data-layer-button]'),function(b){b.addEventListener('click',function(){displayLayer(b.getAttribute('data-layer-button'));});});
+  if(countySelect)countySelect.addEventListener('change',function(){
+    if(countyByName[this.value])selectMarker(countyByName[this.value]);else displayLayer('county');
+  });
+  if(programSelect)programSelect.addEventListener('change',function(){
+    if(this.value===''){displayLayer('program');return;}
+    var el=programs[Number(this.value)];
+    if(el)selectMarker(el);
+  });
+  function target(e){
+    if(!e.target||!e.target.closest)return null;
+    var el=e.target.closest('.iv4-county-points circle[data-label],.iv4-program-points .iv4-program[data-label],.iv4-county-boundaries path[data-name]');
+    if(!el)return null;
+    if(el.matches('.iv4-county-boundaries path')){
+      if(panel.dataset.layer!=='county')return null;
+      return countyByName[el.getAttribute('data-name')]||null;
+    }
+    return el;
+  }
+  svg.addEventListener('click',function(e){var el=target(e);if(el&&svg.contains(el))selectMarker(el);});
+  svg.addEventListener('keydown',function(e){
+    var inLayer=panel.dataset.layer==='program'?programs:countyPoints;
+    if(e.key==='Escape'){e.preventDefault();displayLayer(panel.dataset.layer);return;}
+    if(!inLayer.length)return;
+    var i=selected?inLayer.indexOf(selected):-1;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){i=(i+1)%inLayer.length;}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){i=i<0?inLayer.length-1:(i+inLayer.length-1)%inLayer.length;}
+    else if(e.key==='Home'){i=0;}
+    else if(e.key==='End'){i=inLayer.length-1;}
+    else if(e.key==='Enter'||e.key===' '){i=Math.max(0,i);}
+    else return;
+    e.preventDefault();selectMarker(inLayer[i]);
+  });
+  displayLayer('county');
+})();
+</script>
+</div>
+<!-- End of complete IndiATA homepage v4.2 -->
+<!-- ==== PASTE TO HERE ==== -->
+
+</body></html>
